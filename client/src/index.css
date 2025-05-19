@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-::root {
+:root {
   --background: 0 0% 100%;
   --foreground: 20 14.3% 4.1%;
   --muted: 60 4.8% 95.9%;
@@ -71,11 +71,11 @@
   }
 
   body {
-    @apply font-opensans antialiased bg-[#F5F5F5] text-foreground;
+    @apply antialiased bg-[#F5F5F5] text-foreground font-sans;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-montserrat;
+    @apply font-bold;
   }
 }
 

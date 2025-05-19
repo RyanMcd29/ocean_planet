@@ -62,7 +62,7 @@ const MapFilters: React.FC<MapFiltersProps> = ({ onSearchChange, onFilterChange,
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Regions</SelectItem>
+                <SelectItem value="all">All Regions</SelectItem>
                 <SelectItem value="Australia">Australia</SelectItem>
                 <SelectItem value="Belize">Belize</SelectItem>
                 <SelectItem value="Indonesia">Indonesia</SelectItem>
