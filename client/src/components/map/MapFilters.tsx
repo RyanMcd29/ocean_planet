@@ -79,7 +79,7 @@ const MapFilters: React.FC<MapFiltersProps> = ({ onSearchChange, onFilterChange,
                 <SelectValue placeholder="All Difficulties" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Difficulties</SelectItem>
+                <SelectItem value="all">All Difficulties</SelectItem>
                 <SelectItem value="Beginner">Beginner</SelectItem>
                 <SelectItem value="Intermediate">Intermediate</SelectItem>
                 <SelectItem value="Advanced">Advanced</SelectItem>
