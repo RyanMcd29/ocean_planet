@@ -1,0 +1,238 @@
+import React from "react";
+import { useParams, Link } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import { fetchSpeciesById, fetchDiveSites } from "@/lib/api";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ArrowLeft, MapPin, Info, AlertTriangle } from "lucide-react";
+import SpeciesTag from "@/components/ui/SpeciesTag";
+
+const SpeciesPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const speciesId = parseInt(id);
+  
+  const { data: species, isLoading, error } = useQuery({
+    queryKey: [`/api/species/${speciesId}`],
+    queryFn: () => fetchSpeciesById(speciesId),
+    enabled: !isNaN(speciesId),
+  });
+  
+  const { data: diveSites } = useQuery({
+    queryKey: ['/api/dive-sites'],
+    queryFn: () => fetchDiveSites(),
+  });
+  
+  // We would normally get this from an API call, but for now let's filter dive sites that might have this species
+  // In a real implementation, there would be a separate endpoint for this data
+  const relevantDiveSites = diveSites?.slice(0, 3);
+  
+  if (isNaN(speciesId)) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-red-50 p-6 rounded-lg text-center text-red-600">
+          <p>Invalid species ID. Please check the URL and try again.</p>
+          <Link href="/">
+            <Button variant="link" className="mt-4 text-blue-600">Return to home page</Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="container mx-auto px-4 py-4 flex-1">
+      <div className="flex items-center mb-4">
+        <Link href="/">
+          <Button variant="outline" size="sm" className="mr-2">
+            <ArrowLeft className="h-4 w-4 mr-1" /> Back
+          </Button>
+        </Link>
+        <h1 className="text-2xl font-montserrat font-bold text-[#0A4D68]">
+          {isLoading ? <Skeleton className="h-8 w-48" /> : species?.commonName}
+        </h1>
+      </div>
+      
+      {isLoading ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Skeleton className="w-full h-96 rounded-lg" />
+          </div>
+          <div>
+            <Skeleton className="h-6 w-2/3 mb-4" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-3/4 mb-4" />
+            <Skeleton className="h-6 w-1/3 mb-2" />
+            <div className="grid grid-cols-2 gap-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="bg-red-50 p-6 rounded-lg text-center text-red-600">
+          <p>Failed to load species details. Please try again later.</p>
+          <Link href="/">
+            <Button variant="link" className="mt-4 text-blue-600">Return to home page</Button>
+          </Link>
+        </div>
+      ) : species ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            <Card className="overflow-hidden">
+              <img 
+                src={species.imageUrl} 
+                alt={species.commonName} 
+                className="w-full h-[400px] object-cover"
+              />
+              <CardContent className="p-6">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-4 mb-6">
+                  <div>
+                    <h2 className="text-2xl font-montserrat font-bold text-[#0A4D68]">{species.commonName}</h2>
+                    <p className="text-lg italic text-[#757575]">{species.scientificName}</p>
+                  </div>
+                  
+                  <div>
+                    <Badge className={
+                      species.conservationStatus === "Least Concern" 
+                        ? "bg-green-100 text-green-800 border-green-200" 
+                        : (species.conservationStatus === "Near Threatened" || species.conservationStatus === "Vulnerable")
+                        ? "bg-amber-100 text-amber-800 border-amber-200"
+                        : "bg-red-100 text-red-800 border-red-200"
+                    }>
+                      Conservation: {species.conservationStatus}
+                    </Badge>
+                  </div>
+                </div>
+                
+                <div className="prose max-w-none">
+                  <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-2">Description</h3>
+                  <p className="text-[#757575]">{species.description}</p>
+                  
+                  <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mt-6 mb-2">Habitats</h3>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {species.habitats.map((habitat, index) => (
+                      <SpeciesTag key={index} name={habitat} />
+                    ))}
+                  </div>
+                  
+                  {species.conservationStatus !== "Least Concern" && (
+                    <div className="mt-6 bg-[#FFAB91] bg-opacity-10 p-4 rounded-lg">
+                      <div className="flex items-center mb-2">
+                        <AlertTriangle className="text-[#EB6440] mr-2 h-5 w-5" />
+                        <h3 className="font-montserrat font-semibold text-[#EB6440]">Conservation Concerns</h3>
+                      </div>
+                      <p className="text-sm text-[#757575]">
+                        This species is classified as <strong>{species.conservationStatus}</strong>. It faces threats from habitat destruction, pollution, climate change, and overfishing. Conservation efforts are needed to protect this species.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">Citizen Science Contributions</h3>
+                <p className="text-[#757575] mb-4">
+                  Help marine scientists track and monitor {species.commonName} populations by logging your sightings during dives. Your data contributes to global conservation efforts.
+                </p>
+                <Button className="bg-[#05BFDB] hover:bg-[#088395] text-white">
+                  Log a Sighting
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <div className="space-y-6">
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">Species Information</h3>
+                <div className="space-y-3">
+                  <div>
+                    <p className="text-sm font-medium text-[#0A4D68]">Category</p>
+                    <p className="text-[#757575]">{species.category}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#0A4D68]">Scientific Classification</p>
+                    <p className="text-[#757575] italic">{species.scientificName}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#0A4D68]">Habitats</p>
+                    <p className="text-[#757575]">{species.habitats.join(', ')}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-[#0A4D68]">Conservation Status</p>
+                    <p className="text-[#757575]">{species.conservationStatus}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">Where to Find</h3>
+                {relevantDiveSites ? (
+                  <div className="space-y-3">
+                    {relevantDiveSites.map((site) => (
+                      <Link key={site.id} href={`/dive-site/${site.id}`}>
+                        <a className="flex items-center p-3 bg-[#F5F5F5] rounded-lg hover:bg-[#E0F7FA] transition cursor-pointer">
+                          <MapPin className="h-5 w-5 text-[#088395] mr-2" />
+                          <div>
+                            <p className="font-medium text-[#0A4D68]">{site.name}</p>
+                            <p className="text-xs text-[#757575]">{site.location}</p>
+                          </div>
+                        </a>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-[#757575]">Loading dive sites...</p>
+                )}
+                
+                <Button variant="outline" className="w-full mt-3 text-[#088395] border-[#088395]">
+                  <Info className="h-4 w-4 mr-1" /> View All Locations
+                </Button>
+              </CardContent>
+            </Card>
+            
+            <Card>
+              <CardContent className="p-6">
+                <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">Photography Tips</h3>
+                <ul className="space-y-2 text-sm text-[#757575]">
+                  <li className="flex items-start">
+                    <span className="text-[#05BFDB] mr-2">•</span>
+                    <span>Keep a safe distance and never touch or disturb the animal</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#05BFDB] mr-2">•</span>
+                    <span>Use natural light when possible to capture true colors</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#05BFDB] mr-2">•</span>
+                    <span>Try to photograph the species' distinctive features</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="text-[#05BFDB] mr-2">•</span>
+                    <span>Add scale reference when possible (safely)</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-yellow-50 p-6 rounded-lg text-center text-yellow-700">
+          <p>Species not found. It may have been removed or is no longer available.</p>
+          <Link href="/">
+            <Button variant="link" className="mt-4 text-blue-600">Return to home page</Button>
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SpeciesPage;

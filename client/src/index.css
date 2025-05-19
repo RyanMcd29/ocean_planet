@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 20 14.3% 4.1%;
+  --muted: 60 4.8% 95.9%;
+  --muted-foreground: 25 5.3% 44.7%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 20 14.3% 4.1%;
+  --card: 0 0% 100%;
+  --card-foreground: 20 14.3% 4.1%;
+  --border: 20 5.9% 90%;
+  --input: 20 5.9% 90%;
+  --primary: 198 89% 31%; /* Ocean dark: #0A4D68 */
+  --primary-foreground: 210 40% 98%;
+  --secondary: 191 81% 31%; /* Ocean medium: #088395 */
+  --secondary-foreground: 210 40% 98%;
+  --accent: 190 92% 44%; /* Ocean light: #05BFDB */
+  --accent-foreground: 210 40% 98%;
+  --destructive: 15 84% 59%; /* Coral primary: #EB6440 */
+  --destructive-foreground: 210 40% 98%;
+  --ring: 190 92% 44%;
+  --radius: 0.5rem;
+
+  /* Chart colors */
+  --chart-1: 198 89% 31%; /* Ocean dark */
+  --chart-2: 191 81% 31%; /* Ocean medium */
+  --chart-3: 190 92% 44%; /* Ocean light */
+  --chart-4: 15 84% 59%; /* Coral primary */
+  --chart-5: 15 100% 79%; /* Coral light: #FFAB91 */
+
+  /* Sidebar colors */
+  --sidebar-background: 198 89% 31%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 190 92% 44%;
+  --sidebar-primary-foreground: 198 89% 31%;
+  --sidebar-accent: 0 0% 100%;
+  --sidebar-accent-foreground: 198 89% 31%;
+  --sidebar-border: 191 81% 31%;
+  --sidebar-ring: 0 0% 100%;
+}
+
+.dark {
+  --background: 198 89% 10%;
+  --foreground: 0 0% 98%;
+  --muted: 198 89% 18%;
+  --muted-foreground: 0 0% 70%;
+  --popover: 198 89% 10%;
+  --popover-foreground: 0 0% 98%;
+  --card: 198 89% 10%;
+  --card-foreground: 0 0% 98%;
+  --border: 198 89% 15%;
+  --input: 198 89% 15%;
+  --primary: 190 92% 44%; /* Ocean light: #05BFDB */
+  --primary-foreground: 198 89% 10%;
+  --secondary: 180 100% 97%; /* Ocean pale: #E0F7FA */
+  --secondary-foreground: 198 89% 10%;
+  --accent: 180 100% 97%; /* Ocean pale: #E0F7FA */
+  --accent-foreground: 198 89% 10%;
+  --destructive: 15 84% 59%;
+  --destructive-foreground: 0 0% 98%;
+  --ring: 190 92% 44%;
+  --radius: 0.5rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-opensans antialiased bg-[#F5F5F5] text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-montserrat;
+  }
+}
+
+.map-container {
+  background-color: #E0F7FA;
+  background-image: url('https://images.unsplash.com/photo-1532926381893-7542290edf1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.map-overlay {
+  background-color: rgba(10, 77, 104, 0.2);
+}
+
+.marker {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.marker:hover {
+  transform: scale(1.2);
+}
+
+.active-marker {
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 6px rgba(235, 100, 64, 0.8));
+}
+
+.species-tag {
+  transition: all 0.2s;
+}
+
+.species-tag:hover {
+  background-color: #05BFDB;
+  color: white;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.leaflet-control-container {
+  z-index: 2;
+}

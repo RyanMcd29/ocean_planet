@@ -1,0 +1,193 @@
+import { pgTable, text, serial, integer, boolean, jsonb, timestamp, real } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
+
+// User account table
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
+  username: text("username").notNull().unique(),
+  password: text("password").notNull(),
+  email: text("email").notNull().unique(),
+  profilePicture: text("profile_picture"),
+  bio: text("bio"),
+});
+
+export const insertUserSchema = createInsertSchema(users).omit({
+  id: true,
+});
+
+// Dive site information table
+export const diveSites = pgTable("dive_sites", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  description: text("description").notNull(),
+  location: text("location").notNull(),
+  country: text("country").notNull(),
+  latitude: real("latitude").notNull(),
+  longitude: real("longitude").notNull(),
+  difficulty: text("difficulty").notNull(), // Beginner, Intermediate, Advanced, Expert
+  minDepth: integer("min_depth"), // in meters
+  maxDepth: integer("max_depth"), // in meters
+  minVisibility: integer("min_visibility"), // in meters
+  maxVisibility: integer("max_visibility"), // in meters
+  minTemp: integer("min_temp"), // in celsius
+  maxTemp: integer("max_temp"), // in celsius
+  current: text("current"), // None, Mild, Moderate, Strong
+  bestSeason: text("best_season"),
+  peakVisibilityMonth: text("peak_visibility_month"),
+  conservationStatus: text("conservation_status"),
+  conservationInfo: text("conservation_info"),
+  mainImage: text("main_image"),
+  highlights: text("highlights").array(),
+  habitats: text("habitats").array(),
+});
+
+export const insertDiveSiteSchema = createInsertSchema(diveSites).omit({
+  id: true,
+});
+
+// Marine species information table
+export const species = pgTable("species", {
+  id: serial("id").primaryKey(),
+  commonName: text("common_name").notNull(),
+  scientificName: text("scientific_name").notNull(),
+  description: text("description"),
+  imageUrl: text("image_url"),
+  conservationStatus: text("conservation_status"),
+  category: text("category"), // Fish, Mammal, Reptile, Invertebrate, Coral, etc.
+  habitats: text("habitats").array(),
+});
+
+export const insertSpeciesSchema = createInsertSchema(species).omit({
+  id: true,
+});
+
+// Dive site species relationship table
+export const diveSiteSpecies = pgTable("dive_site_species", {
+  id: serial("id").primaryKey(),
+  diveSiteId: integer("dive_site_id").notNull(),
+  speciesId: integer("species_id").notNull(),
+  frequency: text("frequency"), // Common, Uncommon, Rare
+});
+
+export const insertDiveSiteSpeciesSchema = createInsertSchema(diveSiteSpecies).omit({
+  id: true,
+});
+
+// Photo uploads table
+export const photos = pgTable("photos", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  diveSiteId: integer("dive_site_id").notNull(),
+  imageUrl: text("image_url").notNull(),
+  caption: text("caption"),
+  dateUploaded: timestamp("date_uploaded").defaultNow(),
+  speciesTags: jsonb("species_tags"), // Array of species IDs tagged in the photo
+});
+
+export const insertPhotoSchema = createInsertSchema(photos).omit({
+  id: true,
+  dateUploaded: true,
+});
+
+// Dive site reviews table
+export const reviews = pgTable("reviews", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  diveSiteId: integer("dive_site_id").notNull(),
+  rating: integer("rating").notNull(), // 1-5 stars
+  comment: text("comment"),
+  datePosted: timestamp("date_posted").defaultNow(),
+});
+
+export const insertReviewSchema = createInsertSchema(reviews).omit({
+  id: true,
+  datePosted: true,
+});
+
+// Nearby dive sites relationship
+export const nearbyDiveSites = pgTable("nearby_dive_sites", {
+  id: serial("id").primaryKey(),
+  diveSiteId: integer("dive_site_id").notNull(),
+  nearbyDiveSiteId: integer("nearby_dive_site_id").notNull(),
+  distance: real("distance"), // in kilometers
+});
+
+export const insertNearbyDiveSiteSchema = createInsertSchema(nearbyDiveSites).omit({
+  id: true,
+});
+
+// Dive centers information
+export const diveCenters = pgTable("dive_centers", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  diveSiteId: integer("dive_site_id").notNull(),
+  certification: text("certification"),
+  description: text("description"),
+  contactInfo: text("contact_info"),
+  iconType: text("icon_type"), // For UI representation
+});
+
+export const insertDiveCenterSchema = createInsertSchema(diveCenters).omit({
+  id: true,
+});
+
+// User favorite dive sites
+export const userFavorites = pgTable("user_favorites", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  diveSiteId: integer("dive_site_id").notNull(),
+  dateAdded: timestamp("date_added").defaultNow(),
+});
+
+export const insertUserFavoriteSchema = createInsertSchema(userFavorites).omit({
+  id: true,
+  dateAdded: true,
+});
+
+// User spotted species
+export const userSpottedSpecies = pgTable("user_spotted_species", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  speciesId: integer("species_id").notNull(),
+  diveSiteId: integer("dive_site_id").notNull(),
+  dateSpotted: timestamp("date_spotted").defaultNow(),
+  photoId: integer("photo_id"),
+  notes: text("notes"),
+});
+
+export const insertUserSpottedSpeciesSchema = createInsertSchema(userSpottedSpecies).omit({
+  id: true,
+  dateSpotted: true,
+});
+
+// Types
+export type User = typeof users.$inferSelect;
+export type InsertUser = z.infer<typeof insertUserSchema>;
+
+export type DiveSite = typeof diveSites.$inferSelect;
+export type InsertDiveSite = z.infer<typeof insertDiveSiteSchema>;
+
+export type Species = typeof species.$inferSelect;
+export type InsertSpecies = z.infer<typeof insertSpeciesSchema>;
+
+export type DiveSiteSpecies = typeof diveSiteSpecies.$inferSelect;
+export type InsertDiveSiteSpecies = z.infer<typeof insertDiveSiteSpeciesSchema>;
+
+export type Photo = typeof photos.$inferSelect;
+export type InsertPhoto = z.infer<typeof insertPhotoSchema>;
+
+export type Review = typeof reviews.$inferSelect;
+export type InsertReview = z.infer<typeof insertReviewSchema>;
+
+export type NearbyDiveSite = typeof nearbyDiveSites.$inferSelect;
+export type InsertNearbyDiveSite = z.infer<typeof insertNearbyDiveSiteSchema>;
+
+export type DiveCenter = typeof diveCenters.$inferSelect;
+export type InsertDiveCenter = z.infer<typeof insertDiveCenterSchema>;
+
+export type UserFavorite = typeof userFavorites.$inferSelect;
+export type InsertUserFavorite = z.infer<typeof insertUserFavoriteSchema>;
+
+export type UserSpottedSpecies = typeof userSpottedSpecies.$inferSelect;
+export type InsertUserSpottedSpecies = z.infer<typeof insertUserSpottedSpeciesSchema>;
