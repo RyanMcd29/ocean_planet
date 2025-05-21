@@ -1,27 +1,18 @@
-import {
-  User,
-  InsertUser,
-  DiveSite,
-  InsertDiveSite,
-  Species,
-  InsertSpecies,
-  DiveSiteSpecies,
-  InsertDiveSiteSpecies,
-  Photo,
-  InsertPhoto,
-  Review,
-  InsertReview,
-  NearbyDiveSite,
-  InsertNearbyDiveSite,
-  DiveCenter,
-  InsertDiveCenter,
-  UserFavorite,
-  InsertUserFavorite,
-  UserSpottedSpecies,
-  InsertUserSpottedSpecies
-} from "@shared/schema";
+// Import database and query builder tools
+import { db } from './db';
+import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 
-// Storage interface for all app data
+// Import schema types and tables
+import {
+  users, diveSites, species, diveSiteSpecies, photos, reviews,
+  nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies,
+  type User, type InsertUser, type DiveSite, type InsertDiveSite,
+  type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
+  type Photo, type InsertPhoto, type Review, type InsertReview,
+  type NearbyDiveSite, type InsertNearbyDiveSite, type DiveCenter, type InsertDiveCenter,
+  type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies
+} from '@shared/schema';
+
 export interface IStorage {
   // User management
   getUser(id: number): Promise<User | undefined>;
@@ -607,4 +598,410 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export class DatabaseStorage implements IStorage {
+  // User Management
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values({
+        username: insertUser.username,
+        password: insertUser.password,
+        email: insertUser.email,
+        profilePicture: insertUser.profilePicture || null,
+        bio: insertUser.bio || null
+      })
+      .returning();
+    return user;
+  }
+
+  async updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined> {
+    const [updatedUser] = await db
+      .update(users)
+      .set({
+        ...userData,
+        profilePicture: userData.profilePicture ?? undefined,
+        bio: userData.bio ?? undefined
+      })
+      .where(eq(users.id, id))
+      .returning();
+    return updatedUser;
+  }
+
+  // Dive Site Management
+  async createDiveSite(diveSite: InsertDiveSite): Promise<DiveSite> {
+    const [newDiveSite] = await db
+      .insert(diveSites)
+      .values({
+        name: diveSite.name,
+        difficulty: diveSite.difficulty,
+        description: diveSite.description,
+        location: diveSite.location,
+        country: diveSite.country,
+        latitude: diveSite.latitude,
+        longitude: diveSite.longitude,
+        current: diveSite.current || null,
+        minDepth: diveSite.minDepth || null,
+        maxDepth: diveSite.maxDepth || null,
+        visibility: diveSite.visibility || null,
+        bestTimeToVisit: diveSite.bestTimeToVisit || null,
+        temperature: diveSite.temperature || null,
+        marineLifeRichness: diveSite.marineLifeRichness || null,
+        habitats: diveSite.habitats || null
+      })
+      .returning();
+    return newDiveSite;
+  }
+
+  async getDiveSite(id: number): Promise<DiveSite | undefined> {
+    const [diveSite] = await db.select().from(diveSites).where(eq(diveSites.id, id));
+    return diveSite;
+  }
+
+  async getAllDiveSites(): Promise<DiveSite[]> {
+    return await db.select().from(diveSites);
+  }
+
+  async searchDiveSites(query: string, filters?: Record<string, any>): Promise<DiveSite[]> {
+    let queryBuilder = db.select().from(diveSites);
+    
+    // Apply text search if provided
+    if (query) {
+      const lowerQuery = `%${query.toLowerCase()}%`;
+      queryBuilder = queryBuilder.where(
+        or(
+          like(sql`lower(${diveSites.name})`, lowerQuery),
+          like(sql`lower(${diveSites.location})`, lowerQuery),
+          like(sql`lower(${diveSites.country})`, lowerQuery),
+          like(sql`lower(${diveSites.description})`, lowerQuery)
+        )
+      );
+    }
+    
+    // Apply additional filters if provided
+    if (filters) {
+      if (filters.region) {
+        queryBuilder = queryBuilder.where(eq(diveSites.country, filters.region));
+      }
+      
+      if (filters.difficulty) {
+        queryBuilder = queryBuilder.where(eq(diveSites.difficulty, filters.difficulty));
+      }
+      
+      if (filters.minDepth !== undefined) {
+        queryBuilder = queryBuilder.where(
+          and(
+            isNotNull(diveSites.minDepth),
+            gte(diveSites.minDepth, filters.minDepth)
+          )
+        );
+      }
+      
+      if (filters.maxDepth !== undefined) {
+        queryBuilder = queryBuilder.where(
+          and(
+            isNotNull(diveSites.maxDepth),
+            lte(diveSites.maxDepth, filters.maxDepth)
+          )
+        );
+      }
+    }
+    
+    return await queryBuilder;
+  }
+
+  // Species Management
+  async createSpecies(speciesData: InsertSpecies): Promise<Species> {
+    const [newSpecies] = await db
+      .insert(species)
+      .values({
+        commonName: speciesData.commonName,
+        scientificName: speciesData.scientificName,
+        description: speciesData.description || null,
+        conservationStatus: speciesData.conservationStatus || null,
+        habitats: speciesData.habitats || null,
+        imageUrl: speciesData.imageUrl || null,
+        category: speciesData.category || null
+      })
+      .returning();
+    return newSpecies;
+  }
+
+  async getSpecies(id: number): Promise<Species | undefined> {
+    const [speciesItem] = await db.select().from(species).where(eq(species.id, id));
+    return speciesItem;
+  }
+
+  async getAllSpecies(): Promise<Species[]> {
+    return await db.select().from(species);
+  }
+
+  async searchSpecies(query: string): Promise<Species[]> {
+    if (!query) {
+      return this.getAllSpecies();
+    }
+    
+    const lowerQuery = `%${query.toLowerCase()}%`;
+    return await db.select().from(species).where(
+      or(
+        like(sql`lower(${species.commonName})`, lowerQuery),
+        like(sql`lower(${species.scientificName})`, lowerQuery),
+        and(
+          isNotNull(species.description),
+          like(sql`lower(${species.description})`, lowerQuery)
+        )
+      )
+    );
+  }
+
+  // Dive Site Species Relationships
+  async addSpeciesToDiveSite(relation: InsertDiveSiteSpecies): Promise<DiveSiteSpecies> {
+    const [newRelation] = await db
+      .insert(diveSiteSpecies)
+      .values({
+        diveSiteId: relation.diveSiteId,
+        speciesId: relation.speciesId,
+        frequency: relation.frequency || null
+      })
+      .returning();
+    return newRelation;
+  }
+
+  async getDiveSiteSpecies(diveSiteId: number): Promise<DiveSiteSpecies[]> {
+    return await db
+      .select()
+      .from(diveSiteSpecies)
+      .where(eq(diveSiteSpecies.diveSiteId, diveSiteId));
+  }
+
+  async getSpeciesByDiveSite(diveSiteId: number): Promise<{ species: Species, frequency: string }[]> {
+    const results = await db
+      .select({
+        species: species,
+        frequency: diveSiteSpecies.frequency
+      })
+      .from(diveSiteSpecies)
+      .innerJoin(
+        species,
+        eq(diveSiteSpecies.speciesId, species.id)
+      )
+      .where(eq(diveSiteSpecies.diveSiteId, diveSiteId));
+    
+    return results.map(result => ({
+      species: result.species,
+      frequency: result.frequency || 'Unknown'
+    }));
+  }
+
+  // Photo Uploads
+  async createPhoto(photo: InsertPhoto): Promise<Photo> {
+    const [newPhoto] = await db
+      .insert(photos)
+      .values({
+        userId: photo.userId,
+        diveSiteId: photo.diveSiteId,
+        imageUrl: photo.imageUrl,
+        caption: photo.caption || null,
+        dateUploaded: new Date(),
+        speciesTags: photo.speciesTags || null
+      })
+      .returning();
+    return newPhoto;
+  }
+
+  async getPhoto(id: number): Promise<Photo | undefined> {
+    const [photo] = await db.select().from(photos).where(eq(photos.id, id));
+    return photo;
+  }
+
+  async getDiveSitePhotos(diveSiteId: number): Promise<Photo[]> {
+    return await db
+      .select()
+      .from(photos)
+      .where(eq(photos.diveSiteId, diveSiteId));
+  }
+
+  async getUserPhotos(userId: number): Promise<Photo[]> {
+    return await db
+      .select()
+      .from(photos)
+      .where(eq(photos.userId, userId));
+  }
+
+  // Reviews
+  async createReview(review: InsertReview): Promise<Review> {
+    const [newReview] = await db
+      .insert(reviews)
+      .values({
+        userId: review.userId,
+        diveSiteId: review.diveSiteId,
+        rating: review.rating,
+        comment: review.comment || null,
+        datePosted: new Date()
+      })
+      .returning();
+    return newReview;
+  }
+
+  async getDiveSiteReviews(diveSiteId: number): Promise<Review[]> {
+    return await db
+      .select()
+      .from(reviews)
+      .where(eq(reviews.diveSiteId, diveSiteId));
+  }
+
+  async getUserReviews(userId: number): Promise<Review[]> {
+    return await db
+      .select()
+      .from(reviews)
+      .where(eq(reviews.userId, userId));
+  }
+
+  // Nearby Dive Sites
+  async addNearbyDiveSite(relation: InsertNearbyDiveSite): Promise<NearbyDiveSite> {
+    const [newRelation] = await db
+      .insert(nearbyDiveSites)
+      .values({
+        diveSiteId: relation.diveSiteId,
+        nearbyDiveSiteId: relation.nearbyDiveSiteId,
+        distance: relation.distance || null
+      })
+      .returning();
+    return newRelation;
+  }
+
+  async getNearbyDiveSites(diveSiteId: number): Promise<{ diveSite: DiveSite, distance: number }[]> {
+    const results = await db
+      .select({
+        diveSite: diveSites,
+        distance: nearbyDiveSites.distance
+      })
+      .from(nearbyDiveSites)
+      .innerJoin(
+        diveSites,
+        eq(nearbyDiveSites.nearbyDiveSiteId, diveSites.id)
+      )
+      .where(eq(nearbyDiveSites.diveSiteId, diveSiteId));
+    
+    return results.map(result => ({
+      diveSite: result.diveSite,
+      distance: result.distance || 0
+    }));
+  }
+
+  // Dive Centers
+  async createDiveCenter(diveCenter: InsertDiveCenter): Promise<DiveCenter> {
+    const [newDiveCenter] = await db
+      .insert(diveCenters)
+      .values({
+        name: diveCenter.name,
+        diveSiteId: diveCenter.diveSiteId,
+        description: diveCenter.description || null,
+        certification: diveCenter.certification || null,
+        contactInfo: diveCenter.contactInfo || null,
+        iconType: diveCenter.iconType || null
+      })
+      .returning();
+    return newDiveCenter;
+  }
+
+  async getDiveCentersByDiveSite(diveSiteId: number): Promise<DiveCenter[]> {
+    return await db
+      .select()
+      .from(diveCenters)
+      .where(eq(diveCenters.diveSiteId, diveSiteId));
+  }
+
+  // User Favorites
+  async addFavoriteDiveSite(favorite: InsertUserFavorite): Promise<UserFavorite> {
+    const [newFavorite] = await db
+      .insert(userFavorites)
+      .values({
+        userId: favorite.userId,
+        diveSiteId: favorite.diveSiteId,
+        dateAdded: new Date(),
+        notes: favorite.notes || null
+      })
+      .returning();
+    return newFavorite;
+  }
+
+  async removeFavoriteDiveSite(userId: number, diveSiteId: number): Promise<boolean> {
+    const result = await db
+      .delete(userFavorites)
+      .where(
+        and(
+          eq(userFavorites.userId, userId),
+          eq(userFavorites.diveSiteId, diveSiteId)
+        )
+      );
+    
+    // In PostgreSQL, result doesn't have rowCount directly
+    // We can just return true if no error was thrown
+    return true;
+  }
+
+  async getUserFavoriteDiveSites(userId: number): Promise<DiveSite[]> {
+    const results = await db
+      .select({
+        diveSite: diveSites
+      })
+      .from(userFavorites)
+      .innerJoin(
+        diveSites,
+        eq(userFavorites.diveSiteId, diveSites.id)
+      )
+      .where(eq(userFavorites.userId, userId));
+    
+    return results.map(result => result.diveSite);
+  }
+
+  // User Spotted Species
+  async addSpottedSpecies(spotted: InsertUserSpottedSpecies): Promise<UserSpottedSpecies> {
+    const [newSpotted] = await db
+      .insert(userSpottedSpecies)
+      .values({
+        userId: spotted.userId,
+        diveSiteId: spotted.diveSiteId,
+        speciesId: spotted.speciesId,
+        dateSpotted: new Date(),
+        photoId: spotted.photoId || null,
+        notes: spotted.notes || null
+      })
+      .returning();
+    return newSpotted;
+  }
+
+  async getUserSpottedSpecies(userId: number): Promise<{ species: Species, diveSite: DiveSite, dateSpotted: Date }[]> {
+    const results = await db
+      .select({
+        species: species,
+        diveSite: diveSites,
+        dateSpotted: userSpottedSpecies.dateSpotted
+      })
+      .from(userSpottedSpecies)
+      .innerJoin(
+        species,
+        eq(userSpottedSpecies.speciesId, species.id)
+      )
+      .innerJoin(
+        diveSites,
+        eq(userSpottedSpecies.diveSiteId, diveSites.id)
+      )
+      .where(eq(userSpottedSpecies.userId, userId));
+    
+    return results;
+  }
+}
+
+// Initialize the database storage
+export const storage = new DatabaseStorage();
