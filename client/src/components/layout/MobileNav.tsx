@@ -25,16 +25,16 @@ const MobileNav: React.FC = () => {
           </a>
         </Link>
         
-        <Link href="/search">
+        <Link href="/learn">
           <a className={cn(
             "flex flex-col items-center px-3 py-1",
-            isActive("/search") ? "text-[#05BFDB]" : "text-white"
+            isActive("/learn") ? "text-[#05BFDB]" : "text-white"
           )}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
             </svg>
-            <span className="text-xs mt-1">Search</span>
+            <span className="text-xs mt-1">Learn</span>
           </a>
         </Link>
         

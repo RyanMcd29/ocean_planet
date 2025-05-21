@@ -10,6 +10,9 @@ import HomePage from "@/pages/Home";
 import DiveSitePage from "@/pages/DiveSitePage";
 import SpeciesPage from "@/pages/SpeciesPage";
 import ProfilePage from "@/pages/ProfilePage";
+import LearnPage from "@/pages/LearnPage";
+import LessonDetailPage from "@/pages/LessonDetailPage";
+import QuizPage from "@/pages/QuizPage";
 import MobileNav from "@/components/layout/MobileNav";
 
 function Router() {
@@ -21,6 +24,9 @@ function Router() {
         <Route path="/dive-site/:id" component={DiveSitePage} />
         <Route path="/species/:id" component={SpeciesPage} />
         <Route path="/profile" component={ProfilePage} />
+        <Route path="/learn" component={LearnPage} />
+        <Route path="/learn/lesson/:id" component={LessonDetailPage} />
+        <Route path="/learn/quiz/:id" component={QuizPage} />
         <Route component={NotFound} />
       </Switch>
       <Footer />
@@ -34,6 +40,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
+        {/* Wrap the Router with our LearningPromptProvider */}
         <Router />
       </TooltipProvider>
     </QueryClientProvider>
