@@ -71,11 +71,22 @@
   }
 
   body {
-    @apply antialiased bg-[#F5F5F5] text-foreground font-sans;
+    @apply antialiased text-foreground font-sans;
+    background: linear-gradient(180deg, #E0F7FA 0%, #F5F5F5 100%);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-bold;
+  }
+  
+  /* Ocean depth text gradient */
+  .ocean-text-gradient {
+    background: linear-gradient(90deg, #0A4D68 0%, #088395 50%, #05BFDB 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
   }
 }
 

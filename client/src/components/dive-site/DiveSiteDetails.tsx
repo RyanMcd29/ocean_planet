@@ -58,7 +58,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
       {/* Header Image and Info */}
       <div className="relative">
         <img 
-          src={diveSite.mainImage}
+          src={diveSite.mainImage || 'https://images.unsplash.com/photo-1682687982501-1e58ab6d8433?q=80&w=1470&auto=format&fit=crop'}
           alt={`${diveSite.name} underwater scene`} 
           className="w-full h-48 object-cover"
         />
@@ -146,19 +146,21 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
           </div>
           
           {/* Highlights */}
-          <div className="mb-6">
-            <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Highlights</h3>
-            <ul className="grid grid-cols-2 gap-2">
-              {diveSite.highlights.map((highlight, index) => (
-                <li key={index} className="flex items-center text-sm text-[#757575]">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#EB6440] mr-2 h-4 w-4">
-                    <polyline points="20 6 9 17 4 12"></polyline>
-                  </svg>
-                  {highlight}
-                </li>
-              ))}
-            </ul>
-          </div>
+          {diveSite.highlights && diveSite.highlights.length > 0 && (
+            <div className="mb-6">
+              <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Highlights</h3>
+              <ul className="grid grid-cols-2 gap-2">
+                {diveSite.highlights.map((highlight, index) => (
+                  <li key={index} className="flex items-center text-sm text-[#757575]">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#EB6440] mr-2 h-4 w-4">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    {highlight}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           
           {/* Featured Species */}
           <div className="mb-6">
@@ -189,7 +191,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                   <Link key={species.id} href={`/species/${species.id}`}>
                     <a className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block">
                       <img 
-                        src={species.imageUrl} 
+                        src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
                         alt={species.commonName} 
                         className="w-full h-24 object-cover"
                       />
@@ -295,7 +297,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                     <Link key={site.id} href={`/dive-site/${site.id}`}>
                       <a className="flex bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition cursor-pointer">
                         <img 
-                          src={site.mainImage} 
+                          src={site.mainImage || 'https://images.unsplash.com/photo-1551244072-5d12893278ab?q=80&w=1074&auto=format&fit=crop'} 
                           alt={site.name} 
                           className="w-24 h-full object-cover"
                         />
