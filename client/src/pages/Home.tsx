@@ -61,11 +61,11 @@ const HomePage: React.FC = () => {
         ) : (
           <div className="flex items-center justify-center min-h-[50vh] p-8 text-center">
             <div className="max-w-md">
-              <h2 className="text-xl font-montserrat font-bold text-[#0A4D68] mb-3">Welcome to Ocean Planet</h2>
-              <p className="text-[#757575] mb-6">
+              <h2 className="text-2xl font-montserrat font-bold ocean-text-gradient mb-3">Welcome to Ocean Planet</h2>
+              <p className="text-[#505050] mb-6">
                 Explore the world's most fascinating dive sites. Click on any marker on the map to learn more about dive sites, marine species, and local diving conditions.
               </p>
-              <div className="bg-[#E0F7FA] p-4 rounded-lg">
+              <div className="bg-gradient-to-br from-[#E0F7FA] to-[#B2EBF2] p-4 rounded-lg shadow-md">
                 <h3 className="text-[#088395] font-semibold mb-2">Getting Started</h3>
                 <ul className="text-sm text-[#757575] text-left space-y-2">
                   <li className="flex items-start">
