@@ -180,6 +180,7 @@ export default function LearnPage() {
 
   const handleCloseLesson = () => {
     setCurrentLesson(null);
+    setShowInteractiveLesson(false);
   };
 
   const handleCompleteLesson = (lessonId: string) => {
@@ -344,6 +345,14 @@ export default function LearnPage() {
           lesson={currentLesson}
           onClose={handleCloseLesson}
           onComplete={handleCompleteLesson}
+        />
+      )}
+
+      {/* Western Rock Lobster Interactive Lesson */}
+      {showInteractiveLesson && (
+        <InteractiveLessonViewer
+          lesson={westernRockLobsterLesson}
+          onClose={handleCloseLesson}
         />
       )}
     </div>
