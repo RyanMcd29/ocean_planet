@@ -149,6 +149,26 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
         </TabsList>
         
         <TabsContent value="overview" className="p-4 mt-0">
+          {/* Current Water Conditions */}
+          <div className="mb-6">
+            {isLoadingConditions ? (
+              <div className="bg-white rounded-lg shadow-sm border p-4">
+                <Skeleton className="h-6 w-48 mb-4" />
+                <div className="grid grid-cols-3 gap-4">
+                  <Skeleton className="h-20 w-full" />
+                  <Skeleton className="h-20 w-full" />
+                  <Skeleton className="h-20 w-full" />
+                </div>
+              </div>
+            ) : waterConditions ? (
+              <WaterConditionsCard conditions={waterConditions} compact={true} />
+            ) : (
+              <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                <p className="text-sm text-blue-700">Water conditions data not available for this dive site.</p>
+              </div>
+            )}
+          </div>
+
           {/* About section */}
           <div className="mb-6">
             <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">About this dive site</h3>
