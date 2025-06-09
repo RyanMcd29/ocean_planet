@@ -8,28 +8,136 @@ import LessonCard from "@/components/lessons/LessonCard";
 import LessonViewer from "@/components/lessons/LessonViewer";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 
-import { Compass, BookOpen, Fish, Award, Waves, GraduationCap } from "lucide-react";
+import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin } from "lucide-react";
 
 const categories = [
   { id: "ocean-literacy", name: "Ocean Literacy", icon: <Compass className="h-5 w-5" /> },
-  { id: "regional-oceanography", name: "Regional Oceanography", icon: <Waves className="h-5 w-5" /> },
   { id: "reef-ecology", name: "Reef Ecology", icon: <BookOpen className="h-5 w-5" /> },
   { id: "species-identification", name: "Species ID", icon: <Fish className="h-5 w-5" /> },
 ];
 
-const LearnPage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+// Sample lessons data with integrated interactive lessons
+const allLessons = [
+  {
+    id: 1,
+    title: "Introduction to Coral Reefs",
+    category: "reef-ecology",
+    duration: 5,
+    thumbnail: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Learn about the formation and importance of coral reefs in marine ecosystems.",
+    completed: false,
+    difficulty: "Beginner" as const,
+    content: [
+      {
+        type: "text",
+        data: "Coral reefs are underwater ecosystems characterized by reef-building corals. Reefs are formed of colonies of coral polyps held together by calcium carbonate. Most coral reefs are built from stony corals, whose polyps cluster in groups."
+      },
+      {
+        type: "image", 
+        data: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+        caption: "Vibrant coral reef with diverse marine life"
+      }
+    ]
+  },
+  {
+    id: 2,
+    title: "Understanding Ocean Currents",
+    category: "ocean-literacy",
+    duration: 5,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop&crop=entropy&auto=format",
+    description: "Discover how ocean currents form, move around our planet, and influence climate, marine life, and human activities.",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isInteractive: true,
+    lessonData: lessons.find(l => l.id === 'ocean-currents')
+  },
+  {
+    id: 3,
+    title: "The Leeuwin Current",
+    category: "ocean-literacy",
+    duration: 4,
+    thumbnail: "https://images.unsplash.com/photo-1582845512887-58e3c7936d86?w=800&h=600&fit=crop&crop=entropy&auto=format",
+    description: "Explore the Leeuwin Current, Western Australia's distinctive warm-water current that flows southward against prevailing winds.",
+    completed: false,
+    difficulty: "Intermediate" as const,
+    isInteractive: true,
+    lessonData: lessons.find(l => l.id === 'leeuwin-current')
+  },
+  {
+    id: 4,
+    title: "Identifying Reef Fish",
+    category: "species-identification",
+    duration: 4,
+    thumbnail: "https://images.unsplash.com/photo-1545759332-b3a0e9a1c59b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Learn to identify common reef fish families and species during your dives.",
+    completed: true,
+    difficulty: "Intermediate" as const,
+    content: [
+      {
+        type: "text",
+        data: "Being able to identify fish enhances your diving experience and contributes to citizen science. Fish identification starts with recognizing key features: body shape, size, coloration patterns, fin shape and placement."
+      }
+    ]
+  }
+];
+
+// Sample badges data
+const badges = [
+  {
+    id: 1,
+    name: "Coral Expert",
+    description: "Complete all reef ecology lessons",
+    icon: <Award className="h-6 w-6 text-yellow-500" />,
+    earned: false
+  },
+  {
+    id: 2,
+    name: "Quiz Master", 
+    description: "Score 100% on 5 different quizzes",
+    icon: <Award className="h-6 w-6 text-blue-500" />,
+    earned: false
+  },
+  {
+    id: 3,
+    name: "Species Identifier",
+    description: "Complete all species ID lessons",
+    icon: <Award className="h-6 w-6 text-green-500" />,
+    earned: false
+  },
+  {
+    id: 4,
+    name: "Ocean Scholar",
+    description: "Complete all ocean literacy lessons",
+    icon: <Award className="h-6 w-6 text-purple-500" />,
+    earned: false
+  },
+  {
+    id: 5,
+    name: "Dive Student",
+    description: "Complete your first lesson",
+    icon: <Award className="h-6 w-6 text-teal-500" />,
+    earned: true
+  }
+];
+
+export default function LearnPage() {
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [viewMode, setViewMode] = useState<"lessons" | "quizzes" | "badges">("lessons");
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
-  const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
+  
+  // Calculate completion stats
+  const totalLessons = allLessons.length;
+  const completedLessons = allLessons.filter(lesson => lesson.completed).length;
+  const completionPercentage = Math.round((completedLessons / totalLessons) * 100);
+  
+  // Filter lessons by category
+  const filteredLessons = allLessons.filter(lesson => 
+    selectedCategory === "all" ? true : lesson.category === selectedCategory
+  );
 
-  const filteredLessons = selectedCategory === "all" 
-    ? lessons 
-    : lessons.filter(lesson => lesson.category.toLowerCase().replace(/\s+/g, '-') === selectedCategory);
-
-  const handleStartLesson = (lessonId: string) => {
-    const lesson = getLessonById(lessonId);
-    if (lesson) {
-      setCurrentLesson(lesson);
+  const handleLessonClick = (lesson: any) => {
+    if (lesson.isInteractive && lesson.lessonData) {
+      setCurrentLesson(lesson.lessonData);
     }
   };
 
@@ -38,134 +146,162 @@ const LearnPage: React.FC = () => {
   };
 
   const handleCompleteLesson = (lessonId: string) => {
-    setCompletedLessons(prev => new Set(Array.from(prev).concat([lessonId])));
     setCurrentLesson(null);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-cyan-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header Section */}
-        <div className="text-center mb-12">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <GraduationCap className="h-8 w-8 text-[#05BFDB]" />
-            <h1 className="text-4xl font-bold text-[#0A4D68]">Ocean Learning Center</h1>
-          </div>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Dive into interactive lessons about ocean currents, marine ecosystems, and underwater exploration. 
-            Learn through engaging content designed for ocean enthusiasts of all levels.
-          </p>
+    <div className="container py-8 mx-auto max-w-7xl">
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* Sidebar */}
+        <div className="w-full md:w-1/4 space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>My Progress</CardTitle>
+              <CardDescription>
+                {completedLessons} of {totalLessons} lessons completed
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Progress value={completionPercentage} className="mb-2" />
+              <p className="text-sm text-muted-foreground">{completionPercentage}% complete</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Categories</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <Button
+                variant={selectedCategory === "all" ? "default" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => setSelectedCategory("all")}
+              >
+                <Award className="h-4 w-4 mr-2" />
+                All Categories
+              </Button>
+              {categories.map((category) => (
+                <Button
+                  key={category.id}
+                  variant={selectedCategory === category.id ? "default" : "ghost"}
+                  className="w-full justify-start"
+                  onClick={() => setSelectedCategory(category.id)}
+                >
+                  {category.icon}
+                  <span className="ml-2">{category.name}</span>
+                </Button>
+              ))}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>View</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <Button
+                variant={viewMode === "lessons" ? "default" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => setViewMode("lessons")}
+              >
+                <BookOpen className="h-4 w-4 mr-2" />
+                Lessons
+              </Button>
+              <Button
+                variant={viewMode === "badges" ? "default" : "ghost"}
+                className="w-full justify-start"
+                onClick={() => setViewMode("badges")}
+              >
+                <Award className="h-4 w-4 mr-2" />
+                Badges
+              </Button>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Category Filter Tabs */}
-        <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="mb-8">
-          <TabsList className="grid w-full grid-cols-5 max-w-4xl mx-auto bg-white/70 backdrop-blur-sm">
-            <TabsTrigger value="all" className="flex items-center gap-2">
-              <Award className="h-4 w-4" />
-              All Lessons
-            </TabsTrigger>
-            {categories.map((category) => (
-              <TabsTrigger key={category.id} value={category.id} className="flex items-center gap-2">
-                {category.icon}
-                {category.name}
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        {/* Main Content */}
+        <div className="flex-1">
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold mb-2">Ocean Learning Center</h1>
+            <p className="text-muted-foreground">
+              Explore interactive lessons about marine ecosystems, diving techniques, and ocean conservation.
+            </p>
+          </div>
 
-          <TabsContent value="all" className="mt-8">
+          {viewMode === "lessons" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {lessons.map((lesson) => (
-                <LessonCard
-                  key={lesson.id}
-                  lesson={lesson}
-                  onStartLesson={handleStartLesson}
-                />
+              {filteredLessons.map((lesson) => (
+                <Card key={lesson.id} className="cursor-pointer hover:shadow-lg transition-shadow">
+                  <div className="relative">
+                    <img 
+                      src={lesson.thumbnail} 
+                      alt={lesson.title}
+                      className="w-full h-48 object-cover rounded-t-lg"
+                    />
+                    <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium flex items-center gap-1">
+                      <span>{lesson.duration} min</span>
+                    </div>
+                    {lesson.completed && (
+                      <div className="absolute top-2 left-2 bg-green-500 text-white rounded-full p-1">
+                        <Award className="h-3 w-3" />
+                      </div>
+                    )}
+                  </div>
+                  <CardHeader>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="outline" className="text-xs">
+                        {lesson.difficulty}
+                      </Badge>
+                      {lesson.isInteractive && (
+                        <Badge className="bg-[#05BFDB] text-white text-xs">
+                          Interactive
+                        </Badge>
+                      )}
+                    </div>
+                    <CardTitle className="line-clamp-2">{lesson.title}</CardTitle>
+                    <CardDescription className="line-clamp-3">
+                      {lesson.description}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardFooter>
+                    <Button 
+                      className="w-full bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68]"
+                      onClick={() => handleLessonClick(lesson)}
+                    >
+                      {lesson.completed ? "Review" : "Start Lesson"}
+                    </Button>
+                  </CardFooter>
+                </Card>
               ))}
             </div>
-          </TabsContent>
+          )}
 
-          {categories.map((category) => (
-            <TabsContent key={category.id} value={category.id} className="mt-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredLessons.map((lesson) => (
-                  <LessonCard
-                    key={lesson.id}
-                    lesson={lesson}
-                    onStartLesson={handleStartLesson}
-                  />
-                ))}
-              </div>
-            </TabsContent>
-          ))}
-        </Tabs>
-
-        {/* Progress Overview */}
-        <div className="mt-12 bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-bold text-[#0A4D68]">Your Learning Progress</h3>
-            <Badge className="bg-[#05BFDB] text-white">
-              {completedLessons.size} / {lessons.length} Completed
-            </Badge>
-          </div>
-          <Progress 
-            value={(completedLessons.size / lessons.length) * 100} 
-            className="h-3"
-          />
-          <p className="text-sm text-gray-600 mt-2">
-            Complete lessons to earn badges and unlock advanced content!
-          </p>
-        </div>
-
-        {/* Featured Learning Paths */}
-        <div className="mt-12">
-          <h3 className="text-2xl font-bold text-[#0A4D68] mb-6 text-center">Featured Learning Paths</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card className="bg-gradient-to-br from-blue-100 to-cyan-100 border-none">
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <Compass className="h-6 w-6 text-[#05BFDB]" />
-                  <CardTitle className="text-[#0A4D68]">Ocean Fundamentals</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-700">
-                  Master the basics of ocean science, currents, and marine ecosystems.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-green-100 to-emerald-100 border-none">
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <Fish className="h-6 w-6 text-green-600" />
-                  <CardTitle className="text-[#0A4D68]">Marine Life Explorer</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-700">
-                  Learn to identify species and understand marine biodiversity.
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="bg-gradient-to-br from-purple-100 to-pink-100 border-none">
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <Award className="h-6 w-6 text-purple-600" />
-                  <CardTitle className="text-[#0A4D68]">Citizen Scientist</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-700">
-                  Contribute to real ocean research and conservation efforts.
-                </p>
-              </CardContent>
-            </Card>
-          </div>
+          {viewMode === "badges" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {badges.map((badge) => (
+                <Card key={badge.id} className={`${badge.earned ? 'border-yellow-200 bg-yellow-50' : 'opacity-60'}`}>
+                  <CardHeader className="text-center">
+                    <div className="mx-auto mb-2">
+                      {badge.icon}
+                    </div>
+                    <CardTitle className="text-lg">{badge.name}</CardTitle>
+                    <CardDescription>{badge.description}</CardDescription>
+                  </CardHeader>
+                  <CardFooter className="justify-center">
+                    {badge.earned ? (
+                      <Badge className="bg-yellow-500">Earned!</Badge>
+                    ) : (
+                      <Badge variant="outline">Locked</Badge>
+                    )}
+                  </CardFooter>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Lesson Viewer Modal */}
+      {/* Interactive Lesson Viewer Modal */}
       {currentLesson && (
         <LessonViewer
           lesson={currentLesson}
@@ -175,6 +311,4 @@ const LearnPage: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default LearnPage;
+}
