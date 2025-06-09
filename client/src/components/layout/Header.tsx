@@ -24,45 +24,35 @@ const Header: React.FC = () => {
               className="w-full h-full object-contain"
             />
           </div>
-          <Link href="/">
-            <a className="text-xl md:text-2xl font-montserrat font-bold tracking-wider">
-              Ocean Planet
-            </a>
+          <Link href="/" className="text-xl md:text-2xl font-montserrat font-bold tracking-wider hover:text-[#05BFDB] transition duration-200">
+            Ocean Planet
           </Link>
         </div>
         
         <nav className="hidden md:flex space-x-6 font-montserrat">
-          <Link href="/">
-            <a className={cn(
-              "hover:text-[#05BFDB] transition duration-200",
-              isActive("/") && "text-[#05BFDB] font-semibold"
-            )}>
-              Explore
-            </a>
+          <Link href="/" className={cn(
+            "hover:text-[#05BFDB] transition duration-200",
+            isActive("/") && "text-[#05BFDB] font-semibold"
+          )}>
+            Explore
           </Link>
-          <Link href="/profile">
-            <a className={cn(
-              "hover:text-[#05BFDB] transition duration-200",
-              isActive("/profile") && "text-[#05BFDB]"
-            )}>
-              My Dives
-            </a>
+          <Link href="/profile" className={cn(
+            "hover:text-[#05BFDB] transition duration-200",
+            isActive("/profile") && "text-[#05BFDB]"
+          )}>
+            My Dives
           </Link>
-          <Link href="/community">
-            <a className={cn(
-              "hover:text-[#05BFDB] transition duration-200",
-              isActive("/community") && "text-[#05BFDB]"
-            )}>
-              Community
-            </a>
+          <Link href="/community" className={cn(
+            "hover:text-[#05BFDB] transition duration-200",
+            isActive("/community") && "text-[#05BFDB]"
+          )}>
+            Community
           </Link>
-          <Link href="/learn">
-            <a className={cn(
-              "hover:text-[#05BFDB] transition duration-200",
-              isActive("/learn") && "text-[#05BFDB]"
-            )}>
-              Learn
-            </a>
+          <Link href="/learn" className={cn(
+            "hover:text-[#05BFDB] transition duration-200",
+            isActive("/learn") && "text-[#05BFDB]"
+          )}>
+            Learn
           </Link>
 
         </nav>
@@ -93,25 +83,17 @@ const Header: React.FC = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-[#088395] py-4">
           <div className="container mx-auto px-4 flex flex-col space-y-3">
-            <Link href="/">
-              <a className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
-                Explore
-              </a>
+            <Link href="/" className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
+              Explore
             </Link>
-            <Link href="/profile">
-              <a className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
-                My Dives
-              </a>
+            <Link href="/profile" className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
+              My Dives
             </Link>
-            <Link href="/community">
-              <a className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
-                Community
-              </a>
+            <Link href="/community" className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
+              Community
             </Link>
-            <Link href="/learn">
-              <a className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
-                Learn
-              </a>
+            <Link href="/learn" className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
+              Learn
             </Link>
 
             <Button className="w-full bg-[#EB6440] hover:bg-[#FFAB91] text-white">
