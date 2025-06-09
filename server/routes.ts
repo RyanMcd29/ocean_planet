@@ -38,7 +38,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (req.query.minDepth) filters.minDepth = parseInt(req.query.minDepth as string);
       if (req.query.maxDepth) filters.maxDepth = parseInt(req.query.maxDepth as string);
       
-      const diveSites = await storage.searchDiveSites(query, filters);
+      // If no query or filters, return all dive sites
+      const hasFilters = Object.keys(filters).length > 0;
+      const diveSites = query || hasFilters 
+        ? await storage.searchDiveSites(query, filters)
+        : await storage.getAllDiveSites();
+      
       res.json(diveSites);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch dive sites' });
