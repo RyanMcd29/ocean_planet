@@ -1155,5 +1155,5 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-// Initialize the in-memory storage (includes dive logging functionality)
-export const storage = new MemStorage();
+// Initialize the database storage (includes dive logging functionality)
+export const storage = new DatabaseStorage();
