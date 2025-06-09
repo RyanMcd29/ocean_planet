@@ -23,30 +23,30 @@ const Footer: React.FC = () => {
             <div>
               <h3 className="text-lg font-montserrat font-semibold mb-3">Explore</h3>
               <ul className="space-y-2">
-                <li><Link href="/"><a className="text-sm text-gray-300 hover:text-white transition">Dive Sites</a></Link></li>
-                <li><Link href="/species"><a className="text-sm text-gray-300 hover:text-white transition">Marine Species</a></Link></li>
-                <li><Link href="/conservation"><a className="text-sm text-gray-300 hover:text-white transition">Conservation</a></Link></li>
-                <li><Link href="/"><a className="text-sm text-gray-300 hover:text-white transition">Dive Map</a></Link></li>
+                <li><Link href="/" className="text-sm text-gray-300 hover:text-white transition">Dive Sites</Link></li>
+                <li><Link href="/species" className="text-sm text-gray-300 hover:text-white transition">Marine Species</Link></li>
+                <li><Link href="/conservation" className="text-sm text-gray-300 hover:text-white transition">Conservation</Link></li>
+                <li><Link href="/" className="text-sm text-gray-300 hover:text-white transition">Dive Map</Link></li>
               </ul>
             </div>
             
             <div>
               <h3 className="text-lg font-montserrat font-semibold mb-3">Community</h3>
               <ul className="space-y-2">
-                <li><Link href="/signup"><a className="text-sm text-gray-300 hover:text-white transition">Join Us</a></Link></li>
-                <li><Link href="/gallery"><a className="text-sm text-gray-300 hover:text-white transition">Share Photos</a></Link></li>
-                <li><Link href="/citizen-science"><a className="text-sm text-gray-300 hover:text-white transition">Citizen Science</a></Link></li>
-                <li><Link href="/events"><a className="text-sm text-gray-300 hover:text-white transition">Events</a></Link></li>
+                <li><Link href="/signup" className="text-sm text-gray-300 hover:text-white transition">Join Us</Link></li>
+                <li><Link href="/gallery" className="text-sm text-gray-300 hover:text-white transition">Share Photos</Link></li>
+                <li><Link href="/citizen-science" className="text-sm text-gray-300 hover:text-white transition">Citizen Science</Link></li>
+                <li><Link href="/events" className="text-sm text-gray-300 hover:text-white transition">Events</Link></li>
               </ul>
             </div>
             
             <div>
               <h3 className="text-lg font-montserrat font-semibold mb-3">About</h3>
               <ul className="space-y-2">
-                <li><Link href="/mission"><a className="text-sm text-gray-300 hover:text-white transition">Our Mission</a></Link></li>
-                <li><Link href="/partners"><a className="text-sm text-gray-300 hover:text-white transition">Partners</a></Link></li>
-                <li><Link href="/contact"><a className="text-sm text-gray-300 hover:text-white transition">Contact Us</a></Link></li>
-                <li><Link href="/privacy"><a className="text-sm text-gray-300 hover:text-white transition">Privacy Policy</a></Link></li>
+                <li><Link href="/mission" className="text-sm text-gray-300 hover:text-white transition">Our Mission</Link></li>
+                <li><Link href="/partners" className="text-sm text-gray-300 hover:text-white transition">Partners</Link></li>
+                <li><Link href="/contact" className="text-sm text-gray-300 hover:text-white transition">Contact Us</Link></li>
+                <li><Link href="/privacy" className="text-sm text-gray-300 hover:text-white transition">Privacy Policy</Link></li>
               </ul>
             </div>
           </div>

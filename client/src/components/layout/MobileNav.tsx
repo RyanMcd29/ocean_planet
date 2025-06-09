@@ -12,17 +12,15 @@ const MobileNav: React.FC = () => {
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0A4D68] text-white shadow-lg z-50">
       <div className="flex justify-around py-2">
-        <Link href="/">
-          <a className={cn(
-            "flex flex-col items-center px-3 py-1",
-            isActive("/") ? "text-[#05BFDB]" : "text-white"
-          )}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            <span className="text-xs mt-1">Explore</span>
-          </a>
+        <Link href="/" className={cn(
+          "flex flex-col items-center px-3 py-1",
+          isActive("/") ? "text-[#05BFDB]" : "text-white"
+        )}>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span className="text-xs mt-1">Explore</span>
         </Link>
         
         <Link href="/learn">

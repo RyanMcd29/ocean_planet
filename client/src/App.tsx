@@ -13,6 +13,7 @@ import ProfilePage from "@/pages/ProfilePage";
 import LearnPage from "@/pages/LearnPage";
 import LessonDetailPage from "@/pages/LessonDetailPage";
 import QuizPage from "@/pages/QuizPage";
+import CommunityPage from "@/pages/CommunityPage";
 
 import MobileNav from "@/components/layout/MobileNav";
 
@@ -25,6 +26,7 @@ function Router() {
         <Route path="/dive-site/:id" component={DiveSitePage} />
         <Route path="/species/:id" component={SpeciesPage} />
         <Route path="/profile" component={ProfilePage} />
+        <Route path="/community" component={CommunityPage} />
         <Route path="/learn" component={LearnPage} />
         <Route path="/learn/lesson/:id" component={LessonDetailPage} />
         <Route path="/learn/quiz/:id" component={QuizPage} />
