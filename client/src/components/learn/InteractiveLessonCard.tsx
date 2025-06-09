@@ -75,60 +75,161 @@ export function InteractiveLessonCard({ lesson }: InteractiveLessonProps) {
       case "map":
         return (
           <div className="space-y-4">
-            <div className="relative bg-blue-50 rounded-lg p-6 min-h-[300px]">
-              {/* Simple ASCII-style map of Western Australia */}
-              <div className="relative h-full">
-                <div className="absolute top-4 left-1/2 transform -translate-x-1/2">
-                  <Badge variant="secondary" className="bg-orange-100 text-orange-800">
-                    <Thermometer className="h-3 w-3 mr-1" />
-                    Warm Current
-                  </Badge>
+            <div className="relative bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg p-6 min-h-[400px] border-2 border-blue-200">
+              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10">
+                <Badge variant="secondary" className="bg-orange-100 text-orange-800 shadow-lg">
+                  <Thermometer className="h-3 w-3 mr-1" />
+                  Warm Poleward Current
+                </Badge>
+              </div>
+              
+              {/* More accurate Western Australia map */}
+              <svg viewBox="0 0 500 400" className="w-full h-full">
+                {/* Ocean background */}
+                <rect x="0" y="0" width="500" height="400" fill="#bfdbfe" opacity="0.3" />
+                
+                {/* Western Australia coastline - more accurate shape */}
+                <path 
+                  d="M 80 60 
+                     L 85 45 
+                     L 120 35 
+                     L 160 40 
+                     L 200 50 
+                     L 240 65 
+                     L 280 85 
+                     L 320 110 
+                     L 350 140 
+                     L 370 170 
+                     L 380 200 
+                     L 385 230 
+                     L 380 260 
+                     L 370 290 
+                     L 350 320 
+                     L 320 340 
+                     L 280 350 
+                     L 240 355 
+                     L 200 350 
+                     L 160 340 
+                     L 120 320 
+                     L 100 300 
+                     L 85 280 
+                     L 80 260 
+                     L 82 240 
+                     L 85 220 
+                     L 82 200 
+                     L 80 180 
+                     L 78 160 
+                     L 75 140 
+                     L 72 120 
+                     L 75 100 
+                     L 78 80 
+                     Z"
+                  fill="#d1fae5"
+                  stroke="#059669"
+                  strokeWidth="2"
+                />
+                
+                {/* Leeuwin Current main flow - more accurate path */}
+                <path 
+                  d="M 40 85 
+                     Q 35 110 38 140 
+                     Q 42 170 45 200 
+                     Q 48 230 52 260 
+                     Q 55 290 60 320 
+                     Q 65 340 75 355 
+                     Q 90 365 110 368 
+                     Q 130 370 150 365"
+                  fill="none"
+                  stroke="#dc2626"
+                  strokeWidth="6"
+                  strokeDasharray="12 6"
+                  opacity="0.8"
+                />
+                
+                {/* Secondary current branches */}
+                <path 
+                  d="M 52 260 Q 65 270 80 275"
+                  fill="none"
+                  stroke="#f97316"
+                  strokeWidth="4"
+                  strokeDasharray="8 4"
+                  opacity="0.6"
+                />
+                
+                <path 
+                  d="M 60 320 Q 75 325 95 330"
+                  fill="none"
+                  stroke="#f97316"
+                  strokeWidth="4"
+                  strokeDasharray="8 4"
+                  opacity="0.6"
+                />
+                
+                {/* Current direction arrows */}
+                <polygon points="35,95 30,105 45,100" fill="#dc2626" />
+                <polygon points="40,145 35,155 50,150" fill="#dc2626" />
+                <polygon points="45,195 40,205 55,200" fill="#dc2626" />
+                <polygon points="50,245 45,255 60,250" fill="#dc2626" />
+                <polygon points="55,295 50,305 65,300" fill="#dc2626" />
+                <polygon points="65,335 60,345 75,340" fill="#dc2626" />
+                
+                {/* Temperature indicators */}
+                <circle cx="30" cy="90" r="8" fill="#fca5a5" opacity="0.7" />
+                <text x="26" y="95" fontSize="10" fontWeight="bold" fill="#dc2626">24°</text>
+                
+                <circle cx="35" cy="150" r="8" fill="#fca5a5" opacity="0.7" />
+                <text x="31" y="155" fontSize="10" fontWeight="bold" fill="#dc2626">22°</text>
+                
+                <circle cx="45" cy="250" r="8" fill="#fca5a5" opacity="0.7" />
+                <text x="41" y="255" fontSize="10" fontWeight="bold" fill="#dc2626">20°</text>
+                
+                {/* Key locations with better positioning */}
+                <circle cx="95" cy="85" r="5" fill="#1d4ed8" />
+                <text x="105" y="90" fontSize="12" fontWeight="bold" fill="#1d4ed8">Perth</text>
+                
+                <circle cx="110" cy="95" r="4" fill="#2563eb" />
+                <text x="120" y="100" fontSize="10" fill="#2563eb">Rottnest</text>
+                
+                <circle cx="150" cy="140" r="4" fill="#2563eb" />
+                <text x="160" y="145" fontSize="10" fill="#2563eb">Geraldton</text>
+                
+                <circle cx="200" cy="200" r="4" fill="#2563eb" />
+                <text x="210" y="205" fontSize="10" fill="#2563eb">Shark Bay</text>
+                
+                <circle cx="280" cy="120" r="4" fill="#2563eb" />
+                <text x="290" y="125" fontSize="10" fill="#2563eb">Ningaloo</text>
+                
+                <circle cx="350" cy="160" r="4" fill="#2563eb" />
+                <text x="360" y="165" fontSize="10" fill="#2563eb">Exmouth</text>
+                
+                {/* Cape Leeuwin marker */}
+                <circle cx="120" cy="320" r="5" fill="#dc2626" />
+                <text x="130" y="325" fontSize="11" fontWeight="bold" fill="#dc2626">Cape Leeuwin</text>
+                
+                {/* Compass */}
+                <g transform="translate(450, 50)">
+                  <circle cx="0" cy="0" r="20" fill="white" stroke="#374151" strokeWidth="2" />
+                  <polygon points="0,-15 -5,5 0,0 5,5" fill="#dc2626" />
+                  <text x="-3" y="-18" fontSize="8" fill="#dc2626">N</text>
+                </g>
+              </svg>
+              
+              <div className="absolute bottom-4 left-4 bg-white/90 rounded-lg p-3 space-y-2 shadow-lg">
+                <div className="flex items-center text-sm font-medium">
+                  <div className="w-6 h-2 bg-red-600 mr-2 rounded"></div>
+                  <span>Leeuwin Current (warm)</span>
                 </div>
-                
-                {/* Western Australia outline */}
-                <svg viewBox="0 0 400 300" className="w-full h-full">
-                  {/* Simplified WA coastline */}
-                  <path 
-                    d="M 50 50 L 50 250 L 150 250 L 200 200 L 250 180 L 300 160 L 350 140 L 350 50 Z"
-                    fill="#e5e7eb"
-                    stroke="#9ca3af"
-                    strokeWidth="2"
-                  />
-                  
-                  {/* Leeuwin Current flow */}
-                  <path 
-                    d="M 30 80 Q 20 120 25 160 Q 30 200 40 240"
-                    fill="none"
-                    stroke="#dc2626"
-                    strokeWidth="4"
-                    strokeDasharray="8 4"
-                  />
-                  
-                  {/* Current arrows */}
-                  <polygon points="25,90 20,95 30,95" fill="#dc2626" />
-                  <polygon points="22,130 17,135 27,135" fill="#dc2626" />
-                  <polygon points="28,170 23,175 33,175" fill="#dc2626" />
-                  <polygon points="35,210 30,215 40,215" fill="#dc2626" />
-                  
-                  {/* Location markers */}
-                  <circle cx="60" cy="80" r="4" fill="#2563eb" />
-                  <circle cx="80" cy="150" r="4" fill="#2563eb" />
-                  <circle cx="120" cy="220" r="4" fill="#2563eb" />
-                  
-                  <text x="65" y="78" fontSize="10" fill="#2563eb">Perth</text>
-                  <text x="85" y="148" fontSize="10" fill="#2563eb">Rottnest</text>
-                  <text x="125" y="218" fontSize="10" fill="#2563eb">Ningaloo</text>
-                </svg>
-                
-                <div className="absolute bottom-4 left-4 space-y-2">
-                  <div className="flex items-center text-sm">
-                    <div className="w-4 h-1 bg-red-600 mr-2"></div>
-                    <span>Leeuwin Current Flow</span>
-                  </div>
-                  <div className="flex items-center text-sm">
-                    <MapPin className="h-4 w-4 text-blue-600 mr-2" />
-                    <span>Key Dive Sites</span>
-                  </div>
+                <div className="flex items-center text-sm">
+                  <div className="w-6 h-2 bg-orange-500 mr-2 rounded"></div>
+                  <span>Secondary flows</span>
+                </div>
+                <div className="flex items-center text-sm">
+                  <MapPin className="h-4 w-4 text-blue-600 mr-2" />
+                  <span>Major dive sites</span>
+                </div>
+                <div className="flex items-center text-sm">
+                  <div className="w-4 h-4 bg-red-200 rounded-full mr-2"></div>
+                  <span>Water temperature (°C)</span>
                 </div>
               </div>
             </div>
