@@ -6,7 +6,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import LessonCard from "@/components/lessons/LessonCard";
 import LessonViewer from "@/components/lessons/LessonViewer";
+import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewer";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
+import { westernRockLobsterLesson } from "@/data/lessonContent";
 
 import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin } from "lucide-react";
 
@@ -65,6 +67,18 @@ const allLessons = [
   },
   {
     id: 4,
+    title: "Meet the Western Rock Lobster",
+    category: "species-identification",
+    duration: 3,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
+    description: "Panulirus cygnus – A spiny icon of Western Australia's reefs",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isInteractive: true,
+    specialBadge: "🦞"
+  },
+  {
+    id: 5,
     title: "Identifying Reef Fish",
     category: "species-identification",
     duration: 4,
@@ -124,6 +138,7 @@ export default function LearnPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<"lessons" | "quizzes" | "badges">("lessons");
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
+  const [showInteractiveLesson, setShowInteractiveLesson] = useState(false);
   
   // Calculate completion stats
   const totalLessons = allLessons.length;
@@ -136,7 +151,10 @@ export default function LearnPage() {
   );
 
   const handleLessonClick = (lesson: any) => {
-    if (lesson.isInteractive && lesson.lessonData) {
+    if (lesson.isInteractive && lesson.id === 4) {
+      // Western Rock Lobster interactive lesson
+      setShowInteractiveLesson(true);
+    } else if (lesson.isInteractive && lesson.lessonData) {
       setCurrentLesson(lesson.lessonData);
     } else {
       // For non-interactive lessons, create a simple lesson structure
