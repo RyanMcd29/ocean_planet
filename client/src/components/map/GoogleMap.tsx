@@ -18,7 +18,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({ onSelectDiveSite, selectedDiveSit
 
   const { data: diveSites } = useQuery({
     queryKey: ['/api/dive-sites'],
-    queryFn: fetchDiveSites,
+    queryFn: () => fetchDiveSites(""),
   });
 
   // Initialize Google Maps
