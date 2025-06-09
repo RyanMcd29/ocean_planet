@@ -86,7 +86,15 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllDiveSites(): Promise<DiveSite[]> {
-    return await db.select().from(diveSites);
+    try {
+      console.log('Fetching all dive sites from database...');
+      const results = await db.select().from(diveSites);
+      console.log(`Found ${results.length} dive sites:`, results.map(r => `${r.id}: ${r.name}`));
+      return results;
+    } catch (error) {
+      console.error('Error fetching dive sites:', error);
+      throw error;
+    }
   }
 
   async searchDiveSites(query: string, filters?: Record<string, any>): Promise<DiveSite[]> {

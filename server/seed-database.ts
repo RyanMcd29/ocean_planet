@@ -18,19 +18,25 @@ async function seedDatabase() {
     const [greatBarrierReef] = await db.insert(diveSites).values({
       name: "Great Barrier Reef",
       difficulty: "Intermediate",
-      description: "The largest coral reef system composed of over 2,900 individual reefs and 900 islands.",
-      location: "Queensland",
+      description: "The Great Barrier Reef is the world's largest coral reef system, stretching over 2,300 kilometers along the coast of Queensland, Australia. It offers some of the most spectacular diving experiences with its vibrant coral formations and diverse marine life.",
+      location: "Queensland, Australia",
       country: "Australia",
-      latitude: -18.2871,
-      longitude: 147.7000,
-      current: "Moderate",
-      minDepth: 5,
+      latitude: -16.7525,
+      longitude: 146.5361,
+      current: "Mild",
+      minDepth: 15,
       maxDepth: 30,
-      visibility: "Excellent",
-      bestTimeToVisit: "June to October",
-      temperature: "21°C to 29°C",
-      marineLifeRichness: "Extremely High",
-      habitats: ["Coral Reef", "Shallow Reef", "Wall Dive"]
+      minVisibility: 10,
+      maxVisibility: 30,
+      minTemp: 24,
+      maxTemp: 30,
+      bestSeason: "June - November",
+      peakVisibilityMonth: "September",
+      conservationStatus: "Protected Area",
+      conservationInfo: "The Great Barrier Reef is a UNESCO World Heritage site facing threats from climate change, water pollution, and coastal development. Visitors are required to follow strict guidelines to minimize impact.",
+      mainImage: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      highlights: ["Coral Gardens", "Reef Sharks", "Sea Turtles", "Manta Rays", "Wreck Diving", "Night Dives"],
+      habitats: ["Coral Gardens", "Drop-offs", "Sandy Flats", "Sea Grass Beds"]
     }).returning();
 
     const [bluehole] = await db.insert(diveSites).values({
