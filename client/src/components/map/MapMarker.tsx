@@ -23,7 +23,7 @@ const MapMarker: React.FC<MapMarkerProps> = ({ diveSite, isActive, onClick }) =>
     iconAnchor: [12, 12],
     popupAnchor: [0, -12],
   });
-  
+
   const defaultIcon = new Icon({
     iconUrl: "data:image/svg+xml;base64," + btoa(`
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +64,12 @@ const MapMarker: React.FC<MapMarkerProps> = ({ diveSite, isActive, onClick }) =>
           </div>
           <button 
             className="mt-2 bg-[#05BFDB] hover:bg-[#0A4D68] text-white text-xs w-full py-1 rounded transition duration-200"
-            onClick={onClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick();
+              // Navigate to dive site page
+              window.location.href = `/dive-site/${diveSite.id}`;
+            }}
           >
             View Details
           </button>

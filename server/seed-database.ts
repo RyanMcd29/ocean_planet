@@ -3,16 +3,16 @@ import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, wate
 
 async function seedDatabase() {
   console.log('Starting database seeding...');
-  
+
   try {
     // Check if we already have data
     const existingDiveSites = await db.select().from(diveSites);
-    
+
     if (existingDiveSites.length > 0) {
       console.log('Database already contains data, skipping seed.');
       return;
     }
-    
+
     // Seed sample dive sites
     console.log('Adding sample dive sites...');
     const [greatBarrierReef] = await db.insert(diveSites).values({
@@ -93,8 +93,8 @@ async function seedDatabase() {
       description: "A renowned Western Australian dive site featuring diverse marine ecosystems and excellent underwater topography.",
       location: "Perth",
       country: "Australia",
-      latitude: -31.8759,
-      longitude: 115.7453,
+      latitude: -31.97917,
+      longitude: 115.54000,
       current: "Light to Moderate",
       minDepth: 10,
       maxDepth: 25,
@@ -104,7 +104,7 @@ async function seedDatabase() {
       marineLifeRichness: "High",
       habitats: ["Rocky Reef", "Kelp Forest", "Sandy Bottom"]
     }).returning();
-    
+
     // Seed sample species
     console.log('Adding sample marine species...');
     const [clownfish] = await db.insert(species).values({
@@ -154,7 +154,7 @@ async function seedDatabase() {
       description: "Large blue fish commonly seen patrolling Western Australian reefs. Males develop a distinctive bright blue coloration.",
       conservationStatus: "Least Concern",
       habitats: ["Rocky Reef", "Limestone Reef", "Temperate Reef"],
-      imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Fish"
     }).returning();
 
@@ -214,7 +214,7 @@ async function seedDatabase() {
       description: "Commonly encountered resting in sandy areas during the day. Has distinctive harness-like markings.",
       conservationStatus: "Least Concern",
       habitats: ["Sandy Bottom", "Rocky Reef", "Temperate Waters"],
-      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      imageUrl: "https://images.unsplash.com/photo-1560275619-4662e36fa65c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Shark"
     }).returning();
 
@@ -224,7 +224,7 @@ async function seedDatabase() {
       description: "Found in abundance within reef crevices. Commercially important species in Western Australia.",
       conservationStatus: "Least Concern",
       habitats: ["Rocky Reef", "Crevices", "Limestone Reef"],
-      imageUrl: "https://images.unsplash.com/photo-1559715541-5daf8a0296fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Crustacean"
     }).returning();
 
@@ -247,7 +247,7 @@ async function seedDatabase() {
       imageUrl: "https://images.unsplash.com/photo-1570481947811-ef44b2e4b18a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Fish"
     }).returning();
-    
+
     // Associate species with dive sites
     console.log('Associating species with dive sites...');
     await db.insert(diveSiteSpecies).values({
@@ -389,7 +389,7 @@ async function seedDatabase() {
       speciesId: scalyfin.id,
       frequency: "Abundant"
     });
-    
+
     // Add nearby dive sites
     console.log('Adding nearby dive site relationships...');
     await db.insert(nearbyDiveSites).values({
@@ -403,7 +403,7 @@ async function seedDatabase() {
       nearbyDiveSiteId: tubbataha.id,
       distance: 3200
     });
-    
+
     // Add dive centers
     console.log('Adding dive centers...');
     await db.insert(diveCenters).values({
@@ -446,7 +446,7 @@ async function seedDatabase() {
 
 async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbataha: any, crystalPalace: any, roeReef: any) {
   console.log('Seeding water conditions...');
-  
+
   // Great Barrier Reef current conditions
   await db.insert(waterConditions).values({
     diveSiteId: greatBarrierReef.id,

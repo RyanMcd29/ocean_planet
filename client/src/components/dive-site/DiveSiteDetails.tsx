@@ -189,7 +189,33 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                 </div>
               </div>
             ) : waterConditions ? (
-              <WaterConditionsCard conditions={waterConditions} compact={true} />
+              <>
+                <WaterConditionsCard conditions={waterConditions} compact={true} />
+                <div className="mt-3 flex gap-2">
+                  <Button 
+                    onClick={fetchLiveData}
+                    disabled={isLoadingLive}
+                    className="bg-[#05BFDB] hover:bg-[#088395] text-white"
+                  >
+                    {isLoadingLive ? 'Loading...' : 'Get Live Data'}
+                  </Button>
+                  {showLiveData && liveConditions && (
+                    <Button 
+                      variant="outline"
+                      onClick={() => setShowLiveData(false)}
+                      className="text-[#088395] border-[#088395]"
+                    >
+                      Show Static Data
+                    </Button>
+                  )}
+                </div>
+                {showLiveData && liveConditions && (
+                  <div className="mt-4">
+                    <WaterConditionsCard conditions={liveConditions} compact={true} />
+                    <p className="text-xs text-[#757575] mt-2">Live data from AODN • Updated: {new Date(liveConditions.timestamp).toLocaleString()}</p>
+                  </div>
+                )}
+              </>
             ) : (
               <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
                 <p className="text-sm text-blue-700">Water conditions data not available for this dive site.</p>
