@@ -8,84 +8,78 @@ export interface RegionalCluster {
   centerLng: number;
 }
 
-// Define regional groupings based on geographic proximity
+// Define regional groupings based on geographic proximity and keywords
 const REGIONAL_DEFINITIONS = [
   {
-    name: "Great Barrier Reef Region",
-    bounds: { minLat: -25, maxLat: -10, minLng: 140, maxLng: 155 },
-    keywords: ["Great Barrier", "Queensland", "Australia"]
+    name: "Australian Waters",
+    keywords: ["Australia", "Queensland", "Great Barrier", "Yongala"]
   },
   {
-    name: "Caribbean Region",
-    bounds: { minLat: 10, maxLat: 30, minLng: -90, maxLng: -60 },
-    keywords: ["Belize", "Bahamas", "Caribbean"]
+    name: "Caribbean Basin",
+    keywords: ["Belize", "Bahamas", "Caribbean", "Blue Hole"]
   },
   {
-    name: "Indo-Pacific Region",
-    bounds: { minLat: -15, maxLat: 15, minLng: 90, maxLng: 140 },
-    keywords: ["Indonesia", "Malaysia", "Philippines", "Thailand", "Maldives"]
+    name: "Southeast Asia",
+    keywords: ["Indonesia", "Malaysia", "Philippines", "Thailand", "Sipadan", "Raja Ampat", "Anilao", "Richelieu"]
   },
   {
-    name: "Pacific Islands",
-    bounds: { minLat: -25, maxLat: 25, minLng: -180, maxLng: -120 },
-    keywords: ["Hawaii", "French Polynesia", "Galapagos", "Costa Rica"]
+    name: "Pacific Ocean",
+    keywords: ["Hawaii", "French Polynesia", "Galapagos", "Costa Rica", "Cocos", "Rangiroa", "Kona", "Wolf", "Darwin"]
   },
   {
-    name: "Red Sea & Mediterranean",
-    bounds: { minLat: 20, maxLat: 40, minLng: 30, maxLng: 50 },
-    keywords: ["Egypt", "Red Sea"]
+    name: "Red Sea",
+    keywords: ["Egypt", "Red Sea", "Thistlegorm"]
   },
   {
-    name: "Southern Ocean",
-    bounds: { minLat: -50, maxLat: -25, minLng: 20, maxLng: 40 },
+    name: "Indian Ocean",
+    keywords: ["Maldives", "South Ari", "Maaya"]
+  },
+  {
+    name: "Southern Africa",
     keywords: ["South Africa", "Aliwal"]
   },
   {
     name: "North Atlantic",
-    bounds: { minLat: 60, maxLat: 70, minLng: -25, maxLng: -15 },
     keywords: ["Iceland", "Silfra"]
   },
   {
     name: "Southwest Pacific",
-    bounds: { minLat: -45, maxLat: -30, minLng: 160, maxLng: 180 },
-    keywords: ["New Zealand", "Vanuatu", "Poor Knights"]
+    keywords: ["New Zealand", "Vanuatu", "Poor Knights", "Coolidge"]
   },
   {
     name: "Central America",
-    bounds: { minLat: 15, maxLat: 25, minLng: -100, maxLng: -80 },
     keywords: ["Mexico", "Tulum", "Cenote"]
   },
   {
     name: "Micronesia",
-    bounds: { minLat: 0, maxLat: 15, minLng: 130, maxLng: 140 },
-    keywords: ["Palau"]
+    keywords: ["Palau", "Blue Corner"]
+  },
+  {
+    name: "Caribbean Islands",
+    keywords: ["Bonaire", "1000 Steps"]
   }
 ];
 
 function assignToRegion(site: DiveSite): string {
-  // First try to match by bounds
+  // Match by keywords in location, country, or site name
   for (const region of REGIONAL_DEFINITIONS) {
-    const { bounds } = region;
-    if (site.latitude >= bounds.minLat && site.latitude <= bounds.maxLat &&
-        site.longitude >= bounds.minLng && site.longitude <= bounds.maxLng) {
+    const searchText = `${site.name} ${site.location} ${site.country}`.toLowerCase();
+    if (region.keywords.some(keyword => searchText.includes(keyword.toLowerCase()))) {
       return region.name;
     }
   }
   
-  // Then try to match by keywords in location
-  for (const region of REGIONAL_DEFINITIONS) {
-    const locationText = `${site.location} ${site.country}`.toLowerCase();
-    if (region.keywords.some(keyword => locationText.includes(keyword.toLowerCase()))) {
-      return region.name;
-    }
-  }
+  // Geographic fallback based on coordinates
+  if (site.latitude > 60) return "Arctic Waters";
+  if (site.latitude > 30 && site.longitude < -60) return "North Atlantic";
+  if (site.latitude > 10 && site.latitude < 30 && site.longitude > -100 && site.longitude < -60) return "Caribbean Basin";
+  if (site.latitude < -30 && site.longitude > 100) return "Southern Pacific";
+  if (site.latitude < -20 && site.longitude > 20 && site.longitude < 50) return "Southern Africa";
+  if (site.latitude > -10 && site.latitude < 20 && site.longitude > 60 && site.longitude < 100) return "Indian Ocean";
+  if (site.longitude > 100 && site.longitude < 180) return "Western Pacific";
+  if (site.longitude < -60) return "Eastern Pacific";
   
-  // Default fallback - create region based on general area
-  if (site.latitude > 30) return "Northern Regions";
-  if (site.latitude < -30) return "Southern Regions";
-  if (site.longitude < -30) return "Atlantic Region";
-  if (site.longitude > 100) return "Pacific Region";
-  return "Other Regions";
+  return "Other Waters";
 }
 
 export function clusterDiveSites(sites: DiveSite[], zoomLevel: number): {
@@ -119,7 +113,7 @@ export function clusterDiveSites(sites: DiveSite[], zoomLevel: number): {
       // Single site regions show as individual markers
       individualSites.push(...regionSites);
     } else {
-      // Calculate center point for cluster
+      // Calculate center point for cluster based on actual dive site locations
       const centerLat = regionSites.reduce((sum, site) => sum + site.latitude, 0) / regionSites.length;
       const centerLng = regionSites.reduce((sum, site) => sum + site.longitude, 0) / regionSites.length;
       
