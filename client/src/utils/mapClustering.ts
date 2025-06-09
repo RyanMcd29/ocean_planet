@@ -8,119 +8,73 @@ export interface RegionalCluster {
   centerLng: number;
 }
 
-// Define regional groupings based on geographic proximity and keywords
-const REGIONAL_DEFINITIONS = [
-  {
-    name: "Australian Waters",
-    keywords: ["Australia", "Queensland", "Great Barrier", "Yongala"]
-  },
-  {
-    name: "Caribbean Basin",
-    keywords: ["Belize", "Bahamas", "Caribbean", "Blue Hole"]
-  },
-  {
-    name: "Southeast Asia",
-    keywords: ["Indonesia", "Malaysia", "Philippines", "Thailand", "Sipadan", "Raja Ampat", "Anilao", "Richelieu"]
-  },
-  {
-    name: "Pacific Ocean",
-    keywords: ["Hawaii", "French Polynesia", "Galapagos", "Costa Rica", "Cocos", "Rangiroa", "Kona", "Wolf", "Darwin"]
-  },
-  {
-    name: "Red Sea",
-    keywords: ["Egypt", "Red Sea", "Thistlegorm"]
-  },
-  {
-    name: "Indian Ocean",
-    keywords: ["Maldives", "South Ari", "Maaya"]
-  },
-  {
-    name: "Southern Africa",
-    keywords: ["South Africa", "Aliwal"]
-  },
-  {
-    name: "North Atlantic",
-    keywords: ["Iceland", "Silfra"]
-  },
-  {
-    name: "Southwest Pacific",
-    keywords: ["New Zealand", "Vanuatu", "Poor Knights", "Coolidge"]
-  },
-  {
-    name: "Central America",
-    keywords: ["Mexico", "Tulum", "Cenote"]
-  },
-  {
-    name: "Micronesia",
-    keywords: ["Palau", "Blue Corner"]
-  },
-  {
-    name: "Caribbean Islands",
-    keywords: ["Bonaire", "1000 Steps"]
-  }
-];
-
-function assignToRegion(site: DiveSite): string {
-  // Match by keywords in location, country, or site name
-  for (const region of REGIONAL_DEFINITIONS) {
-    const searchText = `${site.name} ${site.location} ${site.country}`.toLowerCase();
-    if (region.keywords.some(keyword => searchText.includes(keyword.toLowerCase()))) {
-      return region.name;
-    }
-  }
-  
-  // Geographic fallback based on coordinates
-  if (site.latitude > 60) return "Arctic Waters";
-  if (site.latitude > 30 && site.longitude < -60) return "North Atlantic";
-  if (site.latitude > 10 && site.latitude < 30 && site.longitude > -100 && site.longitude < -60) return "Caribbean Basin";
-  if (site.latitude < -30 && site.longitude > 100) return "Southern Pacific";
-  if (site.latitude < -20 && site.longitude > 20 && site.longitude < 50) return "Southern Africa";
-  if (site.latitude > -10 && site.latitude < 20 && site.longitude > 60 && site.longitude < 100) return "Indian Ocean";
-  if (site.longitude > 100 && site.longitude < 180) return "Western Pacific";
-  if (site.longitude < -60) return "Eastern Pacific";
-  
-  return "Other Waters";
+function calculateDistance(lat1: number, lng1: number, lat2: number, lng2: number): number {
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+           Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+           Math.sin(dLng/2) * Math.sin(dLng/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
 }
 
 export function clusterDiveSites(sites: DiveSite[], zoomLevel: number): {
   clusters: RegionalCluster[];
   individualSites: DiveSite[];
 } {
-  // Show individual sites at zoom 6+
-  if (zoomLevel >= 6) {
+  // Show individual sites at zoom 5+ (was 6, now lower threshold)
+  if (zoomLevel >= 5) {
     return {
       clusters: [],
       individualSites: sites
     };
   }
   
-  // Group sites by region
-  const regionGroups: { [key: string]: DiveSite[] } = {};
-  
-  sites.forEach(site => {
-    const regionName = assignToRegion(site);
-    if (!regionGroups[regionName]) {
-      regionGroups[regionName] = [];
-    }
-    regionGroups[regionName].push(site);
-  });
-  
+  // Use distance-based clustering for lower zoom levels
   const clusters: RegionalCluster[] = [];
   const individualSites: DiveSite[] = [];
+  const processed: Set<number> = new Set();
   
-  Object.entries(regionGroups).forEach(([regionName, regionSites]) => {
-    if (regionSites.length === 1) {
-      // Single site regions show as individual markers
-      individualSites.push(...regionSites);
+  // Cluster distance threshold based on zoom level
+  const clusterDistance = zoomLevel <= 2 ? 2000 : zoomLevel <= 3 ? 1500 : 1000; // km
+  
+  sites.forEach((site, index) => {
+    if (processed.has(index)) return;
+    
+    const nearbySites: DiveSite[] = [site];
+    processed.add(index);
+    
+    // Find nearby sites
+    sites.forEach((otherSite, otherIndex) => {
+      if (processed.has(otherIndex) || index === otherIndex) return;
+      
+      const distance = calculateDistance(
+        site.latitude, site.longitude,
+        otherSite.latitude, otherSite.longitude
+      );
+      
+      if (distance <= clusterDistance) {
+        nearbySites.push(otherSite);
+        processed.add(otherIndex);
+      }
+    });
+    
+    if (nearbySites.length === 1) {
+      // Single site - show as individual marker
+      individualSites.push(site);
     } else {
-      // Calculate center point for cluster based on actual dive site locations
-      const centerLat = regionSites.reduce((sum, site) => sum + site.latitude, 0) / regionSites.length;
-      const centerLng = regionSites.reduce((sum, site) => sum + site.longitude, 0) / regionSites.length;
+      // Multiple sites - create cluster
+      const centerLat = nearbySites.reduce((sum, s) => sum + s.latitude, 0) / nearbySites.length;
+      const centerLng = nearbySites.reduce((sum, s) => sum + s.longitude, 0) / nearbySites.length;
+      
+      // Generate region name based on first site's location
+      const regionName = site.country || site.location.split(',').pop()?.trim() || "Regional Cluster";
       
       clusters.push({
-        id: regionName.replace(/\s+/g, '-').toLowerCase(),
-        regionName,
-        sites: regionSites,
+        id: `cluster-${index}`,
+        regionName: `${regionName} Region`,
+        sites: nearbySites,
         centerLat,
         centerLng
       });
