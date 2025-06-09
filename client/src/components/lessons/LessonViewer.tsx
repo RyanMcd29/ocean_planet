@@ -188,9 +188,10 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex flex-col">
-      <Card className="w-full h-full bg-white shadow-2xl flex flex-col overflow-hidden">
-        <CardHeader className="border-b border-gray-200 flex-shrink-0">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50">
+      <div className="w-full h-full bg-white shadow-2xl flex flex-col">
+        {/* Header */}
+        <div className="border-b border-gray-200 p-4 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 md:gap-4">
               <Badge className="bg-[#05BFDB] text-white text-xs">
@@ -216,12 +217,14 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
             </span>
             <Progress value={progress} className="w-32 md:w-64 h-2" />
           </div>
-        </CardHeader>
+        </div>
 
-        <CardContent className="flex-1 p-4 md:p-8 overflow-y-auto pb-20 md:pb-8">
+        {/* Content */}
+        <div className="flex-1 p-4 md:p-8 overflow-y-auto">
           {renderContent()}
-        </CardContent>
+        </div>
 
+        {/* Navigation Footer - Fixed at bottom */}
         <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex-shrink-0">
           <div className="flex items-center justify-between gap-4">
             <Button
@@ -271,7 +274,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
             </Button>
           </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };
