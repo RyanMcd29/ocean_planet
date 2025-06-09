@@ -13,6 +13,7 @@ import ProfilePage from "@/pages/ProfilePage";
 import LearnPage from "@/pages/LearnPage";
 import LessonDetailPage from "@/pages/LessonDetailPage";
 import QuizPage from "@/pages/QuizPage";
+import ResearchPage from "@/pages/ResearchPage";
 import MobileNav from "@/components/layout/MobileNav";
 
 function Router() {
@@ -27,6 +28,7 @@ function Router() {
         <Route path="/learn" component={LearnPage} />
         <Route path="/learn/lesson/:id" component={LessonDetailPage} />
         <Route path="/learn/quiz/:id" component={QuizPage} />
+        <Route path="/research" component={ResearchPage} />
         <Route component={NotFound} />
       </Switch>
       <Footer />

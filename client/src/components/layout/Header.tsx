@@ -64,6 +64,14 @@ const Header: React.FC = () => {
               Learn
             </a>
           </Link>
+          <Link href="/research">
+            <a className={cn(
+              "hover:text-[#05BFDB] transition duration-200",
+              isActive("/research") && "text-[#05BFDB]"
+            )}>
+              Research
+            </a>
+          </Link>
         </nav>
         
         <div className="flex items-center space-x-3">
