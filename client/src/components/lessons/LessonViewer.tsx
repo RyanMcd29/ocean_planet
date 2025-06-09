@@ -188,15 +188,15 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl max-h-[90vh] bg-white shadow-2xl">
-        <CardHeader className="border-b border-gray-200">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex flex-col">
+      <Card className="w-full h-full bg-white shadow-2xl flex flex-col overflow-hidden">
+        <CardHeader className="border-b border-gray-200 flex-shrink-0">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Badge className="bg-[#05BFDB] text-white">
+            <div className="flex items-center gap-2 md:gap-4">
+              <Badge className="bg-[#05BFDB] text-white text-xs">
                 {lesson.category}
               </Badge>
-              <h2 className="text-xl font-bold text-[#0A4D68]">
+              <h2 className="text-lg md:text-xl font-bold text-[#0A4D68] truncate">
                 {lesson.title}
               </h2>
             </div>
@@ -204,7 +204,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
               variant="ghost" 
               size="sm"
               onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
+              className="text-gray-500 hover:text-gray-700 flex-shrink-0"
             >
               <X className="h-5 w-5" />
             </Button>
@@ -214,27 +214,29 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
             <span className="text-sm text-gray-600">
               Step {currentStep + 1} of {lesson.steps.length}
             </span>
-            <Progress value={progress} className="w-64 h-2" />
+            <Progress value={progress} className="w-32 md:w-64 h-2" />
           </div>
         </CardHeader>
 
-        <CardContent className="p-8 overflow-y-auto max-h-[60vh]">
+        <CardContent className="flex-1 p-4 md:p-8 overflow-y-auto pb-20 md:pb-8">
           {renderContent()}
         </CardContent>
 
-        <div className="border-t border-gray-200 p-6 bg-gray-50">
-          <div className="flex items-center justify-between">
+        <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex-shrink-0">
+          <div className="flex items-center justify-between gap-4">
             <Button
               variant="outline"
               onClick={handlePrevious}
               disabled={isFirstStep}
-              className="flex items-center gap-2"
+              className="flex items-center gap-1 md:gap-2 px-3 md:px-4"
+              size="sm"
             >
               <ChevronLeft className="h-4 w-4" />
-              Previous
+              <span className="hidden sm:inline">Previous</span>
+              <span className="sm:hidden">Prev</span>
             </Button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 md:gap-2">
               {lesson.steps.map((_, index) => (
                 <div
                   key={index}
@@ -250,16 +252,19 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
             <Button
               onClick={handleNext}
               disabled={currentContent.type === 'quiz' && !showExplanation}
-              className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-2"
+              className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-1 md:gap-2 px-3 md:px-4"
+              size="sm"
             >
               {isLastStep ? (
                 <>
-                  Complete
+                  <span className="hidden sm:inline">Complete</span>
+                  <span className="sm:hidden">Done</span>
                   <Award className="h-4 w-4" />
                 </>
               ) : (
                 <>
-                  Next
+                  <span className="hidden sm:inline">Next</span>
+                  <span className="sm:hidden">Next</span>
                   <ChevronRight className="h-4 w-4" />
                 </>
               )}
