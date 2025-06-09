@@ -11,23 +11,42 @@ interface MapMarkerProps {
 }
 
 const MapMarker: React.FC<MapMarkerProps> = ({ diveSite, isActive, onClick }) => {
-  // Create custom marker icons using divIcon for better compatibility
+  // Create custom dive flag marker icons
   const icon = useMemo(() => {
+    const flagColor = isActive ? '#EB6440' : '#0A4D68';
     return divIcon({
       html: `
         <div style="
-          width: 20px;
-          height: 20px;
-          border-radius: 50%;
-          background-color: ${isActive ? '#EB6440' : '#0A4D68'};
-          border: 3px solid white;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        "></div>
+          position: relative;
+          width: 24px;
+          height: 32px;
+        ">
+          <!-- Flag pole -->
+          <div style="
+            position: absolute;
+            left: 2px;
+            top: 0;
+            width: 2px;
+            height: 32px;
+            background-color: #333;
+          "></div>
+          <!-- Flag -->
+          <div style="
+            position: absolute;
+            left: 4px;
+            top: 2px;
+            width: 18px;
+            height: 12px;
+            background: linear-gradient(to right, white 0%, white 50%, ${flagColor} 50%, ${flagColor} 100%);
+            border: 1px solid #333;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+          "></div>
+        </div>
       `,
-      className: 'custom-div-icon',
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
-      popupAnchor: [0, -10],
+      className: 'custom-dive-flag-icon',
+      iconSize: [24, 32],
+      iconAnchor: [2, 32],
+      popupAnchor: [12, -32],
     });
   }, [isActive]);
 
