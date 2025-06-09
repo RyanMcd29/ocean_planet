@@ -38,7 +38,7 @@ const LearnPage: React.FC = () => {
   };
 
   const handleCompleteLesson = (lessonId: string) => {
-    setCompletedLessons(prev => new Set([...prev, lessonId]));
+    setCompletedLessons(prev => new Set(Array.from(prev).concat([lessonId])));
     setCurrentLesson(null);
   };
 

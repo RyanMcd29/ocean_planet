@@ -46,13 +46,13 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
 
   const handleNext = () => {
     if (!isLastStep) {
-      setCompletedSteps(prev => new Set([...prev, currentStep]));
+      setCompletedSteps(prev => new Set(Array.from(prev).concat([currentStep])));
       setCurrentStep(currentStep + 1);
       setSelectedAnswer(null);
       setShowExplanation(false);
     } else {
       // Lesson completed
-      setCompletedSteps(prev => new Set([...prev, currentStep]));
+      setCompletedSteps(prev => new Set(Array.from(prev).concat([currentStep])));
       onComplete(lesson.id);
     }
   };
