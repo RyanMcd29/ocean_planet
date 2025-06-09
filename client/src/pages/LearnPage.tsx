@@ -7,8 +7,9 @@ import { Progress } from "@/components/ui/progress";
 import { LessonCard } from "@/components/learn/LessonCard";
 import { QuizCard } from "@/components/learn/QuizCard";
 import { BadgeDisplay } from "@/components/learn/BadgeDisplay";
+import { InteractiveLessonCard } from "@/components/learn/InteractiveLessonCard";
 
-import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight } from "lucide-react";
+import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin } from "lucide-react";
 
 const categories = [
   { id: "ocean-literacy", name: "Ocean Literacy", icon: <Compass className="h-5 w-5" /> },
@@ -157,6 +158,108 @@ const lessons = [
         data: "Some coral species have shown the ability to adapt to higher temperatures over time, giving hope that certain reefs may become more resilient to climate change!"
       }
     ]
+  },
+  {
+    id: 6,
+    title: "The Leeuwin Current",
+    category: "ocean-literacy",
+    duration: 8,
+    thumbnail: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Interactive lesson about Western Australia's unique warm ocean current and its impact on marine life.",
+    completed: false,
+    isInteractive: true,
+    steps: [
+      {
+        id: 1,
+        type: "intro",
+        title: "Welcome to the Leeuwin Current",
+        content: {
+          image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          imageCaption: "The Leeuwin Current flowing along Western Australia",
+          text: "The Leeuwin Current is one of the world's most unique ocean currents. Unlike most eastern boundary currents that are cold, the Leeuwin Current is warm, flowing southward along Australia's west coast. This warm current has a huge impact on Western Australia's marine life, bringing tropical species far south and creating some of the world's most diverse temperate reefs."
+        }
+      },
+      {
+        id: 2,
+        type: "map",
+        title: "Where Does the Leeuwin Current Flow?",
+        content: {
+          facts: [
+            {
+              icon: <Waves className="h-5 w-5 text-blue-600" />,
+              title: "Flow Direction",
+              description: "Flows southward from North West Cape to Cape Leeuwin, then eastward"
+            },
+            {
+              icon: <Thermometer className="h-5 w-5 text-red-600" />,
+              title: "Temperature",
+              description: "Carries warm water 2-5°C warmer than expected for the latitude"
+            },
+            {
+              icon: <Fish className="h-5 w-5 text-green-600" />,
+              title: "Marine Life",
+              description: "Enables tropical fish to live as far south as Perth and beyond"
+            }
+          ]
+        }
+      },
+      {
+        id: 3,
+        type: "quiz",
+        title: "Test Your Knowledge",
+        content: {
+          questions: [
+            {
+              question: "What makes the Leeuwin Current unique compared to other eastern boundary currents?",
+              options: [
+                "It flows northward instead of southward",
+                "It's a warm current instead of a cold current",
+                "It only flows during summer months",
+                "It's the fastest ocean current in the world"
+              ],
+              correctAnswer: 1,
+              explanation: "Most eastern boundary currents (like the California Current) are cold, but the Leeuwin Current is warm, making it unique."
+            },
+            {
+              question: "How does the Leeuwin Current affect marine biodiversity in Western Australia?",
+              options: [
+                "It reduces biodiversity by warming the water",
+                "It has no significant impact on marine life",
+                "It increases biodiversity by bringing tropical species south",
+                "It only affects fish populations, not other marine life"
+              ],
+              correctAnswer: 2,
+              explanation: "The warm Leeuwin Current allows tropical marine species to extend their range much further south than they normally could."
+            },
+            {
+              question: "When is the Leeuwin Current typically strongest?",
+              options: [
+                "During summer (December-February)",
+                "During winter (June-August)",
+                "It maintains constant strength year-round",
+                "During spring tides only"
+              ],
+              correctAnswer: 1,
+              explanation: "The Leeuwin Current is typically strongest during the Australian winter months when the pressure gradient is greatest."
+            }
+          ]
+        }
+      },
+      {
+        id: 4,
+        type: "funFact",
+        title: "Amazing Facts About the Leeuwin Current",
+        content: {
+          fact: "The Leeuwin Current is one of the only warm poleward-flowing currents on the eastern boundary of an ocean basin in the world!",
+          moreFacts: [
+            "It transports about 5 million cubic meters of water per second - that's more than 1000 times the flow of the Murray River!",
+            "The current allows coral reefs to grow as far south as the Houtman Abrolhos Islands, at 29°S latitude.",
+            "Some tropical fish species can be found as far south as Albany (35°S) thanks to the Leeuwin Current.",
+            "The current varies seasonally, being strongest in winter and weakest in summer, opposite to most currents."
+          ]
+        }
+      }
+    ]
   }
 ];
 
@@ -270,6 +373,7 @@ const badges = [
 export default function LearnPage() {
   const [selectedCategory, setSelectedCategory] = useState(categories[0].id);
   const [viewMode, setViewMode] = useState<"lessons" | "quizzes" | "badges">("lessons");
+  const [activeInteractiveLesson, setActiveInteractiveLesson] = useState<any>(null);
   
   // Calculate completion stats
   const totalLessons = lessons.length;
@@ -285,6 +389,30 @@ export default function LearnPage() {
   const filteredQuizzes = quizzes.filter(quiz => 
     selectedCategory === "all" ? true : quiz.category === selectedCategory
   );
+
+  const handleLessonClick = (lesson: any) => {
+    if (lesson.isInteractive) {
+      setActiveInteractiveLesson(lesson);
+    }
+  };
+
+  // If an interactive lesson is active, show it
+  if (activeInteractiveLesson) {
+    return (
+      <div className="container py-8 mx-auto max-w-7xl">
+        <div className="mb-4">
+          <Button
+            variant="outline"
+            onClick={() => setActiveInteractiveLesson(null)}
+          >
+            <ChevronLeft className="h-4 w-4 mr-2" />
+            Back to Lessons
+          </Button>
+        </div>
+        <InteractiveLessonCard lesson={activeInteractiveLesson} />
+      </div>
+    );
+  }
 
   return (
     <div className="container py-8 mx-auto max-w-7xl">
@@ -394,7 +522,9 @@ export default function LearnPage() {
           {viewMode === "lessons" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
               {filteredLessons.map(lesson => (
-                <LessonCard key={lesson.id} lesson={lesson} />
+                <div key={lesson.id} onClick={() => handleLessonClick(lesson)}>
+                  <LessonCard lesson={lesson} />
+                </div>
               ))}
             </div>
           )}
