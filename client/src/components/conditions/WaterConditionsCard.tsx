@@ -13,8 +13,18 @@ import {
 } from "lucide-react";
 
 interface WaterConditionsCardProps {
-  conditions: WaterConditions;
+  conditions: WaterConditions | LiveOceanConditions;
   compact?: boolean;
+}
+
+interface LiveOceanConditions {
+  seaSurfaceTemperature: number;
+  currentSpeed: number;
+  currentDirection: string;
+  windDirection: string;
+  windSpeed: number;
+  waveHeight: number;
+  timestamp: string;
 }
 
 const WaterConditionsCard: React.FC<WaterConditionsCardProps> = ({ 
@@ -52,32 +62,58 @@ const WaterConditionsCard: React.FC<WaterConditionsCardProps> = ({
     });
   };
 
+  const isLiveData = 'seaSurfaceTemperature' in conditions;
+
   if (compact) {
     return (
       <div className="bg-white rounded-lg p-3 shadow-sm border">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center space-x-2">
             <Activity className="h-4 w-4 text-[#088395]" />
-            <span className="text-sm font-medium">Current Conditions</span>
+            <span className="text-sm font-medium">
+              {isLiveData ? 'Live AODN Data' : 'Current Conditions'}
+            </span>
           </div>
-          <Badge className={getConditionColor(conditions.divingConditions || '')}>
-            {conditions.divingConditions}
-          </Badge>
+          {!isLiveData && 'divingConditions' in conditions && (
+            <Badge className={getConditionColor(conditions.divingConditions || '')}>
+              {conditions.divingConditions}
+            </Badge>
+          )}
         </div>
         
         <div className="grid grid-cols-3 gap-2 text-xs">
           <div className="flex items-center space-x-1">
             <Thermometer className="h-3 w-3 text-red-500" />
-            <span>{conditions.waterTemp}°C</span>
+            <span>
+              {isLiveData 
+                ? conditions.seaSurfaceTemperature 
+                : ('waterTemp' in conditions ? conditions.waterTemp : 'N/A')
+              }°C
+            </span>
           </div>
-          <div className="flex items-center space-x-1">
-            <Eye className="h-3 w-3 text-blue-500" />
-            <span>{conditions.visibility}m</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <Waves className="h-3 w-3 text-cyan-500" />
-            <span>{conditions.waveHeight}m</span>
-          </div>
+          {isLiveData ? (
+            <>
+              <div className="flex items-center space-x-1">
+                <Wind className="h-3 w-3 text-gray-500" />
+                <span>{conditions.windSpeed}kts {conditions.windDirection}</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <Waves className="h-3 w-3 text-cyan-500" />
+                <span>{conditions.waveHeight}m</span>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center space-x-1">
+                <Eye className="h-3 w-3 text-blue-500" />
+                <span>{conditions.visibility}m</span>
+              </div>
+              <div className="flex items-center space-x-1">
+                <Waves className="h-3 w-3 text-cyan-500" />
+                <span>{conditions.waveHeight}m</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     );

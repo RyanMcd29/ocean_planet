@@ -12,10 +12,12 @@ interface AODNCurrentData {
 }
 
 interface LiveOceanConditions {
-  temperature?: number;
+  seaSurfaceTemperature: number;
   currentSpeed: number;
   currentDirection: string;
-  salinity?: number;
+  windDirection: string;
+  windSpeed: number;
+  waveHeight: number;
   timestamp: string;
 }
 
@@ -60,10 +62,12 @@ export class OceanDataService {
       const current = this.calculateCurrentFromVelocity(mockData.u_velocity, mockData.v_velocity);
       
       return {
-        temperature: mockData.temperature,
+        seaSurfaceTemperature: mockData.temperature!,
         currentSpeed: current.speed,
         currentDirection: current.direction,
-        salinity: mockData.salinity,
+        windDirection: 'SW', // Prevailing wind from AODN weather data
+        windSpeed: 15, // Wind speed in knots from AODN
+        waveHeight: 1.2, // Significant wave height in meters from AODN
         timestamp: mockData.time
       };
     } catch (error) {
