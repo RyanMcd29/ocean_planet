@@ -22,13 +22,24 @@ const HomePage: React.FC = () => {
   return (
     <main className="flex-1 flex flex-col lg:flex-row">
       {/* Map Section */}
-      <section className="map-container lg:w-2/3 h-[75vh] lg:h-auto relative">
+      <section className="map-container lg:w-2/3 h-[60vh] lg:h-auto relative">
         <div className="map-overlay absolute inset-0">
           <DiveMap 
             onSelectDiveSite={handleSelectDiveSite}
             selectedDiveSiteId={selectedDiveSiteId}
           />
         </div>
+        {/* Scroll indicator for mobile - only show when no dive site is selected */}
+        {!selectedDiveSiteId && (
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 lg:hidden">
+            <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-2 shadow-lg flex items-center gap-2 text-[#0A4D68] text-sm font-medium">
+              <span>Scroll down to explore</span>
+              <svg className="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
+          </div>
+        )}
       </section>
       
       {/* Side Panel Content */}
