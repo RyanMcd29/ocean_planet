@@ -3,6 +3,7 @@ import { Marker, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
 import { DiveSite } from "@shared/schema";
 import { cn } from "@/lib/utils";
+import { Link } from "wouter";
 
 interface MapMarkerProps {
   diveSite: DiveSite;
@@ -62,17 +63,16 @@ const MapMarker: React.FC<MapMarkerProps> = ({ diveSite, isActive, onClick }) =>
               </span>
             )}
           </div>
-          <button 
-            className="mt-2 bg-[#05BFDB] hover:bg-[#0A4D68] text-white text-xs w-full py-1 rounded transition duration-200"
-            onClick={(e) => {
-              e.stopPropagation();
-              onClick();
-              // Navigate to dive site page
-              window.location.href = `/dive-site/${diveSite.id}`;
-            }}
-          >
-            View Details
-          </button>
+          <Link href={`/dive-site/${diveSite.id}`}>
+            <button 
+              className="mt-2 bg-[#05BFDB] hover:bg-[#0A4D68] text-white text-xs w-full py-1 rounded transition duration-200"
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              View Details
+            </button>
+          </Link>
         </div>
       </Popup>
     </Marker>
