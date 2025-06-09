@@ -171,53 +171,64 @@ const InteractiveLessonViewer: React.FC<InteractiveLessonViewerProps> = ({
           }
         </div>
 
-        {/* Navigation */}
-        <div className="p-4 md:p-6 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <button
-            onClick={handlePrevious}
-            disabled={isFirstStep}
-            className={`flex items-center gap-2 px-6 py-3 rounded-lg transition-colors min-h-[44px] ${
-              isFirstStep 
-                ? 'text-gray-400 cursor-not-allowed' 
-                : 'text-gray-700 hover:bg-gray-100'
-            }`}
-          >
-            <ChevronLeft size={20} />
-            Previous
-          </button>
-
-          <div className="flex space-x-2">
-            {lesson.steps.map((_, index) => (
-              <div
-                key={index}
-                className={`w-3 h-3 rounded-full transition-colors ${
-                  index === currentStep ? 'bg-[#05BFDB]' : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
-
-          {isLastStep ? (
+        {/* Navigation - Enhanced mobile accessibility */}
+        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 md:p-6 shadow-lg md:shadow-none">
+          <div className="flex items-center justify-between gap-4">
             <button
-              onClick={onClose}
-              className="bg-[#05BFDB] hover:bg-[#0A4D68] text-white px-8 py-3 rounded-lg transition-colors min-h-[44px] font-medium"
-            >
-              Complete
-            </button>
-          ) : (
-            <button
-              onClick={handleNext}
-              disabled={currentStepData.type === 'quiz' && !showFeedback}
-              className={`flex items-center gap-2 px-6 py-3 rounded-lg transition-colors min-h-[44px] font-medium ${
-                currentStepData.type === 'quiz' && !showFeedback
-                  ? 'text-gray-400 cursor-not-allowed'
-                  : 'bg-[#05BFDB] hover:bg-[#0A4D68] text-white'
+              onClick={handlePrevious}
+              disabled={isFirstStep}
+              className={`flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg transition-all duration-200 min-h-[48px] font-medium touch-manipulation ${
+                isFirstStep 
+                  ? 'text-gray-400 cursor-not-allowed bg-gray-100' 
+                  : 'text-gray-700 hover:bg-gray-100 border border-gray-300 hover:border-gray-400'
               }`}
             >
-              Next
-              <ChevronRight size={20} />
+              <ChevronLeft size={20} />
+              <span className="hidden sm:inline">Previous</span>
+              <span className="sm:hidden">Prev</span>
             </button>
-          )}
+
+            {/* Progress dots with better mobile visibility */}
+            <div className="flex items-center gap-2 md:gap-3 px-2">
+              {lesson.steps.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-3 h-3 md:w-4 md:h-4 rounded-full transition-all duration-300 ${
+                    index === currentStep 
+                      ? 'bg-[#05BFDB] scale-125 shadow-md' 
+                      : index < currentStep
+                      ? 'bg-[#05BFDB] opacity-70'
+                      : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {isLastStep ? (
+              <button
+                onClick={onClose}
+                className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white px-4 md:px-8 py-3 rounded-lg transition-all duration-200 min-h-[48px] font-medium shadow-md hover:shadow-lg touch-manipulation flex items-center gap-2"
+              >
+                <span className="hidden sm:inline">Complete</span>
+                <span className="sm:hidden">Done</span>
+                <ChevronRight size={20} />
+              </button>
+            ) : (
+              <button
+                onClick={handleNext}
+                disabled={currentStepData.type === 'quiz' && !showFeedback}
+                className={`flex items-center gap-2 px-4 md:px-6 py-3 rounded-lg transition-all duration-200 min-h-[48px] font-medium touch-manipulation ${
+                  currentStepData.type === 'quiz' && !showFeedback
+                    ? 'text-gray-400 cursor-not-allowed bg-gray-100'
+                    : 'bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white shadow-md hover:shadow-lg'
+                }`}
+              >
+                <span className="hidden sm:inline">Next</span>
+                <span className="sm:hidden">Next</span>
+                <ChevronRight size={20} />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -31,7 +31,7 @@ const SpeciesBrowsePage: React.FC = () => {
 
   const { data: species, isLoading, error } = useQuery({
     queryKey: ['/api/species'],
-    queryFn: fetchSpecies,
+    queryFn: () => fetchSpecies(),
   });
 
   const filteredSpecies = species?.filter(sp => {
@@ -49,8 +49,8 @@ const SpeciesBrowsePage: React.FC = () => {
   });
 
   // Get unique categories and conservation statuses for filters
-  const categories = Array.from(new Set(species?.map(sp => sp.category) || []));
-  const conservationStatuses = Array.from(new Set(species?.map(sp => sp.conservationStatus) || []));
+  const categories = Array.from(new Set(species?.map(sp => sp.category).filter(Boolean) || []));
+  const conservationStatuses = Array.from(new Set(species?.map(sp => sp.conservationStatus).filter(Boolean) || []));
 
   const getConservationBadgeStyle = (status: string) => {
     switch (status) {
@@ -115,8 +115,8 @@ const SpeciesBrowsePage: React.FC = () => {
               <SelectContent>
                 <SelectItem value="all">All Categories</SelectItem>
                 {categories.map(category => (
-                  <SelectItem key={category} value={category}>
-                    {category}
+                  <SelectItem key={category} value={category || 'unknown'}>
+                    {category || 'Unknown'}
                   </SelectItem>
                 ))}
               </SelectContent>
