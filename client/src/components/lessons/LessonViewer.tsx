@@ -39,10 +39,19 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
   const [showExplanation, setShowExplanation] = useState(false);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
 
+  // Debug logging
+  console.log('LessonViewer - lesson:', lesson);
+  console.log('LessonViewer - lesson.steps:', lesson.steps);
+  console.log('LessonViewer - currentStep:', currentStep);
+
   const currentContent = lesson.steps[currentStep];
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === lesson.steps.length - 1;
   const progress = ((currentStep + 1) / lesson.steps.length) * 100;
+
+  console.log('LessonViewer - currentContent:', currentContent);
+  console.log('LessonViewer - isFirstStep:', isFirstStep);
+  console.log('LessonViewer - isLastStep:', isLastStep);
 
   const handleNext = () => {
     if (!isLastStep) {
@@ -225,7 +234,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
         </div>
 
         {/* Navigation Footer - Fixed at bottom */}
-        <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex-shrink-0">
+        <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex-shrink-0" style={{ minHeight: '80px' }}>
           <div className="flex items-center justify-between gap-4">
             <Button
               variant="outline"
@@ -272,6 +281,11 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
                 </>
               )}
             </Button>
+          </div>
+          
+          {/* Debug info - temporary */}
+          <div className="text-xs text-gray-500 mt-2">
+            Debug: Step {currentStep + 1}/{lesson.steps.length} | First: {isFirstStep.toString()} | Last: {isLastStep.toString()}
           </div>
         </div>
       </div>
