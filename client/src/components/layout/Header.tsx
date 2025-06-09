@@ -17,9 +17,11 @@ const Header: React.FC = () => {
     <header className="bg-[#0A4D68] text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 rounded-full bg-[#05BFDB] flex items-center justify-center">
-            <WaveIcon className="h-6 w-6 text-[#0A4D68]" />
-          </div>
+          <img 
+            src="/ocean-planet-logo.png" 
+            alt="Ocean Planet Logo" 
+            className="w-10 h-10 rounded-full object-cover"
+          />
           <Link href="/">
             <a className="text-xl md:text-2xl font-montserrat font-bold tracking-wider">
               Ocean Planet
