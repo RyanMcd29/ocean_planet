@@ -120,6 +120,11 @@ const Header: React.FC = () => {
                 Learn
               </a>
             </Link>
+            <Link href="/research">
+              <a className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
+                Research
+              </a>
+            </Link>
             <Button className="w-full bg-[#EB6440] hover:bg-[#FFAB91] text-white">
               Log Dive
             </Button>
