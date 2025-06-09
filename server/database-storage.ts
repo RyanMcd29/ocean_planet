@@ -87,23 +87,49 @@ export class DatabaseStorage implements IStorage {
 
   async getAllDiveSites(): Promise<DiveSite[]> {
     try {
-      console.log('Fetching all dive sites from database...');
-      const results = await db.select().from(diveSites);
-      console.log(`Raw database query returned ${results.length} dive sites`);
-      console.log('All dive sites:', results.map(r => ({ id: r.id, name: r.name, highlights: r.highlights, habitats: r.habitats })));
+      // Use raw SQL to bypass potential Drizzle ORM issues
+      const rawResults = await db.execute(`
+        SELECT id, name, description, location, country, latitude, longitude, difficulty,
+               min_depth as "minDepth", max_depth as "maxDepth", 
+               min_visibility as "minVisibility", max_visibility as "maxVisibility",
+               min_temp as "minTemp", max_temp as "maxTemp",
+               current, best_season as "bestSeason", peak_visibility_month as "peakVisibilityMonth",
+               conservation_status as "conservationStatus", conservation_info as "conservationInfo",
+               main_image as "mainImage", highlights, habitats
+        FROM dive_sites
+        ORDER BY id
+      `);
       
-      // Filter out any records that might have null required fields
-      const validResults = results.filter(site => {
-        const isValid = site.name && site.description && site.location && site.country && 
-                       site.latitude !== null && site.longitude !== null && site.difficulty;
-        if (!isValid) {
-          console.log(`Filtering out invalid dive site:`, site);
-        }
-        return isValid;
-      });
+      console.log(`Raw SQL query returned ${rawResults.length} dive sites`);
       
-      console.log(`Returning ${validResults.length} valid dive sites`);
-      return validResults;
+      // Convert raw results to proper DiveSite objects
+      const results = rawResults.map((row: any) => ({
+        id: row.id,
+        name: row.name,
+        description: row.description,
+        location: row.location,
+        country: row.country,
+        latitude: row.latitude,
+        longitude: row.longitude,
+        difficulty: row.difficulty,
+        minDepth: row.minDepth,
+        maxDepth: row.maxDepth,
+        minVisibility: row.minVisibility,
+        maxVisibility: row.maxVisibility,
+        minTemp: row.minTemp,
+        maxTemp: row.maxTemp,
+        current: row.current,
+        bestSeason: row.bestSeason,
+        peakVisibilityMonth: row.peakVisibilityMonth,
+        conservationStatus: row.conservationStatus,
+        conservationInfo: row.conservationInfo,
+        mainImage: row.mainImage,
+        highlights: row.highlights || [],
+        habitats: row.habitats || []
+      })) as DiveSite[];
+      
+      console.log(`Returning ${results.length} dive sites:`, results.map(r => r.name));
+      return results;
     } catch (error) {
       console.error('Error fetching dive sites:', error);
       throw error;
