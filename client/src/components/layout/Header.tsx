@@ -16,12 +16,14 @@ const Header: React.FC = () => {
   return (
     <header className="bg-[#0A4D68] text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          <img 
-            src="/ocean-planet-logo.png" 
-            alt="Ocean Planet Logo" 
-            className="w-10 h-10 rounded-full object-cover"
-          />
+        <div className="flex items-center space-x-3">
+          <div className="w-12 h-12 rounded-full overflow-hidden bg-white p-1 shadow-md">
+            <img 
+              src="/ocean-planet-logo.png" 
+              alt="Ocean Planet Logo" 
+              className="w-full h-full object-contain"
+            />
+          </div>
           <Link href="/">
             <a className="text-xl md:text-2xl font-montserrat font-bold tracking-wider">
               Ocean Planet
