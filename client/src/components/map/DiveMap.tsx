@@ -15,13 +15,16 @@ interface DiveMapProps {
   selectedDiveSiteId?: number;
 }
 
-// Component to handle map center changes
-const MapCenterControl: React.FC<{ center: [number, number] }> = ({ center }) => {
+// Component to handle map center and zoom changes
+const MapCenterControl: React.FC<{ 
+  center: [number, number]; 
+  zoom: number;
+}> = ({ center, zoom }) => {
   const map = useMap();
   
   useEffect(() => {
-    map.setView(center, map.getZoom());
-  }, [center, map]);
+    map.setView(center, zoom);
+  }, [center, zoom, map]);
   
   return null;
 };
@@ -109,9 +112,23 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
         />
         
-        <MapCenterControl center={mapCenter} />
+        <MapCenterControl center={mapCenter} zoom={currentZoom} />
+        <ZoomHandler onZoomChange={setCurrentZoom} />
         
-        {diveSites && diveSites.map(diveSite => (
+        {/* Render regional clusters */}
+        {clusters.map(cluster => (
+          <RegionalCluster
+            key={cluster.id}
+            sites={cluster.sites}
+            regionName={cluster.regionName}
+            centerLat={cluster.centerLat}
+            centerLng={cluster.centerLng}
+            onClick={() => handleClusterClick(cluster.sites)}
+          />
+        ))}
+        
+        {/* Render individual dive sites */}
+        {individualSites.map(diveSite => (
           <MapMarker
             key={diveSite.id}
             diveSite={diveSite}
