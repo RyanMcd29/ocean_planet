@@ -129,8 +129,8 @@ const SpeciesBrowsePage: React.FC = () => {
               <SelectContent>
                 <SelectItem value="all">All Statuses</SelectItem>
                 {conservationStatuses.map(status => (
-                  <SelectItem key={status} value={status}>
-                    {status}
+                  <SelectItem key={status} value={status || 'unknown'}>
+                    {status || 'Unknown'}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -170,8 +170,8 @@ const SpeciesBrowsePage: React.FC = () => {
                       className="w-full h-48 object-cover rounded-t-lg"
                     />
                     <div className="absolute top-2 right-2">
-                      <Badge className={getConservationBadgeStyle(sp.conservationStatus)}>
-                        {sp.conservationStatus}
+                      <Badge className={getConservationBadgeStyle(sp.conservationStatus || 'Unknown')}>
+                        {sp.conservationStatus || 'Unknown'}
                       </Badge>
                     </div>
                   </div>
@@ -186,7 +186,7 @@ const SpeciesBrowsePage: React.FC = () => {
                     
                     <div className="flex items-center gap-2 mb-3">
                       <Badge variant="outline" className="text-xs">
-                        {sp.category}
+                        {sp.category || 'Marine Life'}
                       </Badge>
                     </div>
                     

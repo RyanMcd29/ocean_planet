@@ -24,15 +24,16 @@ const MobileNav: React.FC = () => {
             <span className="text-xs mt-1">Log</span>
           </Link>
           
-          <Link href="/learn" className={cn(
+          <Link href="/species" className={cn(
             "flex flex-col items-center px-2 py-1 flex-1",
-            isActive("/learn") ? "text-[#05BFDB]" : "text-white"
+            isActive("/species") ? "text-[#05BFDB]" : "text-white"
           )}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              <path d="M6.5 12c0-1 1.5-2 3.5-2s3.5 1 3.5 2-1.5 2-3.5 2-3.5-1-3.5-2z"/>
+              <path d="M2 12c0-1 1.5-2 3.5-2s3.5 1 3.5 2-1.5 2-3.5 2-3.5-1-3.5-2z"/>
+              <path d="M14.5 12c0-1 1.5-2 3.5-2s3.5 1 3.5 2-1.5 2-3.5 2-3.5-1-3.5-2z"/>
             </svg>
-            <span className="text-xs mt-1">Learn</span>
+            <span className="text-xs mt-1">Species</span>
           </Link>
           
           <Link href="/" className="flex flex-col items-center px-2 -mt-5 flex-1">
@@ -46,17 +47,15 @@ const MobileNav: React.FC = () => {
             <span className="text-xs mt-1">Explore</span>
           </Link>
           
-          <Link href="/community" className={cn(
+          <Link href="/learn" className={cn(
             "flex flex-col items-center px-2 py-1 flex-1",
-            isActive("/community") ? "text-[#05BFDB]" : "text-white"
+            isActive("/learn") ? "text-[#05BFDB]" : "text-white"
           )}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
             </svg>
-            <span className="text-xs mt-1">Community</span>
+            <span className="text-xs mt-1">Learn</span>
           </Link>
           
           <Link href="/profile" className={cn(

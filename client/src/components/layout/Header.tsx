@@ -48,6 +48,12 @@ const Header: React.FC = () => {
           )}>
             Community
           </Link>
+          <Link href="/species" className={cn(
+            "hover:text-[#05BFDB] transition duration-200",
+            isActive("/species") && "text-[#05BFDB]"
+          )}>
+            Species
+          </Link>
           <Link href="/learn" className={cn(
             "hover:text-[#05BFDB] transition duration-200",
             isActive("/learn") && "text-[#05BFDB]"
