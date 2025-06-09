@@ -390,7 +390,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Dive logs endpoints
+  app.post('/api/dive-logs', async (req: Request, res: Response) => {
+    try {
+      const { species, ...diveLogData } = req.body;
+      
+      // Set current user ID (in a real app, this would come from authentication)
+      const userId = 1;
+      const logData = { ...diveLogData, userId };
+      
+      // Create the dive log
+      const diveLog = await storage.createDiveLog(logData);
+      
+      // Add species sightings if provided
+      if (species && species.length > 0) {
+        for (const speciesSighting of species) {
+          await storage.addSpeciesToDiveLog({
+            diveLogId: diveLog.id,
+            speciesId: speciesSighting.speciesId,
+            quantity: speciesSighting.quantity || 1,
+            notes: speciesSighting.notes || null
+          });
+        }
+      }
+      
+      res.status(201).json(diveLog);
+    } catch (error) {
+      console.error('Error creating dive log:', error);
+      res.status(500).json({ error: "Failed to create dive log" });
+    }
+  });
 
+  app.get('/api/dive-logs/user/:userId', async (req: Request, res: Response) => {
+    try {
+      const userId = parseInt(req.params.userId);
+      if (isNaN(userId)) {
+        return res.status(400).json({ error: "Invalid user ID" });
+      }
+      
+      const diveLogs = await storage.getUserDiveLogs(userId);
+      res.json(diveLogs);
+    } catch (error) {
+      console.error('Error fetching user dive logs:', error);
+      res.status(500).json({ error: "Failed to fetch dive logs" });
+    }
+  });
+
+  app.get('/api/dive-logs/:id/species', async (req: Request, res: Response) => {
+    try {
+      const diveLogId = parseInt(req.params.id);
+      if (isNaN(diveLogId)) {
+        return res.status(400).json({ error: "Invalid dive log ID" });
+      }
+      
+      const species = await storage.getDiveLogSpecies(diveLogId);
+      res.json(species);
+    } catch (error) {
+      console.error('Error fetching dive log species:', error);
+      res.status(500).json({ error: "Failed to fetch dive log species" });
+    }
+  });
+
+  app.get('/api/species', async (req: Request, res: Response) => {
+    try {
+      const species = await storage.getAllSpecies();
+      res.json(species);
+    } catch (error) {
+      console.error('Error fetching species:', error);
+      res.status(500).json({ error: "Failed to fetch species" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;

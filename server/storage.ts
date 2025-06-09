@@ -94,6 +94,9 @@ export class MemStorage implements IStorage {
   private diveCenters: Map<number, DiveCenter>;
   private userFavorites: Map<number, UserFavorite>;
   private userSpottedSpecies: Map<number, UserSpottedSpecies>;
+  private diveLogs: Map<number, DiveLog>;
+  private diveLogSpecies: Map<number, DiveLogSpecies>;
+  private waterConditions: Map<number, WaterConditions>;
   
   private currentIds: {
     user: number;
@@ -103,6 +106,9 @@ export class MemStorage implements IStorage {
     photo: number;
     review: number;
     nearbyDiveSite: number;
+    diveLog: number;
+    diveLogSpecies: number;
+    waterConditions: number;
     diveCenter: number;
     userFavorite: number;
     userSpottedSpecies: number;
@@ -119,6 +125,9 @@ export class MemStorage implements IStorage {
     this.diveCenters = new Map();
     this.userFavorites = new Map();
     this.userSpottedSpecies = new Map();
+    this.diveLogs = new Map();
+    this.diveLogSpecies = new Map();
+    this.waterConditions = new Map();
     
     this.currentIds = {
       user: 1,
@@ -127,6 +136,9 @@ export class MemStorage implements IStorage {
       diveSiteSpecies: 1,
       photo: 1,
       review: 1,
+      diveLog: 1,
+      diveLogSpecies: 1,
+      waterConditions: 1,
       nearbyDiveSite: 1,
       diveCenter: 1,
       userFavorite: 1,
@@ -607,7 +619,81 @@ export class MemStorage implements IStorage {
         return {
           species: species!,
           diveSite: diveSite!,
-          dateSpotted: item.dateSpotted
+          dateSpotted: item.dateSpotted || new Date()
+        };
+      })
+    );
+  }
+
+  // Water conditions methods
+  async createWaterConditions(conditions: InsertWaterConditions): Promise<WaterConditions> {
+    const id = this.currentIds.waterConditions++;
+    const timestamp = new Date();
+    const newConditions: WaterConditions = { ...conditions, id, timestamp };
+    this.waterConditions.set(id, newConditions);
+    return newConditions;
+  }
+
+  async getLatestWaterConditions(diveSiteId: number): Promise<WaterConditions | undefined> {
+    const conditions = Array.from(this.waterConditions.values())
+      .filter(c => c.diveSiteId === diveSiteId)
+      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+    return conditions[0];
+  }
+
+  async getWaterConditionsHistory(diveSiteId: number, days: number = 7): Promise<WaterConditions[]> {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+    
+    return Array.from(this.waterConditions.values())
+      .filter(c => c.diveSiteId === diveSiteId && c.timestamp >= cutoffDate)
+      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+  }
+
+  // Dive log methods
+  async createDiveLog(diveLog: InsertDiveLog): Promise<DiveLog> {
+    const id = this.currentIds.diveLog++;
+    const dateLogged = new Date();
+    const newDiveLog: DiveLog = { ...diveLog, id, dateLogged };
+    this.diveLogs.set(id, newDiveLog);
+    return newDiveLog;
+  }
+
+  async getDiveLog(id: number): Promise<DiveLog | undefined> {
+    return this.diveLogs.get(id);
+  }
+
+  async getUserDiveLogs(userId: number): Promise<DiveLog[]> {
+    return Array.from(this.diveLogs.values())
+      .filter(log => log.userId === userId)
+      .sort((a, b) => (b.dateLogged?.getTime() || 0) - (a.dateLogged?.getTime() || 0));
+  }
+
+  async getDiveSiteLogs(diveSiteId: number): Promise<DiveLog[]> {
+    return Array.from(this.diveLogs.values())
+      .filter(log => log.diveSiteId === diveSiteId)
+      .sort((a, b) => (b.dateLogged?.getTime() || 0) - (a.dateLogged?.getTime() || 0));
+  }
+
+  async addSpeciesToDiveLog(diveLogSpecies: InsertDiveLogSpecies): Promise<DiveLogSpecies> {
+    const id = this.currentIds.diveLogSpecies++;
+    const newDiveLogSpecies: DiveLogSpecies = { ...diveLogSpecies, id };
+    this.diveLogSpecies.set(id, newDiveLogSpecies);
+    return newDiveLogSpecies;
+  }
+
+  async getDiveLogSpecies(diveLogId: number): Promise<{species: Species, quantity: number, notes: string}[]> {
+    const diveLogSpeciesList = Array.from(this.diveLogSpecies.values()).filter(
+      item => item.diveLogId === diveLogId
+    );
+    
+    return Promise.all(
+      diveLogSpeciesList.map(async item => {
+        const species = await this.getSpecies(item.speciesId);
+        return {
+          species: species!,
+          quantity: item.quantity || 1,
+          notes: item.notes || ""
         };
       })
     );
@@ -1069,5 +1155,5 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-// Initialize the database storage
-export const storage = new DatabaseStorage();
+// Initialize the in-memory storage (includes dive logging functionality)
+export const storage = new MemStorage();
