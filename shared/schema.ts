@@ -191,3 +191,30 @@ export type InsertUserFavorite = z.infer<typeof insertUserFavoriteSchema>;
 
 export type UserSpottedSpecies = typeof userSpottedSpecies.$inferSelect;
 export type InsertUserSpottedSpecies = z.infer<typeof insertUserSpottedSpeciesSchema>;
+
+// Water conditions tracking table
+export const waterConditions = pgTable("water_conditions", {
+  id: serial("id").primaryKey(),
+  diveSiteId: integer("dive_site_id").notNull().references(() => diveSites.id),
+  timestamp: timestamp("timestamp").notNull().defaultNow(),
+  waterTemp: real("water_temp"), // in celsius
+  visibility: real("visibility"), // in meters
+  currentStrength: text("current_strength"), // None, Light, Moderate, Strong
+  currentDirection: text("current_direction"), // N, NE, E, SE, S, SW, W, NW
+  waveHeight: real("wave_height"), // in meters
+  windSpeed: real("wind_speed"), // in km/h
+  windDirection: text("wind_direction"), // N, NE, E, SE, S, SW, W, NW
+  weatherConditions: text("weather_conditions"), // Sunny, Partly Cloudy, Cloudy, Rainy, Stormy
+  surfaceConditions: text("surface_conditions"), // Calm, Choppy, Rough
+  divingConditions: text("diving_conditions"), // Excellent, Good, Fair, Poor, Dangerous
+  reportedBy: text("reported_by"), // Manual, WeatherAPI, SensorNetwork
+  additionalNotes: text("additional_notes"),
+});
+
+export const insertWaterConditionsSchema = createInsertSchema(waterConditions).omit({
+  id: true,
+  timestamp: true,
+});
+
+export type WaterConditions = typeof waterConditions.$inferSelect;
+export type InsertWaterConditions = z.infer<typeof insertWaterConditionsSchema>;
