@@ -99,7 +99,7 @@ export function InteractiveLessonCard({ lesson }: InteractiveLessonProps) {
               
               <div className="relative bg-white rounded-lg overflow-hidden shadow-2xl">
                 <img 
-                  src="@assets/fmars-04-00173-g001_1749453619615.webp"
+                  src="/attached_assets/fmars-04-00173-g001_1749453619615.webp"
                   alt="Leeuwin Current oceanographic map showing temperature gradients and current flow patterns along Western Australia coast"
                   className="w-full h-auto"
                 />
