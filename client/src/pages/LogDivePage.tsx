@@ -81,11 +81,13 @@ const LogDivePage: React.FC = () => {
   // Create dive log mutation
   const createDiveLogMutation = useMutation({
     mutationFn: async (data: LogDiveFormData & { species: SpeciesSighting[] }) => {
-      const response = await apiRequest('/api/dive-logs', {
+      return apiRequest('/api/dive-logs', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
       });
-      return response;
     },
     onSuccess: () => {
       toast({
