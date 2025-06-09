@@ -34,10 +34,7 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
     queryFn: () => fetchDiveSites(searchQuery, filters)
   });
 
-  // Debug logging
-  console.log('DiveMap - diveSites:', diveSites);
-  console.log('DiveMap - isLoading:', isLoading);
-  console.log('DiveMap - error:', error);
+
   
   // Update map center when a dive site is selected
   useEffect(() => {
@@ -89,17 +86,14 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
         
         <MapCenterControl center={mapCenter} />
         
-        {diveSites && diveSites.map(diveSite => {
-          console.log('Rendering marker for:', diveSite.name, 'at', diveSite.latitude, diveSite.longitude);
-          return (
-            <MapMarker
-              key={diveSite.id}
-              diveSite={diveSite}
-              isActive={diveSite.id === selectedDiveSiteId}
-              onClick={() => onSelectDiveSite(diveSite)}
-            />
-          );
-        })}
+        {diveSites && diveSites.map(diveSite => (
+          <MapMarker
+            key={diveSite.id}
+            diveSite={diveSite}
+            isActive={diveSite.id === selectedDiveSiteId}
+            onClick={() => onSelectDiveSite(diveSite)}
+          />
+        ))}
       </MapContainer>
       
       <div className="absolute top-4 left-4 right-4 z-[400]">
