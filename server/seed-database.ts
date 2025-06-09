@@ -68,6 +68,24 @@ async function seedDatabase() {
       marineLifeRichness: "Extremely High",
       habitats: ["Coral Reef", "Wall Dive", "Atoll"]
     }).returning();
+
+    const [crystalPalace] = await db.insert(diveSites).values({
+      name: "Crystal Palace",
+      difficulty: "Beginner to Intermediate",
+      description: "Known for its brilliant limestone reef systems and elaborate swim-throughs. Divers have noted the unique phenomenon where bubbles rise through holes in the reef, resembling crystals.",
+      location: "Western Australia",
+      country: "Australia",
+      latitude: -32.02668,
+      longitude: 115.54372,
+      current: "Minimal to Moderate",
+      minDepth: 8,
+      maxDepth: 18,
+      visibility: "Very Good",
+      bestTimeToVisit: "October to April",
+      temperature: "18°C to 24°C",
+      marineLifeRichness: "High",
+      habitats: ["Limestone Reef", "Swim-throughs", "Rocky Reef"]
+    }).returning();
     
     // Seed sample species
     console.log('Adding sample marine species...');
@@ -109,6 +127,107 @@ async function seedDatabase() {
       habitats: ["Open Ocean", "Reef Drop-offs", "Cleaning Stations"],
       imageUrl: "https://images.unsplash.com/photo-1547387657-e4e467c0870c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Ray"
+    }).returning();
+
+    // Crystal Palace specific species
+    const [blueGroper] = await db.insert(species).values({
+      commonName: "Blue Groper",
+      scientificName: "Achoerodus gouldii",
+      description: "Large blue fish commonly seen patrolling Western Australian reefs. Males develop a distinctive bright blue coloration.",
+      conservationStatus: "Least Concern",
+      habitats: ["Rocky Reef", "Limestone Reef", "Temperate Reef"],
+      imageUrl: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [westernBlueDevil] = await db.insert(species).values({
+      commonName: "Western Blue Devil",
+      scientificName: "Paraplesiops meleagris",
+      description: "Prefers caves and overhangs of reef systems. Has distinctive blue coloration with spotted patterns.",
+      conservationStatus: "Least Concern",
+      habitats: ["Rocky Reef", "Caves", "Overhangs"],
+      imageUrl: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [harlequinFish] = await db.insert(species).values({
+      commonName: "Harlequin Fish",
+      scientificName: "Othos dentex",
+      description: "Often spotted near reef edges. Known for their distinctive patterned appearance.",
+      conservationStatus: "Least Concern",
+      habitats: ["Reef Edges", "Rocky Reef", "Open Water"],
+      imageUrl: "https://images.unsplash.com/photo-1566551329999-ece81cad59fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [dhufish] = await db.insert(species).values({
+      commonName: "Dhufish",
+      scientificName: "Glaucosoma hebraicum",
+      description: "Inhabits deeper sections of reefs and is naturally wary of divers. Prized by recreational fishers.",
+      conservationStatus: "Near Threatened",
+      habitats: ["Deep Reef", "Rocky Reef", "Continental Shelf"],
+      imageUrl: "https://images.unsplash.com/photo-1574781330855-d0db3eb7e905?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [buffaloBream] = await db.insert(species).values({
+      commonName: "Buffalo Bream",
+      scientificName: "Kyphosus cornelii",
+      description: "Seen grazing in groups across reef systems. Known for their schooling behavior.",
+      conservationStatus: "Least Concern",
+      habitats: ["Rocky Reef", "Seagrass Beds", "Open Water"],
+      imageUrl: "https://images.unsplash.com/photo-1571757767119-68b8dbed8c97?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [wobbegongShark] = await db.insert(species).values({
+      commonName: "Wobbegong Shark",
+      scientificName: "Orectolobus spp.",
+      description: "Lies motionless during the day and becomes active at night. Master of camouflage on reef floors.",
+      conservationStatus: "Least Concern",
+      habitats: ["Rocky Reef", "Sandy Bottom", "Caves"],
+      imageUrl: "https://images.unsplash.com/photo-1593730979057-f14b12c6e0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Shark"
+    }).returning();
+
+    const [portJacksonShark] = await db.insert(species).values({
+      commonName: "Port Jackson Shark",
+      scientificName: "Heterodontus portusjacksoni",
+      description: "Commonly encountered resting in sandy areas during the day. Has distinctive harness-like markings.",
+      conservationStatus: "Least Concern",
+      habitats: ["Sandy Bottom", "Rocky Reef", "Temperate Waters"],
+      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Shark"
+    }).returning();
+
+    const [westernRockLobster] = await db.insert(species).values({
+      commonName: "Western Rock Lobster",
+      scientificName: "Panulirus cygnus",
+      description: "Found in abundance within reef crevices. Commercially important species in Western Australia.",
+      conservationStatus: "Least Concern",
+      habitats: ["Rocky Reef", "Crevices", "Limestone Reef"],
+      imageUrl: "https://images.unsplash.com/photo-1559715541-5daf8a0296fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Crustacean"
+    }).returning();
+
+    const [scalyfin] = await db.insert(species).values({
+      commonName: "Scalyfin",
+      scientificName: "Parma occidentalis",
+      description: "Defends its territory aggressively. Small but feisty fish common on Western Australian reefs.",
+      conservationStatus: "Least Concern",
+      habitats: ["Rocky Reef", "Territorial Areas", "Shallow Reef"],
+      imageUrl: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [moonWrasse] = await db.insert(species).values({
+      commonName: "Moon Wrasse",
+      scientificName: "Thalassoma lunare",
+      description: "Adds vibrant color to the reefscape with its brilliant blue and green patterns.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Rocky Reef", "Tropical Waters"],
+      imageUrl: "https://images.unsplash.com/photo-1570481947811-ef44b2e4b18a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
     }).returning();
     
     // Associate species with dive sites
@@ -159,6 +278,67 @@ async function seedDatabase() {
       diveSiteId: tubbataha.id,
       speciesId: mantaRay.id,
       frequency: "Occasional"
+    });
+
+    // Crystal Palace species associations
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: blueGroper.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: westernBlueDevil.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: harlequinFish.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: dhufish.id,
+      frequency: "Occasional"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: buffaloBream.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: wobbegongShark.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: portJacksonShark.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: westernRockLobster.id,
+      frequency: "Abundant"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: scalyfin.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: crystalPalace.id,
+      speciesId: moonWrasse.id,
+      frequency: "Frequent"
     });
     
     // Add nearby dive sites
