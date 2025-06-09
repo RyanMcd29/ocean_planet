@@ -27,7 +27,7 @@ const MapCenterControl: React.FC<{ center: [number, number] }> = ({ center }) =>
 const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<Record<string, any>>({});
-  const [mapCenter, setMapCenter] = useState<[number, number]>([-16.7525, 146.5361]); // Default to Great Barrier Reef
+  const [mapCenter, setMapCenter] = useState<[number, number]>([0, 20]); // Center on global view
   
   const { data: diveSites, isLoading, error } = useQuery({
     queryKey: ['/api/dive-sites', searchQuery, filters],
@@ -74,7 +74,7 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
     <div className="relative w-full h-full">
       <MapContainer
         center={mapCenter}
-        zoom={6}
+        zoom={3}
         style={{ height: "100%", width: "100%" }}
         zoomControl={false}
         scrollWheelZoom={true}
