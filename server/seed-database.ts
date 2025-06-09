@@ -514,6 +514,23 @@ async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbata
     reportedBy: 'WA Marine Parks',
     additionalNotes: 'Excellent limestone formations with good visibility. Light current ideal for all skill levels.'
   });
+
+  // Roe Reef current conditions
+  await db.insert(waterConditions).values({
+    diveSiteId: roeReef.id,
+    waterTemp: 19,
+    visibility: 15,
+    currentStrength: 'Light to Moderate',
+    currentDirection: 'Southwest',
+    waveHeight: 1.5,
+    windSpeed: 18,
+    windDirection: 'West',
+    weatherConditions: 'Clear',
+    surfaceConditions: 'Slight chop',
+    divingConditions: 'Good',
+    reportedBy: 'Perth Diving Academy',
+    additionalNotes: 'Diverse marine ecosystem with kelp forest. Good visibility with moderate current suitable for intermediate divers.'
+  });
 }
 
 // Export the seed function so it can be called from elsewhere
