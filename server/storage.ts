@@ -5,12 +5,13 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 // Import schema types and tables
 import {
   users, diveSites, species, diveSiteSpecies, photos, reviews,
-  nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies,
+  nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
   type User, type InsertUser, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
   type NearbyDiveSite, type InsertNearbyDiveSite, type DiveCenter, type InsertDiveCenter,
-  type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies
+  type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies,
+  type WaterConditions, type InsertWaterConditions
 } from '@shared/schema';
 
 export interface IStorage {
@@ -64,6 +65,11 @@ export interface IStorage {
   // User spotted species
   addSpottedSpecies(spotted: InsertUserSpottedSpecies): Promise<UserSpottedSpecies>;
   getUserSpottedSpecies(userId: number): Promise<{species: Species, diveSite: DiveSite, dateSpotted: Date}[]>;
+  
+  // Water conditions
+  createWaterConditions(conditions: InsertWaterConditions): Promise<WaterConditions>;
+  getLatestWaterConditions(diveSiteId: number): Promise<WaterConditions | undefined>;
+  getWaterConditionsHistory(diveSiteId: number, days?: number): Promise<WaterConditions[]>;
 }
 
 // In-memory implementation of the storage interface
@@ -1000,6 +1006,56 @@ export class DatabaseStorage implements IStorage {
       .where(eq(userSpottedSpecies.userId, userId));
     
     return results;
+  }
+
+  // Water conditions methods
+  async createWaterConditions(conditions: InsertWaterConditions): Promise<WaterConditions> {
+    const [newConditions] = await db
+      .insert(waterConditions)
+      .values({
+        diveSiteId: conditions.diveSiteId,
+        waterTemp: conditions.waterTemp || null,
+        visibility: conditions.visibility || null,
+        currentStrength: conditions.currentStrength || null,
+        currentDirection: conditions.currentDirection || null,
+        waveHeight: conditions.waveHeight || null,
+        windSpeed: conditions.windSpeed || null,
+        windDirection: conditions.windDirection || null,
+        weatherConditions: conditions.weatherConditions || null,
+        surfaceConditions: conditions.surfaceConditions || null,
+        divingConditions: conditions.divingConditions || null,
+        reportedBy: conditions.reportedBy || null,
+        additionalNotes: conditions.additionalNotes || null
+      })
+      .returning();
+    return newConditions;
+  }
+
+  async getLatestWaterConditions(diveSiteId: number): Promise<WaterConditions | undefined> {
+    const [latestConditions] = await db
+      .select()
+      .from(waterConditions)
+      .where(eq(waterConditions.diveSiteId, diveSiteId))
+      .orderBy(sql`${waterConditions.timestamp} DESC`)
+      .limit(1);
+    return latestConditions || undefined;
+  }
+
+  async getWaterConditionsHistory(diveSiteId: number, days: number = 7): Promise<WaterConditions[]> {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+    
+    const conditions = await db
+      .select()
+      .from(waterConditions)
+      .where(
+        and(
+          eq(waterConditions.diveSiteId, diveSiteId),
+          gte(waterConditions.timestamp, cutoffDate)
+        )
+      )
+      .orderBy(sql`${waterConditions.timestamp} DESC`);
+    return conditions;
   }
 }
 
