@@ -1,5 +1,5 @@
 import { db } from './db';
-import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters } from "@shared/schema";
+import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, waterConditions } from "@shared/schema";
 
 async function seedDatabase() {
   console.log('Starting database seeding...');
@@ -385,7 +385,7 @@ async function seedDatabase() {
     });
 
     // Seed water conditions
-    await seedWaterConditions();
+    await seedWaterConditions(greatBarrierReef, bluehole, tubbataha, crystalPalace);
 
     // Add educational content for the Learn feature
     console.log('Database seeding complete!');
@@ -395,12 +395,12 @@ async function seedDatabase() {
   }
 }
 
-async function seedWaterConditions() {
+async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbataha: any, crystalPalace: any) {
   console.log('Seeding water conditions...');
   
   // Great Barrier Reef current conditions
-  await storage.createWaterConditions({
-    diveSiteId: 1,
+  await db.insert(waterConditions).values({
+    diveSiteId: greatBarrierReef.id,
     waterTemp: 26,
     visibility: 30,
     currentStrength: 'Light',
@@ -416,8 +416,8 @@ async function seedWaterConditions() {
   });
 
   // Blue Hole current conditions
-  await storage.createWaterConditions({
-    diveSiteId: 2,
+  await db.insert(waterConditions).values({
+    diveSiteId: bluehole.id,
     waterTemp: 24,
     visibility: 45,
     currentStrength: 'Moderate',
@@ -433,8 +433,8 @@ async function seedWaterConditions() {
   });
 
   // Tubbataha Reefs current conditions
-  await storage.createWaterConditions({
-    diveSiteId: 3,
+  await db.insert(waterConditions).values({
+    diveSiteId: tubbataha.id,
     waterTemp: 28,
     visibility: 25,
     currentStrength: 'Strong',
@@ -449,21 +449,21 @@ async function seedWaterConditions() {
     additionalNotes: 'Strong currents present. Recommended for experienced divers only.'
   });
 
-  // Roe Reef current conditions
-  await storage.createWaterConditions({
-    diveSiteId: 4,
+  // Crystal Palace current conditions
+  await db.insert(waterConditions).values({
+    diveSiteId: crystalPalace.id,
     waterTemp: 18,
-    visibility: 15,
+    visibility: 20,
     currentStrength: 'Light',
     currentDirection: 'West',
-    waveHeight: 1.5,
-    windSpeed: 18,
+    waveHeight: 1.2,
+    windSpeed: 16,
     windDirection: 'Southwest',
-    weatherConditions: 'Cloudy',
-    surfaceConditions: 'Moderate',
-    divingConditions: 'Fair',
-    reportedBy: 'Perth Diving Club',
-    additionalNotes: 'Cooler water temperature typical for Perth winter. Reduced visibility due to recent storms.'
+    weatherConditions: 'Partly cloudy',
+    surfaceConditions: 'Calm',
+    divingConditions: 'Good',
+    reportedBy: 'WA Marine Parks',
+    additionalNotes: 'Excellent limestone formations with good visibility. Light current ideal for all skill levels.'
   });
 }
 
