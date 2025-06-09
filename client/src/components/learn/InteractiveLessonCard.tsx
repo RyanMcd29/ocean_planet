@@ -75,161 +75,240 @@ export function InteractiveLessonCard({ lesson }: InteractiveLessonProps) {
       case "map":
         return (
           <div className="space-y-4">
-            <div className="relative bg-gradient-to-br from-blue-100 to-blue-50 rounded-lg p-6 min-h-[400px] border-2 border-blue-200">
+            <div className="relative bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 rounded-lg p-6 min-h-[500px] border border-slate-200 shadow-lg">
               <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-10">
-                <Badge variant="secondary" className="bg-orange-100 text-orange-800 shadow-lg">
+                <Badge variant="secondary" className="bg-amber-100 text-amber-800 border border-amber-200 shadow-sm">
                   <Thermometer className="h-3 w-3 mr-1" />
-                  Warm Poleward Current
+                  Leeuwin Current System
                 </Badge>
               </div>
               
-              {/* More accurate Western Australia map */}
-              <svg viewBox="0 0 500 400" className="w-full h-full">
-                {/* Ocean background */}
-                <rect x="0" y="0" width="500" height="400" fill="#bfdbfe" opacity="0.3" />
+              {/* Professional oceanographic map */}
+              <svg viewBox="0 0 600 500" className="w-full h-full">
+                {/* Ocean depth zones */}
+                <defs>
+                  <radialGradient id="deepOcean" cx="0%" cy="0%" r="100%">
+                    <stop offset="0%" stopColor="#1e3a8a" stopOpacity="0.3" />
+                    <stop offset="50%" stopColor="#1e40af" stopOpacity="0.2" />
+                    <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.1" />
+                  </radialGradient>
+                  
+                  <linearGradient id="currentGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#dc2626" stopOpacity="0.9" />
+                    <stop offset="50%" stopColor="#ea580c" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.7" />
+                  </linearGradient>
+                </defs>
                 
-                {/* Western Australia coastline - more accurate shape */}
+                {/* Deep ocean background */}
+                <rect x="0" y="0" width="600" height="500" fill="url(#deepOcean)" />
+                
+                {/* Continental shelf */}
                 <path 
-                  d="M 80 60 
-                     L 85 45 
-                     L 120 35 
-                     L 160 40 
-                     L 200 50 
-                     L 240 65 
-                     L 280 85 
-                     L 320 110 
-                     L 350 140 
-                     L 370 170 
-                     L 380 200 
-                     L 385 230 
-                     L 380 260 
-                     L 370 290 
-                     L 350 320 
-                     L 320 340 
-                     L 280 350 
-                     L 240 355 
-                     L 200 350 
-                     L 160 340 
-                     L 120 320 
-                     L 100 300 
-                     L 85 280 
-                     L 80 260 
-                     L 82 240 
-                     L 85 220 
-                     L 82 200 
-                     L 80 180 
-                     L 78 160 
-                     L 75 140 
-                     L 72 120 
-                     L 75 100 
-                     L 78 80 
+                  d="M 50 80 Q 45 120 50 160 Q 55 200 60 240 Q 65 280 70 320 Q 75 360 85 400 Q 100 430 120 450 Q 150 465 180 470 Q 220 475 260 470"
+                  fill="none"
+                  stroke="#06b6d4"
+                  strokeWidth="2"
+                  strokeDasharray="4 2"
+                  opacity="0.6"
+                />
+                
+                {/* Western Australia coastline - scientifically accurate */}
+                <path 
+                  d="M 110 70 
+                     L 115 50 
+                     L 140 40 
+                     L 170 42 
+                     L 200 48 
+                     L 230 58 
+                     L 260 72 
+                     L 290 90 
+                     L 320 112 
+                     L 350 138 
+                     L 380 168 
+                     L 400 200 
+                     L 410 235 
+                     L 415 270 
+                     L 410 305 
+                     L 400 340 
+                     L 385 375 
+                     L 365 405 
+                     L 340 430 
+                     L 310 445 
+                     L 275 455 
+                     L 240 460 
+                     L 205 458 
+                     L 170 450 
+                     L 140 435 
+                     L 115 415 
+                     L 100 390 
+                     L 90 360 
+                     L 85 330 
+                     L 88 300 
+                     L 92 270 
+                     L 90 240 
+                     L 88 210 
+                     L 85 180 
+                     L 82 150 
+                     L 85 120 
+                     L 90 90 
                      Z"
-                  fill="#d1fae5"
-                  stroke="#059669"
+                  fill="#f0fdf4"
+                  stroke="#16a34a"
                   strokeWidth="2"
                 />
                 
-                {/* Leeuwin Current main flow - more accurate path */}
+                {/* Major geographic features */}
+                <text x="125" y="65" fontSize="11" fontWeight="bold" fill="#059669">North West Cape</text>
+                <text x="160" y="440" fontSize="11" fontWeight="bold" fill="#dc2626">Cape Leeuwin</text>
+                <text x="380" y="420" fontSize="10" fill="#059669">Great Australian Bight</text>
+                
+                {/* Leeuwin Current main flow - following continental shelf */}
                 <path 
-                  d="M 40 85 
-                     Q 35 110 38 140 
-                     Q 42 170 45 200 
-                     Q 48 230 52 260 
-                     Q 55 290 60 320 
-                     Q 65 340 75 355 
-                     Q 90 365 110 368 
-                     Q 130 370 150 365"
+                  d="M 60 95 
+                     Q 55 125 58 155 
+                     Q 62 185 66 215 
+                     Q 70 245 74 275 
+                     Q 78 305 82 335 
+                     Q 86 365 92 390 
+                     Q 100 415 115 435 
+                     Q 135 450 160 460 
+                     Q 190 468 225 470 
+                     Q 260 472 295 468 
+                     Q 330 464 365 455"
+                  fill="none"
+                  stroke="url(#currentGradient)"
+                  strokeWidth="8"
+                  opacity="0.9"
+                />
+                
+                {/* Current velocity indicators - thicker where stronger */}
+                <path 
+                  d="M 70 275 Q 85 285 100 290"
+                  fill="none"
+                  stroke="#f97316"
+                  strokeWidth="6"
+                  opacity="0.7"
+                />
+                
+                <path 
+                  d="M 92 390 Q 110 400 130 405"
+                  fill="none"
+                  stroke="#f97316"
+                  strokeWidth="6"
+                  opacity="0.7"
+                />
+                
+                {/* Capes Leeuwin - strongest flow indicator */}
+                <path 
+                  d="M 115 435 Q 140 445 170 450"
                   fill="none"
                   stroke="#dc2626"
-                  strokeWidth="6"
-                  strokeDasharray="12 6"
+                  strokeWidth="10"
                   opacity="0.8"
                 />
                 
-                {/* Secondary current branches */}
-                <path 
-                  d="M 52 260 Q 65 270 80 275"
-                  fill="none"
-                  stroke="#f97316"
-                  strokeWidth="4"
-                  strokeDasharray="8 4"
-                  opacity="0.6"
-                />
+                {/* Current direction arrows - more scientific style */}
+                <g>
+                  <polygon points="55,105 48,115 62,110" fill="#dc2626" />
+                  <polygon points="60,160 53,170 67,165" fill="#dc2626" />
+                  <polygon points="68,220 61,230 75,225" fill="#dc2626" />
+                  <polygon points="76,280 69,290 83,285" fill="#dc2626" />
+                  <polygon points="84,340 77,350 91,345" fill="#dc2626" />
+                  <polygon points="95,395 88,405 102,400" fill="#dc2626" />
+                  <polygon points="120,440 113,450 127,445" fill="#dc2626" />
+                  <polygon points="165,455 158,465 172,460" fill="#dc2626" />
+                  <polygon points="230,470 223,480 237,475" fill="#dc2626" />
+                  <polygon points="300,465 293,475 307,470" fill="#dc2626" />
+                </g>
                 
-                <path 
-                  d="M 60 320 Q 75 325 95 330"
-                  fill="none"
-                  stroke="#f97316"
-                  strokeWidth="4"
-                  strokeDasharray="8 4"
-                  opacity="0.6"
-                />
+                {/* Temperature isotherms */}
+                <g opacity="0.6">
+                  <circle cx="45" cy="100" r="12" fill="none" stroke="#dc2626" strokeWidth="2" strokeDasharray="3 2" />
+                  <text x="38" y="105" fontSize="10" fontWeight="bold" fill="#dc2626">24°C</text>
+                  
+                  <circle cx="50" cy="170" r="15" fill="none" stroke="#ea580c" strokeWidth="2" strokeDasharray="3 2" />
+                  <text x="42" y="176" fontSize="10" fontWeight="bold" fill="#ea580c">22°C</text>
+                  
+                  <circle cx="58" cy="280" r="18" fill="none" stroke="#f59e0b" strokeWidth="2" strokeDasharray="3 2" />
+                  <text x="49" y="286" fontSize="10" fontWeight="bold" fill="#f59e0b">20°C</text>
+                  
+                  <circle cx="85" cy="395" r="20" fill="none" stroke="#f97316" strokeWidth="2" strokeDasharray="3 2" />
+                  <text x="76" y="401" fontSize="10" fontWeight="bold" fill="#f97316">18°C</text>
+                </g>
                 
-                {/* Current direction arrows */}
-                <polygon points="35,95 30,105 45,100" fill="#dc2626" />
-                <polygon points="40,145 35,155 50,150" fill="#dc2626" />
-                <polygon points="45,195 40,205 55,200" fill="#dc2626" />
-                <polygon points="50,245 45,255 60,250" fill="#dc2626" />
-                <polygon points="55,295 50,305 65,300" fill="#dc2626" />
-                <polygon points="65,335 60,345 75,340" fill="#dc2626" />
+                {/* Key marine locations - accurately positioned */}
+                <g>
+                  <circle cx="125" cy="105" r="6" fill="#1e40af" stroke="#ffffff" strokeWidth="2" />
+                  <text x="135" y="110" fontSize="11" fontWeight="bold" fill="#1e40af">Perth</text>
+                  
+                  <circle cx="140" cy="115" r="4" fill="#2563eb" />
+                  <text x="148" y="120" fontSize="9" fill="#2563eb">Rottnest Island</text>
+                  
+                  <circle cx="165" cy="150" r="4" fill="#2563eb" />
+                  <text x="173" y="155" fontSize="9" fill="#2563eb">Geraldton</text>
+                  
+                  <circle cx="210" cy="220" r="4" fill="#2563eb" />
+                  <text x="218" y="225" fontSize="9" fill="#2563eb">Shark Bay</text>
+                  
+                  <circle cx="280" cy="140" r="4" fill="#2563eb" />
+                  <text x="288" y="145" fontSize="9" fill="#2563eb">Ningaloo Reef</text>
+                  
+                  <circle cx="350" cy="180" r="4" fill="#2563eb" />
+                  <text x="358" y="185" fontSize="9" fill="#2563eb">Exmouth</text>
+                  
+                  <circle cx="360" cy="210" r="4" fill="#2563eb" />
+                  <text x="368" y="215" fontSize="9" fill="#2563eb">Coral Bay</text>
+                </g>
                 
-                {/* Temperature indicators */}
-                <circle cx="30" cy="90" r="8" fill="#fca5a5" opacity="0.7" />
-                <text x="26" y="95" fontSize="10" fontWeight="bold" fill="#dc2626">24°</text>
+                {/* Oceanographic features */}
+                <text x="25" y="200" fontSize="9" fill="#0ea5e9" transform="rotate(-90 25 200)">INDIAN OCEAN</text>
+                <text x="450" y="300" fontSize="9" fill="#0ea5e9">Continental Shelf</text>
                 
-                <circle cx="35" cy="150" r="8" fill="#fca5a5" opacity="0.7" />
-                <text x="31" y="155" fontSize="10" fontWeight="bold" fill="#dc2626">22°</text>
+                {/* Scale bar */}
+                <g transform="translate(450, 420)">
+                  <line x1="0" y1="0" x2="50" y2="0" stroke="#374151" strokeWidth="2" />
+                  <line x1="0" y1="-3" x2="0" y2="3" stroke="#374151" strokeWidth="2" />
+                  <line x1="50" y1="-3" x2="50" y2="3" stroke="#374151" strokeWidth="2" />
+                  <text x="25" y="15" fontSize="8" textAnchor="middle" fill="#374151">500 km</text>
+                </g>
                 
-                <circle cx="45" cy="250" r="8" fill="#fca5a5" opacity="0.7" />
-                <text x="41" y="255" fontSize="10" fontWeight="bold" fill="#dc2626">20°</text>
-                
-                {/* Key locations with better positioning */}
-                <circle cx="95" cy="85" r="5" fill="#1d4ed8" />
-                <text x="105" y="90" fontSize="12" fontWeight="bold" fill="#1d4ed8">Perth</text>
-                
-                <circle cx="110" cy="95" r="4" fill="#2563eb" />
-                <text x="120" y="100" fontSize="10" fill="#2563eb">Rottnest</text>
-                
-                <circle cx="150" cy="140" r="4" fill="#2563eb" />
-                <text x="160" y="145" fontSize="10" fill="#2563eb">Geraldton</text>
-                
-                <circle cx="200" cy="200" r="4" fill="#2563eb" />
-                <text x="210" y="205" fontSize="10" fill="#2563eb">Shark Bay</text>
-                
-                <circle cx="280" cy="120" r="4" fill="#2563eb" />
-                <text x="290" y="125" fontSize="10" fill="#2563eb">Ningaloo</text>
-                
-                <circle cx="350" cy="160" r="4" fill="#2563eb" />
-                <text x="360" y="165" fontSize="10" fill="#2563eb">Exmouth</text>
-                
-                {/* Cape Leeuwin marker */}
-                <circle cx="120" cy="320" r="5" fill="#dc2626" />
-                <text x="130" y="325" fontSize="11" fontWeight="bold" fill="#dc2626">Cape Leeuwin</text>
-                
-                {/* Compass */}
-                <g transform="translate(450, 50)">
-                  <circle cx="0" cy="0" r="20" fill="white" stroke="#374151" strokeWidth="2" />
-                  <polygon points="0,-15 -5,5 0,0 5,5" fill="#dc2626" />
-                  <text x="-3" y="-18" fontSize="8" fill="#dc2626">N</text>
+                {/* Professional compass rose */}
+                <g transform="translate(520, 70)">
+                  <circle cx="0" cy="0" r="25" fill="white" stroke="#374151" strokeWidth="2" opacity="0.9" />
+                  <polygon points="0,-20 -6,8 0,3 6,8" fill="#dc2626" />
+                  <polygon points="0,20 -6,-8 0,-3 6,-8" fill="#6b7280" />
+                  <text x="-4" y="-25" fontSize="10" fontWeight="bold" fill="#dc2626">N</text>
+                  <text x="20" y="4" fontSize="8" fill="#6b7280">E</text>
+                  <text x="-4" y="35" fontSize="8" fill="#6b7280">S</text>
+                  <text x="-25" y="4" fontSize="8" fill="#6b7280">W</text>
                 </g>
               </svg>
               
-              <div className="absolute bottom-4 left-4 bg-white/90 rounded-lg p-3 space-y-2 shadow-lg">
-                <div className="flex items-center text-sm font-medium">
-                  <div className="w-6 h-2 bg-red-600 mr-2 rounded"></div>
-                  <span>Leeuwin Current (warm)</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <div className="w-6 h-2 bg-orange-500 mr-2 rounded"></div>
-                  <span>Secondary flows</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <MapPin className="h-4 w-4 text-blue-600 mr-2" />
-                  <span>Major dive sites</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <div className="w-4 h-4 bg-red-200 rounded-full mr-2"></div>
-                  <span>Water temperature (°C)</span>
+              {/* Professional legend */}
+              <div className="absolute bottom-4 left-4 bg-white/95 rounded-lg p-4 space-y-3 shadow-lg border border-slate-200 backdrop-blur-sm">
+                <h4 className="font-semibold text-sm text-slate-700 border-b border-slate-200 pb-1">Current System</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center text-xs">
+                    <div className="w-8 h-2 bg-gradient-to-r from-red-600 to-orange-500 mr-2 rounded"></div>
+                    <span>Leeuwin Current (poleward flow)</span>
+                  </div>
+                  <div className="flex items-center text-xs">
+                    <div className="w-8 h-2 bg-orange-500 mr-2 rounded"></div>
+                    <span>Secondary coastal flows</span>
+                  </div>
+                  <div className="flex items-center text-xs">
+                    <div className="w-3 h-3 border-2 border-red-600 rounded-full mr-2"></div>
+                    <span>Temperature isotherms</span>
+                  </div>
+                  <div className="flex items-center text-xs">
+                    <MapPin className="h-3 w-3 text-blue-600 mr-2" />
+                    <span>Marine ecosystems</span>
+                  </div>
+                  <div className="flex items-center text-xs">
+                    <div className="w-3 h-1 border border-cyan-500 mr-2"></div>
+                    <span>Continental shelf edge</span>
+                  </div>
                 </div>
               </div>
             </div>
