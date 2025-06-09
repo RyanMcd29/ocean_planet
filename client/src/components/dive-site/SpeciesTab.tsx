@@ -57,8 +57,8 @@ const SpeciesTab: React.FC<SpeciesTabProps> = ({ diveSiteId }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="">All Categories</SelectItem>
-              {categories.map((category) => (
-                <SelectItem key={category} value={category}>
+              {categories.filter(Boolean).map((category) => (
+                <SelectItem key={category} value={category || ""}>
                   {category}
                 </SelectItem>
               ))}
@@ -71,8 +71,8 @@ const SpeciesTab: React.FC<SpeciesTabProps> = ({ diveSiteId }) => {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="">All Statuses</SelectItem>
-              {conservationStatuses.map((status) => (
-                <SelectItem key={status} value={status}>
+              {conservationStatuses.filter(Boolean).map((status) => (
+                <SelectItem key={status} value={status || ""}>
                   {status}
                 </SelectItem>
               ))}
