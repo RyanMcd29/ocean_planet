@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { DiveSite } from "@shared/schema";
 import MapMarker from "./MapMarker";
+import RegionalCluster from "./RegionalCluster";
 import MapFilters from "./MapFilters";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDiveSites } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
+import { clusterDiveSites, getRegionBounds } from "@/utils/mapClustering";
 
 interface DiveMapProps {
   onSelectDiveSite: (diveSite: DiveSite) => void;
@@ -24,17 +26,31 @@ const MapCenterControl: React.FC<{ center: [number, number] }> = ({ center }) =>
   return null;
 };
 
+// Component to handle zoom events and update clustering
+const ZoomHandler: React.FC<{ onZoomChange: (zoom: number) => void }> = ({ onZoomChange }) => {
+  const map = useMapEvents({
+    zoomend: () => {
+      onZoomChange(map.getZoom());
+    },
+  });
+  return null;
+};
+
 const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [mapCenter, setMapCenter] = useState<[number, number]>([0, 20]); // Center on global view
+  const [currentZoom, setCurrentZoom] = useState(3);
   
   const { data: diveSites, isLoading, error } = useQuery({
     queryKey: ['/api/dive-sites', searchQuery, filters],
     queryFn: () => fetchDiveSites(searchQuery, filters)
   });
 
-
+  // Cluster dive sites based on zoom level
+  const { clusters, individualSites } = diveSites 
+    ? clusterDiveSites(diveSites, currentZoom)
+    : { clusters: [], individualSites: [] };
   
   // Update map center when a dive site is selected
   useEffect(() => {
@@ -45,6 +61,15 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
       }
     }
   }, [selectedDiveSiteId, diveSites]);
+
+  const handleClusterClick = (clusterSites: DiveSite[]) => {
+    const bounds = getRegionBounds(clusterSites);
+    const centerLat = (bounds.minLat + bounds.maxLat) / 2;
+    const centerLng = (bounds.minLng + bounds.maxLng) / 2;
+    
+    setMapCenter([centerLat, centerLng]);
+    setCurrentZoom(6); // Zoom in to show individual sites
+  };
   
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);

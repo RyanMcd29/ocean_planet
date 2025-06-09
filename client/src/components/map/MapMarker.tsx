@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, useMap } from "react-leaflet";
 import { Icon, divIcon } from "leaflet";
 import { DiveSite } from "@shared/schema";
 import { Link } from "wouter";
@@ -11,44 +11,63 @@ interface MapMarkerProps {
 }
 
 const MapMarker: React.FC<MapMarkerProps> = ({ diveSite, isActive, onClick }) => {
-  // Create custom dive flag marker icons
+  const map = useMap();
+  
+  // Create responsive dive flag marker icons based on zoom level
   const icon = useMemo(() => {
+    const zoom = map.getZoom();
     const flagColor = isActive ? '#EB6440' : '#0A4D68';
+    
+    // Scale flag size based on zoom level
+    let flagWidth, flagHeight, poleHeight, poleWidth;
+    if (zoom <= 3) {
+      flagWidth = 12; flagHeight = 8; poleHeight = 20; poleWidth = 1.5;
+    } else if (zoom <= 5) {
+      flagWidth = 16; flagHeight = 10; poleHeight = 24; poleWidth = 2;
+    } else {
+      flagWidth = 20; flagHeight = 12; poleHeight = 28; poleWidth = 2;
+    }
+    
+    const totalWidth = flagWidth + 4;
+    const totalHeight = poleHeight + 2;
+    
     return divIcon({
       html: `
         <div style="
           position: relative;
-          width: 24px;
-          height: 32px;
+          width: ${totalWidth}px;
+          height: ${totalHeight}px;
+          cursor: pointer;
         ">
           <!-- Flag pole -->
           <div style="
             position: absolute;
             left: 2px;
             top: 0;
-            width: 2px;
-            height: 32px;
+            width: ${poleWidth}px;
+            height: ${poleHeight}px;
             background-color: #333;
           "></div>
           <!-- Flag -->
           <div style="
             position: absolute;
-            left: 4px;
+            left: ${2 + poleWidth}px;
             top: 2px;
-            width: 18px;
-            height: 12px;
+            width: ${flagWidth}px;
+            height: ${flagHeight}px;
             background: linear-gradient(to right, white 0%, white 50%, ${flagColor} 50%, ${flagColor} 100%);
             border: 1px solid #333;
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease;
           "></div>
         </div>
       `,
       className: 'custom-dive-flag-icon',
-      iconSize: [24, 32],
-      iconAnchor: [2, 32],
-      popupAnchor: [12, -32],
+      iconSize: [totalWidth, totalHeight],
+      iconAnchor: [2, totalHeight],
+      popupAnchor: [totalWidth/2, -totalHeight],
     });
-  }, [isActive]);
+  }, [isActive, map]);
 
   return (
     <Marker
