@@ -64,14 +64,7 @@ const Header: React.FC = () => {
               Learn
             </a>
           </Link>
-          <Link href="/research">
-            <a className={cn(
-              "hover:text-[#05BFDB] transition duration-200",
-              isActive("/research") && "text-[#05BFDB]"
-            )}>
-              Research
-            </a>
-          </Link>
+
         </nav>
         
         <div className="flex items-center space-x-3">
@@ -120,11 +113,7 @@ const Header: React.FC = () => {
                 Learn
               </a>
             </Link>
-            <Link href="/research">
-              <a className="text-white hover:text-[#E0F7FA] py-2 font-montserrat">
-                Research
-              </a>
-            </Link>
+
             <Button className="w-full bg-[#EB6440] hover:bg-[#FFAB91] text-white">
               Log Dive
             </Button>
