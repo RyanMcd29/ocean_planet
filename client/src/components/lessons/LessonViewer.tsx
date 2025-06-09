@@ -39,19 +39,10 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
   const [showExplanation, setShowExplanation] = useState(false);
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
 
-  // Debug logging
-  console.log('LessonViewer - lesson:', lesson);
-  console.log('LessonViewer - lesson.steps:', lesson.steps);
-  console.log('LessonViewer - currentStep:', currentStep);
-
   const currentContent = lesson.steps[currentStep];
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep === lesson.steps.length - 1;
   const progress = ((currentStep + 1) / lesson.steps.length) * 100;
-
-  console.log('LessonViewer - currentContent:', currentContent);
-  console.log('LessonViewer - isFirstStep:', isFirstStep);
-  console.log('LessonViewer - isLastStep:', isLastStep);
 
   const handleNext = () => {
     if (!isLastStep) {
