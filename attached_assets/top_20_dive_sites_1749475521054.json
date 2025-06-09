@@ -1,0 +1,308 @@
+[
+  {
+    "name": "Barracuda Point",
+    "location": "Sipadan Island, Malaysia",
+    "coordinates": {
+      "latitude": 4.114,
+      "longitude": 118.628
+    },
+    "depthRange": "5\u201340m",
+    "marineLife": [
+      "Barracuda",
+      "Reef Sharks",
+      "Turtles",
+      "Jacks",
+      "Bumphead Parrotfish"
+    ],
+    "highlights": "Strong currents, large pelagic fish schools"
+  },
+  {
+    "name": "Blue Corner",
+    "location": "Palau",
+    "coordinates": {
+      "latitude": 7.258,
+      "longitude": 134.244
+    },
+    "depthRange": "15\u201330m",
+    "marineLife": [
+      "Sharks",
+      "Barracuda",
+      "Eagle Rays",
+      "Napoleon Wrasse"
+    ],
+    "highlights": "Dramatic wall dive with strong currents"
+  },
+  {
+    "name": "The Yongala",
+    "location": "Queensland, Australia",
+    "coordinates": {
+      "latitude": -18.46,
+      "longitude": 147.62
+    },
+    "depthRange": "15\u201330m",
+    "marineLife": [
+      "Manta Rays",
+      "Sea Snakes",
+      "Turtles",
+      "Bull Sharks",
+      "Tiger Sharks"
+    ],
+    "highlights": "Historic shipwreck rich in marine biodiversity"
+  },
+  {
+    "name": "Thistlegorm",
+    "location": "Red Sea, Egypt",
+    "coordinates": {
+      "latitude": 27.81,
+      "longitude": 33.921
+    },
+    "depthRange": "16\u201333m",
+    "marineLife": [
+      "Lionfish",
+      "Stonefish",
+      "Scorpionfish",
+      "Batfish"
+    ],
+    "highlights": "WWII wreck with preserved cargo"
+  },
+  {
+    "name": "Great Blue Hole",
+    "location": "Belize",
+    "coordinates": {
+      "latitude": 17.315,
+      "longitude": -87.534
+    },
+    "depthRange": "10\u2013124m",
+    "marineLife": [
+      "Reef Sharks",
+      "Groupers",
+      "Giant Stalactites"
+    ],
+    "highlights": "Underwater sinkhole with unique formations"
+  },
+  {
+    "name": "Richelieu Rock",
+    "location": "Thailand",
+    "coordinates": {
+      "latitude": 9.272,
+      "longitude": 98.017
+    },
+    "depthRange": "5\u201335m",
+    "marineLife": [
+      "Whale Sharks",
+      "Seahorses",
+      "Harlequin Shrimp",
+      "Manta Rays"
+    ],
+    "highlights": "Horseshoe-shaped reef, macro and pelagic species"
+  },
+  {
+    "name": "Aliwal Shoal",
+    "location": "South Africa",
+    "coordinates": {
+      "latitude": -30.221,
+      "longitude": 30.798
+    },
+    "depthRange": "6\u201327m",
+    "marineLife": [
+      "Ragged-tooth Sharks",
+      "Turtles",
+      "Eagle Rays",
+      "Manta Rays"
+    ],
+    "highlights": "Shark diving hotspot"
+  },
+  {
+    "name": "Silfra Fissure",
+    "location": "Iceland",
+    "coordinates": {
+      "latitude": 64.255,
+      "longitude": -21.12
+    },
+    "depthRange": "10\u201318m",
+    "marineLife": [],
+    "highlights": "Crystal clear freshwater dive between tectonic plates"
+  },
+  {
+    "name": "Wolf and Darwin Islands",
+    "location": "Gal\u00e1pagos, Ecuador",
+    "coordinates": {
+      "latitude": 1.678,
+      "longitude": -91.753
+    },
+    "depthRange": "10\u201340m",
+    "marineLife": [
+      "Hammerhead Sharks",
+      "Whale Sharks",
+      "Manta Rays",
+      "Turtles"
+    ],
+    "highlights": "Diverse megafauna and large pelagics"
+  },
+  {
+    "name": "SS President Coolidge",
+    "location": "Vanuatu",
+    "coordinates": {
+      "latitude": -15.522,
+      "longitude": 167.222
+    },
+    "depthRange": "20\u201360m",
+    "marineLife": [
+      "Lionfish",
+      "Moray Eels",
+      "Ghost Pipefish"
+    ],
+    "highlights": "Massive luxury liner turned WWII troopship"
+  },
+  {
+    "name": "Bajo Alcyone",
+    "location": "Cocos Island, Costa Rica",
+    "coordinates": {
+      "latitude": 5.528,
+      "longitude": -87.033
+    },
+    "depthRange": "25\u201340m",
+    "marineLife": [
+      "Hammerhead Sharks",
+      "Manta Rays",
+      "Whale Sharks",
+      "Dolphins"
+    ],
+    "highlights": "Seamount with large pelagic species"
+  },
+  {
+    "name": "Manta Night Dive",
+    "location": "Kona, Hawaii, USA",
+    "coordinates": {
+      "latitude": 19.64,
+      "longitude": -156.0
+    },
+    "depthRange": "10\u201315m",
+    "marineLife": [
+      "Manta Rays",
+      "Plankton"
+    ],
+    "highlights": "Night dive with feeding manta rays"
+  },
+  {
+    "name": "Cenote Angelita",
+    "location": "Tulum, Mexico",
+    "coordinates": {
+      "latitude": 20.123,
+      "longitude": -87.6
+    },
+    "depthRange": "10\u201360m",
+    "marineLife": [],
+    "highlights": "Mystical underwater river effect from hydrogen sulfide layer"
+  },
+  {
+    "name": "Tiger Beach",
+    "location": "Grand Bahama Island, Bahamas",
+    "coordinates": {
+      "latitude": 26.783,
+      "longitude": -79.033
+    },
+    "depthRange": "6\u201312m",
+    "marineLife": [
+      "Tiger Sharks",
+      "Lemon Sharks",
+      "Nurse Sharks",
+      "Reef Sharks"
+    ],
+    "highlights": "Shallow dive with tiger shark encounters"
+  },
+  {
+    "name": "Secret Bay (Manit Muck)",
+    "location": "Anilao, Philippines",
+    "coordinates": {
+      "latitude": 13.75,
+      "longitude": 120.9
+    },
+    "depthRange": "3\u201321m",
+    "marineLife": [
+      "Mantis Shrimp",
+      "Nudibranchs",
+      "Gobies",
+      "Octopuses"
+    ],
+    "highlights": "Critter dive site great for macro photography"
+  },
+  {
+    "name": "Cape Kri",
+    "location": "Raja Ampat, Indonesia",
+    "coordinates": {
+      "latitude": -0.53,
+      "longitude": 130.7
+    },
+    "depthRange": "5\u201340m",
+    "marineLife": [
+      "Barracudas",
+      "Sharks",
+      "Groupers"
+    ],
+    "highlights": "Record for most fish species in one dive"
+  },
+  {
+    "name": "1000 Steps",
+    "location": "Bonaire",
+    "coordinates": {
+      "latitude": 12.201,
+      "longitude": -68.292
+    },
+    "depthRange": "6\u201330m",
+    "marineLife": [
+      "Parrotfish",
+      "Angelfish",
+      "Sea Turtles",
+      "Sponges"
+    ],
+    "highlights": "Beautiful coral gardens on a shore dive"
+  },
+  {
+    "name": "Tiputa Pass",
+    "location": "Rangiroa, French Polynesia",
+    "coordinates": {
+      "latitude": -14.973,
+      "longitude": -147.628
+    },
+    "depthRange": "10\u201335m",
+    "marineLife": [
+      "Grey Sharks",
+      "Dolphins",
+      "Manta Rays",
+      "Napoleon Wrasse"
+    ],
+    "highlights": "Channel dive with strong currents and big life"
+  },
+  {
+    "name": "Maaya Thila",
+    "location": "South Ari Atoll, Maldives",
+    "coordinates": {
+      "latitude": 3.883,
+      "longitude": 72.783
+    },
+    "depthRange": "8\u201330m",
+    "marineLife": [
+      "White-tip Sharks",
+      "Turtles",
+      "Trevally",
+      "Sweetlips"
+    ],
+    "highlights": "Diving pinnacle with high biodiversity"
+  },
+  {
+    "name": "Chimney \u2013 Poor Knights",
+    "location": "New Zealand",
+    "coordinates": {
+      "latitude": -35.483,
+      "longitude": 174.733
+    },
+    "depthRange": "10\u201335m",
+    "marineLife": [
+      "Eagle Rays",
+      "Snapper",
+      "Moray Eels"
+    ],
+    "highlights": "Lava tube with kelp forest and arches"
+  }
+]
