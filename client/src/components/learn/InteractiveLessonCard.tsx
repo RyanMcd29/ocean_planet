@@ -117,9 +117,33 @@ export function InteractiveLessonCard({ lesson }: InteractiveLessonProps) {
                   </pattern>
                 </defs>
                 
-                {/* Ocean background with bathymetry */}
-                <rect x="0" y="0" width="700" height="600" fill="url(#oceanDepth)" />
-                <rect x="0" y="0" width="700" height="600" fill="url(#bathymetry)" />
+                {/* Temperature gradient background from reference image */}
+                <defs>
+                  <linearGradient id="temperatureField" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#0f172a" />
+                    <stop offset="15%" stopColor="#1e40af" />
+                    <stop offset="30%" stopColor="#0ea5e9" />
+                    <stop offset="45%" stopColor="#06b6d4" />
+                    <stop offset="60%" stopColor="#10b981" />
+                    <stop offset="70%" stopColor="#84cc16" />
+                    <stop offset="80%" stopColor="#eab308" />
+                    <stop offset="90%" stopColor="#f59e0b" />
+                    <stop offset="95%" stopColor="#ea580c" />
+                    <stop offset="100%" stopColor="#dc2626" />
+                  </linearGradient>
+                </defs>
+                <rect x="0" y="0" width="700" height="600" fill="url(#temperatureField)" opacity="0.85" />
+                
+                {/* Temperature scale from reference */}
+                <g opacity="0.9">
+                  <rect x="520" y="450" width="15" height="100" fill="url(#temperatureField)" stroke="#ffffff" strokeWidth="1" />
+                  <text x="540" y="460" fontSize="9" fill="#ffffff" fontWeight="bold">28</text>
+                  <text x="540" y="480" fontSize="9" fill="#ffffff" fontWeight="bold">26</text>
+                  <text x="540" y="500" fontSize="9" fill="#ffffff" fontWeight="bold">24</text>
+                  <text x="540" y="520" fontSize="9" fill="#ffffff" fontWeight="bold">22</text>
+                  <text x="540" y="540" fontSize="9" fill="#ffffff" fontWeight="bold">20</text>
+                  <text x="540" y="555" fontSize="9" fill="#ffffff" fontWeight="bold">°C</text>
+                </g>
                 
                 {/* Continental shelf zones */}
                 <path 
@@ -187,30 +211,86 @@ export function InteractiveLessonCard({ lesson }: InteractiveLessonProps) {
                   opacity="0.9"
                 />
                 
-                {/* Major cape features */}
-                <text x="140" y="75" fontSize="12" fontWeight="bold" fill="#ffffff" className="drop-shadow-lg">North West Cape</text>
-                <text x="175" y="455" fontSize="12" fontWeight="bold" fill="#fbbf24" className="drop-shadow-lg">Cape Leeuwin</text>
-                <text x="420" y="480" fontSize="11" fill="#ffffff" opacity="0.8">Great Australian Bight</text>
+                {/* Geographic labels from reference image */}
+                <text x="400" y="50" fontSize="14" fontWeight="bold" fill="#374151" className="drop-shadow-sm">Western</text>
+                <text x="400" y="70" fontSize="14" fontWeight="bold" fill="#374151" className="drop-shadow-sm">Australia</text>
                 
-                {/* Main Leeuwin Current - enhanced visualization */}
+                {/* Cities and locations from reference image */}
+                <circle cx="60" cy="95" r="2" fill="#000000" stroke="#ffffff" strokeWidth="1" />
+                <text x="67" y="99" fontSize="9" fontWeight="bold" fill="#000000" className="drop-shadow-sm">Broome</text>
+                
+                <circle cx="85" cy="130" r="2" fill="#000000" stroke="#ffffff" strokeWidth="1" />
+                <text x="92" y="134" fontSize="9" fontWeight="bold" fill="#000000" className="drop-shadow-sm">Port Hedland</text>
+                
+                <circle cx="110" cy="165" r="2" fill="#000000" stroke="#ffffff" strokeWidth="1" />
+                <text x="117" y="169" fontSize="9" fontWeight="bold" fill="#000000" className="drop-shadow-sm">Karratha</text>
+                
+                <circle cx="125" cy="200" r="2" fill="#000000" stroke="#ffffff" strokeWidth="1" />
+                <text x="132" y="204" fontSize="9" fontWeight="bold" fill="#000000" className="drop-shadow-sm">NW Cape</text>
+                
+                <circle cx="145" cy="125" r="3" fill="#000000" stroke="#ffffff" strokeWidth="1" />
+                <text x="152" y="129" fontSize="10" fontWeight="bold" fill="#000000" className="drop-shadow-sm">Perth</text>
+                
+                <circle cx="195" cy="385" r="2" fill="#000000" stroke="#ffffff" strokeWidth="1" />
+                <text x="202" y="389" fontSize="9" fontWeight="bold" fill="#000000" className="drop-shadow-sm">Jurien</text>
+                
+                {/* Tantaliddi location from reference */}
+                <text x="75" y="180" fontSize="9" fontWeight="bold" fill="#1e40af" className="drop-shadow-sm">Tantaliddi</text>
+                
+                {/* Scale bar and compass from reference */}
+                <g transform="translate(450, 500)">
+                  <rect x="0" y="0" width="60" height="20" fill="#ffffff" stroke="#000000" strokeWidth="1" opacity="0.9" />
+                  <line x1="0" y1="15" x2="20" y2="15" stroke="#000000" strokeWidth="2" />
+                  <line x1="20" y1="15" x2="40" y2="15" stroke="#000000" strokeWidth="2" />
+                  <line x1="40" y1="15" x2="60" y2="15" stroke="#000000" strokeWidth="2" />
+                  <text x="5" y="12" fontSize="8" fill="#000000">0</text>
+                  <text x="15" y="12" fontSize="8" fill="#000000">200</text>
+                  <text x="32" y="12" fontSize="8" fill="#000000">400 km</text>
+                  
+                  {/* Compass arrow */}
+                  <g transform="translate(75, 10)">
+                    <polygon points="0,-8 3,0 0,8 -3,0" fill="#000000" />
+                    <text x="5" y="3" fontSize="8" fontWeight="bold" fill="#000000">N</text>
+                  </g>
+                </g>
+                
+                {/* Main Leeuwin Current following reference image flow pattern */}
                 <path 
-                  d="M 70 115 
-                     Q 65 145 68 175 
-                     Q 72 205 76 235 
-                     Q 80 265 84 295 
-                     Q 88 325 92 355 
-                     Q 96 385 102 410 
-                     Q 110 435 125 455 
-                     Q 145 470 170 480 
-                     Q 200 488 235 490 
-                     Q 275 492 315 488 
-                     Q 355 484 395 475 
-                     Q 435 465 475 450"
+                  d="M 55 105
+                     Q 50 135 52 165
+                     Q 55 195 58 225
+                     Q 62 255 66 285
+                     Q 70 315 75 345
+                     Q 80 375 88 405
+                     Q 98 435 115 460
+                     Q 135 480 160 490
+                     Q 190 495 225 490
+                     Q 260 485 295 475
+                     Q 330 465 365 450
+                     Q 400 435 435 415"
                   fill="none"
                   stroke="url(#warmCurrent)"
-                  strokeWidth="12"
+                  strokeWidth="14"
                   opacity="0.95"
                   className="drop-shadow-lg"
+                />
+                
+                {/* Secondary current branch - Ningaloo region */}
+                <path 
+                  d="M 58 225 Q 68 235 78 245 Q 88 255 98 265"
+                  fill="none"
+                  stroke="#f97316"
+                  strokeWidth="8"
+                  opacity="0.8"
+                />
+                
+                {/* Offshore current branch */}
+                <path 
+                  d="M 75 345 Q 85 355 95 365 Q 105 375 115 385"
+                  fill="none"
+                  stroke="#f97316"
+                  strokeWidth="8"
+                  opacity="0.8"
                 />
                 
                 {/* Secondary current branches */}
@@ -277,19 +357,37 @@ export function InteractiveLessonCard({ lesson }: InteractiveLessonProps) {
                   <polygon points="146,420 143,427 150,424" fill="#dc2626" />
                 </g>
                 
-                {/* Temperature isotherms with enhanced styling */}
-                <g opacity="0.8">
-                  <path d="M 50 120 Q 45 160 50 200 Q 55 240 60 280" fill="none" stroke="#dc2626" strokeWidth="3" strokeDasharray="8 4" />
-                  <text x="35" y="125" fontSize="11" fontWeight="bold" fill="#dc2626" className="drop-shadow-sm">24°C</text>
+                {/* Enhanced temperature isotherms matching reference image */}
+                <g opacity="0.9">
+                  {/* 26°C isotherm */}
+                  <path d="M 45 110 Q 40 150 45 190 Q 50 230 55 270 Q 60 310 70 350" 
+                        fill="none" stroke="#dc2626" strokeWidth="3" strokeDasharray="6 3" />
+                  <text x="30" y="115" fontSize="10" fontWeight="bold" fill="#dc2626" className="drop-shadow-sm">26°C</text>
                   
-                  <path d="M 55 190 Q 50 230 55 270 Q 60 310 65 350" fill="none" stroke="#ea580c" strokeWidth="3" strokeDasharray="8 4" />
-                  <text x="40" y="195" fontSize="11" fontWeight="bold" fill="#ea580c" className="drop-shadow-sm">22°C</text>
+                  {/* 24°C isotherm */}
+                  <path d="M 50 130 Q 45 170 50 210 Q 55 250 60 290 Q 65 330 75 370 Q 85 410 100 440" 
+                        fill="none" stroke="#ea580c" strokeWidth="3" strokeDasharray="6 3" />
+                  <text x="35" y="135" fontSize="10" fontWeight="bold" fill="#ea580c" className="drop-shadow-sm">24°C</text>
                   
-                  <path d="M 65 300 Q 60 340 65 380 Q 70 420 80 450" fill="none" stroke="#f59e0b" strokeWidth="3" strokeDasharray="8 4" />
-                  <text x="50" y="305" fontSize="11" fontWeight="bold" fill="#f59e0b" className="drop-shadow-sm">20°C</text>
+                  {/* 22°C isotherm */}
+                  <path d="M 55 150 Q 50 190 55 230 Q 60 270 65 310 Q 70 350 80 390 Q 90 430 110 460" 
+                        fill="none" stroke="#f59e0b" strokeWidth="3" strokeDasharray="6 3" />
+                  <text x="40" y="155" fontSize="10" fontWeight="bold" fill="#f59e0b" className="drop-shadow-sm">22°C</text>
                   
-                  <path d="M 95 425 Q 110 450 130 465 Q 155 475 185 480" fill="none" stroke="#facc15" strokeWidth="3" strokeDasharray="8 4" />
-                  <text x="80" y="430" fontSize="11" fontWeight="bold" fill="#facc15" className="drop-shadow-sm">18°C</text>
+                  {/* 20°C isotherm */}
+                  <path d="M 60 170 Q 55 210 60 250 Q 65 290 70 330 Q 75 370 85 410 Q 95 450 120 480" 
+                        fill="none" stroke="#eab308" strokeWidth="3" strokeDasharray="6 3" />
+                  <text x="45" y="175" fontSize="10" fontWeight="bold" fill="#eab308" className="drop-shadow-sm">20°C</text>
+                  
+                  {/* 18°C isotherm */}
+                  <path d="M 70 200 Q 65 240 70 280 Q 75 320 80 360 Q 85 400 100 440 Q 120 475 150 490" 
+                        fill="none" stroke="#84cc16" strokeWidth="3" strokeDasharray="6 3" />
+                  <text x="55" y="205" fontSize="10" fontWeight="bold" fill="#84cc16" className="drop-shadow-sm">18°C</text>
+                  
+                  {/* 16°C isotherm */}
+                  <path d="M 80 230 Q 75 270 80 310 Q 85 350 90 390 Q 100 430 120 465 Q 145 485 180 495" 
+                        fill="none" stroke="#10b981" strokeWidth="3" strokeDasharray="6 3" />
+                  <text x="65" y="235" fontSize="10" fontWeight="bold" fill="#10b981" className="drop-shadow-sm">16°C</text>
                 </g>
                 
                 {/* Key marine locations with enhanced markers */}
