@@ -138,6 +138,25 @@ export default function LearnPage() {
   const handleLessonClick = (lesson: any) => {
     if (lesson.isInteractive && lesson.lessonData) {
       setCurrentLesson(lesson.lessonData);
+    } else {
+      // For non-interactive lessons, create a simple lesson structure
+      const simpleLesson = {
+        id: lesson.id.toString(),
+        title: lesson.title,
+        description: lesson.description,
+        category: lesson.category,
+        duration: lesson.duration,
+        thumbnail: lesson.thumbnail,
+        difficulty: lesson.difficulty,
+        steps: [
+          {
+            type: 'text' as const,
+            title: lesson.title,
+            content: lesson.content?.[0]?.data || lesson.description
+          }
+        ]
+      };
+      setCurrentLesson(simpleLesson);
     }
   };
 
