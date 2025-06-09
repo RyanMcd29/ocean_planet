@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Marker, Popup } from "react-leaflet";
-import { Icon } from "leaflet";
+import { Icon, divIcon } from "leaflet";
 import { DiveSite } from "@shared/schema";
-import { cn } from "@/lib/utils";
 import { Link } from "wouter";
 
 interface MapMarkerProps {
@@ -12,35 +11,30 @@ interface MapMarkerProps {
 }
 
 const MapMarker: React.FC<MapMarkerProps> = ({ diveSite, isActive, onClick }) => {
-  // Create custom marker icons
-  const activeIcon = new Icon({
-    iconUrl: "data:image/svg+xml;base64," + btoa(`
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="10" fill="#EB6440" />
-        <circle cx="12" cy="12" r="6" fill="#FFFFFF" />
-      </svg>
-    `),
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
-    popupAnchor: [0, -12],
-  });
-
-  const defaultIcon = new Icon({
-    iconUrl: "data:image/svg+xml;base64," + btoa(`
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="12" r="10" fill="#0A4D68" />
-        <circle cx="12" cy="12" r="6" fill="#05BFDB" />
-      </svg>
-    `),
-    iconSize: [24, 24],
-    iconAnchor: [12, 12],
-    popupAnchor: [0, -12],
-  });
+  // Create custom marker icons using divIcon for better compatibility
+  const icon = useMemo(() => {
+    return divIcon({
+      html: `
+        <div style="
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background-color: ${isActive ? '#EB6440' : '#0A4D68'};
+          border: 3px solid white;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        "></div>
+      `,
+      className: 'custom-div-icon',
+      iconSize: [20, 20],
+      iconAnchor: [10, 10],
+      popupAnchor: [0, -10],
+    });
+  }, [isActive]);
 
   return (
     <Marker
       position={[diveSite.latitude, diveSite.longitude]}
-      icon={isActive ? activeIcon : defaultIcon}
+      icon={icon}
       eventHandlers={{
         click: onClick
       }}
