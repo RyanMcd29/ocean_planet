@@ -14,6 +14,7 @@ import LearnPage from "@/pages/LearnPage";
 import LessonDetailPage from "@/pages/LessonDetailPage";
 import QuizPage from "@/pages/QuizPage";
 import CommunityPage from "@/pages/CommunityPage";
+import LogDivePage from "@/pages/LogDivePage";
 
 import MobileNav from "@/components/layout/MobileNav";
 
@@ -27,6 +28,7 @@ function Router() {
         <Route path="/species/:id" component={SpeciesPage} />
         <Route path="/profile" component={ProfilePage} />
         <Route path="/community" component={CommunityPage} />
+        <Route path="/log-dive" component={LogDivePage} />
         <Route path="/learn" component={LearnPage} />
         <Route path="/learn/lesson/:id" component={LessonDetailPage} />
         <Route path="/learn/quiz/:id" component={QuizPage} />

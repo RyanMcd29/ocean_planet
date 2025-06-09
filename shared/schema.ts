@@ -218,3 +218,47 @@ export const insertWaterConditionsSchema = createInsertSchema(waterConditions).o
 
 export type WaterConditions = typeof waterConditions.$inferSelect;
 export type InsertWaterConditions = z.infer<typeof insertWaterConditionsSchema>;
+
+// Dive logs table - tracks individual dives by users
+export const diveLogs = pgTable("dive_logs", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  diveSiteId: integer("dive_site_id").notNull(),
+  diveDate: timestamp("dive_date").notNull(),
+  diveTime: text("dive_time").notNull(), // Start time in HH:MM format
+  duration: integer("duration").notNull(), // Duration in minutes
+  maxDepth: real("max_depth").notNull(), // Maximum depth reached in meters
+  avgDepth: real("avg_depth"), // Average depth in meters
+  waterTemp: real("water_temp"), // Water temperature in celsius
+  visibility: real("visibility"), // Visibility in meters
+  current: text("current"), // None, Light, Moderate, Strong
+  conditions: text("conditions"), // Excellent, Good, Fair, Poor
+  description: text("description"), // User's dive experience description
+  equipment: text("equipment"), // Equipment used (tank type, wetsuit, etc.)
+  certificationLevel: text("certification_level"), // Open Water, Advanced, etc.
+  buddyName: text("buddy_name"), // Dive buddy's name
+  dateLogged: timestamp("date_logged").defaultNow(),
+});
+
+export const insertDiveLogSchema = createInsertSchema(diveLogs).omit({
+  id: true,
+  dateLogged: true,
+});
+
+// Dive log species sightings - tracks species seen during specific dives
+export const diveLogSpecies = pgTable("dive_log_species", {
+  id: serial("id").primaryKey(),
+  diveLogId: integer("dive_log_id").notNull(),
+  speciesId: integer("species_id").notNull(),
+  quantity: integer("quantity"), // How many were seen
+  notes: text("notes"), // Additional notes about the sighting
+});
+
+export const insertDiveLogSpeciesSchema = createInsertSchema(diveLogSpecies).omit({
+  id: true,
+});
+
+export type DiveLog = typeof diveLogs.$inferSelect;
+export type InsertDiveLog = z.infer<typeof insertDiveLogSchema>;
+export type DiveLogSpecies = typeof diveLogSpecies.$inferSelect;
+export type InsertDiveLogSpecies = z.infer<typeof insertDiveLogSpeciesSchema>;

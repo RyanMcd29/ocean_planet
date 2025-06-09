@@ -6,12 +6,14 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 import {
   users, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
+  diveLogs, diveLogSpecies,
   type User, type InsertUser, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
   type NearbyDiveSite, type InsertNearbyDiveSite, type DiveCenter, type InsertDiveCenter,
   type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies,
-  type WaterConditions, type InsertWaterConditions
+  type WaterConditions, type InsertWaterConditions, type DiveLog, type InsertDiveLog,
+  type DiveLogSpecies, type InsertDiveLogSpecies
 } from '@shared/schema';
 
 export interface IStorage {
@@ -70,6 +72,14 @@ export interface IStorage {
   createWaterConditions(conditions: InsertWaterConditions): Promise<WaterConditions>;
   getLatestWaterConditions(diveSiteId: number): Promise<WaterConditions | undefined>;
   getWaterConditionsHistory(diveSiteId: number, days?: number): Promise<WaterConditions[]>;
+  
+  // Dive logs
+  createDiveLog(diveLog: InsertDiveLog): Promise<DiveLog>;
+  getDiveLog(id: number): Promise<DiveLog | undefined>;
+  getUserDiveLogs(userId: number): Promise<DiveLog[]>;
+  getDiveSiteLogs(diveSiteId: number): Promise<DiveLog[]>;
+  addSpeciesToDiveLog(diveLogSpecies: InsertDiveLogSpecies): Promise<DiveLogSpecies>;
+  getDiveLogSpecies(diveLogId: number): Promise<{species: Species, quantity: number, notes: string}[]>;
 }
 
 // In-memory implementation of the storage interface
