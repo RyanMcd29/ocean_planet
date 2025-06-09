@@ -22,7 +22,7 @@ const HomePage: React.FC = () => {
   return (
     <main className="flex-1 flex flex-col lg:flex-row">
       {/* Map Section */}
-      <section className="map-container lg:w-2/3 h-[40vh] lg:h-auto relative">
+      <section className="map-container lg:w-2/3 h-[75vh] lg:h-auto relative">
         <div className="map-overlay absolute inset-0">
           <DiveMap 
             onSelectDiveSite={handleSelectDiveSite}
