@@ -87,20 +87,26 @@ export class DatabaseStorage implements IStorage {
 
   async getAllDiveSites(): Promise<DiveSite[]> {
     try {
-      // Use raw SQL to bypass potential Drizzle ORM issues
-      const rawResults = await db.execute(`
+      console.log('Starting getAllDiveSites with raw SQL...');
+      
+      // Use the connection pool directly to bypass any ORM limitations
+      const client = await pool.connect();
+      const queryResult = await client.query(`
         SELECT id, name, description, location, country, latitude, longitude, difficulty,
-               min_depth as "minDepth", max_depth as "maxDepth", 
-               min_visibility as "minVisibility", max_visibility as "maxVisibility",
-               min_temp as "minTemp", max_temp as "maxTemp",
-               current, best_season as "bestSeason", peak_visibility_month as "peakVisibilityMonth",
-               conservation_status as "conservationStatus", conservation_info as "conservationInfo",
-               main_image as "mainImage", highlights, habitats
+               min_depth, max_depth, 
+               min_visibility, max_visibility,
+               min_temp, max_temp,
+               current, best_season, peak_visibility_month,
+               conservation_status, conservation_info,
+               main_image, highlights, habitats
         FROM dive_sites
         ORDER BY id
       `);
+      client.release();
       
+      const rawResults = queryResult.rows;
       console.log(`Raw SQL query returned ${rawResults.length} dive sites`);
+      console.log('Raw results:', rawResults.map(r => ({ id: r.id, name: r.name })));
       
       // Convert raw results to proper DiveSite objects
       const results = rawResults.map((row: any) => ({
@@ -112,18 +118,18 @@ export class DatabaseStorage implements IStorage {
         latitude: row.latitude,
         longitude: row.longitude,
         difficulty: row.difficulty,
-        minDepth: row.minDepth,
-        maxDepth: row.maxDepth,
-        minVisibility: row.minVisibility,
-        maxVisibility: row.maxVisibility,
-        minTemp: row.minTemp,
-        maxTemp: row.maxTemp,
+        minDepth: row.min_depth,
+        maxDepth: row.max_depth,
+        minVisibility: row.min_visibility,
+        maxVisibility: row.max_visibility,
+        minTemp: row.min_temp,
+        maxTemp: row.max_temp,
         current: row.current,
-        bestSeason: row.bestSeason,
-        peakVisibilityMonth: row.peakVisibilityMonth,
-        conservationStatus: row.conservationStatus,
-        conservationInfo: row.conservationInfo,
-        mainImage: row.mainImage,
+        bestSeason: row.best_season,
+        peakVisibilityMonth: row.peak_visibility_month,
+        conservationStatus: row.conservation_status,
+        conservationInfo: row.conservation_info,
+        mainImage: row.main_image,
         highlights: row.highlights || [],
         habitats: row.habitats || []
       })) as DiveSite[];
