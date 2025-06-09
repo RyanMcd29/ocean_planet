@@ -348,20 +348,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Research data endpoints
+  // Research data endpoints - using actual dive site and water conditions data
   app.get('/api/research/data', async (req: Request, res: Response) => {
     try {
-      const timeRange = (req.query.timeRange as string) || '7d';
       const diveSites = await storage.getAllDiveSites();
-      
-      // Generate research data points by combining dive sites with water conditions
       const researchData = [];
       
+      // Use actual water conditions data from the database
       for (const site of diveSites) {
         const conditions = await storage.getWaterConditionsHistory(site.id, 30);
         const species = await storage.getSpeciesByDiveSite(site.id);
         
-        // Create data points from conditions
+        // Only include sites that have actual water condition data
         for (const condition of conditions) {
           researchData.push({
             date: condition.dateRecorded,

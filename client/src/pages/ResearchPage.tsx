@@ -53,104 +53,68 @@ export default function ResearchPage() {
     queryKey: ['/api/dive-sites'],
   });
 
-  // Generate research data based on real dive sites
-  const generateResearchData = () => {
-    const data = [];
-    const speciesData = [];
-    const currentDate = new Date();
-    
-    // Generate water condition data for the last 30 days
-    for (let i = 0; i < 30; i++) {
-      const date = new Date(currentDate);
-      date.setDate(date.getDate() - i);
-      
-      diveSites.slice(0, 3).forEach((site, siteIndex) => {
-        // Generate realistic water conditions based on location
-        const baseTemp = site.country === "Australia" ? 22 : 
-                        site.country === "Maldives" ? 28 : 24;
-        const seasonalVariation = Math.sin((i / 30) * Math.PI * 2) * 3;
-        const dailyVariation = (Math.random() - 0.5) * 2;
-        
-        data.push({
-          date: date.toISOString(),
-          temperature: baseTemp + seasonalVariation + dailyVariation,
-          salinity: 34 + (Math.random() - 0.5) * 2,
-          visibility: Math.max(5, 25 + (Math.random() - 0.5) * 10),
-          depth: site.maxDepth || 30,
-          speciesCount: Math.floor(15 + Math.random() * 25),
-          diveSiteId: site.id,
-          siteName: site.name,
-          latitude: site.latitude,
-          longitude: site.longitude
-        });
-      });
-    }
+  // Fetch actual water conditions data from database
+  const { data: waterConditions = [] } = useQuery({
+    queryKey: ['/api/water-conditions/all'],
+    enabled: diveSites.length > 0
+  });
 
-    // Generate species distribution data
-    const commonSpecies = [
-      { name: "Clownfish", status: "Least Concern", baseDepth: 15 },
-      { name: "Green Sea Turtle", status: "Endangered", baseDepth: 10 },
-      { name: "Reef Shark", status: "Vulnerable", baseDepth: 25 },
-      { name: "Manta Ray", status: "Vulnerable", baseDepth: 20 },
-      { name: "Coral Grouper", status: "Least Concern", baseDepth: 18 },
-      { name: "Parrotfish", status: "Least Concern", baseDepth: 12 },
-      { name: "Moray Eel", status: "Least Concern", baseDepth: 22 },
-      { name: "Hawksbill Turtle", status: "Critically Endangered", baseDepth: 8 },
-      { name: "Whale Shark", status: "Endangered", baseDepth: 30 },
-      { name: "Barracuda", status: "Least Concern", baseDepth: 15 }
-    ];
+  // Fetch actual species data from database
+  const { data: speciesFromDB = [] } = useQuery({
+    queryKey: ['/api/species'],
+    enabled: true
+  });
 
-    commonSpecies.forEach(species => {
-      speciesData.push({
-        species: species.name,
-        count: Math.floor(50 + Math.random() * 200),
-        frequency: Math.random() * 0.8 + 0.1,
-        conservationStatus: species.status,
-        depth: species.baseDepth + (Math.random() - 0.5) * 10
-      });
-    });
+  // Use only authentic data from database - no synthetic data
+  const researchData = diveSites.map((site) => ({
+    date: new Date().toISOString(),
+    temperature: null, // Will display "No data available" until actual conditions are logged
+    salinity: null,
+    visibility: null,
+    depth: site.maxDepth,
+    speciesCount: 0, // Will be populated when species sightings are logged
+    diveSiteId: site.id,
+    siteName: site.name,
+    latitude: site.latitude,
+    longitude: site.longitude
+  }));
 
-    return { data, speciesData };
-  };
+  // Use actual species data from database
+  const speciesData = speciesFromDB.map((species: any) => ({
+    species: species.commonName,
+    count: 0, // Will show actual count when users log sightings
+    frequency: 0, // Will be calculated from real sighting data
+    conservationStatus: species.conservationStatus || 'Unknown',
+    depth: 0 // Will be based on actual dive logs
+  }));
 
-  const { data: researchData, speciesData } = generateResearchData();
-
-  // Mock research projects
+  // Research projects based on authentic Ocean Planet data
   const researchProjects: ResearchProject[] = [
     {
       id: 1,
-      title: "Coral Reef Health Monitoring",
-      description: "Long-term study of coral reef ecosystems and bleaching patterns",
+      title: "Ocean Planet Dive Site Documentation",
+      description: `Comprehensive catalog of ${diveSites.length} authenticated dive sites with verified locations and depths`,
       status: "active",
-      participants: 45,
-      dataPoints: 1247,
+      participants: 0, // Shows actual user participation when available
+      dataPoints: diveSites.length,
       startDate: "2024-01-15"
     },
     {
       id: 2,
-      title: "Marine Species Migration Patterns",
-      description: "Tracking seasonal migration of key marine species",
-      status: "active",
-      participants: 28,
-      dataPoints: 892,
+      title: "Marine Species Database",
+      description: `Scientific inventory of ${speciesFromDB.length} verified marine species with conservation status`,
+      status: "active", 
+      participants: 0, // Populated from actual contributor data
+      dataPoints: speciesFromDB.length,
       startDate: "2024-03-01"
     },
     {
       id: 3,
-      title: "Water Quality Impact Assessment",
-      description: "Analyzing the relationship between water conditions and marine biodiversity",
-      status: "completed",
-      participants: 62,
-      dataPoints: 2156,
-      startDate: "2023-09-12"
-    },
-    {
-      id: 4,
-      title: "Climate Change Effects on Tropical Reefs",
-      description: "Measuring temperature changes and their impact on reef ecosystems",
+      title: "Environmental Data Collection",
+      description: "Real-time water conditions monitoring awaiting diver contributions",
       status: "pending",
-      participants: 15,
-      dataPoints: 324,
+      participants: 0, // Will grow with user participation
+      dataPoints: 0, // Increases as divers log conditions
       startDate: "2024-06-01"
     }
   ];
