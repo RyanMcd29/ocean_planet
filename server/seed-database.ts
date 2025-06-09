@@ -40,39 +40,51 @@ async function seedDatabase() {
     }).returning();
 
     const [bluehole] = await db.insert(diveSites).values({
-      name: "Great Blue Hole",
+      name: "The Blue Hole",
       difficulty: "Advanced",
-      description: "A giant marine sinkhole and world-class diving destination for experienced divers.",
-      location: "Lighthouse Reef",
+      description: "The Blue Hole in Belize is a world-renowned dive site that is part of the Lighthouse Reef System. This perfectly circular underwater sinkhole is over 300 meters across and 125 meters deep, offering divers a chance to see incredible marine life and geological formations.",
+      location: "Lighthouse Reef Atoll, Belize",
       country: "Belize",
       latitude: 17.3158,
-      longitude: -87.5347,
-      current: "Minimal",
-      minDepth: 15,
-      maxDepth: 125,
-      visibility: "Very Good",
-      bestTimeToVisit: "April to June",
-      temperature: "26°C to 28°C",
-      marineLifeRichness: "Moderate",
-      habitats: ["Blue Hole", "Wall Dive", "Deep Dive"]
+      longitude: -87.5358,
+      current: "Moderate",
+      minDepth: 5,
+      maxDepth: 40,
+      minVisibility: 15,
+      maxVisibility: 40,
+      minTemp: 26,
+      maxTemp: 29,
+      bestSeason: "April - June",
+      peakVisibilityMonth: "May",
+      conservationStatus: "Marine Reserve",
+      conservationInfo: "Part of the Belize Barrier Reef Reserve System, a UNESCO World Heritage site requiring careful conservation efforts to protect its unique ecosystem.",
+      mainImage: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      highlights: ["Deep Blue Waters", "Stalactites", "Sharks", "Coral Formations", "Clear Visibility"],
+      habitats: ["Sinkhole", "Reef Wall", "Open Ocean"]
     }).returning();
 
     const [tubbataha] = await db.insert(diveSites).values({
       name: "Tubbataha Reefs",
-      difficulty: "Intermediate to Advanced",
-      description: "A protected marine sanctuary home to a vast array of marine life and pristine coral reefs.",
-      location: "Sulu Sea",
+      difficulty: "Advanced",
+      description: "The Tubbataha Reefs Natural Park is a remote diving destination in the Sulu Sea, Philippines. This protected marine sanctuary features extraordinary biodiversity with pristine coral reefs and an abundance of marine life.",
+      location: "Sulu Sea, Philippines",
       country: "Philippines",
-      latitude: 8.8016,
-      longitude: 119.8858,
+      latitude: 8.8011,
+      longitude: 119.8902,
       current: "Strong",
       minDepth: 10,
       maxDepth: 40,
-      visibility: "Excellent",
-      bestTimeToVisit: "March to June",
-      temperature: "26°C to 30°C",
-      marineLifeRichness: "Extremely High",
-      habitats: ["Coral Reef", "Wall Dive", "Atoll"]
+      minVisibility: 20,
+      maxVisibility: 45,
+      minTemp: 26,
+      maxTemp: 30,
+      bestSeason: "March - June",
+      peakVisibilityMonth: "April",
+      conservationStatus: "UNESCO World Heritage Site",
+      conservationInfo: "Strictly protected marine sanctuary with limited visitor access to preserve its unique marine ecosystem.",
+      mainImage: "https://images.unsplash.com/photo-1533713692156-f70938dc0d54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      highlights: ["Pristine Corals", "Sharks", "Manta Rays", "Sea Turtles", "Wall Diving"],
+      habitats: ["Coral Reef", "Reef Wall", "Atolls"]
     }).returning();
 
     const [crystalPalace] = await db.insert(diveSites).values({

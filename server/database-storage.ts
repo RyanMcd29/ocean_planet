@@ -89,8 +89,21 @@ export class DatabaseStorage implements IStorage {
     try {
       console.log('Fetching all dive sites from database...');
       const results = await db.select().from(diveSites);
-      console.log(`Found ${results.length} dive sites:`, results.map(r => `${r.id}: ${r.name}`));
-      return results;
+      console.log(`Raw database query returned ${results.length} dive sites`);
+      console.log('All dive sites:', results.map(r => ({ id: r.id, name: r.name, highlights: r.highlights, habitats: r.habitats })));
+      
+      // Filter out any records that might have null required fields
+      const validResults = results.filter(site => {
+        const isValid = site.name && site.description && site.location && site.country && 
+                       site.latitude !== null && site.longitude !== null && site.difficulty;
+        if (!isValid) {
+          console.log(`Filtering out invalid dive site:`, site);
+        }
+        return isValid;
+      });
+      
+      console.log(`Returning ${validResults.length} valid dive sites`);
+      return validResults;
     } catch (error) {
       console.error('Error fetching dive sites:', error);
       throw error;
