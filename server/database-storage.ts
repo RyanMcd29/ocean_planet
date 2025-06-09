@@ -1,5 +1,5 @@
 // Import database and query builder tools
-import { db } from './db';
+import { db, pool } from './db';
 import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 
 // Import schema types and tables
