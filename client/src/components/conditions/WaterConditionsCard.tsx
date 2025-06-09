@@ -106,7 +106,9 @@ const WaterConditionsCard: React.FC<WaterConditionsCardProps> = ({
             <>
               <div className="flex items-center space-x-1">
                 <Eye className="h-3 w-3 text-blue-500" />
-                <span>{conditions.visibility}m</span>
+                <span>
+                  {'visibility' in conditions ? conditions.visibility : 'N/A'}m
+                </span>
               </div>
               <div className="flex items-center space-x-1">
                 <Waves className="h-3 w-3 text-cyan-500" />
