@@ -86,6 +86,24 @@ async function seedDatabase() {
       marineLifeRichness: "High",
       habitats: ["Limestone Reef", "Swim-throughs", "Rocky Reef"]
     }).returning();
+
+    const [roeReef] = await db.insert(diveSites).values({
+      name: "Roe Reef",
+      difficulty: "Intermediate",
+      description: "A renowned Western Australian dive site featuring diverse marine ecosystems and excellent underwater topography.",
+      location: "Perth",
+      country: "Australia",
+      latitude: -31.8759,
+      longitude: 115.7453,
+      current: "Light to Moderate",
+      minDepth: 10,
+      maxDepth: 25,
+      visibility: "Good",
+      bestTimeToVisit: "November to March",
+      temperature: "18°C to 22°C",
+      marineLifeRichness: "High",
+      habitats: ["Rocky Reef", "Kelp Forest", "Sandy Bottom"]
+    }).returning();
     
     // Seed sample species
     console.log('Adding sample marine species...');
@@ -340,6 +358,37 @@ async function seedDatabase() {
       speciesId: moonWrasse.id,
       frequency: "Frequent"
     });
+
+    // Roe Reef species associations (sharing some species with Crystal Palace)
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: roeReef.id,
+      speciesId: blueGroper.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: roeReef.id,
+      speciesId: westernBlueDevil.id,
+      frequency: "Occasional"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: roeReef.id,
+      speciesId: portJacksonShark.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: roeReef.id,
+      speciesId: westernRockLobster.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: roeReef.id,
+      speciesId: scalyfin.id,
+      frequency: "Abundant"
+    });
     
     // Add nearby dive sites
     console.log('Adding nearby dive site relationships...');
@@ -385,7 +434,7 @@ async function seedDatabase() {
     });
 
     // Seed water conditions
-    await seedWaterConditions(greatBarrierReef, bluehole, tubbataha, crystalPalace);
+    await seedWaterConditions(greatBarrierReef, bluehole, tubbataha, crystalPalace, roeReef);
 
     // Add educational content for the Learn feature
     console.log('Database seeding complete!');
@@ -395,7 +444,7 @@ async function seedDatabase() {
   }
 }
 
-async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbataha: any, crystalPalace: any) {
+async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbataha: any, crystalPalace: any, roeReef: any) {
   console.log('Seeding water conditions...');
   
   // Great Barrier Reef current conditions
