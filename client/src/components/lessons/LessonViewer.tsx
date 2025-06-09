@@ -234,13 +234,13 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
         </div>
 
         {/* Navigation Footer - Fixed at bottom */}
-        <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex-shrink-0" style={{ minHeight: '80px' }}>
+        <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex-shrink-0">
           <div className="flex items-center justify-between gap-4">
             <Button
               variant="outline"
               onClick={handlePrevious}
               disabled={isFirstStep}
-              className="flex items-center gap-1 md:gap-2 px-3 md:px-4"
+              className="flex items-center gap-1 md:gap-2 px-3 md:px-4 h-10"
               size="sm"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -252,7 +252,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
               {lesson.steps.map((_, index) => (
                 <div
                   key={index}
-                  className={`w-2 h-2 rounded-full ${
+                  className={`w-2 h-2 rounded-full transition-colors ${
                     index <= currentStep
                       ? 'bg-[#05BFDB]'
                       : 'bg-gray-300'
@@ -264,7 +264,7 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
             <Button
               onClick={handleNext}
               disabled={currentContent.type === 'quiz' && !showExplanation}
-              className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-1 md:gap-2 px-3 md:px-4"
+              className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-1 md:gap-2 px-3 md:px-4 h-10"
               size="sm"
             >
               {isLastStep ? (
@@ -281,11 +281,6 @@ const LessonViewer: React.FC<LessonViewerProps> = ({ lesson, onClose, onComplete
                 </>
               )}
             </Button>
-          </div>
-          
-          {/* Debug info - temporary */}
-          <div className="text-xs text-gray-500 mt-2">
-            Debug: Step {currentStep + 1}/{lesson.steps.length} | First: {isFirstStep.toString()} | Last: {isLastStep.toString()}
           </div>
         </div>
       </div>

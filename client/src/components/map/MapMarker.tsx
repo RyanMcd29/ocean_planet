@@ -12,6 +12,8 @@ interface MapMarkerProps {
 }
 
 const MapMarker: React.FC<MapMarkerProps> = ({ diveSite, isActive, onClick }) => {
+  console.log('MapMarker rendering for:', diveSite.name, 'at coordinates:', diveSite.latitude, diveSite.longitude);
+  
   // Create custom marker icons
   const activeIcon = new Icon({
     iconUrl: "data:image/svg+xml;base64," + btoa(`

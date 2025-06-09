@@ -33,6 +33,11 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
     queryKey: ['/api/dive-sites', searchQuery, filters],
     queryFn: () => fetchDiveSites(searchQuery, filters)
   });
+
+  // Debug logging
+  console.log('DiveMap - diveSites:', diveSites);
+  console.log('DiveMap - isLoading:', isLoading);
+  console.log('DiveMap - error:', error);
   
   // Update map center when a dive site is selected
   useEffect(() => {
@@ -75,22 +80,26 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
         zoom={6}
         style={{ height: "100%", width: "100%" }}
         zoomControl={false}
+        scrollWheelZoom={true}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         
         <MapCenterControl center={mapCenter} />
         
-        {diveSites && diveSites.map(diveSite => (
-          <MapMarker
-            key={diveSite.id}
-            diveSite={diveSite}
-            isActive={diveSite.id === selectedDiveSiteId}
-            onClick={() => onSelectDiveSite(diveSite)}
-          />
-        ))}
+        {diveSites && diveSites.map(diveSite => {
+          console.log('Rendering marker for:', diveSite.name, 'at', diveSite.latitude, diveSite.longitude);
+          return (
+            <MapMarker
+              key={diveSite.id}
+              diveSite={diveSite}
+              isActive={diveSite.id === selectedDiveSiteId}
+              onClick={() => onSelectDiveSite(diveSite)}
+            />
+          );
+        })}
       </MapContainer>
       
       <div className="absolute top-4 left-4 right-4 z-[400]">
