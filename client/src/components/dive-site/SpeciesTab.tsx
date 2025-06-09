@@ -25,10 +25,10 @@ const SpeciesTab: React.FC<SpeciesTabProps> = ({ diveSiteId }) => {
       species.commonName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       species.scientificName.toLowerCase().includes(searchQuery.toLowerCase());
       
-    const matchesCategory = categoryFilter === "" || 
+    const matchesCategory = categoryFilter === "" || categoryFilter === "all" || 
       species.category === categoryFilter;
       
-    const matchesConservation = conservationFilter === "" || 
+    const matchesConservation = conservationFilter === "" || conservationFilter === "all" || 
       species.conservationStatus === conservationFilter;
       
     return matchesSearch && matchesCategory && matchesConservation;
@@ -56,9 +56,9 @@ const SpeciesTab: React.FC<SpeciesTabProps> = ({ diveSiteId }) => {
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Categories</SelectItem>
+              <SelectItem value="all">All Categories</SelectItem>
               {categories.filter(Boolean).map((category) => (
-                <SelectItem key={category} value={category || ""}>
+                <SelectItem key={category} value={category || "unknown"}>
                   {category}
                 </SelectItem>
               ))}
@@ -70,9 +70,9 @@ const SpeciesTab: React.FC<SpeciesTabProps> = ({ diveSiteId }) => {
               <SelectValue placeholder="Conservation Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">All Statuses</SelectItem>
+              <SelectItem value="all">All Statuses</SelectItem>
               {conservationStatuses.filter(Boolean).map((status) => (
-                <SelectItem key={status} value={status || ""}>
+                <SelectItem key={status} value={status || "unknown"}>
                   {status}
                 </SelectItem>
               ))}
