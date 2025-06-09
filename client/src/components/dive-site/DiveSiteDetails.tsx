@@ -20,6 +20,7 @@ import ReviewsTab from "./ReviewsTab";
 import HabitatInfo from "./HabitatInfo";
 import { Skeleton } from "@/components/ui/skeleton";
 import PhotoGallery from "./PhotoGallery";
+import WaterConditionsCard from "@/components/conditions/WaterConditionsCard";
 
 interface DiveSiteDetailsProps {
   diveSite: DiveSite;
@@ -46,6 +47,17 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
   const { data: photos } = useQuery({
     queryKey: [`/api/dive-sites/${diveSite.id}/photos`],
     queryFn: () => fetchDiveSitePhotos(diveSite.id),
+  });
+
+  const { data: waterConditions, isLoading: isLoadingConditions } = useQuery({
+    queryKey: [`/api/dive-sites/${diveSite.id}/conditions`],
+    queryFn: async () => {
+      const response = await fetch(`/api/dive-sites/${diveSite.id}/conditions`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch water conditions');
+      }
+      return response.json();
+    },
   });
   
   const { data: reviews } = useQuery({

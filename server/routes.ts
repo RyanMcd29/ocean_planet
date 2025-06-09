@@ -296,6 +296,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Water conditions endpoints
+  app.get('/api/dive-sites/:id/conditions', async (req: Request, res: Response) => {
+    try {
+      const diveSiteId = parseInt(req.params.id);
+      if (isNaN(diveSiteId)) {
+        return res.status(400).json({ error: "Invalid dive site ID" });
+      }
+
+      const conditions = await storage.getLatestWaterConditions(diveSiteId);
+      if (!conditions) {
+        return res.status(404).json({ error: "No water conditions found for this dive site" });
+      }
+
+      res.json(conditions);
+    } catch (error) {
+      console.error('Error fetching water conditions:', error);
+      res.status(500).json({ error: "Failed to fetch water conditions" });
+    }
+  });
+
+  app.get('/api/dive-sites/:id/conditions/history', async (req: Request, res: Response) => {
+    try {
+      const diveSiteId = parseInt(req.params.id);
+      if (isNaN(diveSiteId)) {
+        return res.status(400).json({ error: "Invalid dive site ID" });
+      }
+
+      const days = req.query.days ? parseInt(req.query.days as string) : 7;
+      const conditions = await storage.getWaterConditionsHistory(diveSiteId, days);
+      res.json(conditions);
+    } catch (error) {
+      console.error('Error fetching water conditions history:', error);
+      res.status(500).json({ error: "Failed to fetch water conditions history" });
+    }
+  });
+
+  app.post('/api/dive-sites/:id/conditions', async (req: Request, res: Response) => {
+    try {
+      const diveSiteId = parseInt(req.params.id);
+      if (isNaN(diveSiteId)) {
+        return res.status(400).json({ error: "Invalid dive site ID" });
+      }
+
+      const conditionsData = { ...req.body, diveSiteId };
+      const conditions = await storage.createWaterConditions(conditionsData);
+      res.status(201).json(conditions);
+    } catch (error) {
+      console.error('Error creating water conditions:', error);
+      res.status(500).json({ error: "Failed to create water conditions" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

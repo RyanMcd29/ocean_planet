@@ -204,12 +204,87 @@ async function seedDatabase() {
       iconType: "ssi"
     });
 
+    // Seed water conditions
+    await seedWaterConditions();
+
     // Add educational content for the Learn feature
     console.log('Database seeding complete!');
 
   } catch (error) {
     console.error('Error seeding database:', error);
   }
+}
+
+async function seedWaterConditions() {
+  console.log('Seeding water conditions...');
+  
+  // Great Barrier Reef current conditions
+  await storage.createWaterConditions({
+    diveSiteId: 1,
+    waterTemp: 26,
+    visibility: 30,
+    currentStrength: 'Light',
+    currentDirection: 'Southeast',
+    waveHeight: 1.2,
+    windSpeed: 15,
+    windDirection: 'Northeast',
+    weatherConditions: 'Partly cloudy',
+    surfaceConditions: 'Calm',
+    divingConditions: 'Excellent',
+    reportedBy: 'Marine Weather Station',
+    additionalNotes: 'Perfect conditions for diving. High visibility and calm seas.'
+  });
+
+  // Blue Hole current conditions
+  await storage.createWaterConditions({
+    diveSiteId: 2,
+    waterTemp: 24,
+    visibility: 45,
+    currentStrength: 'Moderate',
+    currentDirection: 'East',
+    waveHeight: 0.8,
+    windSpeed: 12,
+    windDirection: 'East',
+    weatherConditions: 'Sunny',
+    surfaceConditions: 'Smooth',
+    divingConditions: 'Excellent',
+    reportedBy: 'Dive Center Belize',
+    additionalNotes: 'Crystal clear water with excellent visibility. Light current at depth.'
+  });
+
+  // Tubbataha Reefs current conditions
+  await storage.createWaterConditions({
+    diveSiteId: 3,
+    waterTemp: 28,
+    visibility: 25,
+    currentStrength: 'Strong',
+    currentDirection: 'Southwest',
+    waveHeight: 2.1,
+    windSpeed: 22,
+    windDirection: 'Southwest',
+    weatherConditions: 'Partly cloudy',
+    surfaceConditions: 'Choppy',
+    divingConditions: 'Good',
+    reportedBy: 'Philippine Coast Guard',
+    additionalNotes: 'Strong currents present. Recommended for experienced divers only.'
+  });
+
+  // Roe Reef current conditions
+  await storage.createWaterConditions({
+    diveSiteId: 4,
+    waterTemp: 18,
+    visibility: 15,
+    currentStrength: 'Light',
+    currentDirection: 'West',
+    waveHeight: 1.5,
+    windSpeed: 18,
+    windDirection: 'Southwest',
+    weatherConditions: 'Cloudy',
+    surfaceConditions: 'Moderate',
+    divingConditions: 'Fair',
+    reportedBy: 'Perth Diving Club',
+    additionalNotes: 'Cooler water temperature typical for Perth winter. Reduced visibility due to recent storms.'
+  });
 }
 
 // Export the seed function so it can be called from elsewhere
