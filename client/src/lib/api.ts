@@ -125,3 +125,9 @@ export async function fetchUserSpottedSpecies(userId: number) {
   const res = await apiRequest("GET", `/api/users/${userId}/spotted-species`);
   return await res.json();
 }
+
+// Fetch live ocean conditions from AODN
+export async function fetchLiveConditions(diveSiteId: number) {
+  const res = await apiRequest("GET", `/api/dive-sites/${diveSiteId}/live-conditions`);
+  return await res.json();
+}

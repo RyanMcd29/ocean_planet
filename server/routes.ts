@@ -12,6 +12,7 @@ import {
   insertUserFavoriteSchema,
   insertUserSpottedSpeciesSchema
 } from "@shared/schema";
+import { OceanDataService } from "./services/oceanData";
 
 function validateRequest<T>(schema: z.ZodType<T>, body: unknown): T | undefined {
   try {
@@ -313,6 +314,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching water conditions:', error);
       res.status(500).json({ error: "Failed to fetch water conditions" });
+    }
+  });
+
+  // Live ocean conditions from AODN
+  app.get('/api/dive-sites/:id/live-conditions', async (req: Request, res: Response) => {
+    try {
+      const diveSiteId = parseInt(req.params.id);
+      if (isNaN(diveSiteId)) {
+        return res.status(400).json({ error: "Invalid dive site ID" });
+      }
+
+      // Get dive site location
+      const diveSite = await storage.getDiveSite(diveSiteId);
+      if (!diveSite) {
+        return res.status(404).json({ error: "Dive site not found" });
+      }
+
+      // Fetch live ocean data
+      const [oceanData, weatherData] = await Promise.all([
+        OceanDataService.getLiveOceanData(diveSite.latitude, diveSite.longitude),
+        OceanDataService.getWeatherData(diveSite.latitude, diveSite.longitude)
+      ]);
+
+      const liveConditions = {
+        diveSiteId,
+        timestamp: new Date(),
+        waterTemp: oceanData?.temperature || null,
+        currentStrength: oceanData ? `${oceanData.currentSpeed.toFixed(1)} cm/s` : null,
+        currentDirection: oceanData?.currentDirection || null,
+        windSpeed: weatherData?.windSpeed || null,
+        windDirection: weatherData?.windDirection || null,
+        weatherConditions: weatherData?.weatherConditions || 'Unknown',
+        salinity: oceanData?.salinity || null,
+        reportedBy: 'AODN Live Data',
+        additionalNotes: 'Live data from Australian Ocean Data Network'
+      };
+
+      res.json(liveConditions);
+    } catch (error) {
+      console.error('Error fetching live conditions:', error);
+      res.status(500).json({ error: "Failed to fetch live conditions" });
     }
   });
 

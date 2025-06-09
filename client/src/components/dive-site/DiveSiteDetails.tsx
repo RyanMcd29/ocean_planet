@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DiveSite, DiveCenter } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,7 +10,8 @@ import {
   fetchDiveSitePhotos,
   fetchDiveSiteReviews, 
   type NearbyDiveSiteWithDistance,
-  type SpeciesWithFrequency 
+  type SpeciesWithFrequency,
+  fetchLiveConditions
 } from "@/lib/api";
 import { Heart, Share2 } from "lucide-react";
 import { Link } from "wouter";
@@ -28,43 +29,70 @@ interface DiveSiteDetailsProps {
 
 const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
   const [activeTab, setActiveTab] = useState("overview");
-  
+  const [waterConditions, setWaterConditions] = useState<any | null>(null);
+  const [liveConditions, setLiveConditions] = useState<any | null>(null);
+  const [isLoadingConditions, setIsLoadingConditions] = useState(true);
+  const [showLiveData, setShowLiveData] = useState(false);
+  const [isLoadingLive, setIsLoadingLive] = useState(false);
+
   const { data: species, isLoading: isLoadingSpecies } = useQuery({
     queryKey: [`/api/dive-sites/${diveSite.id}/species`],
     queryFn: () => fetchDiveSiteSpecies(diveSite.id),
   });
-  
+
   const { data: diveCenters, isLoading: isLoadingDiveCenters } = useQuery({
     queryKey: [`/api/dive-sites/${diveSite.id}/dive-centers`],
     queryFn: () => fetchDiveCenters(diveSite.id),
   });
-  
+
   const { data: nearbySites, isLoading: isLoadingNearbySites } = useQuery({
     queryKey: [`/api/dive-sites/${diveSite.id}/nearby`],
     queryFn: () => fetchNearbyDiveSites(diveSite.id),
   });
-  
+
   const { data: photos } = useQuery({
     queryKey: [`/api/dive-sites/${diveSite.id}/photos`],
     queryFn: () => fetchDiveSitePhotos(diveSite.id),
   });
 
-  const { data: waterConditions, isLoading: isLoadingConditions } = useQuery({
-    queryKey: [`/api/dive-sites/${diveSite.id}/conditions`],
-    queryFn: async () => {
-      const response = await fetch(`/api/dive-sites/${diveSite.id}/conditions`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch water conditions');
-      }
-      return response.json();
-    },
-  });
-  
   const { data: reviews } = useQuery({
     queryKey: [`/api/dive-sites/${diveSite.id}/reviews`],
     queryFn: () => fetchDiveSiteReviews(diveSite.id),
   });
-  
+
+  // Fetch water conditions
+  useEffect(() => {
+    const fetchConditions = async () => {
+      try {
+        const response = await fetch(`/api/dive-sites/${diveSite.id}/conditions`);
+        if (response.ok) {
+          const conditions = await response.json();
+          setWaterConditions(conditions);
+        }
+      } catch (error) {
+        console.error('Error fetching water conditions:', error);
+      } finally {
+        setIsLoadingConditions(false);
+      }
+    };
+
+    fetchConditions();
+  }, [diveSite.id]);
+
+  // Fetch live conditions
+  const fetchLiveData = async () => {
+    setIsLoadingLive(true);
+    try {
+      const live = await fetchLiveConditions(diveSite.id);
+      setLiveConditions(live);
+      setShowLiveData(true);
+    } catch (error) {
+      console.error('Error fetching live conditions:', error);
+    } finally {
+      setIsLoadingLive(false);
+    }
+  };
+
   return (
     <div className="bg-white shadow-md lg:overflow-y-auto lg:max-h-[calc(100vh-64px)]">
       {/* Header Image and Info */}
@@ -92,7 +120,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             {diveSite.location}
           </p>
         </div>
-        
+
         <div className="absolute top-4 right-4 flex space-x-2">
           <Button variant="outline" size="icon" className="bg-white/80 hover:bg-white text-[#0A4D68] rounded-full h-9 w-9">
             <Heart className="h-5 w-5" />
@@ -102,7 +130,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
           </Button>
         </div>
       </div>
-      
+
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-4 p-4 bg-[#E0F7FA]">
         <div className="text-center">
@@ -118,7 +146,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
           <p className="text-lg font-montserrat font-bold">{diveSite.current}</p>
         </div>
       </div>
-      
+
       {/* Tabs */}
       <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="w-full justify-start border-b border-[#E0E0E0] rounded-none h-auto bg-transparent p-0">
@@ -147,7 +175,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             Reviews
           </TabsTrigger>
         </TabsList>
-        
+
         <TabsContent value="overview" className="p-4 mt-0">
           {/* Current Water Conditions */}
           <div className="mb-6">
@@ -176,7 +204,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               {diveSite.description}
             </p>
           </div>
-          
+
           {/* Highlights */}
           {diveSite.highlights && diveSite.highlights.length > 0 && (
             <div className="mb-6">
@@ -193,7 +221,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               </ul>
             </div>
           )}
-          
+
           {/* Featured Species */}
           <div className="mb-6">
             <div className="flex justify-between items-center mb-3">
@@ -206,7 +234,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                 View all
               </Button>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-3">
               {isLoadingSpecies ? (
                 Array(4).fill(0).map((_, i) => (
@@ -237,10 +265,10 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               )}
             </div>
           </div>
-          
+
           {/* Habitat Information */}
           <HabitatInfo diveSite={diveSite} />
-          
+
           {/* Dive Conditions */}
           <div className="mb-6">
             <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Best Time to Dive</h3>
@@ -260,7 +288,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               </p>
             </div>
           </div>
-          
+
           {/* Recent Community Uploads */}
           {photos && photos.length > 0 && (
             <div className="mb-6">
@@ -274,11 +302,11 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                   View all
                 </Button>
               </div>
-              
+
               <PhotoGallery photos={photos.slice(0, 6)} thumbnailSize="small" />
             </div>
           )}
-          
+
           {/* Conservation Status */}
           <div className="mb-6">
             <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Conservation Status</h3>
@@ -307,7 +335,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               </div>
             </div>
           </div>
-          
+
           {/* Nearby Dive Sites */}
           {nearbySites && nearbySites.length > 0 && (
             <div className="mb-6">
@@ -353,7 +381,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               </div>
             </div>
           )}
-          
+
           {/* Dive Centers */}
           {diveCenters && diveCenters.length > 0 && (
             <div className="mb-6">
@@ -403,7 +431,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               </div>
             </div>
           )}
-          
+
           {/* User Contribution Button */}
           <div className="mt-8 mb-4">
             <Button className="w-full bg-[#EB6440] hover:bg-[#FFAB91] text-white py-3 rounded-lg transition font-montserrat font-semibold flex items-center justify-center">
@@ -415,15 +443,15 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             </Button>
           </div>
         </TabsContent>
-        
+
         <TabsContent value="species" className="mt-0">
           <SpeciesTab diveSiteId={diveSite.id} />
         </TabsContent>
-        
+
         <TabsContent value="gallery" className="mt-0">
           <GalleryTab diveSiteId={diveSite.id} />
         </TabsContent>
-        
+
         <TabsContent value="reviews" className="mt-0">
           <ReviewsTab diveSiteId={diveSite.id} />
         </TabsContent>
