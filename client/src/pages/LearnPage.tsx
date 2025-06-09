@@ -139,12 +139,12 @@ export default function LearnPage() {
   const [viewMode, setViewMode] = useState<"lessons" | "quizzes" | "badges">("lessons");
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [showInteractiveLesson, setShowInteractiveLesson] = useState(false);
-  
+
   // Calculate completion stats
   const totalLessons = allLessons.length;
   const completedLessons = allLessons.filter(lesson => lesson.completed).length;
   const completionPercentage = Math.round((completedLessons / totalLessons) * 100);
-  
+
   // Filter lessons by category
   const filteredLessons = allLessons.filter(lesson => 
     selectedCategory === "all" ? true : lesson.category === selectedCategory
@@ -355,6 +355,25 @@ export default function LearnPage() {
           onClose={handleCloseLesson}
         />
       )}
+            <div className="fixed bottom-0 left-0 w-full bg-white p-4 border-t">
+        <div className="max-w-md mx-auto flex justify-around">
+          
+          <Button 
+                    variant="outline" 
+                    className="text-[#088395] border-[#088395]"
+                    asChild
+                  >
+                    <a href="/#species">Browse Species</a>
+                  </Button>
+                  
+                  <Button 
+                    className="bg-[#05BFDB] hover:bg-[#088395] text-white"
+                    asChild
+                  >
+                    <a href="/log-dive">Log a Sighting</a>
+                  </Button>
+        </div>
+      </div>
     </div>
   );
 }

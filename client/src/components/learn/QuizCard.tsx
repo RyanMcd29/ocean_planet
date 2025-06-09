@@ -69,7 +69,7 @@ export function QuizRunner({ quiz }: QuizCardProps) {
     if (selectedAnswer === null) return;
 
     setIsAnswerSubmitted(true);
-    
+
     if (selectedAnswer === quiz.questions[currentQuestion].correctAnswer) {
       setScore(score + 1);
     }

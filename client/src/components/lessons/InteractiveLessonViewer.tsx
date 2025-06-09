@@ -172,11 +172,11 @@ const InteractiveLessonViewer: React.FC<InteractiveLessonViewerProps> = ({
         </div>
 
         {/* Navigation */}
-        <div className="p-6 border-t border-gray-200 flex items-center justify-between">
+        <div className="p-4 md:p-6 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
           <button
             onClick={handlePrevious}
             disabled={isFirstStep}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+            className={`flex items-center gap-2 px-6 py-3 rounded-lg transition-colors min-h-[44px] ${
               isFirstStep 
                 ? 'text-gray-400 cursor-not-allowed' 
                 : 'text-gray-700 hover:bg-gray-100'
@@ -190,7 +190,7 @@ const InteractiveLessonViewer: React.FC<InteractiveLessonViewerProps> = ({
             {lesson.steps.map((_, index) => (
               <div
                 key={index}
-                className={`w-2 h-2 rounded-full transition-colors ${
+                className={`w-3 h-3 rounded-full transition-colors ${
                   index === currentStep ? 'bg-[#05BFDB]' : 'bg-gray-300'
                 }`}
               />
@@ -200,7 +200,7 @@ const InteractiveLessonViewer: React.FC<InteractiveLessonViewerProps> = ({
           {isLastStep ? (
             <button
               onClick={onClose}
-              className="bg-[#05BFDB] hover:bg-[#0A4D68] text-white px-6 py-2 rounded-lg transition-colors"
+              className="bg-[#05BFDB] hover:bg-[#0A4D68] text-white px-8 py-3 rounded-lg transition-colors min-h-[44px] font-medium"
             >
               Complete
             </button>
@@ -208,7 +208,7 @@ const InteractiveLessonViewer: React.FC<InteractiveLessonViewerProps> = ({
             <button
               onClick={handleNext}
               disabled={currentStepData.type === 'quiz' && !showFeedback}
-              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg transition-colors min-h-[44px] font-medium ${
                 currentStepData.type === 'quiz' && !showFeedback
                   ? 'text-gray-400 cursor-not-allowed'
                   : 'bg-[#05BFDB] hover:bg-[#0A4D68] text-white'
