@@ -36,6 +36,59 @@ interface LeaderboardEntry {
 const CommunityPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("feed");
   const [newPost, setNewPost] = useState("");
+  const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<string>("");
+  const [isPosting, setIsPosting] = useState(false);
+
+  // Handler functions
+  const handlePhotoUpload = () => {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.multiple = true;
+    input.onchange = (e) => {
+      const files = Array.from((e.target as HTMLInputElement).files || []);
+      setSelectedPhotos(prev => [...prev, ...files]);
+    };
+    input.click();
+  };
+
+  const handleLocationSelect = () => {
+    // In a real app, this would open a location picker/map modal
+    const location = prompt("Enter dive site location:") || "";
+    if (location) {
+      setSelectedLocation(location);
+    }
+  };
+
+  const handleSharePost = async () => {
+    if (!newPost.trim() && selectedPhotos.length === 0) {
+      alert("Please add some content or photos to share");
+      return;
+    }
+
+    setIsPosting(true);
+    try {
+      // In a real app, this would make an API call to create the post
+      // For now, we'll simulate a successful post
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Reset form
+      setNewPost("");
+      setSelectedPhotos([]);
+      setSelectedLocation("");
+      
+      alert("Post shared successfully!");
+    } catch (error) {
+      alert("Failed to share post. Please try again.");
+    } finally {
+      setIsPosting(false);
+    }
+  };
+
+  const removePhoto = (index: number) => {
+    setSelectedPhotos(prev => prev.filter((_, i) => i !== index));
+  };
 
   // Mock data - in real app this would come from API
   const communityPosts: CommunityPost[] = [
@@ -274,19 +327,78 @@ const CommunityPage: React.FC = () => {
                       onChange={(e) => setNewPost(e.target.value)}
                       className="mb-3"
                     />
+                    
+                    {/* Selected Photos Preview */}
+                    {selectedPhotos.length > 0 && (
+                      <div className="mb-3 p-3 bg-gray-50 rounded-lg">
+                        <p className="text-sm font-medium text-gray-700 mb-2">
+                          Selected Photos ({selectedPhotos.length})
+                        </p>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedPhotos.map((file, index) => (
+                            <div key={index} className="relative">
+                              <img
+                                src={URL.createObjectURL(file)}
+                                alt={`Selected ${index + 1}`}
+                                className="w-16 h-16 object-cover rounded border"
+                              />
+                              <button
+                                onClick={() => removePhoto(index)}
+                                className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs flex items-center justify-center hover:bg-red-600"
+                              >
+                                ×
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Selected Location */}
+                    {selectedLocation && (
+                      <div className="mb-3 p-2 bg-blue-50 rounded border-l-4 border-blue-400">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center">
+                            <MapPin className="w-4 h-4 mr-2 text-blue-600" />
+                            <span className="text-sm text-blue-800">{selectedLocation}</span>
+                          </div>
+                          <button
+                            onClick={() => setSelectedLocation("")}
+                            className="text-blue-600 hover:text-blue-800 text-sm"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    
                     <div className="flex justify-between items-center">
                       <div className="flex space-x-2">
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={handlePhotoUpload}
+                          disabled={isPosting}
+                        >
                           <Camera className="w-4 h-4 mr-1" />
                           Photo
                         </Button>
-                        <Button variant="outline" size="sm">
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          onClick={handleLocationSelect}
+                          disabled={isPosting}
+                        >
                           <MapPin className="w-4 h-4 mr-1" />
                           Location
                         </Button>
                       </div>
-                      <Button className="bg-[#088395] hover:bg-[#0A4D68]">
-                        Share Post
+                      <Button 
+                        className="bg-[#088395] hover:bg-[#0A4D68]"
+                        onClick={handleSharePost}
+                        disabled={isPosting}
+                      >
+                        {isPosting ? "Sharing..." : "Share Post"}
                       </Button>
                     </div>
                   </CardContent>
