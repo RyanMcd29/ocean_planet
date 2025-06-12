@@ -25,6 +25,9 @@ const currentUser = {
 
 const ProfilePage: React.FC = () => {
   const [activeTab, setActiveTab] = useState("overview");
+  const [showPhotoUploader, setShowPhotoUploader] = useState(false);
+  const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
   
   // Fetch user's favorite dive sites
   const { data: favorites, isLoading: favoritesLoading } = useQuery({
