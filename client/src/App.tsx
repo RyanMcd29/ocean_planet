@@ -16,6 +16,7 @@ import QuizPage from "@/pages/QuizPage";
 import CommunityPage from "@/pages/CommunityPage";
 import LogDivePage from "@/pages/LogDivePage";
 import SpeciesBrowsePage from "@/pages/SpeciesBrowsePage";
+import MissionPage from "@/pages/MissionPage";
 
 import MobileNav from "@/components/layout/MobileNav";
 
@@ -34,6 +35,7 @@ function Router() {
         <Route path="/learn" component={LearnPage} />
         <Route path="/learn/lesson/:id" component={LessonDetailPage} />
         <Route path="/learn/quiz/:id" component={QuizPage} />
+        <Route path="/mission" component={MissionPage} />
 
         <Route component={NotFound} />
       </Switch>
