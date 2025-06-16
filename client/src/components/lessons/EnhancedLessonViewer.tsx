@@ -273,9 +273,72 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
               <h2 className="text-2xl md:text-3xl font-bold text-[#0A4D68] mb-4">
                 {currentStepData.title}
               </h2>
-              <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto mb-6">
-                {currentStepData.content}
-              </p>
+              <div className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto mb-6 text-left">
+                {/* Parse and format the content */}
+                {currentStepData.content.split('\n').map((paragraph, index) => {
+                  if (paragraph.trim() === '') return null;
+                  
+                  // Handle "What You Can Do" header
+                  if (paragraph.includes('What You Can Do')) {
+                    return (
+                      <h3 key={index} className="text-xl font-bold text-[#0A4D68] mt-6 mb-4">
+                        What You Can Do
+                      </h3>
+                    );
+                  }
+                  
+                  // Handle bullet points with bold formatting
+                  if (paragraph.includes('•') || paragraph.includes('**')) {
+                    const bulletPoints = paragraph.split('•').filter(point => point.trim());
+                    return (
+                      <div key={index} className="space-y-3 mt-4">
+                        {bulletPoints.map((point, bulletIndex) => {
+                          const parts = point.split('**');
+                          return (
+                            <div key={bulletIndex} className="flex items-start gap-2">
+                              <span className="text-[#05BFDB] mt-1">•</span>
+                              <div>
+                                {parts.map((part, partIndex) => 
+                                  partIndex % 2 === 1 ? (
+                                    <strong key={partIndex} className="font-bold text-[#0A4D68]">
+                                      {part}
+                                    </strong>
+                                  ) : (
+                                    <span key={partIndex}>{part}</span>
+                                  )
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  }
+                  
+                  // Handle regular paragraphs
+                  const parts = paragraph.split('**');
+                  return (
+                    <p key={index} className="mb-4">
+                      {parts.map((part, partIndex) => 
+                        partIndex % 2 === 1 ? (
+                          <strong key={partIndex} className="font-bold text-[#0A4D68]">
+                            {part}
+                          </strong>
+                        ) : (
+                          <span key={partIndex}>{part}</span>
+                        )
+                      )}
+                    </p>
+                  );
+                })}
+                
+                {/* Add final call to action */}
+                <div className="text-center mt-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border border-blue-200">
+                  <p className="text-[#088395] font-medium">
+                    🌊 Ready to explore more ocean literacy principles? The adventure continues!
+                  </p>
+                </div>
+              </div>
               {score.total > 0 && (
                 <Card className="max-w-md mx-auto bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
                   <CardContent className="p-6">
