@@ -16,6 +16,7 @@ const categories = [
   { id: "ocean-literacy", name: "Ocean Literacy", icon: <Compass className="h-5 w-5" /> },
   { id: "reef-ecology", name: "Reef Ecology", icon: <BookOpen className="h-5 w-5" /> },
   { id: "species-identification", name: "Species ID", icon: <Fish className="h-5 w-5" /> },
+  { id: "conservation", name: "Conservation", icon: <Waves className="h-5 w-5" /> },
 ];
 
 // Sample lessons data with integrated interactive lessons
@@ -187,6 +188,100 @@ const allLessons = [
           options: ["Angelfish (Pomacanthidae)", "Parrotfish (Scaridae)", "Wrasses (Labridae)", "Butterflyfish (Chaetodontidae)"],
           correctAnswer: 1,
           explanation: "Parrotfish (Scaridae) have distinctive beak-like fused teeth that they use to scrape algae and coral polyps from reef surfaces, playing a crucial role in reef bioerosion and sand production."
+        }
+      ]
+    }
+  },
+  {
+    id: 6,
+    title: "The Hidden Cost of Bottom Trawling",
+    category: "conservation",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Learn about bottom trawling's environmental impact, including CO₂ emissions, habitat destruction, and bycatch issues.",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isInteractive: true,
+    specialBadge: "🌊",
+    lessonData: {
+      id: "bottom-trawling",
+      title: "The Hidden Cost of Bottom Trawling",
+      description: "Learn about bottom trawling's environmental impact, including CO₂ emissions, habitat destruction, and bycatch issues.",
+      category: "conservation",
+      duration: 6,
+      thumbnail: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+      difficulty: "Beginner" as const,
+      steps: [
+        {
+          type: "text" as const,
+          title: "What is Bottom Trawling?",
+          content: "Bottom trawling is a fishing method where heavy nets are dragged along the seafloor to scoop up fish like cod, prawns, and flounder. It's highly efficient — but devastating to the ocean floor.\n\nThis industrial fishing technique uses large nets weighted down with heavy doors and chains that scrape across the seabed, capturing everything in their path."
+        },
+        {
+          type: "text" as const,
+          title: "Why Is It a Problem?",
+          content: "These nets don't just catch fish — they tear up delicate habitats that support marine ecosystems:\n\n**🪸 Cold-water corals** - Ancient structures that take centuries to grow\n\n**🌱 Seagrass meadows** - Critical nursery areas for many fish species\n\n**🌊 Sponges and kelp forests** - Complex three-dimensional habitats\n\nMany of these habitats provide shelter and nursery areas for marine life — and some take centuries to recover from trawling damage."
+        },
+        {
+          type: "image" as const,
+          title: "Habitat Destruction in Action",
+          content: "Bottom trawling leaves behind a trail of destruction, flattening complex seafloor communities that took decades or centuries to develop.",
+          image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+          caption: "The impact of bottom trawling on delicate seafloor ecosystems"
+        },
+        {
+          type: "funFact" as const,
+          title: "Climate Impact: CO₂ from the Seafloor",
+          content: "Bottom trawling releases around **1 billion tonnes of CO₂ every year** — that's more than the entire global aviation industry! When trawlers disturb carbon-rich sediments, that stored carbon re-enters the water and may contribute to ocean acidification and climate change."
+        },
+        {
+          type: "text" as const,
+          title: "Bycatch: The Unseen Victims",
+          content: "Trawling is non-selective — often catching and killing non-target species:\n\n**🐢 Sea turtles** - Accidentally caught in nets\n\n**🐬 Dolphins** - Trapped and unable to surface for air\n\n**🦈 Sharks** - Including endangered species\n\n**🐟 Juvenile and endangered fish** - Future breeding stock lost\n\nThis 'bycatch' is frequently discarded — dead or dying — harming biodiversity and damaging fisheries' long-term sustainability."
+        },
+        {
+          type: "quiz" as const,
+          title: "Understanding the Impact",
+          content: "Why is bottom trawling considered harmful to the ocean?",
+          options: [
+            "It only targets large fish",
+            "It releases CO₂ and destroys seabed habitats",
+            "It improves biodiversity",
+            "It increases fish reproduction"
+          ],
+          correctAnswer: 1,
+          explanation: "Bottom trawling is harmful because it releases massive amounts of stored CO₂ from seafloor sediments and destroys delicate seabed habitats that take decades or centuries to recover."
+        },
+        {
+          type: "text" as const,
+          title: "Solutions and Hope",
+          content: "There are sustainable alternatives and actions we can take:\n\n**🎣 Use less destructive fishing methods** like pots, traps, or pole-and-line fishing\n\n**🏝️ Support marine protected areas (MPAs)** that ban bottom trawling\n\n**🐟 Choose sustainably caught seafood** - look for certifications or ask suppliers about fishing methods\n\n**📢 Raise awareness** about the hidden costs of bottom trawling"
+        },
+        {
+          type: "quiz" as const,
+          title: "Bycatch Knowledge",
+          content: "What does bottom trawling often result in?",
+          options: [
+            "Cleaner oceans",
+            "Faster coral growth", 
+            "High levels of bycatch and habitat loss",
+            "Selective, eco-friendly fishing"
+          ],
+          correctAnswer: 2,
+          explanation: "Bottom trawling results in high levels of bycatch (non-target species caught accidentally) and significant habitat loss, making it one of the most destructive fishing methods."
+        },
+        {
+          type: "quiz" as const,
+          title: "Climate Impact Assessment",
+          content: "Bottom trawling releases more CO₂ each year than:",
+          options: [
+            "All cars on Earth",
+            "The global aviation industry",
+            "Forest fires", 
+            "The entire fishing fleet combined"
+          ],
+          correctAnswer: 1,
+          explanation: "Bottom trawling releases approximately 1 billion tonnes of CO₂ annually, which exceeds the emissions from the entire global aviation industry, making it a significant but often overlooked contributor to climate change."
         }
       ]
     }
