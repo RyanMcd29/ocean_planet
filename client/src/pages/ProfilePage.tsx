@@ -136,6 +136,21 @@ const ProfilePage: React.FC = () => {
             </TabsList>
             
             <TabsContent value="overview" className="space-y-6">
+              <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                <Link href="/log-dive" className="flex-1">
+                  <Button className="w-full bg-[#05BFDB] hover:bg-[#088395] text-white flex items-center justify-center gap-2">
+                    <Plus className="h-4 w-4" />
+                    Log New Dive
+                  </Button>
+                </Link>
+                <Link href="/community" className="flex-1">
+                  <Button variant="outline" className="w-full border-[#088395] text-[#088395] hover:bg-[#088395] hover:text-white flex items-center justify-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    Share Experience
+                  </Button>
+                </Link>
+              </div>
+              
               <Card>
                 <CardHeader>
                   <CardTitle className="text-xl text-[#0A4D68]">Recent Activity</CardTitle>
