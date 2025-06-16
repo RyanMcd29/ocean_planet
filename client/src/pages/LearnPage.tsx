@@ -9,8 +9,8 @@ import LessonViewer from "@/components/lessons/LessonViewer";
 import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewer";
 import EnhancedLessonViewer from "@/components/lessons/EnhancedLessonViewer";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
-import { westernRockLobsterLesson } from "@/data/lessonContent";
-import { bottomTrawlingLesson, coralReefsLesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
+import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, type EnhancedLesson } from "@/data/enhancedLessons";
 
 import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin } from "lucide-react";
 
@@ -41,13 +41,14 @@ const allLessons = [
     id: 2,
     title: "Understanding Ocean Currents",
     category: "ocean-literacy",
-    duration: 5,
-    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop&crop=entropy&auto=format",
-    description: "Discover how ocean currents form, move around our planet, and influence climate, marine life, and human activities.",
+    duration: 7,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Explore how massive rivers of water shape our climate and marine life",
     completed: false,
     difficulty: "Beginner" as const,
-    isInteractive: true,
-    lessonData: lessons.find(l => l.id === 'ocean-currents')
+    isEnhanced: true,
+    specialBadge: "🌊",
+    enhancedLessonData: oceanCurrentsLesson
   },
   {
     id: 3,

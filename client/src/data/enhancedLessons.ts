@@ -117,6 +117,317 @@ export const bottomTrawlingLesson: EnhancedLesson = {
   ]
 };
 
+export const oceanCurrentsLesson: EnhancedLesson = {
+  id: "ocean-currents-enhanced",
+  title: "Understanding Ocean Currents",
+  description: "Explore how massive rivers of water shape our climate and marine life",
+  category: "ocean-literacy",
+  duration: 7,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Welcome to the Ocean's Highway System!",
+      content: "Imagine invisible rivers flowing through our oceans, carrying heat around the planet and influencing weather patterns worldwide. You're about to discover how these powerful ocean currents work like a global conveyor belt, affecting everything from the fish you see while diving to the weather outside your window."
+    },
+    {
+      type: "text",
+      title: "What Are Ocean Currents?",
+      content: "Ocean currents are like massive rivers within the sea, constantly moving water around our planet. Some flow at the surface, driven by winds, while others flow deep underwater, driven by differences in water temperature and saltiness.\n\nThese currents can be incredibly powerful - the Gulf Stream alone carries more water than all the world's rivers combined! They transport warm water from the tropics toward the poles and bring cold water back toward the equator.",
+      highlight: "The Gulf Stream moves 30 times more water than the Amazon River!"
+    },
+    {
+      type: "funFact",
+      title: "Nature's Climate Control",
+      content: "Ocean currents act like Earth's heating and cooling system. Without them, tropical regions would be unbearably hot and polar regions would be even colder than they are now. The Gulf Stream, for example, keeps Western Europe's climate much warmer than it would otherwise be."
+    },
+    {
+      type: "image",
+      title: "Global Ocean Circulation",
+      content: "This map shows the major ocean currents that circle our planet like a vast underwater highway system.",
+      image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "Global ocean currents form interconnected loops that transport heat and nutrients worldwide"
+    },
+    {
+      type: "text",
+      title: "How Do Currents Form?",
+      content: "Ocean currents are created by several forces working together:\n\n**Wind Power**: Surface winds push water, creating surface currents. Trade winds near the equator are especially important.\n\n**Temperature Differences**: Warm water is lighter and rises, while cold water is heavier and sinks, creating circulation.\n\n**Salt Content**: Saltier water is denser and sinks, while fresher water floats, driving deep ocean currents.\n\n**Earth's Rotation**: The Coriolis effect causes currents to curve as Earth spins."
+    },
+    {
+      type: "quiz",
+      title: "Current Knowledge Check",
+      content: "What is the primary driver of surface ocean currents?",
+      options: [
+        "Underwater earthquakes",
+        "Wind patterns",
+        "Moon's gravity",
+        "Fish migrations"
+      ],
+      correctAnswer: 1,
+      explanation: "Wind patterns are the primary driver of surface ocean currents. Consistent wind patterns like trade winds push surface water, creating the major current systems we see today."
+    },
+    {
+      type: "text",
+      title: "Impact on Marine Life",
+      content: "Ocean currents are highways for marine life, carrying nutrients, food, and even the animals themselves:\n\n**Nutrient Transport**: Currents bring nutrients from deep waters to the surface, feeding microscopic plants that form the base of the food chain.\n\n**Migration Routes**: Many marine animals, from sea turtles to whales, use currents to travel efficiently across vast distances.\n\n**Spawning Areas**: Fish and other marine life often time their reproduction with current patterns to help their offspring reach suitable habitats."
+    },
+    {
+      type: "quiz",
+      title: "Marine Life Connection",
+      content: "How do ocean currents benefit marine ecosystems?",
+      options: [
+        "They create underwater storms",
+        "They transport nutrients and support migration",
+        "They make water warmer everywhere",
+        "They prevent fish from moving around"
+      ],
+      correctAnswer: 1,
+      explanation: "Ocean currents transport nutrients from deep waters to the surface and provide migration highways for marine life, making them essential for healthy ocean ecosystems."
+    },
+    {
+      type: "conclusion",
+      title: "The Ocean's Global Impact",
+      content: "You've discovered how ocean currents connect every part of our planet's ocean system. These powerful flows influence weather patterns, climate, and marine life worldwide. Understanding currents helps us appreciate how interconnected our ocean system really is - what happens in one part of the ocean affects the entire planet."
+    }
+  ]
+};
+
+export const leeuwincurrentLesson: EnhancedLesson = {
+  id: "leeuwin-current-enhanced",
+  title: "The Leeuwin Current",
+  description: "Discover Western Australia's unique warm-water current and its impact on marine life",
+  category: "ocean-literacy",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Meet Australia's Unique Current!",
+      content: "Western Australia has something special - a warm current flowing in the 'wrong' direction! Most currents on the west side of continents flow toward the equator, but the Leeuwin Current flows away from it. You're about to discover why this makes Western Australia's marine life so extraordinary."
+    },
+    {
+      type: "text",
+      title: "What Makes the Leeuwin Current Special?",
+      content: "The Leeuwin Current is Western Australia's warm, southward-flowing ocean current. Unlike most west-coast currents around the world, which are cold and flow toward the equator, the Leeuwin Current carries warm, tropical water southward along the coast.\n\nThis 'backwards' flow creates a unique marine environment, bringing tropical species much further south than they could normally survive.",
+      highlight: "The Leeuwin Current is one of only a few warm, poleward-flowing currents on Earth's western coasts!"
+    },
+    {
+      type: "image",
+      title: "The Current's Path",
+      content: "The Leeuwin Current flows over 5,000 kilometers along Western Australia's coast.",
+      image: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "Satellite imagery showing the warm Leeuwin Current flowing southward along Western Australia"
+    },
+    {
+      type: "funFact",
+      title: "A Marine Superhighway",
+      content: "The Leeuwin Current acts like a marine conveyor belt, transporting fish larvae, nutrients, and heat southward. During strong Leeuwin Current years, tropical fish species can be found as far south as Albany - over 1,000 kilometers from their normal range!"
+    },
+    {
+      type: "text",
+      title: "Impact on Western Australian Marine Life",
+      content: "The Leeuwin Current creates Western Australia's incredible marine biodiversity:\n\n**Tropical Visitors**: Warm water brings tropical fish species south, creating unique mixed communities.\n\n**Rock Lobster Recruitment**: The current carries baby rock lobsters from breeding areas to coastal nurseries.\n\n**Coral Communities**: Enables coral growth much further south than usual, creating unique temperate coral reefs.\n\n**Seasonal Changes**: Current strength varies, creating different marine conditions each year."
+    },
+    {
+      type: "quiz",
+      title: "Current Knowledge",
+      content: "What makes the Leeuwin Current unusual compared to most west-coast ocean currents?",
+      options: [
+        "It flows very slowly",
+        "It flows southward carrying warm water",
+        "It only flows in winter",
+        "It's very shallow"
+      ],
+      correctAnswer: 1,
+      explanation: "The Leeuwin Current is unusual because it flows southward (poleward) carrying warm tropical water, while most west-coast currents flow toward the equator and are cold."
+    },
+    {
+      type: "text",
+      title: "Climate and Weather Effects",
+      content: "The Leeuwin Current doesn't just affect marine life - it influences Western Australia's weather too:\n\n**Rainfall Patterns**: Stronger current years often bring more rainfall to southwestern Australia.\n\n**Temperature Moderation**: The warm water keeps coastal temperatures milder than they would otherwise be.\n\n**Storm Systems**: The current can influence the development and path of weather systems."
+    },
+    {
+      type: "conclusion",
+      title: "Western Australia's Marine Marvel",
+      content: "You've explored how the Leeuwin Current makes Western Australia's marine environment truly unique. This warm, southward-flowing current creates one of the world's most biodiverse marine regions, mixing tropical and temperate species in ways found nowhere else on Earth. Next time you're diving or snorkeling in WA, remember you're experiencing the gifts of this remarkable current!"
+    }
+  ]
+};
+
+export const westernRockLobsterLesson: EnhancedLesson = {
+  id: "western-rock-lobster-enhanced",
+  title: "Meet the Western Rock Lobster",
+  description: "Discover Western Australia's iconic marine species and their incredible life journey",
+  category: "species",
+  duration: 8,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Meet WA's Marine Icon!",
+      content: "You're about to meet one of Western Australia's most famous underwater residents. The Western Rock Lobster has an incredible life story - from tiny floating larvae to armored adults. Their journey across the ocean and back is one of nature's most remarkable adventures."
+    },
+    {
+      type: "text",
+      title: "Getting to Know Western Rock Lobsters",
+      content: "The Western Rock Lobster (Panulirus cygnus) is found only in the waters off Western Australia. These amazing creatures don't have claws like their eastern cousins - instead, they have powerful spiny antennae and strong legs for walking across the reef.\n\nThey're easily recognized by their reddish-brown color with white and yellow spots, and those impressive long antennae that can be longer than their body!",
+      highlight: "Western Rock Lobsters can live up to 20 years and grow to over 5 kilograms!"
+    },
+    {
+      type: "image",
+      title: "Adult Western Rock Lobster",
+      content: "Adult Western Rock Lobsters are impressive creatures with distinctive spiny shells and long antennae.",
+      image: "https://images.unsplash.com/photo-1559616573-7755a48a70f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "An adult Western Rock Lobster showing its characteristic spiny shell and long antennae"
+    },
+    {
+      type: "funFact",
+      title: "The Great Ocean Journey",
+      content: "Western Rock Lobster babies (called phyllosoma) spend up to 11 months floating in the open ocean! They drift with currents for hundreds of kilometers before returning to the coast as juveniles. This epic journey can take them as far as Indonesia before they find their way home to Western Australian reefs."
+    },
+    {
+      type: "text",
+      title: "Life Cycle Adventure",
+      content: "Western Rock Lobsters have one of the most complex life cycles in the ocean:\n\n**Stage 1 - Eggs**: Females carry bright orange eggs under their tails for about 3 months.\n\n**Stage 2 - Phyllosoma**: Tiny, transparent larvae float in the open ocean for 9-11 months, growing through 11 different stages.\n\n**Stage 3 - Puerulus**: Juveniles return to the coast and settle in shallow reefs and seagrass beds.\n\n**Stage 4 - Adults**: After several years, they move to deeper reefs where they can grow very large."
+    },
+    {
+      type: "quiz",
+      title: "Life Cycle Knowledge",
+      content: "How long do Western Rock Lobster larvae spend floating in the open ocean?",
+      options: [
+        "About 1 month",
+        "3-4 months",
+        "9-11 months",
+        "2 years"
+      ],
+      correctAnswer: 2,
+      explanation: "Western Rock Lobster larvae (phyllosoma) spend an incredible 9-11 months floating in the open ocean before returning to coastal reefs as juveniles."
+    },
+    {
+      type: "text",
+      title: "Habitat and Behavior",
+      content: "Western Rock Lobsters are creatures of habit:\n\n**Reef Dwellers**: Adults live in caves and crevices in limestone reefs, coming out mainly at night to feed.\n\n**Group Living**: Young lobsters often shelter together in groups for protection.\n\n**Seasonal Migration**: During winter, they migrate to deeper waters to breed.\n\n**Territory Holders**: Larger adults establish territories and will defend their favorite caves."
+    },
+    {
+      type: "image",
+      title: "Juvenile Habitat",
+      content: "Young Western Rock Lobsters seek shelter in shallow seagrass beds and reef crevices.",
+      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "Seagrass beds provide important nursery habitat for juvenile Western Rock Lobsters"
+    },
+    {
+      type: "funFact",
+      title: "Sustainable Success Story",
+      content: "Western Australia's rock lobster fishery is one of the world's most sustainable lobster fisheries. Strict size limits, seasonal closures, and quotas help ensure these amazing creatures will be around for future generations to enjoy both underwater and on the dinner table!"
+    },
+    {
+      type: "quiz",
+      title: "Conservation Understanding",
+      content: "What makes Western Australia's rock lobster fishery sustainable?",
+      options: [
+        "There are no fishing rules",
+        "Only tourists can catch them",
+        "Strict size limits, seasons, and quotas",
+        "They reproduce very quickly"
+      ],
+      correctAnswer: 2,
+      explanation: "Western Australia's rock lobster fishery uses strict size limits, seasonal closures, and quotas to ensure the population remains healthy and sustainable for the future."
+    },
+    {
+      type: "conclusion",
+      title: "WA's Marine Treasure",
+      content: "You've discovered the remarkable story of Western Australia's most iconic marine species. From their epic ocean journey as larvae to their role as reef guardians, Western Rock Lobsters are truly special. Next time you're diving in WA waters, look for their distinctive antennae poking out from reef crevices - you're seeing millions of years of evolution in action!"
+    }
+  ]
+};
+
+export const reefFishLesson: EnhancedLesson = {
+  id: "reef-fish-enhanced",
+  title: "Identifying Reef Fish",
+  description: "Learn to recognize common reef fish and understand their important roles in marine ecosystems",
+  category: "species",
+  duration: 7,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Welcome to the Reef Fish World!",
+      content: "Imagine swimming through an underwater city where every resident has a different job, color, and personality. Coral reefs are home to an incredible diversity of fish species, each playing a unique role. You're about to become a reef fish detective, learning to spot the key features that make each species special."
+    },
+    {
+      type: "text",
+      title: "Why Learn About Reef Fish?",
+      content: "Reef fish are like the heartbeat of coral reef ecosystems. They perform essential jobs that keep reefs healthy:\n\n**Cleaners**: Some fish specialize in removing parasites from other fish, like underwater doctors.\n\n**Gardeners**: Herbivorous fish graze on algae, preventing it from smothering corals.\n\n**Builders**: Some fish help create and maintain reef structures.\n\n**Recyclers**: Fish waste provides important nutrients for coral growth.",
+      highlight: "A single coral reef can be home to over 4,000 different fish species!"
+    },
+    {
+      type: "image",
+      title: "Reef Fish Diversity",
+      content: "Coral reefs showcase an incredible variety of fish shapes, sizes, and colors.",
+      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "A diverse community of reef fish species in their natural coral habitat"
+    },
+    {
+      type: "text",
+      title: "Key Identification Features",
+      content: "When identifying reef fish, look for these important characteristics:\n\n**Body Shape**: Is it flat, round, elongated, or disc-shaped? Shape tells you about lifestyle.\n\n**Color Patterns**: Stripes, spots, solid colors, or color-changing abilities.\n\n**Fin Shape**: Pointed, rounded, or specialized fins indicate different swimming styles and behaviors.\n\n**Size**: From tiny gobies smaller than your thumb to large groupers bigger than you.\n\n**Behavior**: How they swim, where they live, and what they eat."
+    },
+    {
+      type: "funFact",
+      title: "Master of Disguise",
+      content: "Many reef fish can change their colors instantly! Parrotfish can shift from bright daytime colors to dull nighttime patterns in seconds. Some wrasses even change sex and completely transform their colors as they mature from female to male."
+    },
+    {
+      type: "quiz",
+      title: "Fish Feature Quiz",
+      content: "What does a fish's body shape primarily tell you about?",
+      options: [
+        "How old it is",
+        "Its lifestyle and habitat preferences",
+        "What color it will become",
+        "How many eggs it lays"
+      ],
+      correctAnswer: 1,
+      explanation: "A fish's body shape reveals a lot about its lifestyle - flat fish often live on the bottom, streamlined fish are fast swimmers, and deep-bodied fish are often maneuverable reef dwellers."
+    },
+    {
+      type: "text",
+      title: "Common Reef Fish Families",
+      content: "Here are some key reef fish families you're likely to encounter:\n\n**Angelfish**: Disc-shaped with beautiful patterns, often seen in pairs.\n\n**Butterflyfish**: Colorful with delicate fins, many have eyespots to confuse predators.\n\n**Parrotfish**: Large lips and beak-like mouths for scraping algae from coral.\n\n**Wrasses**: Diverse family with many shapes and colors, excellent cleaners.\n\n**Damselfish**: Small, territorial fish that often tend algae gardens.\n\n**Groupers**: Large predators with huge mouths that can swallow prey whole."
+    },
+    {
+      type: "image",
+      title: "Parrotfish in Action",
+      content: "Parrotfish use their beak-like mouths to scrape algae from coral surfaces.",
+      image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "A colorful parrotfish grazing on coral - these fish help keep reefs healthy by controlling algae"
+    },
+    {
+      type: "quiz",
+      title: "Fish Family Knowledge",
+      content: "Which reef fish family is known for having beak-like mouths used to scrape algae?",
+      options: [
+        "Angelfish",
+        "Butterflyfish",
+        "Parrotfish",
+        "Damselfish"
+      ],
+      correctAnswer: 2,
+      explanation: "Parrotfish have distinctive beak-like mouths that they use to scrape algae from coral surfaces, playing a crucial role in keeping reefs healthy."
+    },
+    {
+      type: "text",
+      title: "Observing Fish Behavior",
+      content: "Understanding fish behavior helps with identification and appreciation:\n\n**Feeding Behavior**: Watch what and how fish eat - some graze, others hunt, some clean.\n\n**Social Structure**: Some fish live alone, others in pairs, schools, or complex communities.\n\n**Territory Defense**: Many reef fish defend specific areas and will chase away intruders.\n\n**Cleaning Stations**: Look for areas where cleaner fish provide services to other species."
+    },
+    {
+      type: "conclusion",
+      title: "Your Reef Fish Journey Begins",
+      content: "You now have the foundation to start identifying and appreciating reef fish. Remember, each fish you encounter has a specific role in the reef community. The more you observe and learn, the more you'll appreciate the complex relationships that make coral reefs such incredible ecosystems. Happy fish watching on your next underwater adventure!"
+    }
+  ]
+};
+
 export const coralReefsLesson: EnhancedLesson = {
   id: "coral-reefs-enhanced",
   title: "Coral Reefs: The Ocean's Rainforests",
