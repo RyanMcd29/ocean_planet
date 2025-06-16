@@ -60,6 +60,12 @@ const Header: React.FC = () => {
           )}>
             Learn
           </Link>
+          <Link href="/micro-lessons" className={cn(
+            "hover:text-[#05BFDB] transition duration-200",
+            isActive("/micro-lessons") && "text-[#05BFDB]"
+          )}>
+            Lessons
+          </Link>
 
         </nav>
         
