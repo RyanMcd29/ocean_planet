@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mini Lesson: Bottom Trawling</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.6;
+      background-color: #f0f9ff;
+      color: #00304b;
+    }
+    h1, h2 {
+      color: #005e7c;
+    }
+    .quiz {
+      background: #e0f7fa;
+      padding: 10px;
+      margin: 10px 0;
+      border-left: 4px solid #007b91;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌊 Mini Lesson: The Hidden Cost of Bottom Trawling</h1>
+
+  <h2>🐟 What is Bottom Trawling?</h2>
+  <p>
+    Bottom trawling is a fishing method where heavy nets are dragged along the seafloor to scoop up fish like cod, prawns, and flounder. It’s highly efficient — but devastating to the ocean floor.
+  </p>
+
+  <h2>⚠️ Why Is It a Problem?</h2>
+  <p>
+    These nets don’t just catch fish — they tear up delicate habitats like cold-water corals, seagrass meadows, and sponge forests. These ecosystems can take decades or even centuries to recover.
+  </p>
+
+  <h2>🌍 Climate Impact: CO₂ from the Seafloor</h2>
+  <p>
+    Bottom trawling releases around <strong>1 billion tonnes of CO₂ every year</strong> — more than the entire global aviation industry. This carbon, once stored in seabed sediments, may re-enter the ocean and atmosphere, contributing to <strong>climate change</strong> and <strong>ocean acidification</strong>.
+  </p>
+
+  <h2>💔 Bycatch: The Unseen Victims</h2>
+  <p>
+    Trawling nets often kill non-target species like turtles, dolphins, sharks, and juvenile fish. This "bycatch" is usually discarded, harming biodiversity.
+  </p>
+
+  <h2>🌱 What Can Be Done?</h2>
+  <ul>
+    <li>Use sustainable fishing methods (like traps or pole-and-line)</li>
+    <li>Support Marine Protected Areas that ban trawling</li>
+    <li>Buy seafood from sustainable sources</li>
+  </ul>
+
+  <h2>🧠 Mini Quiz</h2>
+
+  <div class="quiz">
+    <p><strong>1. Why is bottom trawling harmful?</strong></p>
+    <input type="checkbox"> A) It only targets large fish<br>
+    <input type="checkbox" checked> B) It releases CO₂ and destroys seabed habitats<br>
+    <input type="checkbox"> C) It improves biodiversity<br>
+    <input type="checkbox"> D) It increases fish reproduction
+  </div>
+
+  <div class="quiz">
+    <p><strong>2. What does bottom trawling often result in?</strong></p>
+    <input type="checkbox"> A) Cleaner oceans<br>
+    <input type="checkbox"> B) Faster coral growth<br>
+    <input type="checkbox" checked> C) High levels of bycatch and habitat loss<br>
+    <input type="checkbox"> D) Selective, eco-friendly fishing
+  </div>
+
+  <div class="quiz">
+    <p><strong>3. Bottom trawling releases more CO₂ each year than:</strong></p>
+    <input type="checkbox"> A) All cars on Earth<br>
+    <input type="checkbox" checked> B) The global aviation industry<br>
+    <input type="checkbox"> C) Forest fires<br>
+    <input type="checkbox"> D) The fishing fleet combined
+  </div>
+
+</body>
+</html>
