@@ -54,85 +54,40 @@ const allLessons = [
     id: 3,
     title: "The Leeuwin Current",
     category: "ocean-literacy",
-    duration: 4,
-    thumbnail: "https://images.unsplash.com/photo-1582845512887-58e3c7936d86?w=800&h=600&fit=crop&crop=entropy&auto=format",
-    description: "Explore the Leeuwin Current, Western Australia's distinctive warm-water current that flows southward against prevailing winds.",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Discover Western Australia's unique warm-water current and its impact on marine life",
     completed: false,
-    difficulty: "Intermediate" as const,
-    isInteractive: true,
-    lessonData: lessons.find(l => l.id === 'leeuwin-current')
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🌊",
+    enhancedLessonData: leeuwincurrentLesson
   },
   {
     id: 4,
     title: "Meet the Western Rock Lobster",
-    category: "species-identification",
-    duration: 3,
-    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-    description: "Panulirus cygnus – A spiny icon of Western Australia's reefs",
+    category: "species",
+    duration: 8,
+    thumbnail: "https://images.unsplash.com/photo-1559616573-7755a48a70f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Discover Western Australia's iconic marine species and their incredible life journey",
     completed: false,
     difficulty: "Beginner" as const,
-    isInteractive: true,
-    specialBadge: "🦞"
+    isEnhanced: true,
+    specialBadge: "🦞",
+    enhancedLessonData: enhancedWesternRockLobsterLesson
   },
   {
     id: 5,
     title: "Identifying Reef Fish",
-    category: "species-identification",
+    category: "species",
     duration: 7,
-    thumbnail: "https://images.unsplash.com/photo-1545759332-b3a0e9a1c59b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Master the art of reef fish identification through key features, behaviors, and family characteristics.",
+    thumbnail: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Learn to recognize common reef fish and understand their important roles in marine ecosystems",
     completed: false,
-    difficulty: "Intermediate" as const,
-    isInteractive: true,
-    lessonData: {
-      id: "reef-fish-identification",
-      title: "Identifying Reef Fish",
-      description: "Master the art of reef fish identification through key features, behaviors, and family characteristics.",
-      category: "species-identification",
-      duration: 7,
-      thumbnail: "https://images.unsplash.com/photo-1545759332-b3a0e9a1c59b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-      difficulty: "Intermediate" as const,
-      steps: [
-        {
-          type: "text" as const,
-          title: "The Art of Fish Identification",
-          content: "Identifying reef fish transforms your diving experience from simply observing to truly understanding the underwater world. Fish identification enhances your connection with marine ecosystems and contributes valuable data to citizen science projects.\n\nSuccessful fish identification relies on observing key characteristics: body shape, size, coloration patterns, fin configuration, behavior, and habitat preferences."
-        },
-        {
-          type: "text" as const,
-          title: "Key Identification Features",
-          content: "**Body Shape & Size:**\n• Fusiform (torpedo-shaped): Fast swimmers like tuna and jacks\n• Compressed (flattened): Reef dwellers like angelfish and butterflyfish\n• Elongated: Predators like barracuda and needlefish\n• Disc-shaped: Bottom dwellers like rays and flounder\n\n**Fin Configuration:**\n• Number and position of dorsal fins\n• Shape of tail fin (rounded, forked, or lunate)\n• Presence of specialized fins (pelvic fins modified into suckers)\n\n**Coloration & Patterns:**\n• Solid colors vs. patterns (stripes, spots, bands)\n• Sexual dimorphism (males vs. females)\n• Juvenile vs. adult coloration changes"
-        },
-        {
-          type: "image" as const,
-          title: "Butterflyfish Family Features",
-          content: "Butterflyfish are excellent starter fish for identification practice. They have distinctive compressed bodies, bright colors, and often feature eye spots or bands.",
-          image: "https://images.unsplash.com/photo-1545759332-b3a0e9a1c59b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-          caption: "Butterflyfish displaying characteristic compressed body shape and vibrant patterns"
-        },
-        {
-          type: "quiz" as const,
-          title: "Body Shape Recognition",
-          content: "Which body shape is most commonly associated with fast-swimming pelagic fish?",
-          options: ["Compressed (flattened)", "Fusiform (torpedo-shaped)", "Elongated", "Disc-shaped"],
-          correctAnswer: 1,
-          explanation: "Fusiform (torpedo-shaped) bodies are streamlined for efficient swimming and are characteristic of fast-moving pelagic fish like tuna, jacks, and mackerel."
-        },
-        {
-          type: "text" as const,
-          title: "Major Reef Fish Families",
-          content: "**Parrotfish (Scaridae):**\n• Beak-like fused teeth for scraping algae\n• Bright, often changing colors\n• Important for reef health through bioerosion\n\n**Angelfish (Pomacanthidae):**\n• Compressed bodies with extended dorsal and anal fins\n• Distinctive juvenile vs. adult coloration\n• Often territorial around cleaning stations\n\n**Wrasses (Labridae):**\n• Elongated bodies with protruding canine teeth\n• Sequential hermaphrodites (change sex during life)\n• Active swimmers, often following divers\n\n**Damselfish (Pomacentridae):**\n• Small, territorial fish\n• Brilliant colors, especially in juveniles\n• Aggressive defenders of algae gardens"
-        },
-        {
-          type: "quiz" as const,
-          title: "Family Characteristics",
-          content: "Which fish family is characterized by beak-like fused teeth used for scraping algae from coral?",
-          options: ["Angelfish (Pomacanthidae)", "Parrotfish (Scaridae)", "Wrasses (Labridae)", "Butterflyfish (Chaetodontidae)"],
-          correctAnswer: 1,
-          explanation: "Parrotfish (Scaridae) have distinctive beak-like fused teeth that they use to scrape algae and coral polyps from reef surfaces, playing a crucial role in reef bioerosion and sand production."
-        }
-      ]
-    }
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🐠",
+    enhancedLessonData: reefFishLesson
   },
   {
     id: 6,
@@ -143,7 +98,6 @@ const allLessons = [
     description: "Discover how this common fishing method is reshaping our ocean floors and climate",
     completed: false,
     difficulty: "Beginner" as const,
-    isInteractive: true,
     isEnhanced: true,
     specialBadge: "🌊",
     enhancedLessonData: bottomTrawlingLesson
@@ -420,29 +374,11 @@ export default function LearnPage() {
       {/* Western Rock Lobster Interactive Lesson */}
       {showInteractiveLesson && (
         <InteractiveLessonViewer
-          lesson={westernRockLobsterLesson}
+          lesson={originalWesternRockLobsterLesson}
           onClose={handleCloseLesson}
         />
       )}
-            <div className="fixed bottom-0 left-0 w-full bg-white p-4 border-t">
-        <div className="max-w-md mx-auto flex justify-around">
-          
-          <Button 
-                    variant="outline" 
-                    className="text-[#088395] border-[#088395]"
-                    asChild
-                  >
-                    <a href="/#species">Browse Species</a>
-                  </Button>
-                  
-                  <Button 
-                    className="bg-[#05BFDB] hover:bg-[#088395] text-white"
-                    asChild
-                  >
-                    <a href="/log-dive">Log a Sighting</a>
-                  </Button>
-        </div>
-      </div>
+
     </div>
   );
 }
