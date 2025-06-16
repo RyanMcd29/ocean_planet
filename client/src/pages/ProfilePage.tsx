@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Edit, MapPin, Camera, Fish, Star, Calendar, Award } from "lucide-react";
+import { Edit, MapPin, Camera, Fish, Star, Calendar, Award, Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDiveSites, fetchUserFavorites, fetchUserSpottedSpecies, fetchSpeciesById } from "@/lib/api";
 import { Link } from "wouter";

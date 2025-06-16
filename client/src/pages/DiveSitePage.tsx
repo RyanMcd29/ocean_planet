@@ -6,7 +6,7 @@ import DiveSiteDetails from "@/components/dive-site/DiveSiteDetails";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowLeft, Map } from "lucide-react";
+import { ArrowLeft, Map, Plus } from "lucide-react";
 
 const DiveSitePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -33,15 +33,26 @@ const DiveSitePage: React.FC = () => {
   
   return (
     <div className="container mx-auto px-4 py-4 flex-1">
-      <div className="flex items-center mb-4">
-        <Link href="/">
-          <Button variant="outline" size="sm" className="mr-2">
-            <ArrowLeft className="h-4 w-4 mr-1" /> Back to Map
-          </Button>
-        </Link>
-        <h1 className="text-2xl font-montserrat font-bold text-[#0A4D68]">
-          {isLoading ? <Skeleton className="h-8 w-48" /> : diveSite?.name}
-        </h1>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+        <div className="flex items-center">
+          <Link href="/">
+            <Button variant="outline" size="sm" className="mr-2">
+              <ArrowLeft className="h-4 w-4 mr-1" /> Back to Map
+            </Button>
+          </Link>
+          <h1 className="text-xl sm:text-2xl font-montserrat font-bold text-[#0A4D68] truncate">
+            {isLoading ? <Skeleton className="h-8 w-48" /> : diveSite?.name}
+          </h1>
+        </div>
+        
+        {!isLoading && diveSite && (
+          <Link href={`/log-dive?site=${diveSite.id}`}>
+            <Button className="bg-[#05BFDB] hover:bg-[#088395] text-white flex items-center gap-2 w-full sm:w-auto">
+              <Plus className="h-4 w-4" />
+              Log Dive at {diveSite.name}
+            </Button>
+          </Link>
+        )}
       </div>
       
       {isLoading ? (

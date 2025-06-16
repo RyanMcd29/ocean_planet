@@ -13,15 +13,17 @@ const MobileNav: React.FC = () => {
     <div className="md:hidden fixed bottom-0 left-0 right-0 bg-[#0A4D68] text-white shadow-lg z-50">
       <div className="flex justify-center items-end px-4 py-2">
         <div className="flex items-end justify-between w-full max-w-sm">
-          <Link href="/log-dive" className={cn(
+          <Link href="/community" className={cn(
             "flex flex-col items-center px-2 py-1 flex-1",
-            isActive("/log-dive") ? "text-[#05BFDB]" : "text-white"
+            isActive("/community") ? "text-[#05BFDB]" : "text-white"
           )}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
-            <span className="text-xs mt-1">Log</span>
+            <span className="text-xs mt-1">Community</span>
           </Link>
           
           <Link href="/species" className={cn(
@@ -29,9 +31,13 @@ const MobileNav: React.FC = () => {
             isActive("/species") ? "text-[#05BFDB]" : "text-white"
           )}>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-              <path d="M6.5 12c0-1 1.5-2 3.5-2s3.5 1 3.5 2-1.5 2-3.5 2-3.5-1-3.5-2z"/>
-              <path d="M2 12c0-1 1.5-2 3.5-2s3.5 1 3.5 2-1.5 2-3.5 2-3.5-1-3.5-2z"/>
-              <path d="M14.5 12c0-1 1.5-2 3.5-2s3.5 1 3.5 2-1.5 2-3.5 2-3.5-1-3.5-2z"/>
+              <circle cx="5" cy="6" r="3"/>
+              <path d="M12 6h5a2 2 0 0 1 2 2v7"/>
+              <path d="M12 6V4a2 2 0 0 1 2-2h3"/>
+              <path d="M12 6V4a2 2 0 0 0-2-2H7"/>
+              <path d="M12 6h-5a2 2 0 0 0-2 2v7"/>
+              <circle cx="5" cy="18" r="3"/>
+              <circle cx="19" cy="18" r="3"/>
             </svg>
             <span className="text-xs mt-1">Species</span>
           </Link>
