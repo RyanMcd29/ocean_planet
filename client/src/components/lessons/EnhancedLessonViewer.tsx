@@ -5,27 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { ChevronLeft, ChevronRight, X, CheckCircle, Lightbulb, Award } from 'lucide-react';
 
-interface LessonContent {
-  type: 'text' | 'image' | 'funFact' | 'quiz';
-  title?: string;
-  content: string;
-  image?: string;
-  caption?: string;
-  options?: string[];
-  correctAnswer?: number;
-  explanation?: string;
-}
-
-interface EnhancedLesson {
-  id: string;
-  title: string;
-  category: string;
-  duration: number;
-  thumbnail: string;
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-  description: string;
-  steps: LessonContent[];
-}
+import { EnhancedLesson } from '@/data/enhancedLessons';
 
 interface EnhancedLessonViewerProps {
   lesson: EnhancedLesson;
@@ -79,6 +59,8 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({ lesson, onC
 
   const renderContent = () => {
     switch (currentStepData.type) {
+      case 'intro':
+      case 'conclusion':
       case 'text':
         return (
           <div className="space-y-4">
