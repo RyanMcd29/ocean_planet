@@ -104,6 +104,8 @@ The application is configured for Replit's autoscaling deployment:
 ## Changelog
 
 - June 16, 2025. Initial setup
+- June 16, 2025. Enhanced lesson template system with consistent conversational style across all micro-lessons
+- June 16, 2025. Updated mobile navigation: replaced Log button with Community, changed Species icon, added Log Dive buttons to dive site pages and Profile
 
 ## User Preferences
 

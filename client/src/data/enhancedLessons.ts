@@ -499,3 +499,98 @@ export const coralReefsLesson: EnhancedLesson = {
     }
   ]
 };
+
+export const oceanLiteracyPrinciple1Lesson: EnhancedLesson = {
+  id: "ocean-literacy-principle-1",
+  title: "Ocean Literacy Principle 1: Earth has one big ocean with many features",
+  description: "Discover why Earth really has just one interconnected ocean and explore its amazing underwater landscapes",
+  category: "ocean-literacy",
+  duration: 5,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Welcome to the One Ocean World!",
+      content: "Did you know there's really just one ocean on Earth? Even though we often talk about the Pacific, Atlantic, Indian, Arctic, and Southern Oceans, they're all part of one massive, connected global ocean. You're about to discover why this connection matters and explore the incredible underwater landscapes that make up our planet's most important feature."
+    },
+    {
+      type: "text",
+      title: "The Truth About Earth's Ocean",
+      content: "Here's something that might surprise you: scientists consider Earth to have just one ocean, not five separate ones. The water moves constantly between what we call different oceans, carrying heat, nutrients, and life with it.\n\nThink of it like a giant swimming pool with no walls between the deep end and shallow end - the water is all connected. A drop of water from the Pacific can travel through currents and eventually reach the Atlantic, Indian, Arctic, and Southern regions.",
+      highlight: "The ocean covers 71% of Earth's surface - that's more than twice the land area!"
+    },
+    {
+      type: "quiz",
+      title: "Ocean Connection Quiz",
+      content: "How many separate oceans are there, scientifically speaking?",
+      options: [
+        "Just 1 connected ocean",
+        "3 distinct oceans",
+        "5 separate oceans", 
+        "7 different oceans"
+      ],
+      correctAnswer: 0,
+      explanation: "Scientifically, Earth has one big interconnected ocean. While we use names like Pacific and Atlantic for different regions, the water is all connected and constantly moving between these areas."
+    },
+    {
+      type: "text",
+      title: "The Global Ocean Connection",
+      content: "The ocean's connection goes far beyond just being one body of water. Here's how it all works together:\n\n**The Global Conveyor Belt**: Ocean currents act like a massive conveyor belt, moving warm and cold water around the entire planet. This system takes about 1,000 years to complete one full cycle!\n\n**Shared Wildlife**: Marine animals don't recognize our ocean boundaries. Whales migrate between 'different' oceans, and sea turtles cross entire ocean basins.\n\n**Global Impact**: What happens in one part of the ocean affects everywhere else. A plastic bottle dropped in California could drift across the Pacific and wash up in Indonesia.",
+      highlight: "Ocean currents transport 100 times more water than all the world's rivers combined!"
+    },
+    {
+      type: "image",
+      title: "Ocean Currents in Action",
+      content: "The Global Conveyor Belt shows how ocean water circulates around the entire planet.",
+      image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "Ocean currents create a global circulation system that connects all parts of the world's ocean"
+    },
+    {
+      type: "quiz",
+      title: "Current Knowledge",
+      content: "What is one major way oceans are interconnected?",
+      options: [
+        "Deep-sea volcanoes only",
+        "Ocean currents that move water globally",
+        "Separate salt levels in each region",
+        "Local tides that stay in one area"
+      ],
+      correctAnswer: 1,
+      explanation: "Ocean currents are a major way the global ocean is interconnected. These currents move water, heat, nutrients, and marine life around the entire planet, connecting all ocean regions."
+    },
+    {
+      type: "text",
+      title: "Amazing Ocean Floor Features",
+      content: "The ocean floor isn't flat and boring - it's full of incredible landscapes that would put any mountain range to shame:\n\n**Mid-Ocean Ridges**: Underwater mountain chains that stretch for 65,000 kilometers around the globe. These are where new ocean floor is born from volcanic activity.\n\n**Abyssal Plains**: Vast, flat areas of the deep ocean floor covered in fine sediment. They're some of the flattest places on Earth.\n\n**Seamounts**: Underwater mountains that rise from the ocean floor. Some are taller than Mount Everest but never reach the surface.\n\n**Ocean Trenches**: The deepest parts of the ocean, some reaching depths of over 11 kilometers - deeper than Mount Everest is tall!",
+      highlight: "The Mariana Trench is so deep that if Mount Everest were placed inside it, the peak would still be over 2 kilometers underwater!"
+    },
+    {
+      type: "funFact",
+      title: "Underwater Geography Records",
+      content: "The ocean floor holds some incredible records: The Mid-Atlantic Ridge is the longest mountain range on Earth at 65,000 km. The Pacific Ring of Fire contains 75% of the world's active volcanoes. And we've explored less than 5% of the ocean floor - meaning there are countless amazing features still waiting to be discovered!"
+    },
+    {
+      type: "quiz",
+      title: "Ocean Features Quiz",
+      content: "Which of these is a real feature of the ocean floor?",
+      options: [
+        "Ice fields that never melt",
+        "Sand deserts like the Sahara",
+        "Abyssal plains - vast flat areas",
+        "Floating coral islands"
+      ],
+      correctAnswer: 2,
+      explanation: "Abyssal plains are real features of the ocean floor. These are vast, flat areas in the deep ocean covered with fine sediment, making them some of the flattest places on our planet."
+    },
+    {
+      type: "text",
+      title: "Why Ocean Features Matter",
+      content: "These underwater landscapes aren't just amazing to learn about - they shape life on Earth:\n\n**Biodiversity Hotspots**: Seamounts and ridges create unique habitats for marine life that exists nowhere else.\n\n**Climate Regulation**: Ocean floor features influence how currents flow, which affects global weather patterns.\n\n**Resource Formation**: Many of our ocean resources, from fish populations to mineral deposits, are connected to these underwater features.\n\n**Geological Activity**: Mid-ocean ridges and trenches are where Earth's tectonic plates meet, creating new ocean floor and recycling old materials."
+    },
+    {
+      type: "conclusion",
+      title: "You're Now an Ocean Literacy Champion!",
+      content: "Congratulations! You've just completed Ocean Literacy Principle 1 of 7. You now understand that Earth truly has one big, interconnected ocean with incredible features.\n\nRemember: every action that affects the ocean - whether it's in your local area or halfway around the world - impacts this one global system. By understanding these connections, you're better equipped to make choices that help protect our planet's most important feature.\n\n**What You Can Do:**\n• Avoid single-use plastics that can travel across ocean basins\n• Support businesses that protect ocean health\n• Share your ocean knowledge with friends and family\n• Stay curious about the amazing world beneath the waves!\n\nReady to explore more ocean literacy principles? The ocean adventure continues!"
+    }
+  ]
+};

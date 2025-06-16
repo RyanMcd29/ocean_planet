@@ -10,7 +10,7 @@ import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewe
 import EnhancedLessonViewer from "@/components/lessons/EnhancedLessonViewer";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
-import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, type EnhancedLesson } from "@/data/enhancedLessons";
 
 import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin } from "lucide-react";
 
