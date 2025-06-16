@@ -594,3 +594,98 @@ export const oceanLiteracyPrinciple1Lesson: EnhancedLesson = {
     }
   ]
 };
+
+export const oceanLiteracyPrinciple2Lesson: EnhancedLesson = {
+  id: "ocean-literacy-principle-2",
+  title: "Ocean Literacy Principle 2: The ocean and life in the ocean shape the features of the Earth",
+  description: "Discover how ocean waves, currents, and marine life have sculpted our planet's landscape over millions of years",
+  category: "ocean-literacy",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Welcome to Earth's Greatest Sculptor!",
+      content: "Did you know the ocean isn't just shaped by Earth - it actually shapes Earth too? You're about to discover how waves, currents, and marine life have been Earth's master sculptors for millions of years, carving coastlines, building islands, and creating the landscapes we see today."
+    },
+    {
+      type: "text",
+      title: "The Ocean as Earth's Architect",
+      content: "Think of the ocean as a tireless artist that never stops working. Every wave that crashes on a beach, every current that flows around the globe, and every tiny marine creature contributes to reshaping our planet.\n\nThe ocean's power to shape Earth works in fascinating ways:\n\n**Wave Power**: Ocean waves are incredibly powerful sculptors. They can carve through solid rock over time, creating dramatic cliffs, sea caves, and arches. The constant pounding of waves breaks down rocks into sand, which then travels to form new beaches elsewhere.\n\n**Coastal Transformation**: What we see as 'permanent' coastlines are actually constantly changing. The ocean adds material in some places and takes it away in others, creating an ever-evolving shoreline.",
+      highlight: "A single large wave can exert a force of over 30 tons per square meter on a cliff face!"
+    },
+    {
+      type: "quiz",
+      title: "Ocean Shaping Quiz",
+      content: "Which natural feature is directly shaped by ocean activity?",
+      options: [
+        "Mountain ranges",
+        "Desert sand dunes", 
+        "Ocean beaches",
+        "Polar glaciers"
+      ],
+      correctAnswer: 2,
+      explanation: "Ocean beaches are directly shaped by wave action. Waves constantly move sand and sediment, building up beaches in some areas while eroding them in others. This process creates the dynamic coastlines we see today."
+    },
+    {
+      type: "text",
+      title: "Marine Life: The Living Builders",
+      content: "Some of the most impressive landscape features on Earth are actually built by living creatures in the ocean:\n\n**Coral Reef Islands**: Tiny coral animals create massive limestone structures over thousands of years. These reefs can grow so large they become entire islands! The Maldives, for example, are built entirely on ancient coral reefs.\n\n**Biological Sediments**: When marine creatures die, their shells and skeletons don't just disappear. They settle to the ocean floor, layer upon layer, eventually forming thick sediment deposits. Over millions of years, these can become new land or even mountain ranges when tectonic forces push them above sea level.\n\n**Living Ecosystem Engineers**: Marine organisms don't just build with their bodies - they actively shape their environment. Oysters create reef structures, seagrass beds trap sediment to build up the seafloor, and even tiny microscopic organisms help control ocean chemistry.",
+      highlight: "The White Cliffs of Dover in England are made from the compressed shells of ancient marine plankton!"
+    },
+    {
+      type: "image",
+      title: "Coral Reef Formation",
+      content: "Coral reefs are among the most impressive structures built by living organisms on Earth.",
+      image: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "Coral reefs like this one can grow over thousands of years to form entire islands and shape coastlines"
+    },
+    {
+      type: "quiz",
+      title: "Marine Life Impact Quiz",
+      content: "What do coral reefs contribute to over time?",
+      options: [
+        "Destruction of existing coastlines",
+        "Formation of new land and islands",
+        "Erosion of nearby mountains",
+        "Cooling of ocean temperatures"
+      ],
+      correctAnswer: 1,
+      explanation: "Coral reefs contribute to the formation of new land and islands over time. As coral animals build their limestone skeletons, these structures can grow large enough to reach the surface and become islands, like many Pacific atolls."
+    },
+    {
+      type: "text",
+      title: "Ocean's Global Impact on Earth",
+      content: "The ocean's influence on Earth goes far beyond just coastal areas:\n\n**Atmospheric Control**: Marine plants, especially tiny phytoplankton, produce over 50% of the oxygen we breathe. They also absorb massive amounts of carbon dioxide, helping regulate Earth's climate.\n\n**Weather Patterns**: Ocean currents distribute heat around the planet, creating different climate zones. Without ocean currents, Earth's weather would be completely different.\n\n**Continental Drift**: Over geological time, ocean currents and plate tectonics work together to literally move continents around the globe.\n\n**Volcanic Island Chains**: Underwater volcanic activity creates new land masses. The Hawaiian Islands are a perfect example - they were built from the ocean floor up by volcanic activity, and new islands are still forming today.",
+      highlight: "Every second breath you take comes from oxygen produced by marine plants in the ocean!"
+    },
+    {
+      type: "funFact",
+      title: "The Ocean's Oxygen Factory",
+      content: "Here's something amazing: the ocean produces more oxygen than all the world's forests combined! Tiny floating plants called phytoplankton are invisible to the naked eye, but they're working 24/7 to keep our atmosphere breathable. A single drop of seawater can contain thousands of these microscopic oxygen producers."
+    },
+    {
+      type: "quiz",
+      title: "Global Impact Quiz",
+      content: "Roughly how much of the world's oxygen is produced by the ocean?",
+      options: [
+        "About 10%",
+        "About 25%",
+        "About 50%",
+        "About 90%"
+      ],
+      correctAnswer: 2,
+      explanation: "The ocean produces approximately 50% of the world's oxygen, primarily through phytoplankton photosynthesis. These microscopic marine plants are essential for maintaining the oxygen levels that make life on Earth possible."
+    },
+    {
+      type: "text",
+      title: "Volcanic Islands: Ocean-Built Land",
+      content: "Some of the most dramatic examples of the ocean shaping Earth are volcanic island chains:\n\n**Hawaii**: The entire Hawaiian island chain was built from the ocean floor by underwater volcanoes. Each island started as an underwater mountain that grew tall enough to break the surface.\n\n**Iceland**: This island nation sits on the Mid-Atlantic Ridge, where new ocean floor is constantly being created by volcanic activity.\n\n**Galápagos Islands**: These famous islands were all born from underwater volcanoes and continue to be shaped by ocean processes today.\n\nThese aren't just ancient processes - new land is being created right now! The newest Hawaiian island, Lōʻihi, is currently growing underwater and will eventually emerge as a new island."
+    },
+    {
+      type: "conclusion",
+      title: "You're Now an Earth-Shaping Expert!",
+      content: "Congratulations! You've just completed Ocean Literacy Principle 2 of 7. You now understand how the ocean and marine life are constantly reshaping our planet.\n\nFrom tiny coral animals building massive reefs to powerful waves carving coastlines, the ocean is Earth's most active landscape architect. Understanding these processes helps us appreciate both the power of nature and our responsibility to protect marine ecosystems.\n\n**What You Can Do**\n\n**Visit coastal areas responsibly** – Respect beaches, cliffs, and coral reefs as the dynamic systems they are\n\n**Learn about coral conservation** – Support efforts to protect reef-building organisms\n\n**Support marine research** – Back scientific studies that help us understand ocean-Earth interactions\n\n**Protect marine habitats** – Help preserve the ecosystems that literally build our planet 🌊\n\n---\n\n🌊 Ready to explore more ocean literacy principles? The adventure continues!"
+    }
+  ]
+};

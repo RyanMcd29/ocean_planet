@@ -10,7 +10,7 @@ import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewe
 import EnhancedLessonViewer from "@/components/lessons/EnhancedLessonViewer";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
-import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, type EnhancedLesson } from "@/data/enhancedLessons";
 
 import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin } from "lucide-react";
 
@@ -114,6 +114,19 @@ const allLessons = [
     isEnhanced: true,
     specialBadge: "🌍",
     enhancedLessonData: oceanLiteracyPrinciple1Lesson
+  },
+  {
+    id: 8,
+    title: "Ocean Literacy Principle 2: The ocean and life in the ocean shape the features of the Earth",
+    category: "ocean-literacy",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Discover how ocean waves, currents, and marine life have sculpted our planet's landscape over millions of years",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🪨",
+    enhancedLessonData: oceanLiteracyPrinciple2Lesson
   }
 ];
 
