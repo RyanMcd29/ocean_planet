@@ -18,7 +18,6 @@ export interface EnhancedLesson {
   category: string;
   duration: number;
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
-  thumbnail: string;
   steps: EnhancedLessonStep[];
 }
 
@@ -29,7 +28,6 @@ export const bottomTrawlingLesson: EnhancedLesson = {
   category: "conservation",
   duration: 6,
   difficulty: "Beginner",
-  thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
   steps: [
     {
       type: "intro",
@@ -126,7 +124,6 @@ export const coralReefsLesson: EnhancedLesson = {
   category: "reef-ecology",
   duration: 8,
   difficulty: "Beginner",
-  thumbnail: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
   steps: [
     {
       type: "intro",
