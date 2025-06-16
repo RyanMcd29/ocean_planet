@@ -58,15 +58,15 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
   const handleNext = () => {
     if (!isLastStep) {
-      if (currentStepData.type === 'quiz' && selectedAnswer !== null) {
+      // For quiz steps, record the score
+      if (currentStepData.type === 'quiz' && selectedAnswer !== null && showFeedback) {
         if (!completedSteps.includes(currentStep)) {
           setCompletedSteps(prev => [...prev, currentStep]);
-        }
-        const isCorrect = selectedAnswer === currentStepData.correctAnswer;
-        if (isCorrect) {
-          setScore(prev => ({ correct: prev.correct + 1, total: prev.total + 1 }));
-        } else {
-          setScore(prev => ({ correct: prev.correct, total: prev.total + 1 }));
+          const isCorrect = selectedAnswer === currentStepData.correctAnswer;
+          setScore(prev => ({ 
+            correct: prev.correct + (isCorrect ? 1 : 0), 
+            total: prev.total + 1 
+          }));
         }
       }
       
@@ -331,7 +331,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
         <div className="bg-gradient-to-r from-[#088395] to-[#05BFDB] text-white p-6">
           <div className="flex justify-between items-start mb-4">
@@ -361,15 +361,15 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
         {/* Content */}
         <div className={cn(
-          "p-6 md:p-8 overflow-y-auto transition-all duration-300",
+          "p-6 md:p-8 overflow-y-auto transition-all duration-300 flex-1",
           showAnimation && "opacity-0 translate-y-4",
           !showAnimation && "opacity-100 translate-y-0"
-        )} style={{ maxHeight: 'calc(90vh - 200px)' }}>
+        )} style={{ maxHeight: 'calc(90vh - 280px)' }}>
           {renderStepContent()}
         </div>
 
         {/* Navigation */}
-        <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50">
+        <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex-shrink-0">
           <div className="flex justify-between items-center">
             <Button
               variant="outline"
@@ -404,8 +404,8 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
             ) : (
               <Button
                 onClick={handleNext}
-                disabled={currentStepData.type === 'quiz' && !showFeedback}
-                className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-2"
+                disabled={currentStepData.type === 'quiz' && selectedAnswer === null}
+                className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
                 <ChevronRight className="w-4 h-4" />
