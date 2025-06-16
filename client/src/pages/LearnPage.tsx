@@ -101,6 +101,19 @@ const allLessons = [
     isEnhanced: true,
     specialBadge: "🌊",
     enhancedLessonData: bottomTrawlingLesson
+  },
+  {
+    id: 7,
+    title: "Ocean Literacy Principle 1: Earth has one big ocean with many features",
+    category: "ocean-literacy",
+    duration: 5,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Discover why Earth really has just one interconnected ocean and explore its amazing underwater landscapes",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🌍",
+    enhancedLessonData: oceanLiteracyPrinciple1Lesson
   }
 ];
 
