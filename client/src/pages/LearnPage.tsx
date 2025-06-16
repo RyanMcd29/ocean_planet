@@ -25,78 +25,17 @@ const categories = [
 const allLessons = [
   {
     id: 1,
-    title: "Introduction to Coral Reefs",
+    title: "Coral Reefs: The Ocean's Rainforests",
     category: "reef-ecology",
     duration: 8,
     thumbnail: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Explore the fascinating world of coral reefs - Earth's most biodiverse marine ecosystems.",
+    description: "Explore the incredible biodiversity and importance of coral reef ecosystems",
     completed: false,
     difficulty: "Beginner" as const,
     isInteractive: true,
-    lessonData: {
-      id: "coral-reefs-intro",
-      title: "Introduction to Coral Reefs",
-      description: "Explore the fascinating world of coral reefs - Earth's most biodiverse marine ecosystems.",
-      category: "reef-ecology",
-      duration: 8,
-      thumbnail: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-      difficulty: "Beginner" as const,
-      steps: [
-        {
-          type: "text" as const,
-          title: "Welcome to Coral Reef Ecosystems",
-          content: "Coral reefs are underwater cities teeming with life. These incredible ecosystems are built by tiny animals called coral polyps, which secrete calcium carbonate to form hard skeletons.\n\nDespite covering less than 1% of the ocean floor, coral reefs support approximately 25% of all marine species - making them among the most biodiverse ecosystems on Earth."
-        },
-        {
-          type: "image" as const,
-          title: "Anatomy of a Coral Polyp",
-          content: "Each coral colony consists of thousands of individual polyps, each no bigger than a pinhead. These tiny animals have a symbiotic relationship with algae called zooxanthellae.",
-          image: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-          caption: "Close-up view of coral polyps with their tentacles extended for feeding"
-        },
-        {
-          type: "funFact" as const,
-          title: "Living Partnerships",
-          content: "Coral polyps have a remarkable partnership with microscopic algae called zooxanthellae. These algae live inside the coral tissue and provide up to 90% of the coral's energy through photosynthesis. In return, the coral provides the algae with protection and nutrients."
-        },
-        {
-          type: "text" as const,
-          title: "Types of Coral Reefs",
-          content: "There are three main types of coral reefs:\n\n• **Fringing Reefs**: Form directly along coastlines, growing in shallow waters near shore\n\n• **Barrier Reefs**: Develop parallel to coastlines but separated by deeper water lagoons\n\n• **Atolls**: Ring-shaped reefs that form around volcanic islands as they subside\n\nThe Great Barrier Reef is the world's largest barrier reef system, stretching over 2,300 kilometers along Australia's northeast coast."
-        },
-        {
-          type: "quiz" as const,
-          title: "Reef Knowledge Check",
-          content: "What percentage of marine species do coral reefs support despite covering less than 1% of the ocean floor?",
-          options: ["About 10%", "About 25%", "About 40%", "About 50%"],
-          correctAnswer: 1,
-          explanation: "Coral reefs support approximately 25% of all marine species despite covering less than 1% of the ocean floor, making them incredibly important biodiversity hotspots."
-        },
-        {
-          type: "text" as const,
-          title: "Reef Ecosystem Services",
-          content: "Coral reefs provide essential services to both marine life and humans:\n\n**Marine Benefits:**\n• Nursery habitat for juvenile fish\n• Feeding grounds for adult marine species\n• Protection from predators\n• Breeding and spawning sites\n\n**Human Benefits:**\n• Coastal protection from storms and erosion\n• Tourism and recreation opportunities\n• Fisheries supporting millions of people\n• Medical compounds for drug development\n• Cultural and spiritual significance"
-        },
-        {
-          type: "funFact" as const,
-          title: "Economic Powerhouse",
-          content: "Coral reefs contribute an estimated $375 billion annually to the global economy through tourism, fisheries, and coastal protection. The Great Barrier Reef alone supports over 64,000 jobs and contributes $6.4 billion to Australia's economy each year."
-        },
-        {
-          type: "quiz" as const,
-          title: "Final Assessment",
-          content: "What is the primary relationship between coral polyps and zooxanthellae algae?",
-          options: [
-            "The algae eat the coral polyps",
-            "They compete for the same food sources", 
-            "They have a mutually beneficial symbiotic relationship",
-            "The coral polyps hunt the algae for food"
-          ],
-          correctAnswer: 2,
-          explanation: "Coral polyps and zooxanthellae have a mutually beneficial symbiotic relationship. The algae provide energy through photosynthesis while the coral provides protection and nutrients."
-        }
-      ]
-    }
+    isEnhanced: true,
+    specialBadge: "🪸",
+    enhancedLessonData: coralReefsLesson
   },
   {
     id: 2,
@@ -253,6 +192,7 @@ export default function LearnPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [viewMode, setViewMode] = useState<"lessons" | "quizzes" | "badges">("lessons");
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
+  const [currentEnhancedLesson, setCurrentEnhancedLesson] = useState<EnhancedLesson | null>(null);
   const [showInteractiveLesson, setShowInteractiveLesson] = useState(false);
 
   // Calculate completion stats
@@ -266,7 +206,10 @@ export default function LearnPage() {
   );
 
   const handleLessonClick = (lesson: any) => {
-    if (lesson.isInteractive && lesson.id === 4) {
+    if (lesson.isEnhanced && lesson.enhancedLessonData) {
+      // Enhanced lessons with new template
+      setCurrentEnhancedLesson(lesson.enhancedLessonData);
+    } else if (lesson.isInteractive && lesson.id === 4) {
       // Western Rock Lobster interactive lesson
       setShowInteractiveLesson(true);
     } else if (lesson.isInteractive && lesson.lessonData) {
@@ -296,6 +239,7 @@ export default function LearnPage() {
 
   const handleCloseLesson = () => {
     setCurrentLesson(null);
+    setCurrentEnhancedLesson(null);
     setShowInteractiveLesson(false);
   };
 
@@ -461,6 +405,14 @@ export default function LearnPage() {
           lesson={currentLesson}
           onClose={handleCloseLesson}
           onComplete={handleCompleteLesson}
+        />
+      )}
+
+      {/* Enhanced Lesson Viewer */}
+      {currentEnhancedLesson && (
+        <EnhancedLessonViewer
+          lesson={currentEnhancedLesson}
+          onClose={handleCloseLesson}
         />
       )}
 
