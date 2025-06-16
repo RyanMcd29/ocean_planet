@@ -332,7 +332,12 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
                   );
                 })}
                 
-                
+                {/* Add final call to action */}
+                <div className="text-center mt-6 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border border-blue-200">
+                  <p className="text-[#088395] font-medium">
+                    🌊 Ready to explore more ocean literacy principles? The adventure continues!
+                  </p>
+                </div>
               </div>
               {score.total > 0 && (
                 <Card className="max-w-md mx-auto bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
