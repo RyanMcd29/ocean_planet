@@ -689,3 +689,105 @@ export const oceanLiteracyPrinciple2Lesson: EnhancedLesson = {
     }
   ]
 };
+
+export const highSeasTreatyLesson: EnhancedLesson = {
+  id: "high-seas-treaty-enhanced",
+  title: "The Historic High Seas Treaty",
+  description: "Discover how the world finally agreed to protect the lawless waters beyond any country's borders",
+  category: "conservation",
+  duration: 7,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Welcome to the High Seas Adventure!",
+      content: "You're about to explore one of the most important ocean conservation breakthroughs in history. Did you know that more than 60% of our ocean has been like the Wild West - with almost no rules for protection? In 2023, after nearly 20 years of negotiations, the world finally came together to change that. Let's dive into this historic achievement!"
+    },
+    {
+      type: "text",
+      title: "What Are the High Seas?",
+      content: "The high seas are the vast ocean areas that lie beyond any country's borders - that's more than 60% of our entire planet! These international waters have been like a legal no-man's land when it comes to conservation.\n\nImagine if more than half of all land on Earth had no environmental protection laws - that's what we've had in our ocean until now. These waters are home to incredible wildlife like whales, tuna, sharks, and countless species of plankton that are vital to Earth's climate and ecosystems.",
+      highlight: "The high seas cover about half the planet with very few conservation rules!"
+    },
+    {
+      type: "image",
+      title: "The Lawless Ocean",
+      content: "Vast areas of international waters have existed without comprehensive protection.",
+      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "The high seas - international waters beyond any country's jurisdiction"
+    },
+    {
+      type: "funFact",
+      title: "A Marine Wild West",
+      content: "Until 2023, there was no legal framework to create marine protected areas in international waters. Activities like deep-sea mining, industrial fishing, and shipping could happen with minimal oversight in these vast ocean spaces."
+    },
+    {
+      type: "text",
+      title: "The Game-Changing Treaty",
+      content: "In 2023, something historic happened: the world agreed on a High Seas Treaty to protect ocean biodiversity for the first time ever! This groundbreaking agreement will allow countries to:\n\n**Create Marine Protected Areas**: Establish no-take zones in international waters where marine life can thrive undisturbed.\n\n**Share Resources Fairly**: Ensure that benefits from marine genetic resources are distributed equitably among nations.\n\n**Assess Environmental Impact**: Require thorough environmental assessments for activities like deep-sea mining or major shipping operations.\n\n**Coordinate Global Action**: Work together on ocean conservation instead of operating in isolation."
+    },
+    {
+      type: "quiz",
+      title: "Treaty Knowledge Check",
+      content: "Which of the following is true about the High Seas Treaty?",
+      options: [
+        "It only applies to coastal reefs",
+        "It allows the creation of protected zones in international waters",
+        "It bans all fishing in the ocean",
+        "It only affects countries in the Pacific"
+      ],
+      correctAnswer: 1,
+      explanation: "The High Seas Treaty's main achievement is allowing the creation of marine protected areas in international waters - something that was impossible before this agreement."
+    },
+    {
+      type: "text",
+      title: "A Global Collaboration Success",
+      content: "Over 190 countries agreed to this treaty after nearly 20 years of complex negotiations. This represents one of the most significant international environmental agreements in decades!\n\nThe treaty is a crucial step toward achieving the ambitious 30x30 goal - protecting 30% of the world's land and ocean by 2030. Currently, less than 8% of our ocean is protected, so this treaty opens the door to much greater conservation coverage.\n\nHowever, signing the treaty is just the beginning. Each country must now ratify it through their national governments and implement the rules at home - a process that will take time and commitment."
+    },
+    {
+      type: "quiz",
+      title: "Conservation Goals",
+      content: "What does the '30x30 goal' aim to protect?",
+      options: [
+        "30% of national parks",
+        "30% of Earth's forests",
+        "30% of land and ocean by 2030",
+        "30 species each year"
+      ],
+      correctAnswer: 2,
+      explanation: "The 30x30 goal is an ambitious international target to protect 30% of Earth's land and ocean areas by 2030, helping preserve biodiversity and combat climate change."
+    },
+    {
+      type: "text",
+      title: "Why This Matters to Everyone",
+      content: "You might wonder: 'Why should I care about waters so far from shore?' The truth is, the high seas affect everyone's life:\n\n**Climate Regulation**: These waters help regulate global weather patterns and absorb massive amounts of carbon dioxide.\n\n**Food Security**: Many fish species we eat migrate through or live in international waters.\n\n**Ocean Health**: Healthy high seas support the entire marine ecosystem, including coastal areas where many people live.\n\n**Scientific Discovery**: These waters contain countless undiscovered species that could lead to medical breakthroughs or help us understand life on Earth."
+    },
+    {
+      type: "quiz",
+      title: "Global Impact Understanding",
+      content: "How do the high seas affect people living far from the ocean?",
+      options: [
+        "They don't affect inland areas at all",
+        "They help regulate global climate and weather patterns",
+        "They only matter for shipping companies",
+        "They're only important for marine biologists"
+      ],
+      correctAnswer: 1,
+      explanation: "The high seas play a crucial role in regulating Earth's climate and weather systems, affecting everyone regardless of where they live on the planet."
+    },
+    {
+      type: "conclusion",
+      title: "You're Now a High Seas Hero!",
+      content: "Congratulations! You've learned about one of the most significant ocean conservation achievements in history. The High Seas Treaty shows that global action for ocean protection is not just possible - it's happening!\n\nThis historic agreement proves that when the world works together, we can tackle even the biggest environmental challenges. While you might not live near the high seas, your voice and actions matter in supporting this global effort.\n\n**What You Can Do**\n\n**Stay informed and share** – Tell others about this historic ocean conservation win\n\n**Choose sustainable seafood** – Support fisheries that follow responsible practices\n\n**Support marine policies** – Back leaders and policies that protect ocean biodiversity\n\n**Advocate for ratification** – Encourage your country's leaders to ratify and implement the treaty\n\n**Join conservation efforts** – Follow and support organizations working on high seas protection\n\n**Be an ocean ambassador** – Share your knowledge and inspire others to care about our global ocean 🌊\n\n---\n\n🌊 The future of our high seas depends on global action - and that includes you!"
+    }
+  ]
+};
+
+export const enhancedLessons = [
+  bottomTrawlingLesson,
+  leeuwincurrentLesson,
+  westernRockLobsterLesson,
+  oceanLiteracyPrinciple1Lesson,
+  oceanLiteracyPrinciple2Lesson,
+  highSeasTreatyLesson
+];
