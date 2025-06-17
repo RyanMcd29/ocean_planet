@@ -108,6 +108,7 @@ The application is configured for Replit's autoscaling deployment:
 - June 16, 2025. Updated mobile navigation: replaced Log button with Community, changed Species icon, added Log Dive buttons to dive site pages and Profile
 - June 16, 2025. Created Ocean Literacy Principle 1 lesson with enhanced interactive format, 3 quizzes, and improved action items formatting
 - June 16, 2025. Created Ocean Literacy Principle 2 lesson covering how ocean and marine life shape Earth's features, with 3 interactive quizzes and examples of coral reef islands, volcanic formations, and coastal erosion
+- June 16, 2025. Expanded species database from ~60 to 477 unique marine species across 15+ categories including fish, sharks, mammals, crustaceans, mollusks, specialized groups, and microscopic life. Removed 24 duplicate entries to ensure database integrity.
 
 ## User Preferences
 
