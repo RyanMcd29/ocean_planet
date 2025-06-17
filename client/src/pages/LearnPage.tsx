@@ -10,7 +10,7 @@ import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewe
 import EnhancedLessonViewer from "@/components/lessons/EnhancedLessonViewer";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
-import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, highSeasTreatyLesson, type EnhancedLesson } from "@/data/enhancedLessons";
 
 import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin } from "lucide-react";
 
@@ -127,6 +127,19 @@ const allLessons = [
     isEnhanced: true,
     specialBadge: "🪨",
     enhancedLessonData: oceanLiteracyPrinciple2Lesson
+  },
+  {
+    id: 9,
+    title: "The Historic High Seas Treaty",
+    category: "conservation",
+    duration: 7,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Discover how the world finally agreed to protect the lawless waters beyond any country's borders",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🌍",
+    enhancedLessonData: highSeasTreatyLesson
   }
 ];
 
