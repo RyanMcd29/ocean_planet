@@ -19,6 +19,7 @@ import SpeciesBrowsePage from "@/pages/SpeciesBrowsePage";
 import MissionPage from "@/pages/MissionPage";
 import BottomTrawlingLessonPage from "@/pages/BottomTrawlingLessonPage";
 import MicroLessonsPage from "@/pages/MicroLessonsPage";
+import SignupPage from "@/pages/SignupPage";
 
 import MobileNav from "@/components/layout/MobileNav";
 
@@ -40,6 +41,7 @@ function Router() {
         <Route path="/mission" component={MissionPage} />
         <Route path="/micro-lessons" component={MicroLessonsPage} />
         <Route path="/lessons/bottom-trawling" component={BottomTrawlingLessonPage} />
+        <Route path="/signup" component={SignupPage} />
 
         <Route component={NotFound} />
       </Switch>
