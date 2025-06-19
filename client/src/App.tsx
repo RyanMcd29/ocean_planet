@@ -17,6 +17,7 @@ import CommunityPage from "@/pages/CommunityPage";
 import LogDivePage from "@/pages/LogDivePage";
 import SpeciesBrowsePage from "@/pages/SpeciesBrowsePage";
 import MissionPage from "@/pages/MissionPage";
+import ContactPage from "@/pages/ContactPage";
 import BottomTrawlingLessonPage from "@/pages/BottomTrawlingLessonPage";
 import MicroLessonsPage from "@/pages/MicroLessonsPage";
 import SignupPage from "@/pages/SignupPage";
@@ -39,6 +40,7 @@ function Router() {
         <Route path="/learn/lesson/:id" component={LessonDetailPage} />
         <Route path="/learn/quiz/:id" component={QuizPage} />
         <Route path="/mission" component={MissionPage} />
+        <Route path="/contact" component={ContactPage} />
         <Route path="/micro-lessons" component={MicroLessonsPage} />
         <Route path="/lessons/bottom-trawling" component={BottomTrawlingLessonPage} />
         <Route path="/signup" component={SignupPage} />
