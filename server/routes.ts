@@ -10,9 +10,42 @@ import {
   insertPhotoSchema,
   insertReviewSchema,
   insertUserFavoriteSchema,
-  insertUserSpottedSpeciesSchema
+  insertUserSpottedSpeciesSchema,
+  insertDiveMapSchema
 } from "@shared/schema";
 import { OceanDataService } from "./services/oceanData";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+
+// Configure multer for file uploads
+const storage_config = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(process.cwd(), 'uploads', 'dive-maps');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, `dive-map-${uniqueSuffix}${path.extname(file.originalname)}`);
+  }
+});
+
+const upload = multer({ 
+  storage: storage_config,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed'), false);
+    }
+  }
+});
 
 function validateRequest<T>(schema: z.ZodType<T>, body: unknown): T | undefined {
   try {
@@ -464,6 +497,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error('Error fetching species:', error);
       res.status(500).json({ error: "Failed to fetch species" });
     }
+  });
+
+  // Dive Maps API endpoints
+  app.get('/api/dive-sites/:id/dive-maps', async (req: Request, res: Response) => {
+    try {
+      const diveSiteId = parseInt(req.params.id);
+      if (isNaN(diveSiteId)) {
+        return res.status(400).json({ error: "Invalid dive site ID" });
+      }
+      
+      console.log('Fetching dive maps for dive site:', diveSiteId);
+      const diveMaps = await storage.getDiveMaps(diveSiteId);
+      console.log('Found dive maps:', diveMaps);
+      res.json(diveMaps);
+    } catch (error) {
+      console.error('Error fetching dive maps:', error);
+      res.status(500).json({ error: "Failed to fetch dive maps" });
+    }
+  });
+
+  app.post('/api/dive-sites/:id/dive-maps', upload.single('map'), async (req: Request, res: Response) => {
+    try {
+      const diveSiteId = parseInt(req.params.id);
+      if (isNaN(diveSiteId)) {
+        return res.status(400).json({ error: "Invalid dive site ID" });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({ error: "No map image provided" });
+      }
+
+      const { title, description } = req.body;
+      if (!title) {
+        return res.status(400).json({ error: "Title is required" });
+      }
+
+      // Create the image URL (served from uploads folder)
+      const imageUrl = `/uploads/dive-maps/${req.file.filename}`;
+
+      const diveMapData = {
+        diveSiteId,
+        title,
+        description: description || null,
+        imageUrl,
+        uploadedBy: 1, // TODO: Use actual authenticated user ID
+      };
+
+      const diveMap = await storage.createDiveMap(diveMapData);
+      res.status(201).json(diveMap);
+    } catch (error) {
+      console.error('Error creating dive map:', error);
+      res.status(500).json({ error: "Failed to upload dive map" });
+    }
+  });
+
+  // Serve uploaded files
+  app.use('/uploads', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    next();
   });
 
   const httpServer = createServer(app);

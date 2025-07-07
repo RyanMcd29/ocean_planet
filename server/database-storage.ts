@@ -5,12 +5,13 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 // Import schema types and tables
 import {
   users, diveSites, species, diveSiteSpecies, photos, reviews,
-  nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies,
+  nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, diveMaps,
   type User, type InsertUser, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
   type NearbyDiveSite, type InsertNearbyDiveSite, type DiveCenter, type InsertDiveCenter,
-  type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies
+  type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies,
+  type DiveMap, type InsertDiveMap
 } from "@shared/schema";
 
 // Import the storage interface
@@ -471,5 +472,19 @@ export class DatabaseStorage implements IStorage {
     
     // Force non-null dateSpotted since we've set it as a Date when inserting
     return results.map(r => ({ ...r, dateSpotted: r.dateSpotted || new Date() }));
+  }
+
+  // Dive Maps Management
+  async createDiveMap(diveMap: InsertDiveMap): Promise<DiveMap> {
+    const result = await db.insert(diveMaps).values(diveMap).returning();
+    return result[0];
+  }
+
+  async getDiveMaps(diveSiteId: number): Promise<DiveMap[]> {
+    return db
+      .select()
+      .from(diveMaps)
+      .where(eq(diveMaps.diveSiteId, diveSiteId))
+      .orderBy(sql`${diveMaps.uploadedAt} DESC`);
   }
 }

@@ -6,14 +6,14 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 import {
   users, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
-  diveLogs, diveLogSpecies,
+  diveLogs, diveLogSpecies, diveMaps,
   type User, type InsertUser, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
   type NearbyDiveSite, type InsertNearbyDiveSite, type DiveCenter, type InsertDiveCenter,
   type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies,
   type WaterConditions, type InsertWaterConditions, type DiveLog, type InsertDiveLog,
-  type DiveLogSpecies, type InsertDiveLogSpecies
+  type DiveLogSpecies, type InsertDiveLogSpecies, type DiveMap, type InsertDiveMap
 } from '@shared/schema';
 
 export interface IStorage {
@@ -67,6 +67,10 @@ export interface IStorage {
   // User spotted species
   addSpottedSpecies(spotted: InsertUserSpottedSpecies): Promise<UserSpottedSpecies>;
   getUserSpottedSpecies(userId: number): Promise<{species: Species, diveSite: DiveSite, dateSpotted: Date}[]>;
+
+  // Dive maps management
+  createDiveMap(diveMap: InsertDiveMap): Promise<DiveMap>;
+  getDiveMaps(diveSiteId: number): Promise<DiveMap[]>;
   
   // Water conditions
   createWaterConditions(conditions: InsertWaterConditions): Promise<WaterConditions>;
@@ -1152,6 +1156,20 @@ export class DatabaseStorage implements IStorage {
       )
       .orderBy(sql`${waterConditions.timestamp} DESC`);
     return conditions;
+  }
+
+  // Dive Maps Management
+  async createDiveMap(diveMap: InsertDiveMap): Promise<DiveMap> {
+    const result = await db.insert(diveMaps).values(diveMap).returning();
+    return result[0];
+  }
+
+  async getDiveMaps(diveSiteId: number): Promise<DiveMap[]> {
+    return db
+      .select()
+      .from(diveMaps)
+      .where(eq(diveMaps.diveSiteId, diveSiteId))
+      .orderBy(sql`${diveMaps.uploadedAt} DESC`);
   }
 }
 

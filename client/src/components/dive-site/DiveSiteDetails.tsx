@@ -19,6 +19,7 @@ import SpeciesTab from "./SpeciesTab";
 import GalleryTab from "./GalleryTab";
 import ReviewsTab from "./ReviewsTab";
 import HabitatInfo from "./HabitatInfo";
+import DiveMapTab from "./DiveMapTab";
 import { Skeleton } from "@/components/ui/skeleton";
 import PhotoGallery from "./PhotoGallery";
 import WaterConditionsCard from "@/components/conditions/WaterConditionsCard";
@@ -161,6 +162,12 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             className="px-4 py-3 font-montserrat rounded-none border-b-2 border-transparent data-[state=active]:border-[#EB6440] data-[state=active]:text-[#0A4D68] data-[state=active]:font-semibold text-[#757575] hover:text-[#0A4D68]"
           >
             Species
+          </TabsTrigger>
+          <TabsTrigger 
+            value="dive-map" 
+            className="px-4 py-3 font-montserrat rounded-none border-b-2 border-transparent data-[state=active]:border-[#EB6440] data-[state=active]:text-[#0A4D68] data-[state=active]:font-semibold text-[#757575] hover:text-[#0A4D68]"
+          >
+            Dive Map
           </TabsTrigger>
           <TabsTrigger 
             value="gallery" 
@@ -350,6 +357,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                     <Button 
                       variant="outline" 
                       size="sm"
+                      onClick={() => setActiveTab("dive-map")}
                       className="text-teal-600 border-teal-400 hover:bg-teal-50 text-xs"
                     >
                       <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -568,6 +576,10 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
 
         <TabsContent value="species" className="mt-0">
           <SpeciesTab diveSiteId={diveSite.id} />
+        </TabsContent>
+
+        <TabsContent value="dive-map" className="mt-0">
+          <DiveMapTab diveSiteId={diveSite.id} />
         </TabsContent>
 
         <TabsContent value="gallery" className="mt-0">

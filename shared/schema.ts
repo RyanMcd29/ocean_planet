@@ -260,5 +260,24 @@ export const insertDiveLogSpeciesSchema = createInsertSchema(diveLogSpecies).omi
 
 export type DiveLog = typeof diveLogs.$inferSelect;
 export type InsertDiveLog = z.infer<typeof insertDiveLogSchema>;
+
+// Dive maps table - user-uploaded dive site maps and route guides
+export const diveMaps = pgTable("dive_maps", {
+  id: serial("id").primaryKey(),
+  diveSiteId: integer("dive_site_id").notNull(),
+  title: text("title").notNull(),
+  description: text("description"),
+  imageUrl: text("image_url").notNull(),
+  uploadedBy: integer("uploaded_by").notNull(),
+  uploadedAt: timestamp("uploaded_at").defaultNow(),
+});
+
+export const insertDiveMapSchema = createInsertSchema(diveMaps).omit({
+  id: true,
+  uploadedAt: true,
+});
+
+export type DiveMap = typeof diveMaps.$inferSelect;
+export type InsertDiveMap = z.infer<typeof insertDiveMapSchema>;
 export type DiveLogSpecies = typeof diveLogSpecies.$inferSelect;
 export type InsertDiveLogSpecies = z.infer<typeof insertDiveLogSpeciesSchema>;
