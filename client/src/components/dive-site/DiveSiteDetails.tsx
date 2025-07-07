@@ -259,24 +259,93 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             )}
           </div>
 
-          {/* Enhanced About Section */}
-          <div className="mb-8">
-            <div className="bg-gradient-to-r from-[#0A4D68] to-[#088395] p-6 rounded-t-2xl">
-              <h3 className="text-xl font-montserrat font-bold text-white mb-1 flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 mr-3">
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                  <circle cx="12" cy="10" r="3"></circle>
-                </svg>
-                Site Overview
-              </h3>
-              <p className="text-white/80 text-sm">Discover what makes this dive site special</p>
+          {/* Enhanced Site Overview for AMMO Jetty */}
+          {diveSite.name === 'AMMO Jetty' ? (
+            <div className="mb-8">
+              <div className="bg-gradient-to-r from-[#0A4D68] to-[#088395] p-6 rounded-t-2xl">
+                <h3 className="text-2xl font-montserrat font-bold text-white mb-1 flex items-center">
+                  🌍 <span className="ml-2">AMMO Jetty Site Overview</span>
+                </h3>
+                <p className="text-white/80 text-sm">Shore-based jetty dive near Fremantle, Western Australia</p>
+              </div>
+              <div className="bg-white border border-[#E0F7FA] p-6 rounded-b-2xl shadow-sm">
+                
+                {/* Site Details Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div className="space-y-4">
+                    <div className="p-4 bg-gradient-to-r from-[#F0F9FF] to-[#E0F2FE] rounded-lg border border-[#BAE6FD]">
+                      <h4 className="font-bold text-[#0369A1] mb-2">📍 Location & Access</h4>
+                      <p className="text-sm text-[#0C4A6E] leading-relaxed">
+                        <strong>Coordinates:</strong> 32°07'27.9"S 115°45'26.0"E<br/>
+                        <strong>Distance:</strong> 15 minutes south of Fremantle, ~40 km from Perth CBD<br/>
+                        <strong>Access:</strong> Shore dive from jetty - walk-in entry via jetty steps<br/>
+                        <strong>Facilities:</strong> Toilets and rinse showers available near car park
+                      </p>
+                    </div>
+                    
+                    <div className="p-4 bg-gradient-to-r from-[#FEFCE8] to-[#FEF3C7] rounded-lg border border-[#FDE68A]">
+                      <h4 className="font-bold text-[#A16207] mb-2">🤿 Experience Level</h4>
+                      <p className="text-sm text-[#92400E] leading-relaxed">
+                        Ideal for <strong>beginner to intermediate divers</strong><br/>
+                        Suitable for Open Water certification and refresher courses<br/>
+                        <strong>Depth Range:</strong> Maximum depth of roughly 9m along jetty structure
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div className="p-4 bg-gradient-to-r from-[#F0FDF4] to-[#DCFCE7] rounded-lg border border-[#BBF7D0]">
+                      <h4 className="font-bold text-[#166534] mb-2">🌊 Conditions</h4>
+                      <p className="text-sm text-[#14532D] leading-relaxed">
+                        <strong>Best Conditions:</strong> Swell &lt;1.5m, period ~11s<br/>
+                        <strong>Optimal Winds:</strong> East to southeast winds<br/>
+                        <strong>Visibility:</strong> 3-4m typical, 1m after storms, up to 15m on calm days<br/>
+                        <strong>Current:</strong> Mild currents, especially under northerly winds
+                      </p>
+                    </div>
+                    
+                    <div className="p-4 bg-gradient-to-r from-[#FDF2F8] to-[#FCE7F3] rounded-lg border border-[#F9A8D4]">
+                      <h4 className="font-bold text-[#BE185D] mb-2">🐠 Marine Ecosystem</h4>
+                      <p className="text-sm text-[#9D174D] leading-relaxed">
+                        <strong>Ecosystem Type:</strong> Jetty with silty rubble seabed - artificial reef<br/>
+                        <strong>Specialty:</strong> Rich macro hotspot for invertebrates and small species<br/>
+                        <strong>Night Life:</strong> Rays, dolphins, and sea lions observed at night
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="border-t border-[#E5E7EB] pt-6">
+                  <h4 className="font-bold text-[#374151] mb-3 flex items-center">
+                    <span className="mr-2">🗺️</span> Dive Route & Layout
+                  </h4>
+                  <p className="text-[#6B7280] leading-relaxed">
+                    Typically dive one side of jetty pylons out to ~100m then return on the opposite side. 
+                    Clockwise or anti-clockwise routes recommended. Complete loop covers entire jetty length, 
+                    showcasing towering pylons encrusted with marine growth.
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="bg-white border border-[#E0F7FA] p-6 rounded-b-2xl shadow-sm">
-              <p className="text-base leading-relaxed text-[#424242] font-light">
-                {diveSite.description}
-              </p>
+          ) : (
+            <div className="mb-8">
+              <div className="bg-gradient-to-r from-[#0A4D68] to-[#088395] p-6 rounded-t-2xl">
+                <h3 className="text-xl font-montserrat font-bold text-white mb-1 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 mr-3">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                    <circle cx="12" cy="10" r="3"></circle>
+                  </svg>
+                  Site Overview
+                </h3>
+                <p className="text-white/80 text-sm">Discover what makes this dive site special</p>
+              </div>
+              <div className="bg-white border border-[#E0F7FA] p-6 rounded-b-2xl shadow-sm">
+                <p className="text-base leading-relaxed text-[#424242] font-light">
+                  {diveSite.description}
+                </p>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Enhanced Highlights Section */}
           {diveSite.highlights && diveSite.highlights.length > 0 && (
@@ -466,6 +535,81 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             </div>
           )}
 
+          {/* Enhanced Marine Life Section for AMMO Jetty */}
+          {diveSite.name === 'AMMO Jetty' && (
+            <div className="mb-8">
+              <div className="bg-gradient-to-r from-[#DC2626] to-[#EF4444] p-6 rounded-t-2xl">
+                <h3 className="text-xl font-montserrat font-bold text-white mb-1 flex items-center">
+                  🐠 <span className="ml-2">Marine Life & Ecosystem</span>
+                </h3>
+                <p className="text-white/80 text-sm">Abundant macro-life in an artificial reef environment</p>
+              </div>
+              <div className="bg-white border border-[#FEE2E2] p-6 rounded-b-2xl shadow-sm">
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                  <div className="p-4 bg-gradient-to-r from-[#FEF2F2] to-[#FECACA] rounded-lg border border-[#FCA5A5]">
+                    <h4 className="font-bold text-[#7F1D1D] mb-3 flex items-center">
+                      <span className="mr-2">🏊‍♂️</span> Common Species Sightings
+                    </h4>
+                    <div className="space-y-2 text-sm text-[#991B1B]">
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-[#DC2626] rounded-full mr-2"></span>
+                        <span>Diverse leatherjackets and pygmy filefish</span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-[#DC2626] rounded-full mr-2"></span>
+                        <span>Crested morwong schools</span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-[#DC2626] rounded-full mr-2"></span>
+                        <span>Boxfish and various flatworms</span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-[#DC2626] rounded-full mr-2"></span>
+                        <span>Colorful anemones</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-gradient-to-r from-[#F3E8FF] to-[#DDD6FE] rounded-lg border border-[#C4B5FD]">
+                    <h4 className="font-bold text-[#581C87] mb-3 flex items-center">
+                      <span className="mr-2">🌙</span> Night Diving Encounters
+                    </h4>
+                    <div className="space-y-2 text-sm text-[#6B21A8]">
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-[#8B5CF6] rounded-full mr-2"></span>
+                        <span>Occasional rays and stingrays</span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-[#8B5CF6] rounded-full mr-2"></span>
+                        <span>Dolphins (rarely observed)</span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-[#8B5CF6] rounded-full mr-2"></span>
+                        <span>Sea lions during night dives</span>
+                      </div>
+                      <div className="flex items-center">
+                        <span className="w-2 h-2 bg-[#8B5CF6] rounded-full mr-2"></span>
+                        <span>Enhanced marine activity after dark</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-4 bg-gradient-to-r from-[#FEF7FF] to-[#F3E8FF] rounded-lg border border-[#DDD6FE] mb-4">
+                  <h4 className="font-bold text-[#581C87] mb-2 flex items-center">
+                    <span className="mr-2">⚠️</span> Diving Safety & Tips
+                  </h4>
+                  <p className="text-sm text-[#6B21A8] leading-relaxed">
+                    <strong>Important:</strong> Divers occasionally report line entanglement under the jetty due to 
+                    discarded fishing tackle. <strong>Recommendations:</strong> Stay aware of hooks, bring a dive knife, 
+                    and maintain proper buoyancy to protect the silty bottom and avoid stirring up sediment.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Enhanced Conservation Status */}
           <div className="mb-8">
             <div className="bg-gradient-to-r from-[#10B981] to-[#059669] p-6 rounded-t-2xl">
@@ -518,6 +662,75 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               </div>
             </div>
           </div>
+
+          {/* Learn Section for AMMO Jetty */}
+          {diveSite.name === 'AMMO Jetty' && (
+            <div className="mb-8">
+              <div className="bg-gradient-to-r from-[#7C3AED] to-[#8B5CF6] p-6 rounded-t-2xl">
+                <h3 className="text-xl font-montserrat font-bold text-white mb-1 flex items-center">
+                  📘 <span className="ml-2">Learn Section</span>
+                </h3>
+                <p className="text-white/80 text-sm">Suggested mini-lessons for deeper understanding</p>
+              </div>
+              <div className="bg-white border border-[#DDD6FE] p-6 rounded-b-2xl shadow-sm">
+                
+                <div className="space-y-4">
+                  <div className="p-4 bg-gradient-to-r from-[#F8FAFC] to-[#EEF2FF] rounded-lg border border-[#C7D2FE] hover:shadow-md transition-shadow duration-200">
+                    <div className="flex items-start">
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#7C3AED] to-[#8B5CF6] rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <span className="text-white font-bold text-lg">1</span>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#4C1D95] mb-2">
+                          "Biodiversity of Jetty Macro Ecosystems"
+                        </h4>
+                        <p className="text-sm text-[#6B21A8] leading-relaxed">
+                          Explore why pylons foster dense colonization by anemones, flatworms, nudibranchs, 
+                          and small fish. Learn about artificial reef formation and the unique ecological 
+                          niche created by jetty structures.
+                        </p>
+                        <Link href="/learn/jetty-ecosystems">
+                          <Button variant="outline" className="mt-3 text-[#7C3AED] border-[#7C3AED] hover:bg-[#F5F3FF] text-xs">
+                            Start Learning →
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="p-4 bg-gradient-to-r from-[#F0FDF4] to-[#ECFDF5] rounded-lg border border-[#BBF7D0] hover:shadow-md transition-shadow duration-200">
+                    <div className="flex items-start">
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#059669] to-[#10B981] rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                        <span className="text-white font-bold text-lg">2</span>
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-[#065F46] mb-2">
+                          "Threats from Fishing Debris & Marine Conservation Efforts"
+                        </h4>
+                        <p className="text-sm text-[#047857] leading-relaxed">
+                          Discuss the impact of lost tackle on marine habitats and how community clean-ups 
+                          support environmental stewardship. Learn about marine debris prevention and 
+                          responsible diving practices.
+                        </p>
+                        <Link href="/learn/marine-conservation">
+                          <Button variant="outline" className="mt-3 text-[#059669] border-[#059669] hover:bg-[#F0FDF4] text-xs">
+                            Start Learning →
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 bg-gradient-to-r from-[#FEF7FF] to-[#F3E8FF] rounded-lg border border-[#DDD6FE]">
+                  <p className="text-center text-sm text-[#6B21A8]">
+                    <strong>Community Contributions:</strong> Local divers frequently contribute observation maps 
+                    and macro-life sketches. Join annual cleanup events led by Dolphin Dive and other local dive shops.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Nearby Dive Sites */}
           {nearbySites && nearbySites.length > 0 && (

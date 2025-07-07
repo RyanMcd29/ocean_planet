@@ -1,0 +1,110 @@
+## . AMMO Jetty 🌍 Site Overview
+
+**1. Dive Site Name and Region**
+
+Ammo Jetty – a shore‑based jetty dive located near Fremantle, Western Australia.
+
+**2. Image Header**
+
+Main visuals show the concrete jetty protruding into shallow waters, featuring encrusted pylons and clear macro‑life nestled between plugs.
+
+**3. Experience Level & Certification Required**
+
+Ideal for beginner to intermediate divers; suitable for Open Water certification and refresher courses.
+
+**4. Location Description/ Coordinates: 32°07'27.9"S 115°45'26.0"E**
+
+Approximately 15 minutes south of Fremantle; around 40 km from Perth CBD. The jetty is adjacent to Woodmans Point Groin in John Graham Reserve. 
+
+**5. Access Type**
+
+Shore dive from jetty—walk-in entry.
+
+**6. Depth Range**
+
+Maximum depth of roughly 9 m along the jetty structure.
+
+**7. Entry Conditions**
+
+Easy access via jetty steps; shaded on one side in morning, sunny on the other. Toilets and rinse showers available near car park.
+
+---
+
+## 🌊 Conditions
+
+**8. Best Time to Dive**
+
+Calm conditions with swell less than 1.5 m, swell period ~11 s, east to southeast wind. Northerlies may increase cross-current, while westerlies enhance swell. Peak visibility often follows stable weather.
+
+**9. Water Temperature**
+
+Not explicitly stated, but Perth’s coastal water ranges from ~16–22 °C seasonally.
+
+**10. Visibility**
+
+Varies widely: often 3–4 m, occasionally under 1 m after storms, and rarely reaching 10–15 m on exceptionally calm days.
+
+**11. Current and Surge**
+
+Mild currents common, especially under northerly winds. The jetty offers partial shelter from southwest swell thanks to adjacent groins and islands.
+
+**12. Data Integration Suggestion**
+
+Real‑time swell, wind, and tide data could be pulled via oceanographic APIs to assist in trip planning.
+
+---
+
+## 🐠 Marine Life & Ecosystem
+
+**13. Marine Species Sightings**
+
+Welcomes abundant macro-life: diverse leatherjackets, pygmy filefish, crested morwong schools, boxfish, flatworms, anemones, occasional rays, dolphins, and sea lions at night.
+
+**14. Ecosystem Type**
+
+Jetty with silty rubble seabed—an artificial reef attracting marine growth on pylons.
+
+**15. Seasonal Events**
+
+Enhanced life after storms clears—plumes of fine particles settle; ray sightings during night dives as well.
+
+**16. Conservation Info**
+
+Located in John Graham Reserve, adjacent to marine park amenities. Frequent clean‑ups by local dive shops help maintain site health.
+
+---
+
+## 🗺️ Dive Map
+
+**17. Site Layout or Route**
+
+Typically dive one side of jetty pylons out to ~100 m then return on the opposite side (clockwise or anti‑clockwise routes recommended). Complete loop covers entire jetty length.
+
+**18. Community Contributions**
+
+Local divers frequently contribute observation maps and macro-life sketches. Annual cleanup events (e.g., by Dolphin Dive) are community-led.
+
+---
+
+## 📸 Extras
+
+**19. Photos or Videos**
+
+Gallery and video gallery highlight octopuses, crustaceans, anemones, and spotted flatworms among jetty pylons.
+
+**20. Unique Features**
+
+A rich macro hotspot — best for invertebrates and small species. Occasionally large pelagics and marine mammals appear. Towering pylons are encrusted and photo-worthy.
+
+**21. User Experience**
+
+Divers report occasional line entanglement under the jetty due to discarded fishing tackle. Rinse: stay aware of hooks, bring a dive knife, and maintain buoyancy to protect the silt bottom.
+
+---
+
+## 📘 Learn Section
+
+**Suggested mini-lessons:**
+
+1. **“Biodiversity of Jetty Macro Ecosystems”** – Explore why pylons foster dense colonization by anemones, flatworms, nudibranchs, and small fish.
+2. **“Threats from Fishing Debris & Marine Conservation Efforts”** – Discuss the impact of lost tackle on marine habitats and how community clean-ups support environmental stewardship.
