@@ -293,27 +293,6 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                 </div>
               </div>
 
-              {/* Featured Species */}
-              <div className="mb-6">
-                <div className="bg-gradient-to-r from-blue-100 to-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
-                  <div className="flex items-center mb-2">
-                    <span className="text-blue-600 font-semibold text-sm flex items-center">
-                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
-                      </svg>
-                      Featured Species
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-700 mb-3">Discover the marine life at this dive site</p>
-                  <div className="text-sm text-gray-600 space-y-1">
-                    <div>• Diverse leatherjackets and pygmy filefish</div>
-                    <div>• Crested morwong schools and boxfish</div>
-                    <div>• Flatworms, anemones, and macro invertebrates</div>
-                    <div>• Occasional rays, dolphins, and sea lions (night dives)</div>
-                  </div>
-                </div>
-              </div>
-
               {/* Dive Map & Route */}
               <div className="mb-6">
                 <div className="bg-gradient-to-r from-teal-100 to-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg">
@@ -396,89 +375,14 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             </>
           )}
 
-          {/* Highlights */}
-          {diveSite.highlights && diveSite.highlights.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Highlights</h3>
-              <ul className="grid grid-cols-2 gap-2">
-                {diveSite.highlights.map((highlight, index) => (
-                  <li key={index} className="flex items-center text-sm text-[#757575]">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#EB6440] mr-2 h-4 w-4">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
 
-          {/* Featured Species */}
-          <div className="mb-6">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
-              <Button 
-                variant="link" 
-                onClick={() => setActiveTab("species")}
-                className="text-sm text-[#088395] hover:text-[#0A4D68] font-semibold p-0"
-              >
-                View all
-              </Button>
-            </div>
 
-            <div className="grid grid-cols-2 gap-3">
-              {isLoadingSpecies ? (
-                Array(4).fill(0).map((_, i) => (
-                  <div key={i} className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm">
-                    <Skeleton className="w-full h-24" />
-                    <div className="p-2">
-                      <Skeleton className="h-4 w-20 mb-1" />
-                      <Skeleton className="h-3 w-24" />
-                    </div>
-                  </div>
-                ))
-              ) : (
-                species?.slice(0, 4).map(({ species }) => (
-                  <Link key={species.id} href={`/species/${species.id}`}>
-                    <a className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block">
-                      <img 
-                        src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
-                        alt={species.commonName} 
-                        className="w-full h-24 object-cover"
-                      />
-                      <div className="p-2">
-                        <h4 className="font-montserrat font-semibold text-sm">{species.commonName}</h4>
-                        <p className="text-xs text-[#757575] italic">{species.scientificName}</p>
-                      </div>
-                    </a>
-                  </Link>
-                ))
-              )}
-            </div>
-          </div>
+
 
           {/* Habitat Information */}
           <HabitatInfo diveSite={diveSite} />
 
-          {/* Dive Conditions */}
-          <div className="mb-6">
-            <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Best Time to Dive</h3>
-            <div className="bg-[#F5F5F5] p-3 rounded-lg">
-              <div className="flex justify-between mb-3">
-                <div className="text-center flex-1">
-                  <p className="font-bold text-[#0A4D68]">Best Season</p>
-                  <p className="text-sm">{diveSite.bestSeason}</p>
-                </div>
-                <div className="text-center flex-1">
-                  <p className="font-bold text-[#0A4D68]">Peak Visibility</p>
-                  <p className="text-sm">{diveSite.peakVisibilityMonth}</p>
-                </div>
-              </div>
-              <p className="text-xs text-[#757575]">
-                The best time to dive {diveSite.name} is during {diveSite.bestSeason} when rainfall is lower and visibility is at its peak. Water temperatures remain pleasant year-round.
-              </p>
-            </div>
-          </div>
+
 
           {/* Recent Community Uploads */}
           {photos && photos.length > 0 && (
@@ -498,34 +402,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             </div>
           )}
 
-          {/* Conservation Status */}
-          <div className="mb-6">
-            <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Conservation Status</h3>
-            <div className="bg-[#FFAB91] bg-opacity-10 p-3 rounded-lg">
-              <div className="flex items-center mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#EB6440] mr-2 h-5 w-5">
-                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                  <line x1="12" y1="9" x2="12" y2="13"></line>
-                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                </svg>
-                <p className="font-montserrat font-semibold text-[#EB6440]">{diveSite.conservationStatus}</p>
-              </div>
-              <p className="text-sm text-[#757575]">
-                {diveSite.conservationInfo}
-              </p>
-              <div className="mt-3">
-                <Link href="/conservation">
-                  <a className="text-[#088395] hover:text-[#0A4D68] text-sm font-semibold flex items-center">
-                    Learn about conservation efforts 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1 h-3 w-3">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </a>
-                </Link>
-              </div>
-            </div>
-          </div>
+
 
           {/* Nearby Dive Sites */}
           {nearbySites && nearbySites.length > 0 && (
