@@ -307,47 +307,94 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             </div>
           )}
 
-          {/* Featured Species */}
-          <div className="mb-6">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
-              <Button 
-                variant="link" 
-                onClick={() => setActiveTab("species")}
-                className="text-sm text-[#088395] hover:text-[#0A4D68] font-semibold p-0"
-              >
-                View all
-              </Button>
+          {/* Enhanced Featured Species */}
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-[#1E40AF] to-[#3B82F6] p-6 rounded-t-2xl">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-xl font-montserrat font-bold text-white mb-1 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 mr-3">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"></path>
+                      <path d="M12 6v6l4 2"></path>
+                    </svg>
+                    Featured Species
+                  </h3>
+                  <p className="text-white/80 text-sm">Discover the marine life at this dive site</p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  onClick={() => setActiveTab("species")}
+                  className="bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30 hover:text-white"
+                >
+                  View All
+                </Button>
+              </div>
             </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              {isLoadingSpecies ? (
-                Array(4).fill(0).map((_, i) => (
-                  <div key={i} className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm">
-                    <Skeleton className="w-full h-24" />
-                    <div className="p-2">
-                      <Skeleton className="h-4 w-20 mb-1" />
-                      <Skeleton className="h-3 w-24" />
-                    </div>
-                  </div>
-                ))
-              ) : (
-                species?.slice(0, 4).map(({ species }) => (
-                  <Link key={species.id} href={`/species/${species.id}`}>
-                    <a className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block">
-                      <img 
-                        src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
-                        alt={species.commonName} 
-                        className="w-full h-24 object-cover"
-                      />
-                      <div className="p-2">
-                        <h4 className="font-montserrat font-semibold text-sm">{species.commonName}</h4>
-                        <p className="text-xs text-[#757575] italic">{species.scientificName}</p>
+            <div className="bg-white border border-[#DBEAFE] p-6 rounded-b-2xl shadow-sm">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {isLoadingSpecies ? (
+                  Array(4).fill(0).map((_, i) => (
+                    <div key={i} className="bg-gradient-to-br from-[#F8FAFC] to-[#F1F5F9] rounded-xl overflow-hidden shadow-sm border border-[#E2E8F0]">
+                      <Skeleton className="w-full h-32" />
+                      <div className="p-3">
+                        <Skeleton className="h-4 w-full mb-2" />
+                        <Skeleton className="h-3 w-3/4 mb-1" />
+                        <Skeleton className="h-3 w-16" />
                       </div>
-                    </a>
-                  </Link>
-                ))
-              )}
+                    </div>
+                  ))
+                ) : species && species.length > 0 ? (
+                  species.slice(0, 4).map(({ species: speciesItem }) => (
+                    <Link key={speciesItem.id} href={`/species/${speciesItem.id}`}>
+                      <a className="bg-gradient-to-br from-[#F8FAFC] to-[#F1F5F9] rounded-xl overflow-hidden shadow-sm border border-[#E2E8F0] hover:shadow-md hover:scale-105 transition-all duration-300 block">
+                        <div className="relative">
+                          <img 
+                            src={speciesItem.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
+                            alt={speciesItem.commonName} 
+                            className="w-full h-32 object-cover"
+                          />
+                          <div className="absolute top-2 right-2">
+                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                              speciesItem.conservationStatus === 'Least Concern' ? 'bg-green-100 text-green-700' :
+                              speciesItem.conservationStatus === 'Near Threatened' ? 'bg-yellow-100 text-yellow-700' :
+                              speciesItem.conservationStatus === 'Vulnerable' ? 'bg-orange-100 text-orange-700' :
+                              speciesItem.conservationStatus === 'Endangered' ? 'bg-red-100 text-red-700' :
+                              speciesItem.conservationStatus === 'Critically Endangered' ? 'bg-red-200 text-red-800' :
+                              'bg-gray-100 text-gray-700'
+                            }`}>
+                              {speciesItem.conservationStatus || 'Unknown'}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="p-3">
+                          <h4 className="font-montserrat font-bold text-sm text-[#0F172A] mb-1 leading-tight">
+                            {speciesItem.commonName}
+                          </h4>
+                          <p className="text-xs text-[#64748B] italic mb-1">
+                            {speciesItem.scientificName}
+                          </p>
+                          <div className="flex items-center mt-2">
+                            <span className="text-xs text-[#475569] bg-[#E2E8F0] px-2 py-1 rounded-full">
+                              {speciesItem.category || 'Marine Life'}
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+                    </Link>
+                  ))
+                ) : (
+                  <div className="col-span-full text-center py-8">
+                    <div className="text-[#64748B] mb-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-12 h-12 mx-auto mb-2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                      </svg>
+                    </div>
+                    <p className="text-[#64748B] text-sm">No species data available for this dive site</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
