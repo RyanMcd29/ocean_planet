@@ -783,11 +783,400 @@ export const highSeasTreatyLesson: EnhancedLesson = {
   ]
 };
 
+export const oceanLiteracyPrinciple3Lesson: EnhancedLesson = {
+  id: "ocean-literacy-principle-3",
+  title: "Ocean Literacy Principle 3: The Ocean is a Major Influence on Weather and Climate",
+  description: "Discover how the ocean controls much of our planet's weather patterns and climate systems",
+  category: "ocean-literacy",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🌊 Welcome to Ocean-Weather Science!",
+      content: "Did you know the ocean controls much of our planet's weather? From sea breezes to massive cyclones, the ocean is Earth's weather engine. You're about to discover how the vast blue waters shape the air above them in ways that affect your daily life!"
+    },
+    {
+      type: "text",
+      title: "🌍 The Ocean's Heat Engine",
+      content: "Think of the ocean as Earth's giant heating and cooling system. Here's how it works:\n\n• **Heat Storage** - The ocean absorbs most of the sun's heat reaching Earth\n• **Water Cycle** - Warm water evaporates, forming clouds and eventually rain\n• **Heat Transport** - Ocean currents move warm water from the equator to the poles and cold water back again\n• **Weather Creation** - This constant movement creates weather patterns worldwide\n\nWithout the ocean's influence, Earth's weather would be completely different!",
+      highlight: "The ocean stores 1,000 times more heat than the atmosphere!"
+    },
+    {
+      type: "quiz",
+      title: "What Causes Tropical Cyclones?",
+      content: "Tropical cyclones (hurricanes and typhoons) get their power from one main source. What is it?",
+      options: [
+        "Cold ocean water",
+        "Ocean pollution", 
+        "Warm ocean water",
+        "Ocean tides"
+      ],
+      correctAnswer: 2,
+      explanation: "Tropical cyclones form over warm ocean waters (usually above 26°C) because they draw energy from the heat stored in the water. As warm water evaporates, it rises and creates the spinning motion that becomes a cyclone."
+    },
+    {
+      type: "text",
+      title: "🌊 Ocean Currents Shape Climate Zones",
+      content: "Ocean currents are like massive rivers flowing through the sea, and they have a huge impact on regional climates:\n\n**The Leeuwin Current** - This warm current keeps Western Australia's coast much warmer than other areas at the same latitude. That's why Perth has such a pleasant Mediterranean climate!\n\n**El Niño and La Niña** - These Pacific Ocean systems affect rainfall, droughts, and storms globally. When ocean temperatures change in the Pacific, it can cause floods in some places and droughts in others.\n\nThese currents act like Earth's climate conveyor belt, moving heat around the planet.",
+      highlight: "The Leeuwin Current can make coastal temperatures 2-5°C warmer than inland areas"
+    },
+    {
+      type: "quiz", 
+      title: "Ocean-Climate Connection",
+      content: "Which of the following statements about ocean currents and climate is TRUE?",
+      options: [
+        "The ocean stores very little heat",
+        "Ocean currents don't impact regional climate",
+        "The Leeuwin Current warms Western Australia's coast",
+        "All oceans have exactly the same temperature"
+      ],
+      correctAnswer: 2,
+      explanation: "The Leeuwin Current is a warm ocean current that flows southward along Western Australia's coast, bringing tropical waters that significantly warm the coastal regions and influence the local climate."
+    },
+    {
+      type: "text",
+      title: "🔥 Climate Change and Extreme Weather",
+      content: "As our oceans warm due to climate change, we're seeing more extreme weather events:\n\n**Stronger Storms** - Warmer oceans provide more energy for tropical cyclones, making them more intense\n\n**Sea Level Rise** - As water warms, it expands, and melting ice adds more water to the oceans\n\n**Changed Circulation** - Melting polar ice affects ocean circulation patterns, which can shift weather patterns globally\n\n**Heat Waves** - Warmer oceans can contribute to more frequent and intense heat waves on land\n\nUnderstanding these connections helps scientists predict future weather patterns and prepare for changes.",
+      highlight: "Ocean temperatures have risen by about 0.6°C since 1969 - that might not sound like much, but it represents an enormous amount of stored heat!"
+    },
+    {
+      type: "quiz",
+      title: "Climate Change Impacts",
+      content: "What is one result of warming oceans due to climate change?",
+      options: [
+        "Less rainfall globally",
+        "Stronger storms and rising sea levels",
+        "Colder winters everywhere",
+        "Slower ocean currents only"
+      ],
+      correctAnswer: 1,
+      explanation: "Warming oceans provide more energy for storms, making them stronger, and the thermal expansion of seawater plus melting ice contributes to rising sea levels. These are two major consequences of ocean warming."
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a Weather-Ocean Expert!",
+      content: "Fantastic! You now understand how the ocean drives our planet's weather and climate systems. This knowledge helps us understand everything from daily weather forecasts to long-term climate change.\n\n**What You Can Do:**\n\n**Reduce your carbon footprint** - Use public transport, choose renewable energy, and make climate-conscious choices\n\n**Support climate-resilient communities** - Back initiatives that help coastal areas adapt to sea level rise\n\n**Stay informed** - Follow ocean and climate science to understand how these systems are changing\n\n**Share your knowledge** - Help others understand the ocean-climate connection\n\n**Support climate action** - Advocate for policies that protect our ocean-atmosphere system\n\nRemember: understanding how the ocean drives weather helps us prepare for and adapt to our changing climate! 🌊"
+    }
+  ]
+};
+
+export const oceanLiteracyPrinciple4Lesson: EnhancedLesson = {
+  id: "ocean-literacy-principle-4", 
+  title: "Ocean Literacy Principle 4: The Ocean Makes Earth Habitable",
+  description: "Explore how the ocean serves as Earth's life support system, making our planet livable",
+  category: "ocean-literacy",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🌍 Welcome to Earth's Life Support Center!",
+      content: "The reason Earth is livable isn't just because of land, plants, or even the atmosphere - it's because of the ocean! You're about to discover how the ocean is literally Earth's life support system, keeping our planet habitable for all living things."
+    },
+    {
+      type: "text",
+      title: "☀️ The Ocean's Life Support Functions",
+      content: "The ocean performs three critical jobs that make Earth habitable:\n\n**🌡️ Temperature Control** - The ocean absorbs heat from the sun and distributes it around the globe via currents, preventing extreme temperature swings\n\n**💨 Oxygen Production** - Phytoplankton (tiny ocean plants) produce at least 50% of the oxygen we breathe - more than all forests combined!\n\n**🌊 Climate Regulation** - The ocean stores carbon dioxide, helping regulate Earth's climate and preventing even more severe climate change\n\nWithout these ocean services, Earth would be an unrecognizable and likely uninhabitable planet.",
+      highlight: "Phytoplankton are so small you need a microscope to see them, but they produce more oxygen than all the trees on land!"
+    },
+    {
+      type: "text", 
+      title: "🌊 How the Ocean Keeps Earth Stable",
+      content: "Think of the ocean as Earth's giant thermostat and air purifier:\n\n**🌬️ Weather Moderation** - Ocean currents like the Gulf Stream and Leeuwin Current transport heat and influence rainfall patterns worldwide\n\n**🫁 Ocean's Green Lungs** - Phytoplankton absorb sunlight and CO₂, releasing oxygen through photosynthesis, just like land plants but on a massive scale\n\n**🛡️ Climate Buffer** - The ocean acts like a shock absorber, soaking up about 90% of the excess heat from greenhouse gases\n\nFun fact: Without the ocean absorbing all this extra heat and carbon, climate change would already be far more extreme than it is today!",
+      highlight: "The ocean has absorbed 93% of the excess heat from climate change - imagine how hot Earth would be without this service!"
+    },
+    {
+      type: "quiz",
+      title: "Ocean's Oxygen Factory",
+      content: "What produces at least 50% of the world's oxygen that we breathe?",
+      options: [
+        "Tropical rainforests",
+        "Ocean waves and currents", 
+        "Phytoplankton in the ocean",
+        "Coral reefs"
+      ],
+      correctAnswer: 2,
+      explanation: "Phytoplankton are microscopic marine plants that live near the ocean surface. Through photosynthesis, they produce at least 50% (and possibly up to 70%) of Earth's oxygen - making them more important oxygen producers than all land forests combined!"
+    },
+    {
+      type: "quiz",
+      title: "Ocean Currents and Climate",
+      content: "What important role do ocean currents play in Earth's systems?",
+      options: [
+        "They only affect fish migration patterns",
+        "They help distribute heat and regulate global climate",
+        "They mainly exist to clean up ocean pollution", 
+        "They stay in one place and don't move"
+      ],
+      correctAnswer: 1,
+      explanation: "Ocean currents act like a global conveyor belt, moving warm water from tropical regions toward the poles and bringing cold water back toward the equator. This heat distribution system helps regulate Earth's climate and makes many regions more habitable."
+    },
+    {
+      type: "quiz",
+      title: "Climate Without the Ocean",
+      content: "What would happen to Earth's climate without the ocean's buffering effects?",
+      options: [
+        "We'd have much more oxygen in the atmosphere",
+        "The planet would cool down dramatically",
+        "Earth would be much hotter with more severe storms",
+        "There would be no change at all"
+      ],
+      correctAnswer: 2,
+      explanation: "Without the ocean absorbing excess heat and CO₂, Earth would be much hotter. The ocean acts as a massive heat sink and carbon reservoir. Without this buffering effect, climate change would be far more severe and rapid."
+    },
+    {
+      type: "conclusion",
+      title: "🌍 You're Now an Earth Systems Expert!",
+      content: "Amazing! You now understand that protecting the ocean means protecting Earth's habitability for all life, including humans. The ocean isn't just a beautiful place to visit - it's our planet's life support system.\n\n**What You Can Do:**\n\n**Support climate solutions** - Back renewable energy and policies that protect ocean health\n\n**Reduce your carbon footprint** - Use public transport, energy efficiency, and sustainable choices\n\n**Protect ocean ecosystems** - Support marine protected areas and sustainable fishing\n\n**Share this knowledge** - Help others understand the ocean's invisible but vital role in sustaining life\n\n**Stay informed** - Follow ocean science to understand how these systems are changing\n\n**Be an ocean advocate** - Support organizations working to protect our planet's life support system\n\nRemember: everything is connected, and a healthy ocean means a habitable Earth! 🌊"
+    }
+  ]
+};
+
+export const oceanLiteracyPrinciple5Lesson: EnhancedLesson = {
+  id: "ocean-literacy-principle-5",
+  title: "Ocean Literacy Principle 5: The Ocean Supports a Great Diversity of Life and Ecosystems", 
+  description: "Discover the incredible biodiversity of marine life and the interconnected ecosystems of the ocean",
+  category: "ocean-literacy",
+  duration: 7,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🐚 Welcome to the Most Biodiverse Place on Earth!",
+      content: "The ocean is home to most of the life on Earth! From coral reefs teeming with colorful fish to mysterious deep-sea creatures that glow in the dark, you're about to explore the most diverse and amazing ecosystems on our planet."
+    },
+    {
+      type: "text",
+      title: "🧬 Mind-Blowing Ocean Biodiversity",
+      content: "The numbers are staggering:\n\n**🔬 Known Species** - Over 230,000 marine species have been discovered and described by scientists\n\n**🌊 Estimated Total** - Scientists believe there could be 1-2 MILLION marine species yet to be discovered!\n\n**🏝️ Ecosystem Variety** - From sunny tidepools and kelp forests to polar seas and pitch-black abyssal plains\n\n**🪸 Coral Reef Magic** - These underwater cities cover less than 1% of the ocean floor but support 25% of all marine life\n\nEvery time scientists explore new areas of the ocean, they discover new species. The ocean is like a vast library of life that we're still learning to read!",
+      highlight: "New marine species are discovered every week - we know more about the surface of Mars than we do about deep ocean life!"
+    },
+    {
+      type: "text",
+      title: "🧬 How Ocean Life Works Together", 
+      content: "Ocean life is beautifully interconnected in complex food webs:\n\n**🦐 Food Webs** - Tiny plankton feed small fish, which feed bigger fish, which feed sharks, marine mammals, and humans\n\n**🏠 Habitat Builders** - Coral reefs, mangroves, seagrass beds, and kelp forests provide food, shelter, and nursery areas for countless species\n\n**🦑 Amazing Adaptations** - Deep-sea creatures use bioluminescence (living light), while others migrate thousands of kilometers across ocean basins\n\n**♻️ Ecosystem Services** - Marine organisms filter water, cycle nutrients, and maintain the balance that keeps ocean ecosystems healthy\n\nThis diversity isn't just beautiful to observe - it's essential for healthy oceans and human wellbeing.",
+      highlight: "A single coral reef can be home to over 4,000 species of fish plus thousands of other marine creatures!"
+    },
+    {
+      type: "quiz",
+      title: "Coral Reef Biodiversity",
+      content: "What percentage of all marine life is supported by coral reefs?",
+      options: [
+        "About 1%",
+        "Around 10%", 
+        "Approximately 25%",
+        "Nearly 50%"
+      ],
+      correctAnswer: 2,
+      explanation: "Despite covering less than 1% of the ocean floor, coral reefs support about 25% of all marine species. This makes them one of the most biodiverse ecosystems on Earth - they're often called the 'rainforests of the sea'!"
+    },
+    {
+      type: "quiz",
+      title: "Marine Species Discovery",
+      content: "What's true about marine biodiversity and species discovery?",
+      options: [
+        "We've already discovered most marine species",
+        "Biodiversity is limited to warm tropical areas",
+        "There are likely millions of undiscovered marine species", 
+        "All marine species live near the ocean surface"
+      ],
+      correctAnswer: 2,
+      explanation: "Scientists estimate that we've only discovered about 5-20% of marine species. With vast unexplored areas like the deep ocean, there could be 1-2 million more species waiting to be discovered!"
+    },
+    {
+      type: "text",
+      title: "🌊 From Surface to Seafloor: Ocean Habitats",
+      content: "The ocean contains Earth's most diverse range of habitats:\n\n**🌅 Sunlight Zone (0-200m)** - Coral reefs, kelp forests, and open ocean where most familiar marine life lives\n\n**🌙 Twilight Zone (200-1000m)** - Home to bioluminescent creatures and daily vertical migrations\n\n**🌚 Midnight Zone (1000-4000m)** - Pitch black waters with bizarre adaptations like giant squid\n\n**🏔️ Abyssal Zone (4000-6000m)** - Vast seafloor plains with specialized bottom-dwellers\n\n**🔥 Deep Ocean Trenches** - The deepest parts where life thrives in extreme conditions\n\n**🌋 Hydrothermal Vents** - Underwater geysers supporting unique life forms that don't need sunlight\n\nEach zone has its own unique communities of life!",
+      highlight: "More people have been to space than to the deepest ocean trenches - yet these areas teem with life!"
+    },
+    {
+      type: "quiz",
+      title: "Why Biodiversity Matters",
+      content: "Why is ocean biodiversity important for ecosystem health?",
+      options: [
+        "It mainly creates more colorful and pretty fish",
+        "It keeps ecosystems healthy, resilient, and functional",
+        "It only makes the ocean more interesting to look at",
+        "Biodiversity doesn't really matter to ocean health"
+      ],
+      correctAnswer: 1,
+      explanation: "Biodiversity is crucial for ecosystem resilience and stability. Different species perform different roles - some filter water, others cycle nutrients, and many serve as food sources. This diversity helps ecosystems recover from disturbances and continue functioning."
+    },
+    {
+      type: "conclusion",
+      title: "🌍 You're Now a Marine Biodiversity Champion!",
+      content: "Incredible! You now understand that ocean biodiversity isn't just about pretty fish - it's about the complex, interconnected web of life that keeps our oceans healthy and our planet functioning.\n\n**What You Can Do:**\n\n**Support Marine Protected Areas** - These ocean parks allow ecosystems to recover and thrive\n\n**Be a responsible ocean visitor** - When snorkeling or diving, look but don't touch or damage marine life\n\n**Choose sustainable seafood** - Support fishing practices that protect biodiversity\n\n**Reduce pollution** - Less plastic and chemical pollution means healthier marine ecosystems\n\n**Learn about local species** - Discover what lives in your nearest ocean or waterway\n\n**Share your knowledge** - Help others appreciate the incredible diversity of ocean life\n\n**Support conservation** - Back organizations working to protect marine biodiversity\n\nRemember: protecting ocean biodiversity means protecting the foundation of life on Earth! 🌊"
+    }
+  ]
+};
+
+export const oceanLiteracyPrinciple6Lesson: EnhancedLesson = {
+  id: "ocean-literacy-principle-6",
+  title: "Ocean Literacy Principle 6: The Ocean and Humans Are Inextricably Interconnected",
+  description: "Explore the deep connections between human society and ocean health, and our shared future",
+  category: "ocean-literacy", 
+  duration: 7,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🔁 Welcome to Understanding Our Ocean Connection!",
+      content: "You might not see the ocean every day, but it affects your life more than you might think - and your actions affect it in return. You're about to discover the invisible threads that connect every human to the ocean, no matter where you live!"
+    },
+    {
+      type: "text",
+      title: "🔁 How the Ocean Supports Human Life",
+      content: "Even if you live far inland, the ocean is working for you every day:\n\n**💨 Oxygen Supply** - Over 50% of the oxygen you breathe comes from ocean phytoplankton\n\n**🌡️ Climate Regulation** - The ocean absorbs heat and carbon, stabilizing Earth's climate\n\n**🍤 Food Security** - Ocean fisheries directly support the livelihoods of over 3 billion people globally\n\n**🚢 Global Trade** - Around 90% of all international trade moves by sea - including the device you're reading this on!\n\n**🏖️ Cultural Identity** - Many coastal and Indigenous communities have spiritual and historical connections to the ocean spanning thousands of years\n\nThe ocean isn't separate from human society - it IS human society.",
+      highlight: "Every second breath you take comes from the ocean - phytoplankton are working right now to keep you alive!"
+    },
+    {
+      type: "text",
+      title: "🚨 How Human Actions Impact the Ocean",
+      content: "Our relationship with the ocean goes both ways. Human activities are changing ocean systems:\n\n**🗑️ Pollution** - Plastic waste, chemicals, agricultural runoff, and sewage harm marine life and ecosystems\n\n**🌡️ Climate Change** - Our carbon emissions cause ocean warming, acidification, and sea level rise\n\n**🎣 Overfishing** - Taking too many fish reduces populations and damages marine food webs\n\n**🔊 Noise Pollution** - Ships, sonar, and offshore industry disrupt marine animals' communication and navigation\n\n**🏗️ Coastal Development** - Building on coastlines destroys important marine habitats like mangroves and coral reefs\n\nThis is why ocean stewardship is a shared human responsibility - we all have a stake in ocean health.",
+      highlight: "Plastic pollution is so widespread that microplastics have been found in the deepest ocean trenches and even in human blood!"
+    },
+    {
+      type: "quiz",
+      title: "Human-Ocean Connections",
+      content: "Which statement about human-ocean connections is TRUE?",
+      options: [
+        "Humans rely on the ocean for trade, food, oxygen, and climate stability",
+        "The ocean has little effect on human health and society",
+        "Only people living near the coast are connected to the ocean",
+        "Climate change doesn't really affect ocean systems"
+      ],
+      correctAnswer: 0,
+      explanation: "Humans depend on the ocean for many essential services including oxygen production, climate regulation, food, transportation, and economic opportunities. These connections exist regardless of where people live on Earth."
+    },
+    {
+      type: "quiz", 
+      title: "Human Impacts on Ocean Health",
+      content: "Which of the following is an example of how humans negatively impact the ocean?",
+      options: [
+        "Sustainable ecotourism that educates visitors",
+        "Traditional fishing methods passed down through generations",
+        "Research programs that study marine ecosystems",
+        "Overfishing and plastic pollution"
+      ],
+      correctAnswer: 3,
+      explanation: "Overfishing depletes fish populations and damages marine ecosystems, while plastic pollution harms marine life through entanglement, ingestion, and chemical contamination. Both represent unsustainable human impacts on ocean health."
+    },
+    {
+      type: "text",
+      title: "🌍 Coastal Communities and Ocean Culture",
+      content: "For billions of people, the ocean isn't just an economic resource - it's home, heritage, and identity:\n\n**🏘️ Coastal Cities** - Over 40% of the world's population lives within 100km of the coast\n\n**🎣 Traditional Knowledge** - Indigenous and coastal communities have sustainable ocean management practices developed over thousands of years\n\n**🍱 Food Culture** - Ocean foods are central to the cuisine and culture of many societies\n\n**⛵ Maritime Heritage** - Seafaring, fishing, and ocean exploration shape the history and identity of many cultures\n\n**🏄 Recreation** - Surfing, diving, swimming, and boating connect millions of people to ocean experiences\n\nThese deep cultural connections mean that ocean health directly impacts human wellbeing and cultural continuity.",
+      highlight: "Small island nations like the Maldives and Tuvalu could become uninhabitable due to sea level rise - their entire cultures are at risk!"
+    },
+    {
+      type: "quiz",
+      title: "Understanding Our Shared Future", 
+      content: "Why is it important to understand our connection with the ocean?",
+      options: [
+        "So we can learn to swim and surf better",
+        "So we can extract more resources from ocean systems",
+        "Because ocean health affects our climate, food security, and future",
+        "Because only marine scientists need to understand ocean systems"
+      ],
+      correctAnswer: 2,
+      explanation: "Understanding our connection to the ocean helps us make informed decisions about climate action, sustainable consumption, and policies that affect both ocean health and human wellbeing. Our futures are interconnected."
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now an Ocean-Human Connection Expert!",
+      content: "Excellent! You now understand that humans and the ocean share a common destiny. What affects the ocean affects us, and our choices shape ocean health for future generations.\n\n**What You Can Do:**\n\n**Choose sustainable seafood** - Look for certifications and ask about fishing methods\n\n**Reduce single-use plastics** - Bring reusable bags, bottles, and containers\n\n**Support coastal conservation** - Protect beaches, mangroves, and coral reefs\n\n**Learn from traditional knowledge** - Respect Indigenous and local ocean management practices\n\n**Make climate-conscious choices** - Reduce your carbon footprint to help prevent ocean acidification\n\n**Support ocean-friendly policies** - Vote for leaders who prioritize ocean protection\n\n**Share your knowledge** - Help others understand our shared connection to the ocean\n\n**Practice ocean citizenship** - Remember that every action, no matter how small, ripples through our interconnected world\n\nRemember: we are all ocean people, and the health of the ocean is our health! 🌊"
+    }
+  ]
+};
+
+export const oceanLiteracyPrinciple7Lesson: EnhancedLesson = {
+  id: "ocean-literacy-principle-7",
+  title: "Ocean Literacy Principle 7: The Ocean is Largely Unexplored",
+  description: "Discover why most of our ocean remains a mystery and what new discoveries await",
+  category: "ocean-literacy",
+  duration: 6,
+  difficulty: "Beginner", 
+  steps: [
+    {
+      type: "intro",
+      title: "🌊 Welcome to the Greatest Mystery on Earth!",
+      content: "Despite covering over 70% of our planet, most of the ocean remains a complete mystery. In fact, more than 80% of the ocean is unmapped, unobserved, and unexplored. You're about to discover why we know more about the surface of Mars than we do about our own ocean depths!"
+    },
+    {
+      type: "text",
+      title: "🧠 Why Is Ocean Exploration So Difficult?",
+      content: "Exploring the ocean presents unique challenges that make it one of the most difficult environments to study:\n\n**💪 Crushing Pressure** - The deeper you go, the more pressure builds up. At the deepest point, the pressure is like having 50 jumbo jets stacked on top of you!\n\n**🌑 Absolute Darkness** - Sunlight can't penetrate below about 1,000 meters, so most of the ocean is in permanent darkness\n\n**🤖 Technology Limits** - We need specialized submersibles, remotely operated vehicles (ROVs), and advanced sensors that can survive extreme conditions\n\n**💰 High Costs** - Ocean exploration requires expensive equipment and ships, making it difficult to fund comprehensive studies\n\nYet despite these challenges, every expedition reveals new discoveries!",
+      highlight: "It costs more to explore one cubic kilometer of deep ocean than it does to send a mission to the Moon!"
+    },
+    {
+      type: "text",
+      title: "🌐 What We're Missing - and Finding!",
+      content: "The unexplored ocean holds incredible secrets:\n\n**🦑 Unknown Species** - Scientists believe millions of species remain undiscovered, especially in the deep sea\n\n**🌋 Underwater Landscapes** - Vast mountain ranges, underwater volcanoes, and deep-sea canyons that dwarf anything on land\n\n**🏛️ Hidden History** - Shipwrecks and archaeological sites that tell stories of human exploration and trade\n\n**💎 New Resources** - Potential medicines from marine organisms and sustainable energy sources\n\n**🌡️ Climate Clues** - Coral reefs and deep-sea sediments that record Earth's climate history\n\nEvery dive reveals something new - from bioluminescent creatures to entirely new ecosystems!",
+      highlight: "Scientists discover an average of 1,500 new marine species every year - and we've barely started exploring!"
+    },
+    {
+      type: "quiz",
+      title: "Ocean Exploration Facts",
+      content: "How much of the ocean remains unexplored?",
+      options: [
+        "About 10% is still unexplored",
+        "Around 50% remains mysterious",
+        "Over 80% is unexplored",
+        "Nearly all of it has been mapped and studied"
+      ],
+      correctAnswer: 2,
+      explanation: "More than 80% of the ocean is unmapped, unobserved, and unexplored. We have better maps of Mars and the Moon than we do of our own ocean floor!"
+    },
+    {
+      type: "quiz",
+      title: "Challenges of Ocean Exploration",
+      content: "Which is NOT a major challenge for ocean exploration?",
+      options: [
+        "Intense pressure at great depths",
+        "Dense underwater forests blocking access",
+        "Complete darkness in deep zones",
+        "Expensive specialized technology requirements"
+      ],
+      correctAnswer: 1,
+      explanation: "While kelp forests exist in some shallow areas, they don't block deep ocean exploration. The main challenges are pressure, darkness, and the need for expensive specialized equipment that can survive extreme deep-sea conditions."
+    },
+    {
+      type: "text",
+      title: "🔬 Why Ocean Exploration Matters",
+      content: "Understanding our ocean has practical benefits for everyone:\n\n**💊 Medical Discoveries** - Marine organisms have already provided treatments for cancer, pain relief, and infections\n\n**🌡️ Climate Understanding** - Ocean exploration helps us understand and predict climate change impacts\n\n**🛡️ Natural Disaster Preparation** - Better ocean knowledge improves tsunami warnings and weather forecasting\n\n**🐠 Conservation** - We can't protect what we don't know exists - exploration identifies areas that need protection\n\n**♻️ Sustainable Resources** - Understanding ocean systems helps us use marine resources responsibly\n\n**🌱 Ecosystem Protection** - Discovering how ocean ecosystems work helps us maintain their health\n\nExploration equals protection - we need to understand the ocean to preserve it for future generations.",
+      highlight: "Deep-sea creatures have already contributed to treatments for HIV, cancer, and Alzheimer's disease!"
+    },
+    {
+      type: "quiz",
+      title: "Why Explore the Ocean?",
+      content: "Why is ocean exploration important for humanity?",
+      options: [
+        "Only so we can build more offshore oil platforms",
+        "To better understand and protect marine ecosystems and climate",
+        "Just to find treasure and precious metals",
+        "So people can live underwater like in movies"
+      ],
+      correctAnswer: 1,
+      explanation: "Ocean exploration helps us understand climate change, discover new medicines, improve weather prediction, protect vulnerable ecosystems, and use ocean resources sustainably. It's essential for environmental protection and human wellbeing."
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now an Ocean Exploration Advocate!",
+      content: "Amazing! You now understand that the ocean is our planet's greatest frontier. While we've explored space and mapped distant planets, the vast majority of our own ocean remains mysterious and full of discoveries waiting to be made.\n\n**What You Can Do:**\n\n**Support marine research** - Follow and donate to organizations conducting ocean exploration\n\n**Join citizen science** - Participate in projects that log species sightings or ocean conditions\n\n**Stay curious and informed** - Read about new ocean discoveries and share them with others\n\n**Advocate for ocean science funding** - Support politicians and policies that fund ocean research\n\n**Visit aquariums and marine centers** - Learn about ocean exploration technologies and discoveries\n\n**Encourage young explorers** - Inspire others to pursue careers in marine science and exploration\n\n**Protect what we know** - Support conservation of the ocean areas we have explored and understand\n\n**Think like an explorer** - Maintain wonder and curiosity about the 80% of our planet that remains mysterious\n\n🎉 Congratulations! You've now completed all 7 Ocean Literacy Principles and become a true ocean champion! 🌊"
+    }
+  ]
+};
+
 export const enhancedLessons = [
   bottomTrawlingLesson,
   leeuwincurrentLesson,
   westernRockLobsterLesson,
   oceanLiteracyPrinciple1Lesson,
   oceanLiteracyPrinciple2Lesson,
+  oceanLiteracyPrinciple3Lesson,
+  oceanLiteracyPrinciple4Lesson,
+  oceanLiteracyPrinciple5Lesson,
+  oceanLiteracyPrinciple6Lesson,
+  oceanLiteracyPrinciple7Lesson,
   highSeasTreatyLesson
 ];

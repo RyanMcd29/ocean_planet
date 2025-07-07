@@ -10,7 +10,7 @@ import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewe
 import EnhancedLessonViewer from "@/components/lessons/EnhancedLessonViewer";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
-import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, highSeasTreatyLesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, highSeasTreatyLesson, type EnhancedLesson } from "@/data/enhancedLessons";
 
 import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin } from "lucide-react";
 
@@ -130,6 +130,71 @@ const allLessons = [
   },
   {
     id: 9,
+    title: "Ocean Literacy Principle 3: The Ocean is a Major Influence on Weather and Climate",
+    category: "ocean-literacy",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Discover how the ocean controls much of our planet's weather patterns and climate systems",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🌡️",
+    enhancedLessonData: oceanLiteracyPrinciple3Lesson
+  },
+  {
+    id: 10,
+    title: "Ocean Literacy Principle 4: The Ocean Makes Earth Habitable",
+    category: "ocean-literacy",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Explore how the ocean serves as Earth's life support system, making our planet livable",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🌍",
+    enhancedLessonData: oceanLiteracyPrinciple4Lesson
+  },
+  {
+    id: 11,
+    title: "Ocean Literacy Principle 5: The Ocean Supports a Great Diversity of Life and Ecosystems",
+    category: "ocean-literacy",
+    duration: 7,
+    thumbnail: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Discover the incredible biodiversity of marine life and the interconnected ecosystems of the ocean",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🐚",
+    enhancedLessonData: oceanLiteracyPrinciple5Lesson
+  },
+  {
+    id: 12,
+    title: "Ocean Literacy Principle 6: The Ocean and Humans Are Inextricably Interconnected",
+    category: "ocean-literacy",
+    duration: 7,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Explore the deep connections between human society and ocean health, and our shared future",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🔁",
+    enhancedLessonData: oceanLiteracyPrinciple6Lesson
+  },
+  {
+    id: 13,
+    title: "Ocean Literacy Principle 7: The Ocean is Largely Unexplored",
+    category: "ocean-literacy",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Discover why most of our ocean remains a mystery and what new discoveries await",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🔍",
+    enhancedLessonData: oceanLiteracyPrinciple7Lesson
+  },
+  {
+    id: 14,
     title: "The Historic High Seas Treaty",
     category: "conservation",
     duration: 7,
