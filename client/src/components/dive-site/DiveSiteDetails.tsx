@@ -234,6 +234,50 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
           {/* AMMO Jetty specific sections */}
           {diveSite.name === "AMMO Jetty" && (
             <>
+              {/* Featured Species */}
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
+                  <Button 
+                    variant="link" 
+                    onClick={() => setActiveTab("species")}
+                    className="text-sm text-[#088395] hover:text-[#0A4D68] font-semibold p-0"
+                  >
+                    View all
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {isLoadingSpecies ? (
+                    Array(4).fill(0).map((_, i) => (
+                      <div key={i} className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm">
+                        <Skeleton className="w-full h-24" />
+                        <div className="p-2">
+                          <Skeleton className="h-4 w-20 mb-1" />
+                          <Skeleton className="h-3 w-24" />
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    species?.slice(0, 4).map(({ species }) => (
+                      <Link key={species.id} href={`/species/${species.id}`}>
+                        <a className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block">
+                          <img 
+                            src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
+                            alt={species.commonName} 
+                            className="w-full h-24 object-cover"
+                          />
+                          <div className="p-2">
+                            <h4 className="font-montserrat font-semibold text-sm">{species.commonName}</h4>
+                            <p className="text-xs text-[#757575] italic">{species.scientificName}</p>
+                          </div>
+                        </a>
+                      </Link>
+                    ))
+                  )}
+                </div>
+              </div>
+
               {/* Key Highlights */}
               <div className="mb-6">
                 <div className="bg-gradient-to-r from-orange-100 to-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
@@ -296,13 +340,23 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               {/* Dive Map & Route */}
               <div className="mb-6">
                 <div className="bg-gradient-to-r from-teal-100 to-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg">
-                  <div className="flex items-center mb-2">
+                  <div className="flex items-center justify-between mb-2">
                     <span className="text-teal-600 font-semibold text-sm flex items-center">
                       <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                       </svg>
                       Dive Map
                     </span>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="text-teal-600 border-teal-400 hover:bg-teal-50 text-xs"
+                    >
+                      <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.413V13H5.5z" />
+                      </svg>
+                      Upload Map
+                    </Button>
                   </div>
                   <p className="text-sm text-gray-700 mb-3">Site layout and recommended routes</p>
                   <div className="text-sm text-gray-600 space-y-1">
