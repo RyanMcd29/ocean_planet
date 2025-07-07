@@ -1,0 +1,54 @@
+## Blackwall Reach 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Blackwall Reach**, located along the Swan River in the Perth metropolitan area, Western Australia.
+    
+2. **Image Header**
+    
+    Images show a calm river scene with visible mooring buoys (527 and 716) and dense trees lining the steep banks. Some photos highlight entry points and underwater wreckage.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for Open Water certified divers. While it’s relatively shallow, variable visibility and river currents make it better suited for divers with moderate experience and good navigation skills.
+    
+4. **Location Description and Coordinates: 32°01'16.4"S 115°46'58.9"E**
+    
+    The site is situated at the end of Blackwall Reach Parade near Point Walter, about a 20-minute drive from central Perth. It’s outside a designated marine park but lies within a popular recreational reserve along the Swan River.
+    
+5. **Access Type**
+    
+    This is a **shore-based** dive. Divers walk through a bush track and wade approximately 200 meters before descending into the water.
+    
+6. **Depth Range**
+    
+    The site ranges from shallow shoreline entries to around **15 metres** at its deepest in the central river channel.
+    
+7. **Entry Conditions**
+    
+    Entry is via a small beach. Conditions can be silty underfoot, and divers may need to surface swim out to buoy markers before descending.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Diving is best in stable weather, avoiding days after rainfall which can release tannins and silt into the water. Calm, cool-weather days provide the clearest conditions.
+    
+2. **Water Temperature**
+    
+    River temperatures typically range from **16°C to 22°C**, following seasonal patterns similar to Perth’s coastal waters.
+    
+3. **Visibility**
+    
+    Visibility is usually between **1 to 4 metres**, often reduced after storms or rain due to runoff and stirred sediment. On exceptional days it can reach 5 metres.
+    
+4. **Current and Surge**
+    
+    Currents are generally mild near the bank but increase further into the river. Be mindful of boat traffic and ferry wake, which can cause surface disturbance.
+    
+5. **Real-Time Data Suggestion**
+    
+    Linking to Swan River tide and turbidity data (via BOM or local council APIs) would help divers plan safely.
