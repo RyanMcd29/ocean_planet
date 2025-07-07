@@ -231,6 +231,171 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             </p>
           </div>
 
+          {/* AMMO Jetty specific sections */}
+          {diveSite.name === "AMMO Jetty" && (
+            <>
+              {/* Key Highlights */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-orange-100 to-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-orange-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Key Highlights
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">What to expect at this dive site</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Shore dive from jetty with walk-in entry
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Macro photography hotspot with abundant invertebrates
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Easy access via jetty steps with facilities nearby
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Artificial reef ecosystem on silty rubble seabed
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Night diving opportunities with rays and marine mammals
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Suitable for Open Water certification and refresher courses
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Rich marine growth on encrusted pylons
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Featured Species */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-blue-100 to-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-blue-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+                      </svg>
+                      Featured Species
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Discover the marine life at this dive site</p>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• Diverse leatherjackets and pygmy filefish</div>
+                    <div>• Crested morwong schools and boxfish</div>
+                    <div>• Flatworms, anemones, and macro invertebrates</div>
+                    <div>• Occasional rays, dolphins, and sea lions (night dives)</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dive Map & Route */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-teal-100 to-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-teal-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                      </svg>
+                      Dive Map
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Site layout and recommended routes</p>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• Typically dive one side of jetty pylons out to ~100m</div>
+                    <div>• Return on opposite side (clockwise or anti-clockwise)</div>
+                    <div>• Complete loop covers entire jetty length</div>
+                    <div>• Maximum depth ~9m along jetty structure</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Learn Section */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-purple-100 to-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-purple-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Learn Section
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Suggested mini-lessons for deeper understanding</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
+                        <span className="text-sm text-gray-700">"Biodiversity of Jetty Macro Ecosystems"</span>
+                      </div>
+                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
+                        <span className="text-sm text-gray-700">"Threats from Fishing Debris & Marine Conservation Efforts"</span>
+                      </div>
+                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-gray-500">
+                    <strong>Community Contributions:</strong> Local divers frequently contribute observation maps and macro-life sketches. Join annual cleanup events led by Dolphin Dive and other local dive shops.
+                  </div>
+                </div>
+              </div>
+
+              {/* User Experience & Safety */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-yellow-100 to-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-yellow-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      User Experience & Safety Tips
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• <strong>Facilities:</strong> Toilets and rinse showers available near car park</div>
+                    <div>• <strong>Safety:</strong> Watch for discarded fishing tackle under jetty - bring dive knife</div>
+                    <div>• <strong>Buoyancy:</strong> Maintain good buoyancy control to protect silty bottom</div>
+                    <div>• <strong>Best Conditions:</strong> Calm with swell less than 1.5m, east to southeast winds</div>
+                    <div>• <strong>Avoid:</strong> Strong westerly winds that enhance swell</div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
           {/* Highlights */}
           {diveSite.highlights && diveSite.highlights.length > 0 && (
             <div className="mb-6">
