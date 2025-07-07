@@ -95,55 +95,91 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
 
   return (
     <div className="bg-white shadow-md lg:overflow-y-auto lg:max-h-[calc(100vh-64px)]">
-      {/* Header Image and Info */}
+      {/* Enhanced Header with Hero Image */}
       <div className="relative">
-        <img 
-          src={diveSite.mainImage || 'https://images.unsplash.com/photo-1682687982501-1e58ab6d8433?q=80&w=1470&auto=format&fit=crop'}
-          alt={`${diveSite.name} underwater scene`} 
-          className="w-full h-48 object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-5">
-          <div className="flex items-center space-x-2 mb-1">
-            <span className="bg-[#05BFDB] text-white px-2 py-1 rounded text-xs font-montserrat">
-              {diveSite.difficulty}
-            </span>
-            <span className="bg-[#088395] text-white px-2 py-1 rounded text-xs font-montserrat">
-              {diveSite.minDepth}-{diveSite.maxDepth}m
-            </span>
+        <div className="relative overflow-hidden">
+          <img 
+            src={diveSite.mainImage || 'https://images.unsplash.com/photo-1682687982501-1e58ab6d8433?q=80&w=1470&auto=format&fit=crop'}
+            alt={`${diveSite.name} underwater scene`} 
+            className="w-full h-64 sm:h-72 md:h-80 object-cover transform hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <span className="bg-gradient-to-r from-[#05BFDB] to-[#088395] text-white px-3 py-1.5 rounded-full text-sm font-semibold font-montserrat shadow-lg">
+                  {diveSite.difficulty}
+                </span>
+                <span className="bg-black/50 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-semibold font-montserrat border border-white/20">
+                  {diveSite.minDepth}-{diveSite.maxDepth}m depth
+                </span>
+                <span className="bg-black/50 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-sm font-semibold font-montserrat border border-white/20">
+                  {diveSite.current} current
+                </span>
+              </div>
+              <h1 className="text-white text-3xl md:text-4xl lg:text-5xl font-montserrat font-bold mb-2 leading-tight">
+                {diveSite.name}
+              </h1>
+              <p className="text-white/90 flex items-center text-lg font-medium">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 mr-2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                {diveSite.location}
+              </p>
+            </div>
           </div>
-          <h2 className="text-white text-2xl font-montserrat font-bold">{diveSite.name}</h2>
-          <p className="text-white opacity-90 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            {diveSite.location}
-          </p>
         </div>
 
+        {/* Enhanced Action Buttons */}
         <div className="absolute top-4 right-4 flex space-x-2">
-          <Button variant="outline" size="icon" className="bg-white/80 hover:bg-white text-[#0A4D68] rounded-full h-9 w-9">
+          <Button variant="outline" size="icon" className="bg-white/90 backdrop-blur-sm hover:bg-white text-[#0A4D68] rounded-full h-10 w-10 shadow-lg border-white/30">
             <Heart className="h-5 w-5" />
           </Button>
-          <Button variant="outline" size="icon" className="bg-white/80 hover:bg-white text-[#0A4D68] rounded-full h-9 w-9">
+          <Button variant="outline" size="icon" className="bg-white/90 backdrop-blur-sm hover:bg-white text-[#0A4D68] rounded-full h-10 w-10 shadow-lg border-white/30">
             <Share2 className="h-5 w-5" />
           </Button>
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-3 gap-4 p-4 bg-[#E0F7FA]">
-        <div className="text-center">
-          <p className="text-[#0A4D68] text-sm font-semibold">Visibility</p>
-          <p className="text-lg font-montserrat font-bold">{diveSite.minVisibility}-{diveSite.maxVisibility}m</p>
-        </div>
-        <div className="text-center">
-          <p className="text-[#0A4D68] text-sm font-semibold">Temperature</p>
-          <p className="text-lg font-montserrat font-bold">{diveSite.minTemp}-{diveSite.maxTemp}°C</p>
-        </div>
-        <div className="text-center">
-          <p className="text-[#0A4D68] text-sm font-semibold">Current</p>
-          <p className="text-lg font-montserrat font-bold">{diveSite.current}</p>
+      {/* Enhanced Stats Grid */}
+      <div className="bg-gradient-to-r from-[#E0F7FA] to-[#B2EBF2] p-6">
+        <div className="grid grid-cols-3 gap-6">
+          <div className="text-center bg-white/60 backdrop-blur-sm rounded-xl p-4 shadow-sm">
+            <div className="w-12 h-12 bg-gradient-to-br from-[#05BFDB] to-[#088395] rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-white">
+                <circle cx="12" cy="12" r="5"></circle>
+                <path d="M12 1v6m0 10v6m11-7h-6m-10 0H1"></path>
+              </svg>
+            </div>
+            <p className="text-[#0A4D68] text-sm font-semibold mb-1">Visibility</p>
+            <p className="text-xl font-montserrat font-bold text-[#088395]">{diveSite.minVisibility}-{diveSite.maxVisibility}m</p>
+          </div>
+          <div className="text-center bg-white/60 backdrop-blur-sm rounded-xl p-4 shadow-sm">
+            <div className="w-12 h-12 bg-gradient-to-br from-[#FF6B6B] to-[#EE5A52] rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-white">
+                <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+              </svg>
+            </div>
+            <p className="text-[#0A4D68] text-sm font-semibold mb-1">Temperature</p>
+            <p className="text-xl font-montserrat font-bold text-[#088395]">{diveSite.minTemp}-{diveSite.maxTemp}°C</p>
+          </div>
+          <div className="text-center bg-white/60 backdrop-blur-sm rounded-xl p-4 shadow-sm">
+            <div className="w-12 h-12 bg-gradient-to-br from-[#4ECDC4] to-[#44A08D] rounded-full flex items-center justify-center mx-auto mb-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 text-white">
+                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path>
+                <path d="M12 2v2"></path>
+                <path d="M12 20v2"></path>
+                <path d="M4.93 4.93l1.41 1.41"></path>
+                <path d="M17.66 17.66l1.41 1.41"></path>
+                <path d="M2 12h2"></path>
+                <path d="M20 12h2"></path>
+                <path d="M6.34 17.66l-1.41 1.41"></path>
+                <path d="M19.07 4.93l-1.41 1.41"></path>
+              </svg>
+            </div>
+            <p className="text-[#0A4D68] text-sm font-semibold mb-1">Current</p>
+            <p className="text-xl font-montserrat font-bold text-[#088395]">{diveSite.current}</p>
+          </div>
         </div>
       </div>
 
@@ -223,28 +259,51 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             )}
           </div>
 
-          {/* About section */}
-          <div className="mb-6">
-            <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">About this dive site</h3>
-            <p className="text-sm leading-relaxed text-[#757575]">
-              {diveSite.description}
-            </p>
+          {/* Enhanced About Section */}
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-[#0A4D68] to-[#088395] p-6 rounded-t-2xl">
+              <h3 className="text-xl font-montserrat font-bold text-white mb-1 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 mr-3">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                Site Overview
+              </h3>
+              <p className="text-white/80 text-sm">Discover what makes this dive site special</p>
+            </div>
+            <div className="bg-white border border-[#E0F7FA] p-6 rounded-b-2xl shadow-sm">
+              <p className="text-base leading-relaxed text-[#424242] font-light">
+                {diveSite.description}
+              </p>
+            </div>
           </div>
 
-          {/* Highlights */}
+          {/* Enhanced Highlights Section */}
           {diveSite.highlights && diveSite.highlights.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Highlights</h3>
-              <ul className="grid grid-cols-2 gap-2">
-                {diveSite.highlights.map((highlight, index) => (
-                  <li key={index} className="flex items-center text-sm text-[#757575]">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#EB6440] mr-2 h-4 w-4">
-                      <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    {highlight}
-                  </li>
-                ))}
-              </ul>
+            <div className="mb-8">
+              <div className="bg-gradient-to-r from-[#EB6440] to-[#F4845F] p-6 rounded-t-2xl">
+                <h3 className="text-xl font-montserrat font-bold text-white mb-1 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 mr-3">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                  </svg>
+                  Key Highlights
+                </h3>
+                <p className="text-white/80 text-sm">What to expect at this dive site</p>
+              </div>
+              <div className="bg-white border border-[#FFE0CC] p-6 rounded-b-2xl shadow-sm">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {diveSite.highlights.map((highlight, index) => (
+                    <div key={index} className="flex items-start p-3 bg-gradient-to-r from-[#FFF8F0] to-[#FFE6CC] rounded-lg border border-[#FFD4A3]">
+                      <div className="w-8 h-8 bg-gradient-to-br from-[#EB6440] to-[#F4845F] rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white h-4 w-4">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                      </div>
+                      <span className="text-[#424242] font-medium text-sm leading-relaxed">{highlight}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 
@@ -295,23 +354,50 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
           {/* Habitat Information */}
           <HabitatInfo diveSite={diveSite} />
 
-          {/* Dive Conditions */}
-          <div className="mb-6">
-            <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Best Time to Dive</h3>
-            <div className="bg-[#F5F5F5] p-3 rounded-lg">
-              <div className="flex justify-between mb-3">
-                <div className="text-center flex-1">
-                  <p className="font-bold text-[#0A4D68]">Best Season</p>
-                  <p className="text-sm">{diveSite.bestSeason}</p>
+          {/* Enhanced Dive Conditions */}
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-[#4ECDC4] to-[#44A08D] p-6 rounded-t-2xl">
+              <h3 className="text-xl font-montserrat font-bold text-white mb-1 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 mr-3">
+                  <path d="M12 2v10l8-8-8 8H2l10-10z"></path>
+                  <path d="M12 12v10"></path>
+                </svg>
+                Best Diving Conditions
+              </h3>
+              <p className="text-white/80 text-sm">Optimal times for your underwater adventure</p>
+            </div>
+            <div className="bg-white border border-[#E0F2F1] p-6 rounded-b-2xl shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                <div className="bg-gradient-to-br from-[#F0FDFA] to-[#CCFBF1] p-4 rounded-xl border border-[#A7F3D0]">
+                  <div className="flex items-center mb-2">
+                    <div className="w-8 h-8 bg-gradient-to-br from-[#4ECDC4] to-[#44A08D] rounded-full flex items-center justify-center mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-white">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 1v6m0 10v6m11-7h-6m-10 0H1"></path>
+                      </svg>
+                    </div>
+                    <p className="font-bold text-[#064E3B]">Best Season</p>
+                  </div>
+                  <p className="text-[#047857] font-medium ml-11">{diveSite.bestSeason}</p>
                 </div>
-                <div className="text-center flex-1">
-                  <p className="font-bold text-[#0A4D68]">Peak Visibility</p>
-                  <p className="text-sm">{diveSite.peakVisibilityMonth}</p>
+                <div className="bg-gradient-to-br from-[#F0FDFA] to-[#CCFBF1] p-4 rounded-xl border border-[#A7F3D0]">
+                  <div className="flex items-center mb-2">
+                    <div className="w-8 h-8 bg-gradient-to-br from-[#4ECDC4] to-[#44A08D] rounded-full flex items-center justify-center mr-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-white">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v6m0 10v6m11-7h-6m-10 0H1"></path>
+                      </svg>
+                    </div>
+                    <p className="font-bold text-[#064E3B]">Peak Visibility</p>
+                  </div>
+                  <p className="text-[#047857] font-medium ml-11">{diveSite.peakVisibilityMonth}</p>
                 </div>
               </div>
-              <p className="text-xs text-[#757575]">
-                The best time to dive {diveSite.name} is during {diveSite.bestSeason} when rainfall is lower and visibility is at its peak. Water temperatures remain pleasant year-round.
-              </p>
+              <div className="bg-gradient-to-r from-[#F8FAFC] to-[#F1F5F9] p-4 rounded-lg border border-[#E2E8F0]">
+                <p className="text-[#475569] leading-relaxed">
+                  The optimal diving window for <span className="font-semibold text-[#0F172A]">{diveSite.name}</span> occurs during {diveSite.bestSeason} when environmental conditions align for the best underwater experience. Visibility reaches its peak during {diveSite.peakVisibilityMonth}, offering exceptional clarity for underwater photography and marine life observation.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -333,31 +419,55 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             </div>
           )}
 
-          {/* Conservation Status */}
-          <div className="mb-6">
-            <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">Conservation Status</h3>
-            <div className="bg-[#FFAB91] bg-opacity-10 p-3 rounded-lg">
-              <div className="flex items-center mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#EB6440] mr-2 h-5 w-5">
-                  <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                  <line x1="12" y1="9" x2="12" y2="13"></line>
-                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          {/* Enhanced Conservation Status */}
+          <div className="mb-8">
+            <div className="bg-gradient-to-r from-[#10B981] to-[#059669] p-6 rounded-t-2xl">
+              <h3 className="text-xl font-montserrat font-bold text-white mb-1 flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 mr-3">
+                  <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+                  <path d="M19 3v4"></path>
+                  <path d="M21 5h-4"></path>
                 </svg>
-                <p className="font-montserrat font-semibold text-[#EB6440]">{diveSite.conservationStatus}</p>
+                Conservation & Protection
+              </h3>
+              <p className="text-white/80 text-sm">Environmental protection and sustainable diving practices</p>
+            </div>
+            <div className="bg-white border border-[#D1FAE5] p-6 rounded-b-2xl shadow-sm">
+              <div className="flex items-center mb-4 p-4 bg-gradient-to-r from-[#ECFDF5] to-[#D1FAE5] rounded-xl border border-[#A7F3D0]">
+                <div className="w-12 h-12 bg-gradient-to-br from-[#10B981] to-[#059669] rounded-full flex items-center justify-center mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white h-6 w-6">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                  </svg>
+                </div>
+                <div>
+                  <p className="font-montserrat font-bold text-[#064E3B] text-lg">{diveSite.conservationStatus}</p>
+                  <p className="text-[#047857] text-sm">Current protection level</p>
+                </div>
               </div>
-              <p className="text-sm text-[#757575]">
-                {diveSite.conservationInfo}
-              </p>
-              <div className="mt-3">
-                <Link href="/conservation">
-                  <a className="text-[#088395] hover:text-[#0A4D68] text-sm font-semibold flex items-center">
-                    Learn about conservation efforts 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1 h-3 w-3">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
+              
+              <div className="bg-gradient-to-r from-[#F8FAFC] to-[#F1F5F9] p-4 rounded-lg border border-[#E2E8F0] mb-4">
+                <p className="text-[#475569] leading-relaxed">
+                  {diveSite.conservationInfo}
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Link href="/learn">
+                  <Button className="bg-gradient-to-r from-[#10B981] to-[#059669] hover:from-[#059669] hover:to-[#047857] text-white flex items-center gap-2 flex-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                      <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                      <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                     </svg>
-                  </a>
+                    Learn About Conservation
+                  </Button>
                 </Link>
+                <Button variant="outline" className="text-[#059669] border-[#059669] hover:bg-[#F0FDF4] flex items-center gap-2 flex-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                    <path d="m15 5 4 4"></path>
+                  </svg>
+                  Report Issues
+                </Button>
               </div>
             </div>
           </div>
