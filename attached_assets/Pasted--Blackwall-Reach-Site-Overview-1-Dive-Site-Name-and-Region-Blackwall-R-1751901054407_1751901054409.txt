@@ -1,0 +1,118 @@
+## Blackwall Reach 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Blackwall Reach**, located along the Swan River in the Perth metropolitan area, Western Australia.
+    
+2. **Image Header**
+    
+    Images show a calm river scene with visible mooring buoys (527 and 716) and dense trees lining the steep banks. Some photos highlight entry points and underwater wreckage.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for Open Water certified divers. While it’s relatively shallow, variable visibility and river currents make it better suited for divers with moderate experience and good navigation skills.
+    
+4. **Location Description and Coordinates: 32°01'16.4"S 115°46'58.9"E**
+    
+    The site is situated at the end of Blackwall Reach Parade near Point Walter, about a 20-minute drive from central Perth. It’s outside a designated marine park but lies within a popular recreational reserve along the Swan River.
+    
+5. **Access Type**
+    
+    This is a **shore-based** dive. Divers walk through a bush track and wade approximately 200 meters before descending into the water.
+    
+6. **Depth Range**
+    
+    The site ranges from shallow shoreline entries to around **15 metres** at its deepest in the central river channel.
+    
+7. **Entry Conditions**
+    
+    Entry is via a small beach. Conditions can be silty underfoot, and divers may need to surface swim out to buoy markers before descending.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Diving is best in stable weather, avoiding days after rainfall which can release tannins and silt into the water. Calm, cool-weather days provide the clearest conditions.
+    
+2. **Water Temperature**
+    
+    River temperatures typically range from **16°C to 22°C**, following seasonal patterns similar to Perth’s coastal waters.
+    
+3. **Visibility**
+    
+    Visibility is usually between **1 to 4 metres**, often reduced after storms or rain due to runoff and stirred sediment. On exceptional days it can reach 5 metres.
+    
+4. **Current and Surge**
+    
+    Currents are generally mild near the bank but increase further into the river. Be mindful of boat traffic and ferry wake, which can cause surface disturbance.
+    
+5. **Real-Time Data Suggestion**
+    
+    Linking to Swan River tide and turbidity data (via BOM or local council APIs) would help divers plan safely.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    
+    Diverse riverine species include bream, stripeys, moon and white-spotted jellyfish, gobbleguts, tube worms, and occasional crabs or shrimp.
+    
+2. **Habitat Type**
+    
+    This is a **freshwater–estuarine ecosystem** with submerged artificial structures like barges and cars that form a kind of urban wreck reef.
+    
+3. **Seasonal Marine Life Events**
+    
+    Jellyfish blooms are more common in warmer months, and fish activity can vary with water clarity and oxygen levels.
+    
+4. **Conservation Info**
+    
+    While not a marine park, the area falls within a recreational reserve. Divers must use a surface marker buoy and be cautious of nearby watercraft.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    Typical dives begin at buoy 527 and proceed along a shallow wall, heading toward buoy 716. Divers often encounter several wrecks — sunken cars, old barges, and river debris — spread across a silty bottom.
+    
+2. **Community Notes**
+    
+    Local divers recommend using a torch and gloves. The wrecks attract macro life, but visibility can change quickly. Use grid-style navigation and track landmarks to avoid getting disoriented.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos show jellyfish, rusted wreckage, and typical murky water conditions. Videos highlight macro life like gobbleguts and anemones attached to submerged debris.
+    
+2. **Unique or Memorable Features**
+    
+    This site is one of Perth’s only accessible **freshwater wreck dives**, blending a raw urban setting with surprising biological diversity.
+    
+3. **User Experience**
+    
+    Divers mention that the site feels like a treasure hunt — murky but fascinating, with unexpected species and eerie underwater structures. However, good buoyancy and navigation skills are a must.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Mini-Lesson 1: “Life Among Wrecks – How Submerged Structures Become Urban Reefs”**
+    
+    Explore how sunken objects like cars and barges transform into microhabitats, supporting diverse marine species even in non-traditional environments.
+    
+2. **Mini-Lesson 2: “River Health and Water Clarity – What Affects Visibility in Estuarine Dives?”**
+    
+    Understand how rain, runoff, boat activity, and water chemistry affect visibility and life in river dive sites like Blackwall Reach.
