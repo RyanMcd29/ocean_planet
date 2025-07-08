@@ -10,7 +10,7 @@ import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewe
 import EnhancedLessonViewer from "@/components/lessons/EnhancedLessonViewer";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
-import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, highSeasTreatyLesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, type EnhancedLesson } from "@/data/enhancedLessons";
 
 import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin } from "lucide-react";
 
@@ -104,7 +104,7 @@ const allLessons = [
   },
   {
     id: 7,
-    title: "Ocean Literacy Principle 1: Earth has one big ocean with many features",
+    title: "Ocean Literacy 1: Earth's One Big Ocean",
     category: "ocean-literacy",
     duration: 5,
     thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -117,7 +117,7 @@ const allLessons = [
   },
   {
     id: 8,
-    title: "Ocean Literacy Principle 2: The ocean and life in the ocean shape the features of the Earth",
+    title: "Ocean Literacy 2: Ocean Shapes Earth",
     category: "ocean-literacy",
     duration: 6,
     thumbnail: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -130,7 +130,7 @@ const allLessons = [
   },
   {
     id: 9,
-    title: "Ocean Literacy Principle 3: The Ocean is a Major Influence on Weather and Climate",
+    title: "Ocean Literacy 3: Ocean Controls Weather",
     category: "ocean-literacy",
     duration: 6,
     thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -143,7 +143,7 @@ const allLessons = [
   },
   {
     id: 10,
-    title: "Ocean Literacy Principle 4: The Ocean Makes Earth Habitable",
+    title: "Ocean Literacy 4: Ocean Makes Earth Habitable",
     category: "ocean-literacy",
     duration: 6,
     thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -156,7 +156,7 @@ const allLessons = [
   },
   {
     id: 11,
-    title: "Ocean Literacy Principle 5: The Ocean Supports a Great Diversity of Life and Ecosystems",
+    title: "Ocean Literacy 5: Ocean Supports Life",
     category: "ocean-literacy",
     duration: 7,
     thumbnail: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -169,7 +169,7 @@ const allLessons = [
   },
   {
     id: 12,
-    title: "Ocean Literacy Principle 6: The Ocean and Humans Are Inextricably Interconnected",
+    title: "Ocean Literacy 6: Ocean and Humans Connected",
     category: "ocean-literacy",
     duration: 7,
     thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -182,7 +182,7 @@ const allLessons = [
   },
   {
     id: 13,
-    title: "Ocean Literacy Principle 7: The Ocean is Largely Unexplored",
+    title: "Ocean Literacy 7: Ocean is Largely Unexplored",
     category: "ocean-literacy",
     duration: 6,
     thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
@@ -195,6 +195,45 @@ const allLessons = [
   },
   {
     id: 14,
+    title: "Biodiversity of Jetty Macro Ecosystems",
+    category: "reef-ecology",
+    duration: 5,
+    thumbnail: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Why do jetty pylons attract so much marine life?",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🏗️",
+    enhancedLessonData: jettyBiodiversityLesson
+  },
+  {
+    id: 15,
+    title: "Southern Right Whales: Migration Mysteries",
+    category: "species-identification",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Inspired by real-world research from the Southern Ocean",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🐋",
+    enhancedLessonData: southernRightWhaleMigrationLesson
+  },
+  {
+    id: 16,
+    title: "Southern Right Whales: Tracking Climate Change",
+    category: "conservation",
+    duration: 8,
+    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "How warming oceans affect whale migration patterns",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🌡️",
+    enhancedLessonData: southernRightWhaleClimateLesson
+  },
+  {
+    id: 17,
     title: "The Historic High Seas Treaty",
     category: "conservation",
     duration: 7,

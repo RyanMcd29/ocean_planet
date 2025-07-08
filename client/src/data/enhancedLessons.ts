@@ -1167,6 +1167,234 @@ export const oceanLiteracyPrinciple7Lesson: EnhancedLesson = {
   ]
 };
 
+export const jettyBiodiversityLesson: EnhancedLesson = {
+  id: "jetty-biodiversity-lesson",
+  title: "Biodiversity of Jetty Macro Ecosystems",
+  description: "Why do jetty pylons attract so much marine life?",
+  category: "reef-ecology",
+  duration: 5,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🌊 Welcome to Jetty Ecosystems!",
+      content: "Have you ever dived under a jetty and seen it buzzing with life? Jetty pylons are underwater pillars of biodiversity. They may be man-made, but they mimic natural reef structures — creating the perfect environment for creatures like anemones, nudibranchs, flatworms, and small reef fish. These vertical habitats offer shelter, food, and breeding grounds."
+    },
+    {
+      type: "text",
+      title: "🏗️ What Makes Jetties Special?",
+      content: "Jetty pylons create unique underwater habitats that attract diverse marine life:\n\n**🪨 Hard surface** - Pylons give animals something solid to cling to — like rocks on a reef\n\n**🌓 Shade and protection** - The overhead jetty blocks light, creating cool, safe spaces for shy species\n\n**📏 Vertical structure** - Offers microhabitats at different depths and light levels\n\n**🌊 Water movement** - Waves and tides help bring in nutrients and oxygen — perfect for filter feeders like sponges and sea squirts\n\nThese artificial structures become thriving underwater communities!",
+      highlight: "Jetty pylons act like underwater apartment buildings, providing homes for hundreds of species!"
+    },
+    {
+      type: "quiz",
+      title: "Filter Feeders and Jetties",
+      content: "Why do filter feeders love jetty pylons?",
+      options: [
+        "They grow better in the sand",
+        "They need light to photosynthesise",
+        "The moving water brings food particles",
+        "They only live in freshwater"
+      ],
+      correctAnswer: 2,
+      explanation: "Filter feeders like sponges and sea squirts depend on water movement to bring them tiny food particles. The tidal flow and wave action around jetty pylons creates the perfect feeding conditions for these creatures."
+    },
+    {
+      type: "text",
+      title: "🐠 Who Lives There?",
+      content: "Jetty ecosystems are hotspots for macro life — small but spectacular species that thrive on and around pylons:\n\n**🌺 Anemones** - Use their tentacles to catch tiny food particles drifting by\n\n**🌈 Nudibranchs** - Colourful sea slugs that feed on sponges and sea squirts\n\n**🎭 Flatworms** - Graceful bottom dwellers with vivid patterns\n\n**🐟 Blennies & gobies** - Small fish that hide in cracks and crevices\n\n**🦄 Occasional visitors** - Seahorses, octopuses, and even cuttlefish\n\nThese creatures rely on the stability, structure, and nutrient flow that jetties provide.",
+      highlight: "Nudibranchs are some of the most colorful and diverse creatures you'll find on jetty pylons!"
+    },
+    {
+      type: "quiz",
+      title: "Jetty Marine Life",
+      content: "Which creature is a colourful sea slug found on jetty pylons?",
+      options: [
+        "Blenny",
+        "Nudibranch",
+        "Flatworm",
+        "Sea urchin"
+      ],
+      correctAnswer: 1,
+      explanation: "Nudibranchs are colorful sea slugs that are commonly found on jetty pylons. They feed on sponges, sea squirts, and other small organisms that grow on the hard surfaces of the pylons."
+    },
+    {
+      type: "text",
+      title: "🌊 The Bigger Picture",
+      content: "Though artificial, jetties act like **urban reefs**, enhancing local biodiversity in areas where natural reefs might be scarce.\n\nBut they're not without risk:\n\n**🎣 Fishing lines and litter** - Can trap or injure marine life\n\n**⛈️ Storm damage** - Can break fragile growth\n\n**☠️ Pollution** - Affects water quality and animal health\n\nCommunity cleanups and responsible diving help protect these rich ecosystems.",
+      highlight: "Jetties can increase local marine biodiversity by 200-300% compared to sandy or muddy bottoms!"
+    },
+    {
+      type: "quiz",
+      title: "Threats to Jetty Ecosystems",
+      content: "What is one threat to jetty ecosystems?",
+      options: [
+        "Coral bleaching",
+        "Marine heatwaves only",
+        "Discarded fishing line and plastic",
+        "Too much biodiversity"
+      ],
+      correctAnswer: 2,
+      explanation: "Discarded fishing line and plastic waste are major threats to jetty ecosystems. They can entangle marine life, be ingested by animals, and degrade water quality in these important habitats."
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a Jetty Ecosystem Expert!",
+      content: "Excellent! You now understand how human-made structures like jetties can become thriving marine ecosystems. Every diver can help protect jetty biodiversity.\n\n**What You Can Do:**\n\n**Dive gently** - Don't kick up sediment or touch marine life\n\n**Remove debris** - Safely collect fishing line or trash if you find it\n\n**Share your sightings** - Log species observations with marine researchers or citizen science platforms\n\n**Support protection** - Encourage marine park protections for these unique spots\n\n**Spread awareness** - Help others understand the value of these urban reef systems\n\nRemember: every small action helps protect these incredible underwater communities! 🌊"
+    }
+  ]
+};
+
+export const southernRightWhaleMigrationLesson: EnhancedLesson = {
+  id: "southern-right-whale-migration",
+  title: "Southern Right Whales: Migration Mysteries",
+  description: "Inspired by real-world research from the Southern Ocean",
+  category: "species-identification",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🐋 Welcome to Whale Migration Science!",
+      content: "Southern right whales were once hunted nearly to extinction. While their numbers are now slowly recovering, there's still a big mystery: **Where do they go to feed during the summer?** Scientists know they come to the southern coast of Australia and New Zealand in winter to give birth, but their summer foraging grounds in the Southern Ocean are largely unknown. Tracking their migration could help protect them more effectively."
+    },
+    {
+      type: "text",
+      title: "🧭 How Scientists Are Solving the Mystery",
+      content: "To understand these elusive journeys, scientists launched the **Tohorā Voyages** research project. Here's how they're gathering clues:\n\n**🛰️ Satellite tagging** - Tracks whale movements across thousands of kilometres\n\n**🧬 Skin sampling** - Reveals DNA, diet, and connections between populations\n\n**📸 Photo-ID** - Uses unique callosity patterns (like fingerprints!) to ID individuals\n\nOne whale, *Whitu*, travelled over **10,000 km** from the Auckland Islands to Esperance, WA — a surprising discovery that revealed unexpected connections between whale populations!",
+      highlight: "Individual whales can be identified by unique callosity patterns on their heads - like fingerprints!"
+    },
+    {
+      type: "text",
+      title: "🌐 Why This Research Matters",
+      content: "Understanding migration patterns helps with:\n\n**🛡️ Protecting key feeding grounds** - Conservation efforts can focus on critical areas\n\n**🌏 Connecting populations** - Links whale communities across Australia and NZ\n\n**🩺 Monitoring whale health** - Tracks diet quality and population recovery\n\n**📋 Supporting conservation plans** - Provides data for national protection strategies\n\nIt also helps us update photo databases and understand how human activity affects these endangered whales.",
+      highlight: "Some rare 'white' whale calves appear along WA's coast - they're not albino, just naturally pale!"
+    },
+    {
+      type: "quiz",
+      title: "Whale Migration Mystery",
+      content: "What is the main mystery about southern right whales?",
+      options: [
+        "Where they mate",
+        "Where they feed",
+        "How long they live",
+        "What they sound like"
+      ],
+      correctAnswer: 1,
+      explanation: "Scientists know southern right whales come to Australian and New Zealand coasts in winter to give birth, but their summer feeding grounds in the Southern Ocean remain largely unknown. This makes it difficult to protect their full habitat range."
+    },
+    {
+      type: "quiz",
+      title: "Whale Identification",
+      content: "What is used to identify individual whales?",
+      options: [
+        "Their tail size",
+        "Their callosity patterns",
+        "Their songs",
+        "Their weight"
+      ],
+      correctAnswer: 1,
+      explanation: "Scientists use callosity patterns - the unique arrangements of rough skin patches on whales' heads - to identify individuals. These patterns are like fingerprints and remain consistent throughout a whale's life."
+    },
+    {
+      type: "quiz",
+      title: "Wildlife Protection",
+      content: "Why should you stay 500m away from white whale calves?",
+      options: [
+        "They're dangerous",
+        "They attract sharks",
+        "They're very shy",
+        "They're easily disturbed"
+      ],
+      correctAnswer: 3,
+      explanation: "White whale calves and their mothers are easily disturbed by human presence. Staying 500m away prevents stress and allows them to feed, rest, and bond naturally without interruption."
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a Whale Migration Expert!",
+      content: "Fantastic! You now understand the importance of tracking whale migrations for conservation. You don't need a research vessel to make a difference!\n\n**What You Can Do:**\n\n**🐋 Learn responsible whale watching** - Maintain safe distances and follow guidelines\n\n**📸 Log sightings** - Report whale observations to citizen science databases\n\n**📢 Share the story** - Help others understand southern right whale conservation\n\n**🧠 Support research** - Back marine conservation efforts and research funding\n\n**🌊 Protect marine habitats** - Support marine protected areas where whales feed and breed\n\nRemember: every whale sighting helps scientists piece together the migration puzzle! 🌊"
+    }
+  ]
+};
+
+export const southernRightWhaleClimateLesson: EnhancedLesson = {
+  id: "southern-right-whale-climate",
+  title: "Southern Right Whales: Tracking Climate Change",
+  description: "How warming oceans affect whale migration patterns",
+  category: "conservation",
+  duration: 8,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🌡️ Welcome to Climate Change Marine Research!",
+      content: "Southern right whales were almost wiped out by hunting in the 1800s. Protected since 1935, they're slowly coming back—but they now face a new threat: **climate change.** Scientists are racing to answer big questions: Where exactly do they feed? How might warmer oceans affect their food supply? Could this impact their ability to reproduce? These answers are hidden in their migration paths—many of which stretch over **6,500 km** into the Southern Ocean."
+    },
+    {
+      type: "text",
+      title: "🔬 How the Research Works",
+      content: "To understand where whales go and why, scientists use a combination of cutting-edge techniques:\n\n**🛰️ Satellite tags** - Track whales as they travel to feeding grounds in Antarctica, the **Kerguelen Islands**, and **Crozet Islands**\n\n**🧬 Genetic samples** - Reveal connections between whales in Australia, New Zealand, and even **South Africa**\n\n**⚗️ Stable isotope analysis** - Tells scientists what the whales are eating and where they've been feeding\n\nThe projects have meaningful names: **Tohorā Voyages** (New Zealand – 'whale journeys') and **Mirnong Maat** (Australia – 'whale travel path' in Noongar language).",
+      highlight: "Whale tracking technology can follow individual whales across entire ocean basins!"
+    },
+    {
+      type: "text",
+      title: "🌍 What We're Learning",
+      content: "Southern right whales are revealing surprising new migration patterns:\n\n**🗺️ Diverse destinations** - Some travel to completely different places, not just Antarctica but also to the **Kerguelen Islands** and **Crozet Islands**\n\n**🌏 International connections** - Significant overlap in feeding zones used by whales from **Australia, New Zealand, and South Africa**\n\n**🔗 Unexpected links** - One whale from New Zealand (*Whitu*) even reached shallow coastal waters off WA\n\nBut there's a challenge: as **climate change warms the ocean**, prey like **copepods and krill** may shift or decline. If whales can't find enough high-quality food, it affects their ability to reproduce.",
+      highlight: "Climate change could force whales to travel even further to find food, using more energy and affecting reproduction!"
+    },
+    {
+      type: "quiz",
+      title: "Climate Change Threats",
+      content: "What major environmental threat are southern right whales now facing?",
+      options: [
+        "Plastic pollution",
+        "Boat strikes",
+        "Climate change and warming oceans",
+        "Noise pollution"
+      ],
+      correctAnswer: 2,
+      explanation: "While whales face multiple threats, climate change and warming oceans are now the major concern. Warmer waters affect the distribution and abundance of their food sources, potentially impacting their ability to feed and reproduce successfully."
+    },
+    {
+      type: "quiz",
+      title: "Research Methods",
+      content: "What do scientists study to understand whale diets and movement?",
+      options: [
+        "Their breathing",
+        "Satellite photos",
+        "Whale songs",
+        "Skin and tissue samples"
+      ],
+      correctAnswer: 3,
+      explanation: "Scientists analyze skin and tissue samples to extract genetic information, conduct stable isotope analysis to understand diet, and track population connections. These biological samples provide detailed information about whale behavior and ecology."
+    },
+    {
+      type: "text",
+      title: "🏖️ Protecting Critical Coastal Areas",
+      content: "The **coastal areas** whales pass through before heading into the Southern Ocean are essential for resting and feeding. Key locations include:\n\n**🌊 Esperance** - Important stopover for migrating whales\n\n**🏝️ Augusta** - Coastal feeding and resting area\n\n**🐋 Cheynes Beach** - Proposed marine protected zone\n\n**🌊 Bremer Bay** - Critical whale habitat\n\n**🌅 Twilight Cove** - Part of proposed protection areas\n\nThese areas may soon become **marine protected zones** to help safeguard whale journeys and support the **Large Whale Disentanglement Team** in rescue operations.",
+      highlight: "Coastal protection zones are vital stepping stones for whales on their epic ocean journeys!"
+    },
+    {
+      type: "quiz",
+      title: "Coastal Importance",
+      content: "Why are coastal zones important for southern right whales?",
+      options: [
+        "They mate there",
+        "They store food there",
+        "They use them before long migrations",
+        "They avoid predators there"
+      ],
+      correctAnswer: 2,
+      explanation: "Coastal zones serve as important stopover points where whales rest and feed before undertaking their long migrations to feeding grounds in the Southern Ocean. These areas provide crucial energy reserves for the journey ahead."
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a Climate-Ocean Expert!",
+      content: "Amazing! You now understand how climate change affects whale migration and the importance of protecting their journey routes. Even from shore, you can make a difference for whales adapting to a changing planet.\n\n**What You Can Do:**\n\n**🌡️ Support climate action** - Reduce your carbon footprint to protect ocean ecosystems\n\n**📍 Advocate for marine protection** - Support marine protected areas in southern Australia\n\n**📸 Join citizen science** - Log whale sightings to help research databases\n\n**🎓 Share knowledge** - Help others understand the link between climate and marine life\n\n**🐋 Practice responsible whale watching** - Follow guidelines to avoid disturbing whales\n\nRemember: protecting whales means protecting our changing oceans! 🌊"
+    }
+  ]
+};
+
 export const enhancedLessons = [
   bottomTrawlingLesson,
   leeuwincurrentLesson,
@@ -1178,5 +1406,8 @@ export const enhancedLessons = [
   oceanLiteracyPrinciple5Lesson,
   oceanLiteracyPrinciple6Lesson,
   oceanLiteracyPrinciple7Lesson,
+  jettyBiodiversityLesson,
+  southernRightWhaleMigrationLesson,
+  southernRightWhaleClimateLesson,
   highSeasTreatyLesson
 ];
