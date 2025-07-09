@@ -56,6 +56,7 @@ export const species = pgTable("species", {
   conservationStatus: text("conservation_status"),
   category: text("category"), // Fish, Mammal, Reptile, Invertebrate, Coral, etc.
   habitats: text("habitats").array(),
+  funFacts: text("fun_facts").array(),
 });
 
 export const insertSpeciesSchema = createInsertSchema(species).omit({

@@ -133,6 +133,26 @@ const SpeciesPage: React.FC = () => {
               </CardContent>
             </Card>
             
+            {species.funFacts && species.funFacts.length > 0 && (
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">🎯 Fun Facts</h3>
+                  <div className="space-y-3">
+                    {species.funFacts.map((fact, index) => (
+                      <div key={index} className="flex items-start p-3 bg-[#E0F7FA] rounded-lg">
+                        <span className="text-lg mr-3 flex-shrink-0">
+                          {fact.split(' ')[0]}
+                        </span>
+                        <p className="text-[#0A4D68] text-sm leading-relaxed">
+                          {fact.split(' ').slice(1).join(' ')}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            
             <Card>
               <CardContent className="p-6">
                 <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">Citizen Science Contributions</h3>
