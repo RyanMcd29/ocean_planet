@@ -1,0 +1,85 @@
+📝 Prompt to Restore Dive Sites
+You are helping me rebuild a dive site database for my app Ocean Planet. The content must be displayed professionally, matching the existing app/website theme and style (modern, clean, user-friendly for divers and ocean lovers).
+
+Format each dive site entry exactly like this:
+
+# [Region Name]
+
+🌍 [Dive Site Name] Site Overview
+1. Dive Site Name and Region
+Clear and concise (e.g., Ammo Jetty – Fremantle, Western Australia).
+
+2. Image Header
+Short description of the main visuals/photos (e.g., Concrete jetty with encrusted pylons and clear water macro life).
+
+3. Experience Level & Certification Required
+Clear rating (e.g., Beginner to Intermediate; suitable for Open Water divers).
+
+4. Location Description/Coordinates
+Provide approximate address and GPS coordinates in DMS format (e.g., 32°07'27.9"S 115°45'26.0"E).
+
+5. Access Type
+(e.g., Shore dive with walk-in entry).
+
+6. Depth Range
+List in meters (e.g., 3–10m).
+
+7. Entry Conditions
+Brief notes on access difficulty, facilities nearby, etc.
+
+🌊 Conditions
+8. Best Time to Dive
+Include wind/swell/tide recommendations.
+
+9. Water Temperature
+Seasonal averages in °C.
+
+10. Visibility
+Range (e.g., 3–8m typical; 10m+ on good days).
+
+11. Current and Surge
+Describe any site-specific currents/surge effects.
+
+12. Data Integration Suggestion
+Suggest APIs for real-time data (e.g., tides, swell, wind).
+
+🐠 Marine Life & Ecosystem
+13. Marine Species Sightings
+Highlight iconic and common species.
+
+14. Ecosystem Type
+(e.g., Artificial reef – jetty pylons and silty seabed).
+
+15. Seasonal Events
+(e.g., Cuttlefish aggregations in spring).
+
+16. Conservation Info
+Mention MPAs, local conservation efforts, or dive ethics.
+
+🗺️ Dive Map
+17. Site Layout or Route
+Tips for dive paths, entry/exit, key features.
+
+18. Community Contributions
+Include if locals share notes, sketches, or clean-ups.
+
+📸 Extras
+19. Photos or Videos
+Placeholder descriptions for gallery content.
+
+20. Unique Features
+What makes this site stand out?
+
+21. User Experience
+Warnings or tips (e.g., beware fishing lines).
+
+📘 Learn Section
+Suggest 1–2 mini-lessons relevant to the site.
+(e.g., “Jetty Ecosystems”, “Threats from Marine Debris”).
+
+Recreate all dive sites for Perth based on the content I’ve shared previously. Write in a clean, engaging tone matching the app’s style — avoid wordiness but keep details.
+
+➡️ Format all text in Markdown.
+➡️ Include all GPS coordinates and conditions as originally documented.
+➡️ Maintain professional tone, easy for users to read on mobile or web.
+➡️ Do not skip any sections — fill them all.

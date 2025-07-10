@@ -1,0 +1,2678 @@
+# Perth
+
+## 1. AMMO Jetty 🌍 Site Overview
+
+**1. Dive Site Name and Region**
+
+Ammo Jetty – a shore‑based jetty dive located near Fremantle, Western Australia.
+
+**2. Image Header**
+
+Main visuals show the concrete jetty protruding into shallow waters, featuring encrusted pylons and clear macro‑life nestled between plugs.
+
+**3. Experience Level & Certification Required**
+
+Ideal for beginner to intermediate divers; suitable for Open Water certification and refresher courses.
+
+**4. Location Description/ Coordinates: 32°07'27.9"S 115°45'26.0"E**
+
+Approximately 15 minutes south of Fremantle; around 40 km from Perth CBD. The jetty is adjacent to Woodmans Point Groin in John Graham Reserve. 
+
+**5. Access Type**
+
+Shore dive from jetty—walk-in entry.
+
+**6. Depth Range**
+
+Maximum depth of roughly 9 m along the jetty structure.
+
+**7. Entry Conditions**
+
+Easy access via jetty steps; shaded on one side in morning, sunny on the other. Toilets and rinse showers available near car park.
+
+---
+
+## 🌊 Conditions
+
+**8. Best Time to Dive**
+
+Calm conditions with swell less than 1.5 m, swell period ~11 s, east to southeast wind. Northerlies may increase cross-current, while westerlies enhance swell. Peak visibility often follows stable weather.
+
+**9. Water Temperature**
+
+Not explicitly stated, but Perth’s coastal water ranges from ~16–22 °C seasonally.
+
+**10. Visibility**
+
+Varies widely: often 3–4 m, occasionally under 1 m after storms, and rarely reaching 10–15 m on exceptionally calm days.
+
+**11. Current and Surge**
+
+Mild currents common, especially under northerly winds. The jetty offers partial shelter from southwest swell thanks to adjacent groins and islands.
+
+**12. Data Integration Suggestion**
+
+Real‑time swell, wind, and tide data could be pulled via oceanographic APIs to assist in trip planning.
+
+---
+
+## 🐠 Marine Life & Ecosystem
+
+**13. Marine Species Sightings**
+
+Welcomes abundant macro-life: diverse leatherjackets, pygmy filefish, crested morwong schools, boxfish, flatworms, anemones, occasional rays, dolphins, and sea lions at night.
+
+**14. Ecosystem Type**
+
+Jetty with silty rubble seabed—an artificial reef attracting marine growth on pylons.
+
+**15. Seasonal Events**
+
+Enhanced life after storms clears—plumes of fine particles settle; ray sightings during night dives as well.
+
+**16. Conservation Info**
+
+Located in John Graham Reserve, adjacent to marine park amenities. Frequent clean‑ups by local dive shops help maintain site health.
+
+![image.png](attachment:62d0b59e-bfa1-47fd-adc4-06a13310a5da:image.png)
+
+---
+
+![image.png](attachment:1a7ab63e-9767-43a9-a379-c4e6453866a8:image.png)
+
+![image.png](attachment:ef79ac17-8534-44c5-9a56-2993ed3ad89a:image.png)
+
+## 🗺️ Dive Map
+
+**17. Site Layout or Route**
+
+Typically dive one side of jetty pylons out to ~100 m then return on the opposite side (clockwise or anti‑clockwise routes recommended). Complete loop covers entire jetty length.
+
+**18. Community Contributions**
+
+Local divers frequently contribute observation maps and macro-life sketches. Annual cleanup events (e.g., by Dolphin Dive) are community-led.
+
+---
+
+## 📸 Extras
+
+**19. Photos or Videos**
+
+Gallery and video gallery highlight octopuses, crustaceans, anemones, and spotted flatworms among jetty pylons.
+
+**20. Unique Features**
+
+A rich macro hotspot — best for invertebrates and small species. Occasionally large pelagics and marine mammals appear. Towering pylons are encrusted and photo-worthy.
+
+**21. User Experience**
+
+Divers report occasional line entanglement under the jetty due to discarded fishing tackle. Rinse: stay aware of hooks, bring a dive knife, and maintain buoyancy to protect the silt bottom.
+
+---
+
+## 📘 Learn Section
+
+**Suggested mini-lessons:**
+
+1. **“Biodiversity of Jetty Macro Ecosystems”** – Explore why pylons foster dense colonization by anemones, flatworms, nudibranchs, and small fish.
+2. **“Threats from Fishing Debris & Marine Conservation Efforts”** – Discuss the impact of lost tackle on marine habitats and how community clean-ups support environmental stewardship.
+
+## 2. Blackwall Reach 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Blackwall Reach**, located along the Swan River in the Perth metropolitan area, Western Australia.
+    
+2. **Image Header**
+    
+    Images show a calm river scene with visible mooring buoys (527 and 716) and dense trees lining the steep banks. Some photos highlight entry points and underwater wreckage.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for Open Water certified divers. While it’s relatively shallow, variable visibility and river currents make it better suited for divers with moderate experience and good navigation skills.
+    
+4. **Location Description and Coordinates: 32°01'16.4"S 115°46'58.9"E**
+    
+    The site is situated at the end of Blackwall Reach Parade near Point Walter, about a 20-minute drive from central Perth. It’s outside a designated marine park but lies within a popular recreational reserve along the Swan River.
+    
+5. **Access Type**
+    
+    This is a **shore-based** dive. Divers walk through a bush track and wade approximately 200 meters before descending into the water.
+    
+6. **Depth Range**
+    
+    The site ranges from shallow shoreline entries to around **15 metres** at its deepest in the central river channel.
+    
+7. **Entry Conditions**
+    
+    Entry is via a small beach. Conditions can be silty underfoot, and divers may need to surface swim out to buoy markers before descending.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Diving is best in stable weather, avoiding days after rainfall which can release tannins and silt into the water. Calm, cool-weather days provide the clearest conditions.
+    
+2. **Water Temperature**
+    
+    River temperatures typically range from **16°C to 22°C**, following seasonal patterns similar to Perth’s coastal waters.
+    
+3. **Visibility**
+    
+    Visibility is usually between **1 to 4 metres**, often reduced after storms or rain due to runoff and stirred sediment. On exceptional days it can reach 5 metres.
+    
+4. **Current and Surge**
+    
+    Currents are generally mild near the bank but increase further into the river. Be mindful of boat traffic and ferry wake, which can cause surface disturbance.
+    
+5. **Real-Time Data Suggestion**
+    
+    Linking to Swan River tide and turbidity data (via BOM or local council APIs) would help divers plan safely.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem (Featured Species)**
+
+1. **Marine Species Commonly Seen**
+    
+    Diverse riverine species include bream, stripeys, moon and white-spotted jellyfish, gobbleguts, tube worms, and occasional crabs or shrimp.
+    
+2. **Habitat Type**
+    
+    This is a **freshwater–estuarine ecosystem** with submerged artificial structures like barges and cars that form a kind of urban wreck reef.
+    
+3. **Seasonal Marine Life Events**
+    
+    Jellyfish blooms are more common in warmer months, and fish activity can vary with water clarity and oxygen levels.
+    
+4. **Conservation Info**
+    
+    While not a marine park, the area falls within a recreational reserve. Divers must use a surface marker buoy and be cautious of nearby watercraft.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    Typical dives begin at buoy 527 and proceed along a shallow wall, heading toward buoy 716. Divers often encounter several wrecks — sunken cars, old barges, and river debris — spread across a silty bottom.
+    
+2. **Community Notes**
+    
+    Local divers recommend using a torch and gloves. The wrecks attract macro life, but visibility can change quickly. Use grid-style navigation and track landmarks to avoid getting disoriented.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos show jellyfish, rusted wreckage, and typical murky water conditions. Videos highlight macro life like gobbleguts and anemones attached to submerged debris.
+    
+2. **Unique or Memorable Features**
+    
+    This site is one of Perth’s only accessible **freshwater wreck dives**, blending a raw urban setting with surprising biological diversity.
+    
+3. **User Experience**
+    
+    Divers mention that the site feels like a treasure hunt — murky but fascinating, with unexpected species and eerie underwater structures. However, good buoyancy and navigation skills are a must.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Mini-Lesson 1: “Life Among Wrecks – How Submerged Structures Become Urban Reefs”**
+    
+    Explore how sunken objects like cars and barges transform into microhabitats, supporting diverse marine species even in non-traditional environments.
+    
+2. **Mini-Lesson 2: “River Health and Water Clarity – What Affects Visibility in Estuarine Dives?”**
+    
+    Understand how rain, runoff, boat activity, and water chemistry affect visibility and life in river dive sites like Blackwall Reach.
+    
+
+## 
+
+## 3. 🌍 **Site Overview: Bulk Jetty**
+
+1. **Dive Site Name and Region**
+    
+    **Bulk Jetty**, located in **Kwinana**, just south of Perth, Western Australia.
+    
+2. **Image Header**
+    
+    Photos typically show the long industrial jetty extending into Cockburn Sound, with pylons disappearing into the blue-green water—often revealing schooling fish and marine growth along the structure.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **beginners to intermediate** divers. Entry and navigation are relatively easy, but awareness of current and visibility is important.
+    
+4. **Location Description and coordinates: 32°12'36.0"S 115°46'02.3"E**
+    
+    Near **Kwinana Beach**, in the industrial maritime zone south of Fremantle. Not within a marine park. No GPS coordinates listed, but access is straightforward from Kwinana Beach car parks.
+    
+5. **Access Type**
+    
+    **Shore dive**, with a surface swim to the jetty structure. Be prepared for a walk across the beach and shallow entry.
+    
+6. **Depth Range**
+    
+    Varies from **3 to 10 metres**, depending on tide and distance along the jetty.
+    
+7. **Entry Conditions**
+    
+    Enter from the beach—soft sand with a gradual slope. Watch for boat traffic near the jetty, and swim to the pylons before descending.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Ideal during **low wind conditions and slack tide**. Early mornings often provide the calmest water and best visibility.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C (winter)** to **24°C (summer)**.
+    
+3. **Visibility**
+    
+    Generally **5–10 metres**, but can drop due to swell or sediment. After storms, visibility is significantly reduced.
+    
+4. **Current and Surge**
+    
+    Light current along the jetty, though surge can build near the entrance if the wind picks up. Be mindful of boat wash and swell in exposed areas.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - Schools of **scalyfin**, **bullseyes**, and **herring**
+    - **Octopuses**, **seahorses**, and **cuttlefish** hiding in pylons
+    - Occasional sightings of **port jackson sharks** or **stingrays**
+    - **Nudibranchs** and **soft corals** on the pylon structure
+2. **Habitat Type**
+    
+    **Artificial reef**, formed by jetty pylons and industrial structure colonised by marine growth and invertebrates.
+    
+3. **Seasonal Marine Life Events**
+    
+    Warmer months may bring more **juvenile fish**, and spring–summer may see **cuttlefish and squid** activity.
+    
+4. **Conservation Info**
+    
+    Not a declared marine park, but general rules around fishing and marine life handling apply. Divers should be cautious and avoid touching or disturbing marine organisms.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    The jetty runs straight into the ocean with evenly spaced pylons. Divers usually follow the **left or right side of the structure**, exploring marine growth on pylons, checking under crossbeams, and looking for cryptic species along the seabed. Swim out on the surface, descend at a central point, and return along the opposite side.
+    
+2. **Community Notes**
+    
+    Local divers suggest **avoiding busy times due to boat traffic**. Some have shared **sketches of the pylon layout**, which can be helpful for planning entry/exit points.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos on the site highlight schooling fish between pylons, macro life like nudibranchs and seahorses, and the industrial contrast of rusting beams and soft corals.
+    
+2. **Unique or Memorable Features**
+    
+    The contrast between industrial structure and natural marine colonisation makes Bulk Jetty a great urban ecology dive. Good for photography, especially macro.
+    
+3. **User Experience**
+    
+    Divers often describe it as **surprisingly rich in life**, despite the industrial location. It's appreciated for **easy access, reliable sightings**, and low depth range. However, **visibility can be hit or miss** depending on recent weather.
+    
+
+---
+
+## 📘 **Learn Section**
+
+Here are two mini-lesson topics inspired by the dive site:
+
+1. **Artificial Reefs & Urban Marine Habitats**
+    
+    Learn how man-made structures like jetties, shipwrecks, and sea walls become important marine ecosystems, attracting fish, algae, and invertebrates.
+    
+2. **Cephalopods of Cockburn Sound**
+    
+    Discover more about the cuttlefish, octopuses, and squid species found in southern WA—how they use camouflage, their intelligence, and why they love places like Bulk Jetty.
+    
+
+## 4. Camilla Wreck 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Camilla Wreck**, located in **Cockburn Sound**, near **Kwinana**, south of Perth, Western Australia.
+    
+2. **Image Header**
+    
+    Photographs showcase remnants of the wreckage nestled in shallow waters, surrounded by paddle grass and sandy seabed, offering glimpses of marine life like sea anemones.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **beginners and snorkelers**. The shallow depth and straightforward access make it ideal for those new to diving.
+    
+4. **Location Description and coordinates: 32°11'15.6"S 115°46'27.2"E**
+    
+    Accessed via **Challenger Beach**, off **Sutton Road**, which branches from **Cockburn Road**. The wreck lies approximately 80 meters offshore, near the **ALCOA Jetty**.
+    
+5. **Access Type**
+    
+    A **shore dive**, involving a beach entry followed by a short surface swim to the wreck site.
+    
+6. **Depth Range**
+    
+    Maximum depth at the wreck is around **3.6 meters**, with surrounding areas being shallower.
+    
+7. **Entry Conditions**
+    
+    Enter from the sandy beach, walking north approximately 120 meters to a noticeable erosion point in the dunes, then heading west into the water.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Optimal during **calm weather** with minimal wind and swell. The site is exposed and lacks protection from rough conditions.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**, consistent with Cockburn Sound's temperatures.
+    
+3. **Visibility**
+    
+    Generally **low to moderate**, affected by silty conditions and easily disturbed sediment. Careful finning is essential to maintain clarity.
+    
+4. **Current and Surge**
+    
+    Minimal currents due to the shallow depth, but the area is near a working jetty, so be cautious of boat traffic and potential swells.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - Small schools of **stripeys**, **cardinalfish**, and **wavy grubfish**
+    - **Sea anemones** in paddle grass areas
+    - Occasional sightings of **octopuses** and **nudibranchs**
+2. **Habitat Type**
+    
+    A **shallow wreck** surrounded by **paddle grass** and **sandy seabed**, providing a habitat for various small marine species.
+    
+3. **Seasonal Marine Life Events**
+    
+    No specific seasonal events noted, but warmer months may see increased activity among resident species.
+    
+4. **Conservation Info**
+    
+    The site is protected under **Maritime Legislation**. Divers should not disturb or remove any artifacts.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    From the beach entry point, swim approximately 80 meters west to reach the wreck. The wreck itself is about 10 meters in length, lying in shallow water, with surrounding paddle grass beds.
+    
+2. **Community Notes**
+    
+    Divers recommend using a **dive flag** due to proximity to boat traffic. The site is also suitable for **snorkeling**, given its shallow depth.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos and videos depict the wreck's remains, sea anemones in paddle grass, and the general layout of the site.
+    
+2. **Unique or Memorable Features**
+    
+    The **ease of access** and **shallow depth** make it a unique site for beginners and those interested in maritime history.
+    
+3. **User Experience**
+    
+    Divers describe it as a **simple and accessible dive**, though visibility can be limited. The site's historical context adds interest despite its modest marine life.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Maritime History of the Camilla**
+    
+    Explore the journey of the Camilla, a 190-ton twin-masted schooner launched in 1834, which ended its service as a hulk before being scuttled in 1903.
+    
+2. **Paddle Grass Ecosystems**
+    
+    Understand the role of paddle grass in coastal marine environments, including its importance as a habitat for various marine species.
+    
+
+## **Jervoise Bay Groin** 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Jervoise Bay Groin**, located near **Woodman Point**, south of Perth, Western Australia.
+    
+2. **Image Header**
+    
+    Images depict the man-made rock groins and concrete jetty structures extending into the bay, providing shelter and habitat for marine life.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **novice to intermediate** divers. The site offers sheltered conditions, especially during poor weather, making it accessible for less experienced divers.
+    
+4. **Location Description**
+    
+    Situated adjacent to the **Cockburn Power Boat Club** in **Jervoise Bay**, near **Woodman Point**. Access is via **O'Kane Court**, off **Cockburn Road**. The site is approximately 50 minutes from Perth CBD, 20 minutes from Fremantle, and 20 minutes from Rockingham.
+    
+5. **Access Type**
+    
+    **Shore dive**. Divers can enter from the beach or by carefully navigating over rocks along the groin structures.
+    
+6. **Depth Range**
+    
+    Depths reach up to **10 meters** at the shore end, potentially increasing further along the groin wall.
+    
+7. **Entry Conditions**
+    
+    Entry points vary; some involve walking over uneven, jagged rocks, while others offer beach access. Divers should assess entry and exit points based on personal ability and be cautious of boat traffic and fishing activities.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Ideal during **poor weather conditions**, as the site is sheltered from most adverse effects. Less recommended during fair weather due to potential boat activity.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**, consistent with regional averages.
+    
+3. **Visibility**
+    
+    Average visibility is maintained even during poor weather, though it can vary based on recent conditions and water movement.
+    
+4. **Current and Surge**
+    
+    Generally minimal due to the sheltered nature of the site. However, divers should remain vigilant for boat traffic and possible surge near entry and exit points.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - Various species of **soft corals** and **brain corals**
+    - **Seahorses**, **cuttlefish**, and **nudibranchs**
+    - Schools of **small fish**, including **catfish**, **morwongs**, and **parrotfish**
+    - Occasional sightings of larger fish resembling **Samson fish**
+2. **Habitat Type**
+    
+    **Artificial reef** environment created by man-made groins and jetty structures, providing shelter and feeding grounds for diverse marine life.
+    
+3. **Seasonal Marine Life Events**
+    
+    Warmer months may see increased activity of species like cuttlefish and seahorses. Specific seasonal events are not documented.
+    
+4. **Conservation Info**
+    
+    While not within a designated marine protected area, divers should respect local regulations, avoid disturbing marine life, and be cautious of fishing lines and boat traffic.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    The site comprises several man-made rock groins and a concrete jetty forming part of a sea defense system. Divers can explore along the groin walls, with depths increasing further out. Entry and exit points vary, with some requiring careful navigation over rocks.
+    
+2. **Community Notes**
+    
+    Divers have noted the site's suitability during poor weather due to its sheltered conditions. However, caution is advised regarding entry and exit points, potential boat traffic, and fishing activities.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photographs and videos highlight the groin structures, marine life such as soft corals and schooling fish, and the general underwater environment.
+    
+2. **Unique or Memorable Features**
+    
+    The site's ability to offer a sheltered diving experience during adverse weather conditions makes it a valuable addition to a diver's repertoire.
+    
+3. **User Experience**
+    
+    Divers have reported enjoyable experiences, particularly appreciating the site's accessibility during less favorable weather. However, some have noted the need for careful planning regarding entry and exit points.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Artificial Reefs and Marine Habitats**
+    
+    Explore how man-made structures like groins and jetties contribute to marine biodiversity by providing habitats for various species.
+    
+2. **Marine Life Adaptations in Sheltered Environments**
+    
+    Understand how species such as seahorses and soft corals thrive in the unique conditions offered by sheltered dive sites like Jervoise Bay Groin.
+    
+
+## 5. Kwinana Grain Terminal 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Kwinana Grain Terminal (KGT)**, located in **Kwinana Beach**, south of Perth, Western Australia.
+    
+2. **Image Header**
+    
+    Photographs typically showcase the expansive jetty structure extending into Cockburn Sound, with pylons encrusted in marine life and the industrial backdrop of the grain terminal.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **Open Water certified divers** with moderate experience. The site's length and potential for strong currents require good air management and navigation skills.
+    
+4. **Location Description and coordinates: 32°15'27.3"S 115°45'02.3"E**
+    
+    Situated off **Rockingham Beach Road**, approximately 45 minutes from Perth CBD and 30 minutes from Fremantle. The jetty is part of a working grain terminal operated by CBH Group.
+    
+5. **Access Type**
+    
+    **Shore dive**, with entry from the beach via a sandy path leading to the water.
+    
+6. **Depth Range**
+    
+    Depths range from **4 to 15 meters**, with the deeper sections located towards the end of the jetty.
+    
+7. **Entry Conditions**
+    
+    Entry involves a walk down a sandy path to the beach, followed by a surface swim to the desired descent point along the jetty.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Optimal conditions occur during **calm weather** with minimal swell and wind. Avoid diving when large vessels are docked at the jetty.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**, consistent with regional averages.
+    
+3. **Visibility**
+    
+    Visibility can vary, averaging **5–10 meters**, but may decrease due to swell or sediment disturbance.
+    
+4. **Current and Surge**
+    
+    Currents can be influenced by wind and swell, particularly with **northerly winds** generating current and **westerlies** increasing swell effects. Plan dives accordingly.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Nudibranchs**, **seahorses**, and **cuttlefish**
+    - **Blue swimmer crabs**, **razor clams**, and **sand dollars**
+    - Various species of **soft corals** and **brain corals**
+    - Occasional sightings of **dolphins** and **stingrays**
+2. **Habitat Type**
+    
+    **Artificial reef** environment created by the jetty's pylons, providing shelter and feeding grounds for diverse marine life.
+    
+3. **Seasonal Marine Life Events**
+    
+    Warmer months may see increased activity of species like cuttlefish and seahorses. Specific seasonal events are not documented.
+    
+4. **Conservation Info**
+    
+    While not within a designated marine protected area, divers should respect local regulations, avoid disturbing marine life, and be cautious of fishing lines and boat traffic.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    The jetty extends approximately **800 meters**, with about **450 meters** being diveable. Divers typically follow the jetty's structure, exploring the marine life encrusted on the pylons. Deeper sections are found towards the end of the jetty.
+    
+2. **Community Notes**
+    
+    Divers have noted the site's suitability for macro photography due to the abundance of small marine creatures. However, caution is advised regarding entry and exit points, potential boat traffic, and fishing activities.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos and videos highlight the jetty's structure, marine life such as nudibranchs and seahorses, and the general underwater environment.
+    
+2. **Unique or Memorable Features**
+    
+    The site's length and structure provide a unique diving experience, with opportunities to observe a variety of marine species in an artificial reef setting.
+    
+3. **User Experience**
+    
+    Divers have reported enjoyable experiences, particularly appreciating the site's accessibility and marine biodiversity. However, some have noted the need for careful planning regarding air consumption and navigation.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Artificial Reefs and Marine Habitats**
+    
+    Explore how man-made structures like jetties contribute to marine biodiversity by providing habitats for various species.
+    
+2. **Marine Life Adaptations in Artificial Environments**
+    
+    Understand how species such as seahorses and nudibranchs thrive in the unique conditions offered by artificial reef structures like the Kwinana Grain Terminal.
+    
+
+## 6. Long Jetty 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Long Jetty (Ocean Jetty)**, located at **Bathers Beach**, **Fremantle**, Western Australia.
+    
+2. **Image Header**
+    
+    Photographs depict the remnants of the historic jetty structure extending into the bay, with visible pylons above the water and submerged sections below.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **beginners and snorkelers**. The shallow depth and straightforward access make it ideal for those new to diving or practicing skills.
+    
+4. **Location Description and coordinates: 32°03'33.0"S 115°44'27.4"E**
+    
+    Situated off **Mews Road** in Fremantle, near landmarks like **Little Creatures Brewery** and **Cicerello's Fish & Chips**. Access involves navigating through Fremantle's streets to reach the car park adjacent to the beach.
+    
+5. **Access Type**
+    
+    **Shore dive**, with entry from the beach and a short swim to the jetty remains.
+    
+6. **Depth Range**
+    
+    Depths range from **3 to 4.5 meters**, depending on proximity to the jetty and groin structures.
+    
+7. **Entry Conditions**
+    
+    Enter from the sandy beach near the visible jetty pylon. Be cautious of submerged pylons close to shore, which can pose tripping hazards.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Optimal during **calm weather** with minimal wind and swell. Westerly winds can introduce debris and reduce visibility.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**, consistent with regional averages.
+    
+3. **Visibility**
+    
+    Visibility is generally **low**, especially after storms or strong winds, due to the site's cove shape accumulating debris.
+    
+4. **Current and Surge**
+    
+    Minimal currents due to the sheltered nature of the cove. However, surge can be present during unfavorable weather conditions.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Blennies** darting among the pylons
+    - **White mussels** attached to submerged structures
+    - Occasional sightings of **buff bream**
+2. **Habitat Type**
+    
+    **Artificial reef** environment formed by the remnants of the jetty and groin structures, with a sandy bottom and sparse seagrass areas.
+    
+3. **Seasonal Marine Life Events**
+    
+    No specific seasonal events documented. Marine life presence is generally consistent year-round.
+    
+4. **Conservation Info**
+    
+    The area is designated as a **historic site** under the Maritime Archaeology Act of 1973. Divers should avoid disturbing the site and refrain from collecting artifacts.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    The dive area includes approximately **30 visible pylons** extending about **65 meters** into the bay, with submerged pylons reaching up to **170 meters**. Divers can explore along the groin wall, which extends further but remains shallow.
+    
+2. **Community Notes**
+    
+    Divers have noted the site's suitability for **skill practice** due to its shallow depth. However, the site is often described as **uninspiring**, with limited marine life and poor visibility.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Images showcase the jetty's remaining pylons above and below the water, as well as the general underwater environment, which includes sandy bottoms and sparse marine growth.
+    
+2. **Unique or Memorable Features**
+    
+    The site's historical significance as Fremantle's original port facility adds interest, though little remains of the original structure.
+    
+3. **User Experience**
+    
+    Divers often report **disappointing experiences**, citing poor visibility, minimal marine life, and debris accumulation. It's generally recommended only for **training purposes** or for those with a specific interest in the site's history.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Maritime History of Fremantle's Long Jetty**
+    
+    Explore the significance of Long Jetty in Fremantle's development as a port city, its role in trade and immigration, and the archaeological efforts to preserve its remnants.
+    
+2. **Impact of Coastal Development on Marine Environments**
+    
+    Understand how the construction and subsequent demolition of structures like Long Jetty affect local marine ecosystems, including changes in habitat and biodiversity.
+    
+
+## 7. MAAC 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Marmion Angling & Aquatic Club (MAAC)**, located in **Marmion**, a northern coastal suburb of Perth, Western Australia.
+    
+2. **Image Header**
+    
+    Photographs depict the club's boat ramp leading into the Indian Ocean, with nearby reef formations visible beneath the surface.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **novice to intermediate** divers. The site's shallow depth and accessible entry make it ideal for beginners, though awareness of surge and reef proximity is essential.
+    
+4. **Location Description and coordinates: 31°50'21.1"S 115°44'56.1"E**
+    
+    Situated on **West Coast Drive**, approximately 15 minutes north of Perth CBD and 10 minutes south of Hillarys Boat Harbour. The site lies within the **Marmion Marine Park**, Western Australia's first marine park established in 1987.
+    
+5. **Access Type**
+    
+    **Shore dive**, with entry via the club's boat ramp or adjacent beach areas.
+    
+6. **Depth Range**
+    
+    Depths range from **5 to 7 meters**, with the reef top approximately 0.5 meters below the surface.
+    
+7. **Entry Conditions**
+    
+    Enter from the boat ramp or beach, conducting final checks at the water's edge. Be cautious of waves breaking over the reef and potential surge, especially during exit.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Optimal conditions occur after several days of **low easterly winds** and minimal swell. Early mornings with gentle southerly winds may also be suitable, but conditions can deteriorate by midday.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**, consistent with regional averages.
+    
+3. **Visibility**
+    
+    Visibility varies; while it can exceed **20 meters** on rare perfect days, it's commonly around **6 meters**, influenced by swell and wind conditions.
+    
+4. **Current and Surge**
+    
+    Minimal currents, but surge can be significant, especially near the reef top. Divers should be cautious to avoid being lifted onto shallow reef areas.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Bream**, **Red-lipped Morwong**, **Trevally**, **Scalyfins**, **Moonlighters**, and **Stripeys**
+    - **Weedy Sea Dragons** (occasional sightings)
+    - **Staircase Sponges** and **Egg Urchins** in seagrass areas
+2. **Habitat Type**
+    
+    **Natural limestone reef** with adjacent **seagrass beds**, providing diverse habitats for marine species.
+    
+3. **Seasonal Marine Life Events**
+    
+    No specific seasonal events documented, but marine life abundance may vary with seasons.
+    
+4. **Conservation Info**
+    
+    Located within **Marmion Marine Park**, a protected area. Divers should adhere to conservation guidelines, avoiding disturbance to marine life and habitats.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    From the entry point, the primary reef lies directly ahead, with a secondary, deeper reef approximately 80 meters to the south. Divers can explore various inlets and overhangs within the reef structures.
+    
+2. **Community Notes**
+    
+    Divers have noted the site's suitability for beginners, emphasizing the importance of checking conditions due to potential surge and shallow reef areas.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    While specific images are not provided, divers have reported abundant marine life and interesting reef formations, making it a worthwhile site for underwater photography.
+    
+2. **Unique or Memorable Features**
+    
+    The presence of **Weedy Sea Dragons** and diverse fish species, combined with the site's accessibility, make it a notable dive location in the Perth area.
+    
+3. **User Experience**
+    
+    Divers have described the site as enjoyable, particularly highlighting the variety of marine life and the reef's structure. However, caution is advised regarding surge and shallow reef tops.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Understanding Marine Protected Areas**
+    
+    Explore the significance of marine parks like Marmion Marine Park in conserving biodiversity and supporting sustainable marine ecosystems.
+    
+2. **Adaptations of Weedy Sea Dragons**
+    
+    Learn about the unique characteristics and behaviors of Weedy Sea Dragons, including their camouflage abilities and reproductive roles.
+    
+
+## 8. Mettams Pool 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Mettams Pool**, located in **North Beach**, a northern coastal suburb of Perth, Western Australia.
+    
+2. **Image Header**
+    
+    Photographs depict a natural limestone reef forming a sheltered lagoon, with clear turquoise waters and gentle waves, making it a popular spot for snorkelling and diving.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **beginners and snorkelers**. The shallow depths and easy access make it ideal for novice divers and those seeking a relaxed underwater experience.
+    
+4. **Location Description and coordinates: 31°52'02.4"S 115°45'07.2"E**
+    
+    Situated along **West Coast Drive**, approximately 15–20 minutes north of Perth CBD. The site lies within the **Marmion Marine Park**, Western Australia's first marine park established in 1987.
+    
+5. **Access Type**
+    
+    **Shore dive**, with entry from the beach via steps or a ramp leading down from the car park.
+    
+6. **Depth Range**
+    
+    Depths range from **1.5 to 7 meters**, depending on proximity to the reef and lagoon areas.
+    
+7. **Entry Conditions**
+    
+    Enter from the sandy beach area, taking care to avoid sharp rocks. Be cautious of waves breaking over the reef, and avoid diving during high swell conditions.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Optimal conditions occur during **calm weather** with minimal swell and easterly winds. Early mornings are often best, as winds tend to pick up later in the day.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**, consistent with regional averages.
+    
+3. **Visibility**
+    
+    Visibility can vary; while it can exceed **20 meters** on calm days, it's commonly around **6 meters**, influenced by swell and wind conditions.
+    
+4. **Current and Surge**
+    
+    Generally minimal currents, but surge can be significant, especially near the reef top. Divers should be cautious to avoid being lifted onto shallow reef areas.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Red-lip morwong**, **banded sweep**, **bullseyes**, **wrasse**, **buffalo bream**, **sea mullet**, **tarwine**, and **blowfish**
+    - **Sea anemones**, **cushion stars**, **abalone**, and other shellfish species
+    - **Sea fans** and various types of algae on the reef structures
+2. **Habitat Type**
+    
+    **Natural limestone reef** forming a sheltered lagoon, with adjacent **seagrass beds**, providing diverse habitats for marine species.
+    
+3. **Seasonal Marine Life Events**
+    
+    No specific seasonal events documented, but marine life abundance may vary with seasons.
+    
+4. **Conservation Info**
+    
+    Located within **Marmion Marine Park**, a protected area. Divers should adhere to conservation guidelines, avoiding disturbance to marine life and habitats.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    The dive area includes an inner reef forming a natural pool, with an outer reef providing more depth and marine life diversity. Divers can explore various inlets and overhangs within the reef structures.
+    
+2. **Community Notes**
+    
+    Divers have noted the site's suitability for beginners, emphasizing the importance of checking conditions due to potential surge and shallow reef areas.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Images showcase the reef's structure, marine life such as fish and invertebrates, and the general underwater environment, which includes sandy bottoms and sparse marine growth.
+    
+2. **Unique or Memorable Features**
+    
+    The site's natural beauty and accessibility make it a notable dive location in the Perth area.
+    
+3. **User Experience**
+    
+    Divers have described the site as enjoyable, particularly highlighting the variety of marine life and the reef's structure. However, caution is advised regarding surge and shallow reef tops.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Understanding Marine Protected Areas**
+    
+    Explore the significance of marine parks like Marmion Marine Park in conserving biodiversity and supporting sustainable marine ecosystems.
+    
+2. **Adaptations of Reef-Dwelling Species**
+    
+    Learn about the unique characteristics and behaviors of species such as the red-lip morwong and how they thrive in the reef environment.
+    
+
+## 9. North Mole 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **North Mole**, located in **Fremantle**, Western Australia.
+    
+2. **Image Header**
+    
+    Photographs depict the North Mole breakwater extending into the Indian Ocean, with the red North Mole Lighthouse at its tip, and the surrounding rocky shoreline.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **intermediate to advanced** divers. The challenging entry and exit points, along with variable conditions, require good diving skills and experience.
+    
+4. **Location Description and coordinates: 32°03'10.9"S 115°43'34.0"E**
+    
+    Situated at the end of **North Mole Drive**, accessible via **Rous Head Road** in Fremantle. The site is adjacent to the **Fremantle Harbour** and near the **Rous Head ferry terminal**.
+    
+5. **Access Type**
+    
+    **Shore dive**, with entry from the disabled fishing ramp located near the parking area.
+    
+6. **Depth Range**
+    
+    Depths range from **5 to 8.5 meters**, with the **Gareenup Wreck** lying approximately 75 meters offshore.
+    
+7. **Entry Conditions**
+    
+    Entry involves navigating down a steep, slippery slope of rocks. A **10–15 meter rope** is recommended to assist with both entry and exit. Divers should exercise caution to avoid injury.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Optimal conditions occur during **low swell** and **gentle to moderate winds**. The site offers some protection from **southwest swells**, making it one of the few north-of-the-river sites suitable under such conditions.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**, consistent with regional averages.
+    
+3. **Visibility**
+    
+    Visibility varies between **2 to 10 meters**, influenced by swell and wind conditions. Calm weather improves clarity.
+    
+4. **Current and Surge**
+    
+    Currents are generally mild, but surge can be significant, especially near the entry and exit points. Divers should plan accordingly and be prepared for variable conditions.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Crayfish**, **cuttlefish**, **octopus**, and **wobbegongs**
+    - **Stingrays**, **nudibranchs**, and various schooling fish
+    - Occasional sightings of **Port Jackson sharks** and **grey nurse sharks** [adreno.com.au+1en.wikipedia.org+1](https://adreno.com.au/blogs/news/the-8-best-scuba-diving-spots-in-perth?utm_source=chatgpt.com)
+2. **Habitat Type**
+    
+    **Artificial reef** environment created by the **Gareenup Wreck** and surrounding rocky structures, providing shelter and feeding grounds for diverse marine life.
+    
+3. **Seasonal Marine Life Events**
+    
+    No specific seasonal events documented, but marine life abundance may vary with seasons.
+    
+4. **Conservation Info**
+    
+    While not within a designated marine protected area, divers should respect local regulations, avoid disturbing marine life, and be cautious of fishing lines and boat traffic.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    From the entry point at the disabled fishing ramp, the **Gareenup Wreck** lies approximately **75 meters** offshore at a heading of **355 degrees**. The wreck is surrounded by seagrass beds and additional scattered wreckage.
+    
+2. **Community Notes**
+    
+    Divers have noted the challenging entry and exit, recommending the use of a rope for safety. The site is popular among experienced divers seeking a unique shore diving experience.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Images showcase the entry point, the steep rocky slope, and the underwater environment around the wreck, including various marine species.
+    
+2. **Unique or Memorable Features**
+    
+    The combination of a historic wreck, diverse marine life, and the challenging entry make North Mole a distinctive dive site in the Perth area.
+    
+3. **User Experience**
+    
+    Divers describe the site as rewarding but caution that it's not suitable for the faint-hearted due to the demanding entry and exit. Proper preparation enhances the diving experience.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Navigating Challenging Shore Dive Entries**
+    
+    Understand techniques and safety measures for entering and exiting dive sites with difficult terrain, emphasizing the importance of preparation and equipment like ropes.
+    
+2. **Exploring Artificial Reefs: The Gareenup Wreck**
+    
+    Learn about the role of artificial reefs in marine ecosystems, focusing on how the Gareenup Wreck contributes to local biodiversity and offers habitat for various species.
+    
+
+## 10. Omeo Wreck 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Omeo Wreck**, located off **Coogee Beach** in **North Coogee**, a southern coastal suburb of Perth, Western Australia.
+    
+2. **Image Header**
+    
+    Photographs depict the partially submerged remains of the Omeo shipwreck, with the sternpost and sections of the bow protruding above the water, surrounded by clear, shallow waters and nearby artificial reef structures.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **snorkelers and novice divers**. The shallow depths and easy access make it ideal for beginners and those seeking a relaxed underwater experience.
+    
+4. **Location Description and coordinates: 32°06'19.3"S 115°45'41.4"E**
+    
+    Situated approximately 25 meters offshore from Coogee Beach, near **Socrates Parade** in North Coogee. The site is part of the **Coogee Maritime Trail**, an initiative by the City of Cockburn to enhance marine education and tourism.
+    
+5. **Access Type**
+    
+    **Shore dive**, with entry via a beach access path from Socrates Parade or Perlinte View.
+    
+6. **Depth Range**
+    
+    Depths range from **2 to 7 meters**, with most of the trail between 2.5 to 5 meters deep.
+    
+7. **Entry Conditions**
+    
+    Enter from the sandy beach area, taking care to avoid sharp rocks. Be cautious of waves breaking over the reef, and avoid diving during high swell conditions.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Optimal conditions occur during **calm weather** with minimal swell and easterly winds. Early mornings are often best, as winds tend to pick up later in the day.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**, consistent with regional averages.
+    
+3. **Visibility**
+    
+    Visibility can vary; while it can exceed **20 meters** on calm days, it's commonly around **6 meters**, influenced by swell and wind conditions.
+    
+4. **Current and Surge**
+    
+    Generally minimal currents, but surge can be significant, especially near the reef top. Divers should be cautious to avoid being lifted onto shallow reef areas.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Wavy Grubfish**, **Stripeys**, **Juvenile Old Wife**, **Red-lipped Morwong**, and **Brownfields Wrasse**
+    - **Nudibranchs**, **cuttlefish**, **crayfish**, **octopus**, and various schooling fish
+    - Occasional sightings of **stingrays**, **dolphins**, and **sea lions**
+2. **Habitat Type**
+    
+    **Artificial reef** environment created by the Omeo shipwreck and surrounding structures, providing shelter and feeding grounds for diverse marine life.
+    
+3. **Seasonal Marine Life Events**
+    
+    No specific seasonal events documented, but marine life abundance may vary with seasons.
+    
+4. **Conservation Info**
+    
+    The Omeo Wreck is a **protected heritage site**. Divers should avoid disturbing marine life, refrain from touching or climbing on the wreck, and be cautious of fishing lines and boat traffic.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    The dive area includes the Omeo shipwreck and a series of artificial reef structures extending approximately 200 meters west along the southern breakwater. Divers can explore various inlets and overhangs within the reef structures.
+    
+2. **Community Notes**
+    
+    Divers have noted the site's suitability for beginners, emphasizing the importance of checking conditions due to potential surge and shallow reef areas.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Images showcase the wreck's structure, marine life such as fish and invertebrates, and the general underwater environment, which includes sandy bottoms and sparse marine growth.
+    
+2. **Unique or Memorable Features**
+    
+    The site's natural beauty and accessibility make it a notable dive location in the Perth area. The combination of a historic wreck, diverse marine life, and the challenging entry make North Mole a distinctive dive site in the Perth area.
+    
+3. **User Experience**
+    
+    Divers have described the site as enjoyable, particularly highlighting the variety of marine life and the reef's structure. However, caution is advised regarding surge and shallow reef tops.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Understanding Marine Protected Areas**
+    
+    Explore the significance of marine parks like Marmion Marine Park in conserving biodiversity and supporting sustainable marine ecosystems.
+    
+2. **Adaptations of Reef-Dwelling Species**
+    
+    Learn about the unique characteristics and behaviors of species such as the red-lip morwong and how they thrive in the reef environment.
+    
+
+## 11. Palm Beach Jetty 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Palm Beach Jetty**, located in **Rockingham**, Western Australia.
+    
+2. **Image Header**
+    
+    Photographs depict the 125-meter-long jetty extending into the waters of Mangles Bay, with the surrounding area showcasing calm, shallow waters and sandy beaches.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **novice divers and snorkelers**. The shallow depths and easy access make it ideal for beginners, though the site's limited marine life may not appeal to more experienced divers.
+    
+4. **Location Description**
+    
+    Situated at the end of **Fisher Street** in Rockingham, approximately 45 minutes south of Perth CBD. The site is near the **Rockingham Wreck Trail**, offering additional diving opportunities in the vicinity.
+    
+5. **Access Type**
+    
+    **Shore dive**, with entry from the beach adjacent to the jetty.
+    
+6. **Depth Range**
+    
+    Depths range from **2 to 15 meters**, with the diveable length of the jetty being approximately 60 meters.
+    
+7. **Entry Conditions**
+    
+    Enter from the sandy beach area, taking care to avoid sharp rocks. Be cautious of waves breaking over the reef, and avoid diving during high swell conditions.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Optimal conditions occur during **calm weather** with minimal swell and easterly winds. Early mornings are often best, as winds tend to pick up later in the day.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**, consistent with regional averages.
+    
+3. **Visibility**
+    
+    Visibility can vary; while it can exceed **20 meters** on calm days, it's commonly around **6 meters**, influenced by swell and wind conditions.
+    
+4. **Current and Surge**
+    
+    Generally minimal currents, but surge can be significant, especially near the reef top. Divers should be cautious to avoid being lifted onto shallow reef areas.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Blennies**, **seahorses**, and **striped catfish**
+    - Occasional sightings of **nudibranchs** and **small schooling fish**[howiesscuba.com+2howiesscuba.com+2howiesscuba.com+2](https://www.howiesscuba.com/cf-blenny.php?utm_source=chatgpt.com)
+2. **Habitat Type**
+    
+    **Artificial reef** environment created by the jetty's structure and surrounding debris, providing shelter for various marine species.
+    
+3. **Seasonal Marine Life Events**
+    
+    No specific seasonal events documented, but marine life abundance may vary with seasons.
+    
+4. **Conservation Info**
+    
+    While not within a designated marine protected area, divers should respect local regulations, avoid disturbing marine life, and be cautious of fishing lines and boat traffic.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    From the entry point, divers can explore the jetty's pylons and surrounding debris fields. Heading east (approximately 90 degrees) from the jetty leads to a floating pontoon and anchor buoy, where additional submerged objects can be found.
+    
+2. **Community Notes**
+    
+    Divers have noted the site's limited marine life and challenging visibility, suggesting it may not be the most rewarding dive in the area. However, its proximity to other sites like the Rockingham Wreck Trail offers alternative diving opportunities.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Images showcase the jetty's structure, marine life such as blennies and seahorses, and the general underwater environment, which includes sandy bottoms and sparse marine growth.
+    
+2. **Unique or Memorable Features**
+    
+    The site's natural beauty and accessibility make it a notable dive location in the Perth area. The combination of a historic wreck, diverse marine life, and the challenging entry make North Mole a distinctive dive site in the Perth area.
+    
+3. **User Experience**
+    
+    Divers have described the site as enjoyable, particularly highlighting the variety of marine life and the reef's structure. However, caution is advised regarding surge and shallow reef tops.
+    
+
+---
+
+## 📘 **Learn Section**
+
+1. **Understanding Marine Protected Areas**
+    
+    Explore the significance of marine parks like Marmion Marine Park in conserving biodiversity and supporting sustainable marine ecosystems.
+    
+2. **Adaptations of Reef-Dwelling Species**
+    
+    Learn about the unique characteristics and behaviors of species such as the red-lip morwong and how they thrive in the reef environment.
+    
+
+## 12. Point Peron 🌍 **Site Overview**
+
+### **Dive Site Name and Region**
+
+**Point Peron (Cape Peron)** – Rockingham, Western Australia
+
+### **Image Header**
+
+The site features rugged limestone reef structures, including caves, swim-throughs, and vertical walls, all surrounded by patches of kelp and sandy bottom.
+
+### **Diver Experience Level & Certification Needed**
+
+Suitable for beginner to experienced divers and snorkelers, though experience is recommended due to surge and swim distance.
+
+### **Location Description and coordinates: 32°16'16.7"S 115°41'12.6"E**
+
+Located about 10 minutes from Rockingham within the **Shoalwater Islands Marine Park**. No specific GPS coordinates provided, but access is straightforward from the Cape Peron car park.
+
+### **Access Type**
+
+Shore dive, with a beach entry followed by a 300-meter surface swim to reach the main reef structure.
+
+### **Depth Range**
+
+Approximately 2 to 10 meters.
+
+### **Entry Conditions**
+
+Entry is via a beach and then swimming across open water. The reef is limestone and can be unstable or sharp, making careful movement important. Entry and exit can be affected by swell and surge.
+
+---
+
+## 🌊 **Conditions**
+
+### **Best Time to Dive**
+
+When swell is under 1.5 meters, swell period is over 11 seconds, and winds are light easterlies. Avoid southerly or westerly winds.
+
+### **Water Temperature**
+
+Not specified on site but generally ranges from 18–23°C across seasons in this region.
+
+### **Visibility**
+
+Excellent on calm days (up to 20m), but can drop significantly after storms or high winds.
+
+### **Current and Surge**
+
+Minimal current but potentially strong surge near the reef ledges and caves—divers should assess conditions carefully.
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+### **Marine Species Commonly Seen**
+
+Buffalo bream, wrasse, urchins, starfish, seagrass-associated species, and seasonal schools of salmon. Crayfish and nudibranchs may also be found among the reef structure.
+
+### **Habitat Type**
+
+Natural limestone reef with ledges, tunnels, seagrass beds, and sandy patches.
+
+### **Seasonal Marine Life Events**
+
+Seasonal salmon runs (autumn) may attract larger predators and increased fishing activity. Keep distance from fishing lines.
+
+### **Conservation Info**
+
+Located within a **Marine Protected Area (MPA)** – Shoalwater Islands Marine Park. Divers should follow conservation practices: no collecting, avoid disturbing marine life, and be mindful of fishing lines.
+
+---
+
+## 🗺️ **Dive Map**
+
+### **Dive Site Layout**
+
+The main reef lies in a semicircle accessible from the beach. Features include multiple ledges, caves, and drop-offs, best explored in a clockwise loop from the entry point. Seagrass surrounds the main reef zone.
+
+### **Community Notes**
+
+Local divers recommend this site for its accessible yet exciting terrain. Dive flags are essential due to boat traffic and fishing.
+
+---
+
+## 📸 **Extras**
+
+### **Visual Media**
+
+Photos show reef formations and marine life, including kelp forests, buffalo bream, and small caves.
+
+### **Unique or Memorable Features**
+
+Diverse topography with excellent snorkelling and diving routes, and a high chance of encountering multiple habitat zones in one dive.
+
+### **User Experience**
+
+Well-loved by locals for its mix of features and easy access. Users mention occasional poor visibility and long swim, but rewarding marine encounters.
+
+---
+
+## 📘 **Learn Section**
+
+1. **Mini-lesson: Limestone Reef Formation**
+    
+    Explore how Western Australia's limestone reefs were formed over millennia and how they support diverse ecosystems today.
+    
+2. **Mini-lesson: Marine Protected Areas in WA**
+    
+    Understand what MPAs like Shoalwater Islands Marine Park are, and how divers contribute to their protection.
+    
+
+---
+
+## 13. **Robbs Jetty** 🌍 **Site Overview**
+
+### **Dive Site Name and Region**
+
+**Robbs Jetty** – South Fremantle, Western Australia
+
+### **Image Header**
+
+The site shows remnants of a demolished industrial jetty with rows of submerged pylons scattered across a sandy bottom, often surrounded by schools of fish.
+
+### **Diver Experience Level & Certification Needed**
+
+Beginner to intermediate; very accessible for new divers and snorkelers with care.
+
+### **Location Description and coordinates: 32°05'25.1"S 115°45'24.9"E**
+
+Located at CY O'Connor Reserve in South Fremantle. Nearshore, accessible from public beach.
+
+### **Access Type**
+
+Shore dive, reached by walking across sand dunes and swimming out ~120 meters.
+
+### **Depth Range**
+
+Roughly 3 to 8 meters.
+
+### **Entry Conditions**
+
+Beach entry with soft sand and minor surface swim. Use caution during high tides or if swell increases.
+
+---
+
+## 🌊 **Conditions**
+
+### **Best Time to Dive**
+
+Early morning on low wind days. Avoid weekends or afternoons with heavy boat traffic.
+
+### **Water Temperature**
+
+Typically ranges from 18–24°C depending on season.
+
+### **Visibility**
+
+Ranges from 1–2 meters in poor conditions to up to 10 meters. Affected by surge, wind, and proximity to shore.
+
+### **Current and Surge**
+
+Generally mild, but caution is advised near boat channels. Dive flags are strongly recommended.
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+### **Marine Species Commonly Seen**
+
+Old wives, bullseyes, leatherjackets, seahorses, cuttlefish, and pipefish. Occasional sightings of rays and cephalopods.
+
+### **Habitat Type**
+
+Artificial reef formed from pylons and broken jetty structures, resting on sand and surrounded by seagrass.
+
+### **Seasonal Marine Life Events**
+
+Cuttlefish and seahorse breeding may occur in late summer and autumn.
+
+### **Conservation Info**
+
+Not formally within an MPA, but still recommended to follow low-impact diving and fish-friendly practices.
+
+---
+
+## 🗺️ **Dive Map**
+
+### **Dive Site Layout**
+
+Dive follows the pylon line of the former jetty, with many structures covered in growth. Start at shallow end near shore and explore outward. Best features lie at mid-distance.
+
+### **Community Notes**
+
+Popular training site for local divers. Some pylons can be unstable or have fishing line entanglement risk.
+
+---
+
+## 📸 **Extras**
+
+### **Visual Media**
+
+Photos show encrusted pylons, small fish schools, and macro species like seahorses.
+
+### **Unique or Memorable Features**
+
+Rich marine life hidden among jetty pylons, especially macro subjects like pipefish and nudibranchs.
+
+### **User Experience**
+
+Fremantle locals recommend Robbs Jetty for its convenience and macro life. Some caution about visibility and traffic.
+
+---
+
+## 📘 **Learn Section**
+
+1. **Mini-lesson: Artificial Reefs & Marine Colonisation**
+    
+    Discover how man-made structures like jetty pylons quickly become habitats for marine life.
+    
+2. **Mini-lesson: Seahorse Adaptations**
+    
+    Learn about the physical adaptations and camouflage skills of seahorses in shallow coastal waters.
+    
+
+## 14. Rockingham Wreck Trail 🌍 **Site Overview**
+
+**Dive Site Name and Region**
+
+**Rockingham Dive Trail** – Rockingham, Western Australia
+
+**Image Header**
+
+The site features a series of submerged wrecks, including small boats and planes, connected by guide ropes, set against a sandy seabed.[oddcoupletravel.com+2howiesscuba.com+2divingwawrecks.com+2](https://www.howiesscuba.com/rockingham-dive-trail.php?utm_source=chatgpt.com)
+
+**Diver Experience Level & Certification Needed**
+
+Suitable for beginner to intermediate divers.[perthisok.com](https://perthisok.com/explore/the-best-scuba-diving-spots-for-beginners-around-perth/?utm_source=chatgpt.com)
+
+**Location Description and Coordinates: 32°16'26.7"S 115°43'52.5"E**
+
+Located off the Rockingham Foreshore, near Churchill Park. The dive trail is approximately 100 meters wide and 50 meters deep, encompassing six submerged wreck areas: two small boats, two small planes, a chicken coop, and a large tyre reef. [divingwawrecks.com+3divingwawrecks.com+3oddcoupletravel.com+3](https://www.divingwawrecks.com/rockingham-wreck-trail?utm_source=chatgpt.com)[howiesscuba.com+2howiesscuba.com+2oddcoupletravel.com+2](https://www.howiesscuba.com/rockingham-dive-trail.php?utm_source=chatgpt.com)
+
+**Access Type**
+
+Shore dive.[rockingham.wa.gov.au+2perthisok.com+2howiesscuba.com+2](https://perthisok.com/explore/the-best-scuba-diving-spots-for-beginners-around-perth/?utm_source=chatgpt.com)
+
+**Depth Range**
+
+Approximately 10 to 18 meters.[perthisok.com+1oddcoupletravel.com+1](https://perthisok.com/explore/the-best-scuba-diving-spots-for-beginners-around-perth/?utm_source=chatgpt.com)
+
+**Entry Conditions**
+
+Entry is via the beach, with a surface swim of about 100 meters to reach the dive trail. The site is equipped with steps leading down to the beach. [howiesscuba.com](https://www.howiesscuba.com/rockingham-dive-trail-directions.php?utm_source=chatgpt.com)
+
+---
+
+## 🌊 **Conditions**
+
+**Best Time to Dive**
+
+Ideal conditions are during calm weather with minimal swell. The site is generally protected from most wind directions except from the north and northwest. [divingwawrecks.com](https://www.divingwawrecks.com/rockingham-wreck-trail?utm_source=chatgpt.com)
+
+**Water Temperature**
+
+Typically ranges from 18°C to 24°C, depending on the season.
+
+**Visibility**
+
+Visibility varies: up to 6 meters on a perfect day (rare), averaging around 3 meters, and dropping to 1–2 meters in poor conditions. [howiesscuba.com](https://www.howiesscuba.com/rockingham-dive-trail.php?utm_source=chatgpt.com)
+
+**Current and Surge**
+
+Generally mild, but visibility can be affected by sediment stirred up by divers and weather conditions.
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+**Marine Species Commonly Seen**
+
+The wrecks are encrusted with marine life, including tube worms, soft corals, bryozoans, sponges, ascidians, wrasse, blennies, old wives, WA butterfish, boxfish, herring, sea stars, eels, crustaceans, and Western Australian seahorses. [visitrockingham.com.au](https://visitrockingham.com.au/blog/diving-and-snorkelling-in-rockingham/?utm_source=chatgpt.com)
+
+**Habitat Type**
+
+Artificial reef formed by purpose-sunk wrecks and structures.[divingwawrecks.com](https://www.divingwawrecks.com/perth-south?utm_source=chatgpt.com)
+
+**Seasonal Marine Life Events**
+
+No specific seasonal events noted.
+
+**Conservation Info**
+
+Divers are encouraged to follow low-impact diving practices to preserve the site and its marine life.
+
+---
+
+## 🗺️ **Dive Map**
+
+**Dive Site Layout**
+
+The dive trail consists of six submerged wreck areas connected by guide ropes. Divers can descend at the flagged buoy and follow the ropes to explore the various wrecks. [howiesscuba.com](https://www.howiesscuba.com/rockingham-dive-trail.php?utm_source=chatgpt.com)
+
+**Community Notes**
+
+Local divers have taken the initiative to maintain and map the wreck trail, ensuring its accessibility and safety for the diving community. [divingwawrecks.com+1howiesscuba.com+1](https://www.divingwawrecks.com/rockingham-wreck-trail?utm_source=chatgpt.com)
+
+---
+
+## 📸 **Extras**
+
+**Visual Media**
+
+Photographs and videos showcase the submerged wrecks and the diverse marine life inhabiting them.
+
+**Unique or Memorable Features**
+
+The interconnected wrecks provide an engaging dive experience, with the opportunity to explore various structures and observe a wide range of marine species.
+
+**User Experience**
+
+Divers have noted that while visibility can be variable, the site offers a rewarding experience, especially for those looking to practice navigation and explore artificial reefs.
+
+---
+
+## 📘 **Learn Section**
+
+1. **Mini-lesson: Artificial Reefs and Marine Biodiversity**
+    
+    Explore how purpose-sunk structures like those in the Rockingham Dive Trail contribute to marine biodiversity by providing habitats for various species.
+    
+2. **Mini-lesson: Navigating Low-Visibility Dives**
+    
+    Learn techniques for safely and effectively diving in low-visibility conditions, including the use of guide ropes and buddy systems.
+    
+
+## 15. Rocky Bay 🌍 **Site Overview**
+
+**Dive Site Name and Region**
+
+**Rocky Bay** – North Fremantle, Western Australia
+
+**Image Header**
+
+The site features a riverine environment with a rocky shoreline, submerged debris such as bicycles and tires, and occasional large rocks.
+
+**Diver Experience Level & Certification Needed**
+
+Suitable for novice to intermediate divers.[howiesscuba.com](https://www.howiesscuba.com/dive.php?utm_source=chatgpt.com)
+
+**Location Description and Coordinates: 32°01'41.7"S 115°45'20.4"E**
+
+Located in the Swan River at North Fremantle. Entry is via a car park at the end of Rule Street, with steps leading down to a small beach. An alternative entry point is near the Water Police Headquarters at the bottom of Harvest Road. GPS coordinates for the Mayfield wreck are approximately S 32° 01.767' E 115° 45.444' .[howiesscuba.com+2divessi.com+2howiesscuba.com+2](https://www.divessi.com/en/mydiveguide/divesite/657518?utm_source=chatgpt.com)[howiesscuba.com+1divingwawrecks.com+1](https://www.howiesscuba.com/rocky-bay-directions.php?utm_source=chatgpt.com)[divingwawrecks.com](https://www.divingwawrecks.com/rocky-bay?utm_source=chatgpt.com)
+
+**Access Type**
+
+Shore dive.[howiesscuba.com+1perthscuba.com+1](https://www.howiesscuba.com/dive-sites-combined.php?utm_source=chatgpt.com)
+
+**Depth Range**
+
+Approximately 1 to 8.5 meters, depending on the area and tidal conditions.[howiesscuba.com](https://www.howiesscuba.com/rocky-bay.php?utm_source=chatgpt.com)
+
+**Entry Conditions**
+
+Entry is via a set of steps leading down to a small beach. The steps may be uneven and require caution. The riverbed slopes off sharply a few meters from the shore, so divers should ensure proper buoyancy before proceeding. [howiesscuba.com](https://www.howiesscuba.com/rocky-bay.php?utm_source=chatgpt.com)
+
+---
+
+## 🌊 **Conditions**
+
+**Best Time to Dive**
+
+Generally only recommended when ocean conditions are unfavorable, as the river is a dynamic environment with variable conditions. Diving during slack tide is advisable to minimize current.[howiesscuba.com+1howiesscuba.com+1](https://www.howiesscuba.com/rocky-bay-directions.php?utm_source=chatgpt.com)
+
+**Water Temperature**
+
+Typically ranges from 18°C to 24°C, depending on the season.
+
+**Visibility**
+
+Visibility is generally low, often murky, and can be affected by sediment and boat traffic.
+
+**Current and Surge**
+
+The site can experience currents, especially in the middle of the channel between the shore and the sandbar. A slight drift was noted during an incoming tide. [howiesscuba.com](https://www.howiesscuba.com/rocky-bay-directions.php?utm_source=chatgpt.com)
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+**Marine Species Commonly Seen**
+
+Toadfish, starfish, crabs, seahorses, nudibranchs, tube worms, and horseshoe worms. [howiesscuba.com](https://www.howiesscuba.com/rocky-bay.php?utm_source=chatgpt.com)
+
+**Habitat Type**
+
+Riverine environment with rocky shoreline, submerged debris, and seagrass beds.
+
+**Seasonal Marine Life Events**
+
+No specific seasonal events noted.
+
+**Conservation Info**
+
+The Swan River is a working river with significant recreational and commercial use. Divers must use a dive flag and exercise caution due to boat traffic. Avoid ascending quickly or in areas with potential boat activity. [howiesscuba.com+1howiesscuba.com+1](https://www.howiesscuba.com/rocky-bay-directions.php?utm_source=chatgpt.com)
+
+---
+
+## 🗺️ **Dive Map**
+
+**Dive Site Layout**
+
+The dive begins from the shore, with options to explore along the shoreline or across to a sandbar. Notable features include submerged debris and occasional large rocks. The Mayfield wreck lies approximately 197 meters from the entry point at a bearing of 295°, in about 4 meters of water. [divingwawrecks.com](https://www.divingwawrecks.com/rocky-bay?utm_source=chatgpt.com)
+
+**Community Notes**
+
+The site is considered less remarkable compared to ocean dives but offers an alternative when ocean conditions are poor. Divers should be aware of potential hazards such as boat traffic and submerged debris. [howiesscuba.com](https://www.howiesscuba.com/rocky-bay.php?utm_source=chatgpt.com)
+
+---
+
+## 📸 **Extras**
+
+**Visual Media**
+
+Limited visual media available; the site is described as murky with seaweed and seagrass affecting visibility. [howiesscuba.com](https://www.howiesscuba.com/rocky-bay.php?utm_source=chatgpt.com)
+
+**Unique or Memorable Features**
+
+Presence of submerged debris such as bicycles and tires, as well as the Mayfield wreck.[divingwawrecks.com](https://www.divingwawrecks.com/rocky-bay?utm_source=chatgpt.com)
+
+**User Experience**
+
+Divers have noted the site as unremarkable compared to ocean dives, with limited visibility and features. However, it provides an alternative when ocean conditions are unfavorable.
+
+---
+
+## 📘 **Learn Section**
+
+1. **Mini-lesson: Navigating River Currents**
+    
+    Understand the dynamics of river currents and how they affect dive planning and safety.
+    
+2. **Mini-lesson: Urban Marine Ecosystems**
+    
+    Explore how urban environments influence marine life and the importance of conservation in such areas.
+    
+
+## 16. South Mole 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **South Mole**, located in **Fremantle**, within the Perth metropolitan region of Western Australia.
+    
+2. **Image Header**
+    
+    Main visuals would typically show the rocky breakwater and adjacent boat harbour, with calm water lapping against the mole and breakwall structure.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **beginner to intermediate** divers. Relatively shallow and accessible, but requires awareness of surge and boat traffic.
+    
+4. **Location Description and coordinates: 32°03'21.7"S 115°44'10.3"E**
+    
+    Situated at the southern side of the Fremantle Harbour entrance, at the end of the South Mole Drive road. It’s outside of marine park boundaries but lies within a high-use port area.
+    
+5. **Access Type**
+    
+    **Shore dive** — entry is from the breakwater rocks near the lighthouse, or from the adjacent sandy beach area depending on swell and diver preference.
+    
+6. **Depth Range**
+    
+    Ranges from about **3 to 9 metres**, depending on tide and how far out you explore.
+    
+7. **Entry Conditions**
+    
+    Entry over **boulders and rocks** can be tricky — care needed during surge. Some divers prefer sandy entry points near the yacht club, but these offer less marine life.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Ideal during **low swell and light winds**. Morning dives often offer better visibility and lower surge.
+    
+2. **Water Temperature**
+    
+    Varies between **18°C in winter** to **24°C in summer**.
+    
+3. **Visibility**
+    
+    Generally **4 to 8 metres**, but can drop sharply after storms or strong southerly winds. Calm conditions improve clarity significantly.
+    
+4. **Current and Surge**
+    
+    Surge is common due to the exposed rock wall. Stronger surge near the breakwater, especially in southerly swell — caution advised.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Wrasse**, **herring**, and small **schooling fish**
+    - **Octopuses**, **nudibranchs**, and **seastars**
+    - **Crabs**, **prawns**, and other invertebrates among the boulders
+    - Occasional **stingrays** or **cuttlefish**
+2. **Habitat Type**
+    
+    **Artificial reef environment** — a mix of natural rock, port construction rubble, and marina structures.
+    
+3. **Seasonal Marine Life Events**
+    
+    Warmer months may attract more juvenile fish and cuttlefish activity.
+    
+4. **Conservation Info**
+    
+    Not within a marine protected area, but general WA dive ethics apply: no collecting, avoid disturbing marine life, and respect nearby vessel traffic zones.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    Divers typically explore the **outside of the rock wall**, moving along the base of the boulders. There are crevices, small overhangs, and a sloping seabed with algae-covered rubble. The inside area near the marina offers easier entry but has less life.
+    
+2. **Community Notes**
+    
+    Local divers suggest entering cautiously over the rocks or using the sand patch in low swell. Best parts are near the wall’s outer edge. Site is known for night dives due to crustacean activity.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Images often show rock pools, small critters, and the outer wall where visibility reveals seagrass patches and colourful invertebrates.
+    
+2. **Unique or Memorable Features**
+    
+    A reliable metro dive close to Perth city with **interesting artificial habitat**, good for macro photography and night diving.
+    
+3. **User Experience**
+    
+    Frequently mentioned as a **go-to local dive** — not spectacular in visibility, but rich in small marine life, and convenient for quick shore access. Caution required on surgey days.
+    
+
+---
+
+## 📘 **Learn Section**
+
+### Suggested Mini-Lessons:
+
+1. **Life Among the Rocks: Adaptations of Intertidal Invertebrates**
+    
+    Explore how octopuses, nudibranchs, and crustaceans thrive in high-energy environments like breakwaters.
+    
+2. **Artificial Reefs and Urban Marine Biodiversity**
+    
+    Examine how man-made structures like South Mole create ecosystems for marine life and how they compare to natural reefs.
+    
+
+## 17. The Coombe Reserve 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **The Coombe Reserve**, located in **Mosman Park**, along the Swan River in Perth, Western Australia.
+    
+2. **Image Header**
+    
+    Likely to show a peaceful riverbank with overhanging trees, wooden steps or jetty remnants, and flat calm estuarine water — not your typical coastal dive.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **intermediate divers** with strong buoyancy control and experience in low visibility or river environments. Ideal for night or muck diving.
+    
+4. **Location Description and coordinates: 32°00'42.8"S 115°46'27.0"E**
+    
+    Found at The Coombe Reserve, Mosman Park — between Fremantle and Perth CBD along the Swan River. Access is from the grassy park area near residential streets.
+    
+5. **Access Type**
+    
+    **Shore dive**, directly from the riverbank down some low steps or over the mud/sand shoreline.
+    
+6. **Depth Range**
+    
+    Shallow — generally between **2 to 5 metres** depending on tide.
+    
+7. **Entry Conditions**
+    
+    Easy but **muddy and slippery**. Entry is via a gentle bank or small steps, but the silty bottom and murky water mean care is needed with footing and gear.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Best during **slack tide** to avoid current and reduce sediment movement. Night dives are popular here for macro life.
+    
+2. **Water Temperature**
+    
+    Ranges from **18°C in winter** to around **24°C in summer**.
+    
+3. **Visibility**
+    
+    Typically **low** — around **1 to 3 metres** at best. Visibility worsens with rain, swell, or boat traffic.
+    
+4. **Current and Surge**
+    
+    Tidal currents can be moderate, especially on outgoing tides. There’s minimal surge but river flow matters — plan carefully.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Shrimp**, **gobies**, and **mullet**
+    - **Pipefish**, **nudibranchs**, and **eels**
+    - **Crabs**, **juvenile fish**, and **macro invertebrates**
+    - Night dives may reveal **flatworms**, **squid**, or **cuttlefish**
+2. **Habitat Type**
+    
+    **Estuarine, silty riverbed** — ideal for muck diving. Vegetation, pylons, and discarded debris provide structure for marine life.
+    
+3. **Seasonal Marine Life Events**
+    
+    Macro life is active year-round, but warm months may bring more diversity, especially nocturnal species.
+    
+4. **Conservation Info**
+    
+    Not a formal marine park, but within a **sensitive estuarine system**. Avoid disturbing the silty substrate and take care not to damage vegetation or riverbed structure.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    Divers descend from the edge of the reserve and explore **along the riverbed**, following patches of vegetation, pylons, or small structures. Most life is near debris or natural cover. Keep low to avoid disturbing silt.
+    
+2. **Community Notes**
+    
+    Known for **photography-focused night dives**. Divers recommend patience and excellent buoyancy to get the most from the low-vis, macro-heavy setting.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos often highlight **macro subjects** like shrimp on algae, small crabs, or critters peeking from mud holes. Murky backgrounds common.
+    
+2. **Unique or Memorable Features**
+    
+    It’s one of Perth’s **best muck dives** — not scenic, but full of surprises. Perfect for critter-hunters and night photography.
+    
+3. **User Experience**
+    
+    A calm, quirky river dive — loved by locals who appreciate macro life and don’t mind murky water. Great for building observation and camera skills.
+    
+
+---
+
+## 📘 **Learn Section**
+
+### Suggested Mini-Lessons:
+
+1. **What is Muck Diving? Exploring the Silt and Secrets of Riverbeds**
+    
+    A dive into how sediment-rich, low-visibility environments offer some of the richest biodiversity — if you know where to look.
+    
+2. **Estuary Ecosystems: Life in the Freshwater-Marine Mix**
+    
+    Learn about the unique adaptations of species living in brackish water and fluctuating conditions like those in the Swan River.
+    
+
+## 18. Trigg Beach🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Trigg Beach**, located in the **northern suburbs of Perth**, Western Australia.
+    
+2. **Image Header**
+    
+    Likely features a wide sandy beach with surf rolling in, exposed rocky platforms, and blue-green water — typical of Perth’s outer metro beaches.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **intermediate to advanced divers**, especially those confident in handling surf entries and swell. Caution needed for surge and exit conditions.
+    
+4. **Location Description and coordinates: 31°52'33.2"S 115°45'06.6"E**
+    
+    Situated just north of Scarborough, Trigg is a well-known surf beach in Perth. The dive site lies near the southern end of the beach around the exposed rock outcrop and reef area.
+    
+5. **Access Type**
+    
+    **Shore dive** — entry is from the beach and requires surf navigation. A surface swim may be needed to reach reef areas depending on conditions.
+    
+6. **Depth Range**
+    
+    Typically ranges from **3 to 10 metres**, depending on swell and tide. Most interest is found in the shallower reef sections.
+    
+7. **Entry Conditions**
+    
+    Entry through **surf zone** can be challenging. Must be timed with wave sets. Entry over sand is easy, but surge and wave action can complicate it. Exiting in high swell is difficult and not recommended for beginners.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Best during **calm summer mornings**, with light offshore winds and low swell. Avoid during or after storms.
+    
+2. **Water Temperature**
+    
+    Typically between **18°C (winter)** and **24°C (summer)**.
+    
+3. **Visibility**
+    
+    Usually **5 to 8 metres**, but can drop significantly due to surf stirring up sediment. Good visibility windows occur during calm periods.
+    
+4. **Current and Surge**
+    
+    **Surge and wave movement** are common due to exposure. Care required when approaching the reef or entering/exiting.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Wrasse**, **leatherjackets**, and **silver bream**
+    - **Octopuses**, **nudibranchs**, and **starfish**
+    - **Crustaceans** in reef cracks
+    - Algae-covered reef may host **camouflaged species**
+2. **Habitat Type**
+    
+    **Shallow natural reef system** with some sand patches, boulders, and tide pools. Algae-dominated rocky habitat.
+    
+3. **Seasonal Marine Life Events**
+    
+    Warmer seasons may bring increased fish activity and better invertebrate visibility. Surge can displace or shelter certain species seasonally.
+    
+4. **Conservation Info**
+    
+    Not within a marine park. Follow standard WA marine protection guidelines — no collecting, no interference with wildlife, and cautious diving in high-energy zones.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    The dive follows a natural rocky reef running parallel to the beach. Divers typically swim out, descend near the reef edge, and follow natural contours, exploring overhangs and crevices. Shallow caves and gullies offer points of interest.
+    
+2. **Community Notes**
+    
+    Some divers recommend Trigg as a **surf dive** challenge — best tackled during calm spells. It’s a **great training ground** for managing entries/exits in swell. Popular with confident local shore divers.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos usually show reef features close to the surface, with fish darting through surge channels, and macro shots of invertebrates in shallow pools or rocky crevices.
+    
+2. **Unique or Memorable Features**
+    
+    A mix of **surf and reef** makes it one of the more dynamic shore dives around Perth. Less popular than jetties or sheltered coves, but more adventurous.
+    
+3. **User Experience**
+    
+    Described as **fun but physically demanding**, especially in even moderate swell. Rewards include colourful reef life, but the dive is heavily condition-dependent.
+    
+
+---
+
+## 📘 **Learn Section**
+
+### Suggested Mini-Lessons:
+
+1. **Navigating Surge Zones: Safe Diving in Surf-Exposed Reefs**
+    
+    Learn how wave energy affects shallow reef systems and how divers can plan safe entries and exits in surf conditions.
+    
+2. **Life on the Reef Fringe: Species Adapted to High-Energy Habitats**
+    
+    Explore how marine animals survive and thrive in wave-battered environments like Trigg’s reef — from clingfish to octopuses.
+    
+
+## 19. Waikiki Beach 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Waikiki Beach**, located in the **southern suburbs of Perth**, near Rockingham, Western Australia.
+    
+2. **Image Header**
+    
+    A typical image might show the long, sandy beach stretching into shallow turquoise waters, with minimal swell and coastal vegetation behind.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Ideal for **beginners and training dives** due to the shallow depth, easy entry, and calm conditions. Also suitable for snorkellers.
+    
+4. **Location Description and coordinates: 32°18'41.4"S 115°43'53.5"E**
+    
+    Waikiki Beach is just south of Rockingham and not within a marine park. The dive site is located near Safety Bay Road, with direct access from the beachside reserve or parking area.
+    
+5. **Access Type**
+    
+    **Shore dive** with direct entry from the beach.
+    
+6. **Depth Range**
+    
+    Shallow — approximately **2 to 4 metres**.
+    
+7. **Entry Conditions**
+    
+    Very easy **sandy beach entry** with gentle sloping seabed. Suitable for training, snorkelling, and relaxed exploration.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Best during **low wind and calm seas**, especially in the morning. Conditions are suitable year-round, but visibility improves after several calm days.
+    
+2. **Water Temperature**
+    
+    Typically ranges from **18°C in winter** to **24°C in summer**.
+    
+3. **Visibility**
+    
+    Can be **2 to 6 metres**, depending on swell and sand movement. Visibility is often reduced after storms or strong winds.
+    
+4. **Current and Surge**
+    
+    Minimal — one of the calmest coastal dive sites in the Perth region. Surge and currents are rare unless offshore conditions are rough.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    The site consists of **sand flats with scattered seagrass**, broken reef rubble, and occasional man-made debris or natural features like algae-covered rocks. Most life is seen close to the bottom, especially near small structures.
+    
+2. **Community Notes**
+    
+    Often used for **entry-level training**, mask skills, and gear testing. Locals report seeing more life closer to the patches of weed and rock. Some minor rubbish can be present, offering habitat for critters but requiring caution.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Juvenile fish**, **flathead**, **whiting**, and **blennies**
+    - **Blue swimmer crabs**, **sea stars**, and **sea slugs**
+    - **Occasional rays** and **pipefish** among the seagrass
+2. **Habitat Type**
+    
+    **Shallow sandy bottom with seagrass beds** and small reef fragments — classic sheltered nearshore habitat.
+    
+3. **Seasonal Marine Life Events**
+    
+    Summer months may bring more juveniles and crustacean activity. Occasional spawning or crab aggregations noted in warm conditions.
+    
+4. **Conservation Info**
+    
+    Not within a formal marine park, but estuarine rules apply — no collecting, and care should be taken not to disturb seagrass beds.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos may show snorkellers in clear, waist-deep water, macro shots of sea slugs or crab activity, and beginner divers practicing skills.
+    
+2. **Unique or Memorable Features**
+    
+    A **go-to beginner site** — calm, shallow, and safe. Rarely used for advanced exploration, but great for quiet macro observation or dive practice.
+    
+3. **User Experience**
+    
+    Praised for accessibility and ease — often used for certification dives or gear tests. Not the most biodiverse, but perfect for relaxed, low-stress outings.
+    
+
+---
+
+## 📘 **Learn Section**
+
+### Suggested Mini-Lessons:
+
+1. **Seagrass Meadows: Coastal Nurseries of the Ocean**
+    
+    Learn how shallow seagrass beds provide food, shelter, and breeding grounds for many juvenile species and invertebrates.
+    
+2. **Introduction to Marine Macro Life**
+    
+    Explore how to observe and identify small, cryptic species like blennies, nudibranchs, and crabs — great for developing slow, attentive dive habits.
+    
+
+## 20. Woodman Point Groin 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Woodman Point Groin**, located in the **Cockburn Sound area**, south of Fremantle in Perth, Western Australia.
+    
+2. **Image Header**
+    
+    Likely features the long groin stretching into the water, with calm blue seas on one side and rock or reef structure visible beneath the surface — a typical metro shore dive with industrial backdrops.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **beginner to intermediate divers**. It's an easy shore entry site, good for training, macro photography, and relaxed exploration.
+    
+4. **Location Description and coordinates: 32°08'11.7"S 115°44'42.7"E**
+    
+    Situated at the end of Woodman Point, accessible via Woodman Point Recreation Reserve. The groin separates Jervoise Bay and Cockburn Sound. Not located in a marine park, but within an area with moderate boat traffic and nearby jetties.
+    
+5. **Access Type**
+    
+    **Shore dive**, with easy access from the beach or rocks adjacent to the groin.
+    
+6. **Depth Range**
+    
+    Typically **2 to 7 metres**, with some deeper patches around the end of the groin.
+    
+7. **Entry Conditions**
+    
+    Entry is easy from the beach or groin rocks. The sandy shore and flat gradient make it well-suited to beginners. Some care needed when walking across slippery rocks.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Best in **calm conditions and light winds**, especially early mornings. Ideal during **slack tide** to minimise sediment disturbance.
+    
+2. **Water Temperature**
+    
+    Varies from around **18°C in winter** to **24°C in summer**.
+    
+3. **Visibility**
+    
+    Usually **3 to 8 metres**, depending on weather and swell. Visibility can drop significantly after storms or strong southerlies.
+    
+4. **Current and Surge**
+    
+    Generally **mild**, but some surge may be present near the tip of the groin during swell. Be aware of boat traffic and surface conditions.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    Divers usually follow the **left or right side of the groin structure**, exploring under and around the rocks and boulders. Marine life tends to cluster near crevices, small ledges, and sandy pockets. The groin base forms a linear route to follow out and back.
+    
+2. **Community Notes**
+    
+    A local favourite for **macro photography** and **night dives**. Divers note it's an excellent site for finding nudibranchs and critters. Use a surface marker if diving near boat lanes, and check tide charts to avoid strong outgoing flow.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Blennies**, **nudibranchs**, **shrimp**, and **crabs**
+    - **Octopuses**, **starfish**, and occasional **cutefish or squid**
+    - **Schooling baitfish**, **silver bream**, and small **wrasse**
+2. **Habitat Type**
+    
+    A mix of **artificial reef (groin rocks)** and **sandy bottom with scattered seagrass** — provides good habitat for cryptic and benthic species.
+    
+3. **Seasonal Marine Life Events**
+    
+    Night dives in summer often reveal **squid**, **juvenile fish**, and increased invertebrate activity.
+    
+4. **Conservation Info**
+    
+    Not within a marine protected area, but WA dive code of conduct applies. Avoid disturbing sediment or handling marine life.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos from the site often highlight **macro species** like nudibranchs, cleaner shrimp, or small crabs nestled in algae. Groin rocks provide good framing for underwater shots.
+    
+2. **Unique or Memorable Features**
+    
+    **Macro lover’s paradise** — reliable site for small critters, easy access, and good for regular training dives. Great for honing buoyancy and camera skills.
+    
+3. **User Experience**
+    
+    Loved for its **ease of access and reliable sightings**. Many local divers use it as a go-to site for night dives or quick weekend sessions. A solid spot for quiet exploration without much swell.
+    
+
+---
+
+## 📘 **Learn Section**
+
+### Suggested Mini-Lessons:
+
+1. **Life on Artificial Structures: How Marine Creatures Colonise Groins and Jetties**
+    
+    Explore how man-made rock walls and groins provide shelter and substrate for algae, invertebrates, and juvenile fish.
+    
+2. **The Role of Nocturnal Marine Life**
+    
+    Learn how some species are only active or visible after dark — and what adaptations make night diving so different and exciting.
+    
+
+## 21. Wells Park Jetty 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Wells Park Jetty**, located in **Kwinana**, within the greater Perth region of Western Australia.
+    
+2. **Image Header**
+    
+    A typical image would show the **remains of an old timber jetty**, stretching out from a low-lying sandy shore, with calm waters and industrial infrastructure in the distance.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Suitable for **beginner to intermediate divers**, especially those interested in macro life or conducting training dives. Also popular for **night dives**.
+    
+4. **Location Description and coordinates: 32°14'52.4"S 115°45'22.6"E**
+    
+    Located near Wells Park in Kwinana, just south of Woodman Point, along the shoreline of Cockburn Sound. It’s in an industrial zone but offers a surprisingly biodiverse shallow dive.
+    
+5. **Access Type**
+    
+    **Shore dive**, accessed directly from the beach near the jetty remnants. Short walk across grass and sand.
+    
+6. **Depth Range**
+    
+    Shallow dive — typically **2 to 5 metres**, depending on the tide and how far out you go.
+    
+7. **Entry Conditions**
+    
+    **Easy sandy beach entry**, with a gentle gradient and calm waters. Entry from either side of the jetty. Footing is stable, with minimal wave action.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Best during **slack tide** and **light wind conditions**, especially early mornings or late evenings. Popular for **night diving** due to calm surface and nocturnal life.
+    
+2. **Water Temperature**
+    
+    Ranges from **18°C in winter** to **24°C in summer**.
+    
+3. **Visibility**
+    
+    Generally between **2 to 6 metres**, depending on wind, swell, and sediment movement. Better visibility after several calm days.
+    
+4. **Current and Surge**
+    
+    Usually **very mild** — protected from large swell. Some light surge possible near the shore or in windy conditions, but minimal water movement overall.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    The site features **jetty pylons**, concrete rubble, and sandy bottom with patchy algae. Marine life gathers around the jetty’s remains and under debris. Best route is to follow the jetty line out and back, scanning along the base and around scattered structure.
+    
+2. **Community Notes**
+    
+    Local divers describe this as a **quiet, underrated site** that’s perfect for macro photography or skill practice. Night dives here often reveal more activity, including cuttlefish and shrimp.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Nudibranchs**, **shrimp**, **pipefish**, and **blennies**
+    - **Octopuses**, **flathead**, and **small stingrays**
+    - **Crabs**, **starfish**, and occasional **cuttlefish**
+2. **Habitat Type**
+    
+    A mix of **artificial habitat** (jetty debris, concrete, pylons) and **silty sand bottom**, with patches of algae and weed providing hiding spots for small marine life.
+    
+3. **Seasonal Marine Life Events**
+    
+    More activity during warmer months, particularly **night-time** feeding of crustaceans and cephalopods.
+    
+4. **Conservation Info**
+    
+    Not part of a marine park, but divers should avoid stirring up silt and take care not to disturb or handle marine life. Visibility can be quickly reduced by fin kicks in soft sediment.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos show **critters hiding under jetty rubble**, **macro invertebrates**, and clear shots of pylons covered with sponges or algae. Often used for macro night photography.
+    
+2. **Unique or Memorable Features**
+    
+    Quiet, sheltered, and full of **micro-habitats** — perfect for photographers, newer divers, or anyone looking for a calm, low-effort dive.
+    
+3. **User Experience**
+    
+    Described as a **hidden gem** for Perth divers. Not flashy, but very rewarding for slow exploration. Great dive to build confidence or test out gear.
+    
+
+---
+
+## 📘 **Learn Section**
+
+### Suggested Mini-Lessons:
+
+1. **Jetty Ecology: Why Old Structures Are Biodiversity Hotspots**
+    
+    Explore how timber and concrete remnants become mini ecosystems for algae, crustaceans, and fish.
+    
+2. **Night Diving Basics: How Marine Life Changes After Sunset**
+    
+    Learn about nocturnal marine behaviour, safety tips, and what creatures are best observed under torchlight.
+    
+
+## 22. Yanchep Lagoon 🌍 **Site Overview**
+
+1. **Dive Site Name and Region**
+    
+    **Yanchep Lagoon**, located in **Yanchep**, a coastal suburb north of Perth, Western Australia.
+    
+2. **Image Header**
+    
+    A classic photo would show a shallow turquoise lagoon protected by offshore reef, with waves breaking beyond and calm water inside. A scenic and accessible beachside setting.
+    
+3. **Diver Experience Level & Certification Needed**
+    
+    Best suited to **snorkellers and beginner divers**, though surf and surge can increase difficulty. Can be explored by more experienced divers when swell is low.
+    
+4. **Location Description and coordinates: 31°33'04.6"S 115°37'27.4"E**
+    
+    Found just off Brazier Road, Yanchep. It’s part of the accessible coastal stretch north of Perth but not within a marine protected area. The lagoon is shallow and well-known for swimming and snorkelling.
+    
+5. **Access Type**
+    
+    **Shore dive/snorkel**, accessed from the sandy beach or the rock ledge at the northern corner of the lagoon.
+    
+6. **Depth Range**
+    
+    Shallow — typically **1 to 4 metres**, depending on the tide and how far outside the lagoon you venture.
+    
+7. **Entry Conditions**
+    
+    Entry is from the **sandy beach or rock platform**. Surge and uneven footing may be a challenge at the rocky entry, especially when swell is up. Conditions calmer on the beach side.
+    
+
+---
+
+## 🌊 **Conditions**
+
+1. **Best Time to Dive**
+    
+    Best during **low swell and light winds**, especially in **early mornings**. Avoid on days with strong southerlies or high tide, which can bring in surge over the reef.
+    
+2. **Water Temperature**
+    
+    Ranges from around **18°C in winter** to **24°C in summer**.
+    
+3. **Visibility**
+    
+    Generally **3 to 8 metres**, but can drop quickly due to swell or sand movement. Calmest and clearest during calm spells in summer.
+    
+4. **Current and Surge**
+    
+    Surge is common, especially near the reef edge. Inside the lagoon, conditions are protected but still variable depending on the tide and swell.
+    
+
+---
+
+## 🗺️ **Dive Map**
+
+1. **Dive Site Layout**
+    
+    Inside the lagoon, you’ll find **sandy bottom with scattered rocks**, some reef ledges and algae patches. Outside the reef (only for experienced divers in very calm conditions) is deeper water with more marine life but stronger surge.
+    
+2. **Community Notes**
+    
+    Local snorkellers and divers often mention **good fish life and occasional surprises**, but recommend avoiding days with surf. The reef’s edge can be a fun spot to explore when conditions are very flat.
+    
+
+---
+
+## 🐠 **Marine Life & Ecosystem**
+
+1. **Marine Species Commonly Seen**
+    - **Garfish**, **mullet**, and **silver bream**
+    - **Wrasse**, **stingrays**, and **goby-like fish**
+    - **Crabs**, **urchins**, and **sea stars** in rocky areas
+2. **Habitat Type**
+    
+    A mix of **shallow lagoon, sand, and nearshore reef**, with algae, seagrass, and rockpools offering shelter and food.
+    
+3. **Seasonal Marine Life Events**
+    
+    Warmer months may bring in **juvenile fish** and increased algae cover. Occasional sightings of **larger stingrays** reported.
+    
+4. **Conservation Info**
+    
+    Not part of a marine reserve, but local users are encouraged to avoid damaging the reef or disturbing the lagoon environment. Fishing may occur nearby.
+    
+
+---
+
+## 📸 **Extras**
+
+1. **Visual Media**
+    
+    Photos often show **calm, clear water inside the reef**, colourful algae patches, and snorkellers exploring nearshore rock features.
+    
+2. **Unique or Memorable Features**
+    
+    A **scenic, accessible snorkelling and shallow dive spot**, ideal for relaxing exploration. The natural lagoon shape and shallow depth make it beginner-friendly, with varied bottom structure.
+    
+3. **User Experience**
+    
+    Popular with families, snorkellers, and newer divers. Locals love it for a casual day dive — but it’s **highly dependent on conditions**. Best experienced in summer with no swell.
+    
+
+---
+
+## 📘 **Learn Section**
+
+### Suggested Mini-Lessons:
+
+1. **What Is a Coastal Lagoon? Understanding Sheltered Marine Environments**
+    
+    Learn how lagoons form behind reefs, and the unique marine habitats they support in shallow, protected waters.
+    
+2. **Tidal Surge and Reef Safety: Reading Conditions Before You Dive**
+    
+    A lesson on how to assess wave and swell influence on reef-protected dive sites, especially when planning safe entry and exit.
