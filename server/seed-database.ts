@@ -123,6 +123,54 @@ async function seedDatabase() {
       habitats: ["Rocky Reef", "Kelp Forest", "Sandy Bottom"]
     }).returning();
 
+    const [twinPeaks] = await db.insert(diveSites).values({
+      name: "Twin Peaks",
+      difficulty: "Intermediate",
+      description: "Two towering coral bommies rise from a white sandy bottom, surrounded by schools of reef fish and colorful corals. Located on Saxon Reef, this site offers excellent diving with varied depths and rich marine life.",
+      location: "Saxon Reef, Great Barrier Reef, Queensland",
+      country: "Australia",
+      latitude: -16.466594,
+      longitude: 145.983322,
+      current: "Mild",
+      minDepth: 10,
+      maxDepth: 30,
+      minVisibility: 15,
+      maxVisibility: 30,
+      minTemp: 24,
+      maxTemp: 29,
+      bestSeason: "May - November",
+      peakVisibilityMonth: "September",
+      conservationStatus: "Great Barrier Reef Marine Park",
+      conservationInfo: "Part of the Great Barrier Reef Marine Park; follow 'no touch, no take' rules to protect this diverse ecosystem.",
+      mainImage: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      highlights: ["Twin Coral Bommies", "Swim-throughs", "Reef Sharks", "Sea Turtles", "High Fish Density", "Photography Opportunities"],
+      habitats: ["Coral Bommies", "Sandy Bottom", "Coral Gardens", "Swim-throughs"]
+    }).returning();
+
+    const [turtleBommie] = await db.insert(diveSites).values({
+      name: "Turtle Bommie",
+      difficulty: "Beginner",
+      description: "A prominent coral bommie rises from a white sandy seabed, surrounded by vibrant reef fish and visiting sea turtles. This site is famous for its cleaning stations and relaxed diving conditions.",
+      location: "Saxon Reef, Great Barrier Reef, Queensland",
+      country: "Australia",
+      latitude: -27.42404,
+      longitude: 153.54848,
+      current: "Mild",
+      minDepth: 7,
+      maxDepth: 15,
+      minVisibility: 10,
+      maxVisibility: 30,
+      minTemp: 24,
+      maxTemp: 29,
+      bestSeason: "May - November",
+      peakVisibilityMonth: "September",
+      conservationStatus: "Great Barrier Reef Marine Park",
+      conservationInfo: "Located within the Great Barrier Reef Marine Park; adherence to no-touch and no-take policies is mandatory to protect the delicate ecosystem.",
+      mainImage: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      highlights: ["Cleaning Stations", "Sea Turtles", "Beginner Friendly", "Coral Bommie", "Diverse Marine Life", "Relaxed Conditions"],
+      habitats: ["Coral Bommie", "Sandy Bottom", "Cleaning Stations", "Shallow Reef"]
+    }).returning();
+
     // Seed sample species
     console.log('Adding sample marine species...');
     const [clownfish] = await db.insert(species).values({
@@ -264,6 +312,187 @@ async function seedDatabase() {
       habitats: ["Coral Reef", "Rocky Reef", "Tropical Waters"],
       imageUrl: "https://images.unsplash.com/photo-1570481947811-ef44b2e4b18a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Fish"
+    }).returning();
+
+    // Great Barrier Reef species for Twin Peaks and Turtle Bommie
+    const [angelfish] = await db.insert(species).values({
+      commonName: "Angelfish",
+      scientificName: "Pomacanthidae",
+      description: "Colorful reef fish with distinctive body shape and vibrant patterns. Common around coral formations.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Coral Bommies", "Tropical Waters"],
+      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [butterflyfish] = await db.insert(species).values({
+      commonName: "Butterflyfish",
+      scientificName: "Chaetodontidae",
+      description: "Brightly colored fish with distinctive patterns. Often found in pairs around coral formations.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Coral Bommies", "Shallow Reef"],
+      imageUrl: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [coralTrout] = await db.insert(species).values({
+      commonName: "Coral Trout",
+      scientificName: "Plectropomus leopardus",
+      description: "Large predatory fish with distinctive spotted pattern. Common around coral bommies and reef structures.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Coral Bommies", "Reef Drop-offs"],
+      imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [anemonefish] = await db.insert(species).values({
+      commonName: "Anemonefish",
+      scientificName: "Amphiprion ocellaris",
+      description: "Small orange fish with white stripes living in symbiosis with sea anemones. Also known as clownfish.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Anemone Gardens", "Shallow Reef"],
+      imageUrl: "https://images.unsplash.com/photo-1576806021995-9f68eb39f10b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [nudibranch] = await db.insert(species).values({
+      commonName: "Nudibranch",
+      scientificName: "Nudibranchia",
+      description: "Soft-bodied, marine gastropod mollusks known for their extraordinary colors and forms.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Rocky Reef", "Macro Sites"],
+      imageUrl: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Mollusk"
+    }).returning();
+
+    const [octopus] = await db.insert(species).values({
+      commonName: "Octopus",
+      scientificName: "Octopoda",
+      description: "Intelligent cephalopod with eight arms and remarkable camouflage abilities.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Rocky Reef", "Crevices"],
+      imageUrl: "https://images.unsplash.com/photo-1559616573-7755a48a70f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Cephalopod"
+    }).returning();
+
+    const [sweetlips] = await db.insert(species).values({
+      commonName: "Sweetlips",
+      scientificName: "Haemulidae",
+      description: "Large-lipped fish often found around coral formations and cleaning stations.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Cleaning Stations", "Coral Bommies"],
+      imageUrl: "https://images.unsplash.com/photo-1570481947811-ef44b2e4b18a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [goby] = await db.insert(species).values({
+      commonName: "Goby",
+      scientificName: "Gobiidae",
+      description: "Small fish often found in symbiotic relationships with other marine animals.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Sandy Bottom", "Cleaning Stations"],
+      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [pipefish] = await db.insert(species).values({
+      commonName: "Pipefish",
+      scientificName: "Syngnathidae",
+      description: "Elongated fish related to seahorses, known for their excellent camouflage.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Seagrass Beds", "Rocky Reef"],
+      imageUrl: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [whitetipReefShark] = await db.insert(species).values({
+      commonName: "Whitetip Reef Shark",
+      scientificName: "Triaenodon obesus",
+      description: "Small shark with distinctive white-tipped dorsal and tail fins. Common around coral reefs.",
+      conservationStatus: "Near Threatened",
+      habitats: ["Coral Reef", "Reef Drop-offs", "Coral Bommies"],
+      imageUrl: "https://images.unsplash.com/photo-1560275619-4662e36fa65c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Shark"
+    }).returning();
+
+    const [barracuda] = await db.insert(species).values({
+      commonName: "Barracuda",
+      scientificName: "Sphyraenidae",
+      description: "Large predatory fish with elongated body and fearsome teeth. Often found in schools.",
+      conservationStatus: "Least Concern",
+      habitats: ["Open Ocean", "Coral Reef", "Reef Drop-offs"],
+      imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [cleanerWrasse] = await db.insert(species).values({
+      commonName: "Cleaner Wrasse",
+      scientificName: "Labroides dimidiatus",
+      description: "Small fish that provides cleaning services to other marine species at cleaning stations.",
+      conservationStatus: "Least Concern",
+      habitats: ["Cleaning Stations", "Coral Reef", "Coral Bommies"],
+      imageUrl: "https://images.unsplash.com/photo-1570481947811-ef44b2e4b18a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [damselfish] = await db.insert(species).values({
+      commonName: "Damselfish",
+      scientificName: "Pomacentridae",
+      description: "Small, colorful fish that are highly territorial and abundant around coral reefs.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Coral Bommies", "Territorial Areas"],
+      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [hawksbillTurtle] = await db.insert(species).values({
+      commonName: "Hawksbill Turtle",
+      scientificName: "Eretmochelys imbricata",
+      description: "Critically endangered sea turtle with distinctive overlapping scutes and hawk-like beak.",
+      conservationStatus: "Critically Endangered",
+      habitats: ["Coral Reef", "Cleaning Stations", "Shallow Reef"],
+      imageUrl: "https://images.unsplash.com/photo-1568660357733-823cbddb0f6a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Reptile"
+    }).returning();
+
+    const [loggerheadTurtle] = await db.insert(species).values({
+      commonName: "Loggerhead Turtle",
+      scientificName: "Caretta caretta",
+      description: "Large sea turtle with a distinctive large head and powerful jaws.",
+      conservationStatus: "Vulnerable",
+      habitats: ["Open Ocean", "Coral Reef", "Cleaning Stations"],
+      imageUrl: "https://images.unsplash.com/photo-1568660357733-823cbddb0f6a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Reptile"
+    }).returning();
+
+    const [mackerel] = await db.insert(species).values({
+      commonName: "Mackerel",
+      scientificName: "Scombridae",
+      description: "Fast-swimming pelagic fish often found in schools around reef areas.",
+      conservationStatus: "Least Concern",
+      habitats: ["Open Ocean", "Reef Drop-offs", "Pelagic Zone"],
+      imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [trevally] = await db.insert(species).values({
+      commonName: "Trevally",
+      scientificName: "Carangidae",
+      description: "Large silvery fish known for their speed and schooling behavior around reefs.",
+      conservationStatus: "Least Concern",
+      habitats: ["Open Ocean", "Coral Reef", "Reef Drop-offs"],
+      imageUrl: "https://images.unsplash.com/photo-1570481947811-ef44b2e4b18a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Fish"
+    }).returning();
+
+    const [broadclubCuttlefish] = await db.insert(species).values({
+      commonName: "Broadclub Cuttlefish",
+      scientificName: "Sepia latimanus",
+      description: "Large cuttlefish with remarkable color-changing abilities and intelligence.",
+      conservationStatus: "Least Concern",
+      habitats: ["Coral Reef", "Sandy Bottom", "Reef Edges"],
+      imageUrl: "https://images.unsplash.com/photo-1559616573-7755a48a70f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Cephalopod"
     }).returning();
 
     // Associate species with dive sites
@@ -408,6 +637,152 @@ async function seedDatabase() {
       frequency: "Abundant"
     });
 
+    // Twin Peaks species associations
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: angelfish.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: butterflyfish.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: coralTrout.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: anemonefish.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: nudibranch.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: octopus.id,
+      frequency: "Occasional"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: sweetlips.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: goby.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: pipefish.id,
+      frequency: "Occasional"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: whitetipReefShark.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: barracuda.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: twinPeaks.id,
+      speciesId: greenSeaTurtle.id,
+      frequency: "Common"
+    });
+
+    // Turtle Bommie species associations
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: greenSeaTurtle.id,
+      frequency: "Abundant"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: loggerheadTurtle.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: hawksbillTurtle.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: cleanerWrasse.id,
+      frequency: "Abundant"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: damselfish.id,
+      frequency: "Abundant"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: butterflyfish.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: barracuda.id,
+      frequency: "Occasional"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: mackerel.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: trevally.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: nudibranch.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: octopus.id,
+      frequency: "Occasional"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: turtleBommie.id,
+      speciesId: broadclubCuttlefish.id,
+      frequency: "Rare"
+    });
+
     // Add nearby dive sites
     console.log('Adding nearby dive site relationships...');
     await db.insert(nearbyDiveSites).values({
@@ -452,7 +827,7 @@ async function seedDatabase() {
     });
 
     // Seed water conditions
-    await seedWaterConditions(greatBarrierReef, bluehole, tubbataha, crystalPalace, roeReef);
+    await seedWaterConditions(greatBarrierReef, bluehole, tubbataha, crystalPalace, roeReef, twinPeaks, turtleBommie);
 
     // Add educational content for the Learn feature
     console.log('Database seeding complete!');
@@ -462,7 +837,7 @@ async function seedDatabase() {
   }
 }
 
-async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbataha: any, crystalPalace: any, roeReef: any) {
+async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbataha: any, crystalPalace: any, roeReef: any, twinPeaks: any, turtleBommie: any) {
   console.log('Seeding water conditions...');
 
   // Great Barrier Reef current conditions
@@ -548,6 +923,40 @@ async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbata
     divingConditions: 'Good',
     reportedBy: 'Perth Diving Academy',
     additionalNotes: 'Diverse marine ecosystem with kelp forest. Good visibility with moderate current suitable for intermediate divers.'
+  });
+
+  // Twin Peaks current conditions
+  await db.insert(waterConditions).values({
+    diveSiteId: twinPeaks.id,
+    waterTemp: 26,
+    visibility: 25,
+    currentStrength: 'Mild',
+    currentDirection: 'Northeast',
+    waveHeight: 0.8,
+    windSpeed: 12,
+    windDirection: 'Southeast',
+    weatherConditions: 'Clear',
+    surfaceConditions: 'Calm',
+    divingConditions: 'Excellent',
+    reportedBy: 'Great Barrier Reef Marine Park Authority',
+    additionalNotes: 'Excellent visibility with calm conditions. Perfect for exploring the twin coral bommies and photographing marine life.'
+  });
+
+  // Turtle Bommie current conditions
+  await db.insert(waterConditions).values({
+    diveSiteId: turtleBommie.id,
+    waterTemp: 26,
+    visibility: 20,
+    currentStrength: 'Mild',
+    currentDirection: 'Northeast',
+    waveHeight: 0.5,
+    windSpeed: 10,
+    windDirection: 'Southeast',
+    weatherConditions: 'Clear',
+    surfaceConditions: 'Calm',
+    divingConditions: 'Excellent',
+    reportedBy: 'Great Barrier Reef Marine Park Authority',
+    additionalNotes: 'Ideal conditions for beginners. Excellent turtle sighting opportunities at the cleaning stations.'
   });
 }
 
