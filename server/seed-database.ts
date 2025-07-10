@@ -171,6 +171,54 @@ async function seedDatabase() {
       habitats: ["Coral Bommie", "Sandy Bottom", "Cleaning Stations", "Shallow Reef"]
     }).returning();
 
+    const [ammoJetty] = await db.insert(diveSites).values({
+      name: "AMMO Jetty",
+      difficulty: "Beginner to Intermediate",
+      description: "A shore-based dive site featuring a historic military jetty converted into an artificial reef. The concrete structure provides excellent habitat for marine life and offers unique diving experiences close to shore.",
+      location: "Cockburn Sound, Western Australia",
+      country: "Australia",
+      latitude: -32.1886,
+      longitude: 115.7834,
+      current: "Minimal",
+      minDepth: 2,
+      maxDepth: 12,
+      minVisibility: 5,
+      maxVisibility: 15,
+      minTemp: 16,
+      maxTemp: 22,
+      bestSeason: "November - April",
+      peakVisibilityMonth: "January",
+      conservationStatus: "Artificial Reef",
+      conservationInfo: "Part of Western Australia's artificial reef program. Divers must follow no-take policies and be mindful of the marine sanctuary status.",
+      mainImage: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      highlights: ["Historic Military Jetty", "Artificial Reef", "Shore Access", "Marine Sanctuary", "Beginner Friendly", "Unique Structure"],
+      habitats: ["Artificial Reef", "Sandy Bottom", "Jetty Structure", "Marine Sanctuary"]
+    }).returning();
+
+    const [blackwallReach] = await db.insert(diveSites).values({
+      name: "Blackwall Reach",
+      difficulty: "Intermediate",
+      description: "An urban wreck diving site in the Swan River featuring diverse riverine marine life and unique freshwater diving opportunities. The site offers excellent visibility and calm conditions for exploring river ecosystems.",
+      location: "Swan River, Perth, Western Australia",
+      country: "Australia",
+      latitude: -32.0167,
+      longitude: 115.8833,
+      current: "Minimal",
+      minDepth: 3,
+      maxDepth: 8,
+      minVisibility: 3,
+      maxVisibility: 12,
+      minTemp: 15,
+      maxTemp: 25,
+      bestSeason: "October - March",
+      peakVisibilityMonth: "December",
+      conservationStatus: "Urban River Site",
+      conservationInfo: "Located in the Swan River system, this site requires careful environmental stewardship to protect the unique riverine ecosystem.",
+      mainImage: "https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      highlights: ["Urban Wreck Diving", "River Ecosystem", "Calm Conditions", "Unique Marine Life", "Accessible Location", "Freshwater Species"],
+      habitats: ["River Bottom", "Wreck Structure", "Riverine Environment", "Urban Waters"]
+    }).returning();
+
     // Seed sample species
     console.log('Adding sample marine species...');
     const [clownfish] = await db.insert(species).values({
@@ -495,6 +543,47 @@ async function seedDatabase() {
       category: "Cephalopod"
     }).returning();
 
+    // Riverine species for Blackwall Reach
+    const [jellyfish] = await db.insert(species).values({
+      commonName: "Jellyfish",
+      scientificName: "Cnidaria",
+      description: "Gelatinous marine creatures with stinging tentacles, commonly found in river systems.",
+      conservationStatus: "Least Concern",
+      habitats: ["River Environment", "Brackish Waters", "Estuaries"],
+      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Cnidarian"
+    }).returning();
+
+    const [hermitCrab] = await db.insert(species).values({
+      commonName: "Hermit Crab",
+      scientificName: "Paguridae",
+      description: "Small crustaceans that live in discarded shells, commonly found in riverine environments.",
+      conservationStatus: "Least Concern",
+      habitats: ["River Bottom", "Sandy Bottom", "Rocky Areas"],
+      imageUrl: "https://images.unsplash.com/photo-1559616573-7755a48a70f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Crustacean"
+    }).returning();
+
+    const [seaAnemone] = await db.insert(species).values({
+      commonName: "Sea Anemone",
+      scientificName: "Actiniaria",
+      description: "Colorful marine animals with tentacles that provide habitat for small fish and crustaceans.",
+      conservationStatus: "Least Concern",
+      habitats: ["River Bottom", "Rocky Crevices", "Artificial Structures"],
+      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Cnidarian"
+    }).returning();
+
+    const [blueCrab] = await db.insert(species).values({
+      commonName: "Blue Crab",
+      scientificName: "Callinectes sapidus",
+      description: "Blue-colored crab commonly found in estuarine and riverine environments.",
+      conservationStatus: "Least Concern",
+      habitats: ["River Bottom", "Estuaries", "Brackish Waters"],
+      imageUrl: "https://images.unsplash.com/photo-1559616573-7755a48a70f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      category: "Crustacean"
+    }).returning();
+
     // Associate species with dive sites
     console.log('Associating species with dive sites...');
     await db.insert(diveSiteSpecies).values({
@@ -783,6 +872,80 @@ async function seedDatabase() {
       frequency: "Rare"
     });
 
+    // AMMO Jetty species associations
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: ammoJetty.id,
+      speciesId: blueGroper.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: ammoJetty.id,
+      speciesId: westernBlueDevil.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: ammoJetty.id,
+      speciesId: westernRockLobster.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: ammoJetty.id,
+      speciesId: octopus.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: ammoJetty.id,
+      speciesId: scalyfin.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: ammoJetty.id,
+      speciesId: moonWrasse.id,
+      frequency: "Frequent"
+    });
+
+    // Blackwall Reach species associations
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: blackwallReach.id,
+      speciesId: buffaloBream.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: blackwallReach.id,
+      speciesId: jellyfish.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: blackwallReach.id,
+      speciesId: hermitCrab.id,
+      frequency: "Frequent"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: blackwallReach.id,
+      speciesId: goby.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: blackwallReach.id,
+      speciesId: seaAnemone.id,
+      frequency: "Common"
+    });
+
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: blackwallReach.id,
+      speciesId: blueCrab.id,
+      frequency: "Frequent"
+    });
+
     // Add nearby dive sites
     console.log('Adding nearby dive site relationships...');
     await db.insert(nearbyDiveSites).values({
@@ -827,7 +990,7 @@ async function seedDatabase() {
     });
 
     // Seed water conditions
-    await seedWaterConditions(greatBarrierReef, bluehole, tubbataha, crystalPalace, roeReef, twinPeaks, turtleBommie);
+    await seedWaterConditions(greatBarrierReef, bluehole, tubbataha, crystalPalace, roeReef, twinPeaks, turtleBommie, ammoJetty, blackwallReach);
 
     // Add educational content for the Learn feature
     console.log('Database seeding complete!');
@@ -837,7 +1000,7 @@ async function seedDatabase() {
   }
 }
 
-async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbataha: any, crystalPalace: any, roeReef: any, twinPeaks: any, turtleBommie: any) {
+async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbataha: any, crystalPalace: any, roeReef: any, twinPeaks: any, turtleBommie: any, ammoJetty: any, blackwallReach: any) {
   console.log('Seeding water conditions...');
 
   // Great Barrier Reef current conditions
@@ -957,6 +1120,40 @@ async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbata
     divingConditions: 'Excellent',
     reportedBy: 'Great Barrier Reef Marine Park Authority',
     additionalNotes: 'Ideal conditions for beginners. Excellent turtle sighting opportunities at the cleaning stations.'
+  });
+
+  // AMMO Jetty current conditions
+  await db.insert(waterConditions).values({
+    diveSiteId: ammoJetty.id,
+    waterTemp: 19,
+    visibility: 12,
+    currentStrength: 'Minimal',
+    currentDirection: 'North',
+    waveHeight: 0.3,
+    windSpeed: 8,
+    windDirection: 'Southwest',
+    weatherConditions: 'Partly cloudy',
+    surfaceConditions: 'Calm',
+    divingConditions: 'Good',
+    reportedBy: 'WA Marine Parks',
+    additionalNotes: 'Excellent shore dive conditions. Artificial reef structure provides good shelter and marine life opportunities.'
+  });
+
+  // Blackwall Reach current conditions
+  await db.insert(waterConditions).values({
+    diveSiteId: blackwallReach.id,
+    waterTemp: 18,
+    visibility: 8,
+    currentStrength: 'Minimal',
+    currentDirection: 'West',
+    waveHeight: 0.1,
+    windSpeed: 5,
+    windDirection: 'Southeast',
+    weatherConditions: 'Clear',
+    surfaceConditions: 'Calm',
+    divingConditions: 'Good',
+    reportedBy: 'Swan River Trust',
+    additionalNotes: 'Calm riverine conditions ideal for exploring unique freshwater marine ecosystems and wreck structures.'
   });
 }
 
