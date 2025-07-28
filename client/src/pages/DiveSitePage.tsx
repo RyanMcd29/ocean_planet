@@ -32,92 +32,65 @@ const DiveSitePage: React.FC = () => {
   }
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-teal-50 via-blue-50 to-indigo-100">
-      {/* Header Navigation */}
-      <div className="bg-gradient-to-r from-teal-500 to-blue-600 shadow-lg">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center">
-              <Link href="/">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="mr-3 bg-white/20 border-white/30 hover:bg-white/30 text-white backdrop-blur-sm transition-all duration-300"
-                >
-                  <ArrowLeft className="h-4 w-4 mr-2" /> 
-                  Back to Map
-                </Button>
-              </Link>
-              <h1 className="text-xl sm:text-3xl font-montserrat font-bold text-white drop-shadow-md">
-                {isLoading ? <Skeleton className="h-8 w-48 bg-white/20" /> : diveSite?.name}
-              </h1>
-            </div>
-            
-            {!isLoading && diveSite && (
-              <Link href={`/log-dive?site=${diveSite.id}`}>
-                <Button className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2 w-full sm:w-auto">
-                  <Plus className="h-5 w-5" />
-                  Log Dive at {diveSite.name}
-                </Button>
-              </Link>
-            )}
-          </div>
+    <div className="container mx-auto px-4 py-4 flex-1">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+        <div className="flex items-center">
+          <Link href="/">
+            <Button variant="outline" size="sm" className="mr-2">
+              <ArrowLeft className="h-4 w-4 mr-1" /> Back to Map
+            </Button>
+          </Link>
+          <h1 className="text-xl sm:text-2xl font-montserrat font-bold text-[#0A4D68] truncate">
+            {isLoading ? <Skeleton className="h-8 w-48" /> : diveSite?.name}
+          </h1>
         </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        {isLoading ? (
-          <div className="bg-gradient-to-br from-white to-blue-50 rounded-3xl shadow-2xl overflow-hidden">
-            <Skeleton className="w-full h-64 bg-gradient-to-r from-teal-200 to-blue-300" />
-            <div className="p-6">
-              <Skeleton className="h-8 w-2/3 mb-6 bg-gradient-to-r from-gray-200 to-gray-300" />
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <Skeleton className="h-20 rounded-2xl bg-gradient-to-br from-teal-100 to-teal-200" />
-                <Skeleton className="h-20 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-200" />
-                <Skeleton className="h-20 rounded-2xl bg-gradient-to-br from-indigo-100 to-indigo-200" />
-              </div>
-              <div className="space-y-3">
-                <Skeleton className="h-4 w-full bg-gray-200" />
-                <Skeleton className="h-4 w-full bg-gray-200" />
-                <Skeleton className="h-4 w-3/4 bg-gray-200" />
-              </div>
-            </div>
-          </div>
-        ) : error ? (
-          <div className="bg-gradient-to-br from-red-100 to-orange-100 border border-red-200 p-8 rounded-3xl text-center shadow-xl">
-            <div className="text-red-600 text-lg font-semibold mb-4">
-              Failed to load dive site details. Please try again later.
-            </div>
-            <Link href="/">
-              <Button 
-                variant="outline" 
-                className="bg-gradient-to-r from-blue-500 to-teal-500 text-white border-0 hover:from-blue-600 hover:to-teal-600 rounded-2xl px-6 py-3 font-semibold"
-              >
-                Return to home page
-              </Button>
-            </Link>
-          </div>
-        ) : diveSite ? (
-          <div className="bg-gradient-to-br from-white via-blue-50/30 to-teal-50/30 rounded-3xl shadow-2xl overflow-hidden backdrop-blur-sm border border-white/20">
-            <DiveSiteDetails diveSite={diveSite} />
-          </div>
-        ) : (
-          <div className="bg-gradient-to-br from-yellow-100 to-orange-100 border border-yellow-200 p-8 rounded-3xl text-center shadow-xl">
-            <div className="text-yellow-700 text-lg font-semibold mb-4">
-              Dive site not found. It may have been removed or is no longer available.
-            </div>
-            <Link href="/">
-              <Button 
-                variant="outline" 
-                className="bg-gradient-to-r from-blue-500 to-teal-500 text-white border-0 hover:from-blue-600 hover:to-teal-600 rounded-2xl px-6 py-3 font-semibold"
-              >
-                Return to home page
-              </Button>
-            </Link>
-          </div>
+        
+        {!isLoading && diveSite && (
+          <Link href={`/log-dive?site=${diveSite.id}`}>
+            <Button className="bg-[#05BFDB] hover:bg-[#088395] text-white flex items-center gap-2 w-full sm:w-auto">
+              <Plus className="h-4 w-4" />
+              Log Dive at {diveSite.name}
+            </Button>
+          </Link>
         )}
       </div>
+      
+      {isLoading ? (
+        <div className="bg-white rounded-lg shadow-md">
+          <Skeleton className="w-full h-48" />
+          <div className="p-4">
+            <Skeleton className="h-6 w-2/3 mb-4" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-full mb-2" />
+            <Skeleton className="h-4 w-3/4 mb-4" />
+            <Skeleton className="h-6 w-1/3 mb-2" />
+            <div className="grid grid-cols-2 gap-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-full" />
+            </div>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="bg-red-50 p-6 rounded-lg text-center text-red-600">
+          <p>Failed to load dive site details. Please try again later.</p>
+          <Link href="/">
+            <Button variant="link" className="mt-4 text-blue-600">Return to home page</Button>
+          </Link>
+        </div>
+      ) : diveSite ? (
+        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+          <DiveSiteDetails diveSite={diveSite} />
+        </div>
+      ) : (
+        <div className="bg-yellow-50 p-6 rounded-lg text-center text-yellow-700">
+          <p>Dive site not found. It may have been removed or is no longer available.</p>
+          <Link href="/">
+            <Button variant="link" className="mt-4 text-blue-600">Return to home page</Button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };
