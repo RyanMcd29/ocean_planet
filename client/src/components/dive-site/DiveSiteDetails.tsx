@@ -168,308 +168,460 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="p-4 mt-0 space-y-6">
-          {/* Site Overview Header */}
-          <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white p-6 rounded-lg">
-            <div className="flex items-center mb-2">
-              <svg className="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-              </svg>
-              <h2 className="text-xl font-montserrat font-bold">{diveSite.name} Site Overview</h2>
-            </div>
-            <p className="text-teal-100 leading-relaxed">
+        <TabsContent value="overview" className="p-4 mt-0">
+          {/* Water Conditions */}
+          <div className="mb-6">
+            <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-3">Current Water Conditions</h3>
+            {isLoadingConditions ? (
+              <Skeleton className="h-24 w-full" />
+            ) : waterConditions ? (
+              <div className="bg-[#F5F5F5] rounded-lg overflow-hidden">
+                <WaterConditionsCard conditions={waterConditions} compact={true} />
+                <div className="p-3 bg-[#E0F7FA] border-t">
+                  <div className="flex flex-wrap gap-2">
+                    <Button 
+                      size="sm"
+                      onClick={fetchLiveData}
+                      disabled={isLoadingLive}
+                      className="bg-[#05BFDB] hover:bg-[#088395] text-white"
+                    >
+                      {isLoadingLive ? 'Loading...' : 'Get Live Data'}
+                    </Button>
+                    {showLiveData && liveConditions && (
+                      <Button 
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setShowLiveData(false)}
+                        className="border-[#088395] text-[#088395] hover:bg-[#E0F7FA]"
+                      >
+                        Show Static Data
+                      </Button>
+                    )}
+                  </div>
+                  {showLiveData && liveConditions && (
+                    <div className="mt-3 bg-white rounded-lg p-3">
+                      <WaterConditionsCard conditions={liveConditions} compact={true} />
+                      <p className="text-xs text-[#757575] mt-2">
+                        Live data from AODN • Updated: {new Date(liveConditions.timestamp).toLocaleString()}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="bg-gray-100 p-4 rounded-lg text-center text-gray-600">
+                <p>Water conditions data not available for this dive site.</p>
+              </div>
+            )}
+          </div>
+
+          {/* About Section */}
+          <div className="mb-6">
+            <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-3">About</h3>
+            <p className="text-sm text-gray-700 leading-relaxed">
               {diveSite.description}
             </p>
           </div>
 
-          {/* Grid Layout for Site Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Location & Access */}
-            <div className="bg-pink-50 border-l-4 border-pink-400 p-5 rounded-r-lg">
-              <div className="flex items-center mb-3">
-                <svg className="w-5 h-5 mr-2 text-pink-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                </svg>
-                <h3 className="font-montserrat font-bold text-pink-800">Location & Access</h3>
-              </div>
-              <div className="space-y-2 text-sm text-gray-700">
-                <div><strong>Coordinates:</strong> {diveSite.latitude.toFixed(6)}°, {diveSite.longitude.toFixed(6)}°</div>
-                <div><strong>Location:</strong> {diveSite.location}</div>
-                <div><strong>Access:</strong> Shore dive from jetty - walk-in entry</div>
-                <div><strong>Facilities:</strong> Toilets and rinse showers available near car park</div>
-              </div>
-            </div>
-
-            {/* Conditions */}
-            <div className="bg-green-50 border-l-4 border-green-400 p-5 rounded-r-lg">
-              <div className="flex items-center mb-3">
-                <svg className="w-5 h-5 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
-                </svg>
-                <h3 className="font-montserrat font-bold text-green-800">Conditions</h3>
-              </div>
-              <div className="space-y-2 text-sm text-gray-700">
-                <div><strong>Best Conditions:</strong> Swell &lt;1.5m, east to southeast winds</div>
-                <div><strong>Optimal Winds:</strong> East to southeast winds</div>
-                <div><strong>Visibility:</strong> 3-4m typical, 1m after storms, up to 15m on calm days</div>
-                <div><strong>Current:</strong> Mild currents, especially under northerly winds</div>
-              </div>
-            </div>
-
-            {/* Experience Level */}
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded-r-lg">
-              <div className="flex items-center mb-3">
-                <svg className="w-5 h-5 mr-2 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-                <h3 className="font-montserrat font-bold text-yellow-800">Experience Level</h3>
-              </div>
-              <div className="space-y-2 text-sm text-gray-700">
-                <div><strong>Ideal for:</strong> Beginner to intermediate divers</div>
-                <div><strong>Suitable for:</strong> Open Water certification and refresher courses</div>
-                <div><strong>Depth Range:</strong> Maximum depth of roughly 9m along jetty structure</div>
-              </div>
-            </div>
-
-            {/* Marine Ecosystem */}
-            <div className="bg-purple-50 border-l-4 border-purple-400 p-5 rounded-r-lg">
-              <div className="flex items-center mb-3">
-                <svg className="w-5 h-5 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                </svg>
-                <h3 className="font-montserrat font-bold text-purple-800">Marine Ecosystem</h3>
-              </div>
-              <div className="space-y-2 text-sm text-gray-700">
-                <div><strong>Ecosystem Type:</strong> Jetty with silty rubble seabed - artificial reef</div>
-                <div><strong>Specialty:</strong> Rich macro hotspot for invertebrates and small species</div>
-                <div><strong>Night Life:</strong> Rays, dolphins, and sea lions observed at night</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Water Conditions */}
-          {isLoadingConditions ? (
-            <Skeleton className="h-32 w-full" />
-          ) : waterConditions ? (
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-5 rounded-r-lg">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 010 2h-1v1a1 1 0 11-2 0V4H8a1 1 0 010-2h1V1a1 1 0 112 0v1h1z" clipRule="evenodd" />
-                  </svg>
-                  <h3 className="font-montserrat font-bold text-blue-800">Current Water Conditions</h3>
-                </div>
-                <div className="flex gap-2">
+          {/* AMMO Jetty specific sections */}
+          {diveSite.name === "AMMO Jetty" && (
+            <>
+              {/* Featured Species */}
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
                   <Button 
-                    size="sm"
-                    onClick={fetchLiveData}
-                    disabled={isLoadingLive}
-                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                    variant="link" 
+                    onClick={() => setActiveTab("species")}
+                    className="text-sm text-[#088395] hover:text-[#0A4D68] font-semibold p-0"
                   >
-                    {isLoadingLive ? 'Loading...' : 'Live Data'}
+                    View all
                   </Button>
                 </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {isLoadingSpecies ? (
+                    Array(4).fill(0).map((_, i) => (
+                      <div key={i} className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm">
+                        <Skeleton className="w-full h-24" />
+                        <div className="p-2">
+                          <Skeleton className="h-4 w-20 mb-1" />
+                          <Skeleton className="h-3 w-24" />
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    species?.slice(0, 4).map(({ species }) => (
+                      <Link key={species.id} href={`/species/${species.id}`}>
+                        <a className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block">
+                          <img 
+                            src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
+                            alt={species.commonName} 
+                            className="w-full h-24 object-cover"
+                          />
+                          <div className="p-2">
+                            <h4 className="font-montserrat font-semibold text-sm">{species.commonName}</h4>
+                            <p className="text-xs text-[#757575] italic">{species.scientificName}</p>
+                          </div>
+                        </a>
+                      </Link>
+                    ))
+                  )}
+                </div>
               </div>
-              <div className="bg-white rounded-lg overflow-hidden">
-                <WaterConditionsCard conditions={showLiveData && liveConditions ? liveConditions : waterConditions} compact={true} />
-                {showLiveData && liveConditions && (
-                  <div className="p-3 bg-blue-50 border-t">
-                    <p className="text-xs text-blue-700">
-                      Live data from AODN • Updated: {new Date(liveConditions.timestamp).toLocaleString()}
-                    </p>
+
+              {/* Key Highlights */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-orange-100 to-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-orange-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Key Highlights
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">What to expect at this dive site</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Shore dive from jetty with walk-in entry
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Macro photography hotspot with abundant invertebrates
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Easy access via jetty steps with facilities nearby
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Artificial reef ecosystem on silty rubble seabed
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Night diving opportunities with rays and marine mammals
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Suitable for Open Water certification and refresher courses
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Rich marine growth on encrusted pylons
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dive Map & Route */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-teal-100 to-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-teal-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                      </svg>
+                      Dive Map
+                    </span>
                     <Button 
+                      variant="outline" 
                       size="sm"
-                      variant="link"
-                      onClick={() => setShowLiveData(false)}
-                      className="text-blue-600 p-0 h-auto"
+                      onClick={() => setActiveTab("dive-map")}
+                      className="text-teal-600 border-teal-400 hover:bg-teal-50 text-xs"
                     >
-                      Show Static Data
+                      <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.413V13H5.5z" />
+                      </svg>
+                      Upload Map
                     </Button>
                   </div>
-                )}
+                  <p className="text-sm text-gray-700 mb-3">Site layout and recommended routes</p>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• Typically dive one side of jetty pylons out to ~100m</div>
+                    <div>• Return on opposite side (clockwise or anti-clockwise)</div>
+                    <div>• Complete loop covers entire jetty length</div>
+                    <div>• Maximum depth ~9m along jetty structure</div>
+                  </div>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="bg-gray-50 border border-gray-200 p-4 rounded-lg text-center text-gray-600">
-              <p>Water conditions data not available for this dive site.</p>
-            </div>
+
+              {/* Learn Section */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-purple-100 to-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-purple-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Learn Section
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Suggested mini-lessons for deeper understanding</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
+                        <span className="text-sm text-gray-700">"Biodiversity of Jetty Macro Ecosystems"</span>
+                      </div>
+                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
+                        <span className="text-sm text-gray-700">"Threats from Fishing Debris & Marine Conservation Efforts"</span>
+                      </div>
+                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-gray-500">
+                    <strong>Community Contributions:</strong> Local divers frequently contribute observation maps and macro-life sketches. Join annual cleanup events led by Dolphin Dive and other local dive shops.
+                  </div>
+                </div>
+              </div>
+
+              {/* User Experience & Safety */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-yellow-100 to-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-yellow-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      User Experience & Safety Tips
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• <strong>Facilities:</strong> Toilets and rinse showers available near car park</div>
+                    <div>• <strong>Safety:</strong> Watch for discarded fishing tackle under jetty - bring dive knife</div>
+                    <div>• <strong>Buoyancy:</strong> Maintain good buoyancy control to protect silty bottom</div>
+                    <div>• <strong>Best Conditions:</strong> Calm with swell less than 1.5m, east to southeast winds</div>
+                    <div>• <strong>Avoid:</strong> Strong westerly winds that enhance swell</div>
+                  </div>
+                </div>
+              </div>
+            </>
           )}
 
-          {/* Grouped Sections Layout */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Key Highlights */}
-            <div className="bg-orange-50 border-l-4 border-orange-400 p-5 rounded-r-lg">
-              <div className="flex items-center mb-3">
-                <svg className="w-5 h-5 mr-2 text-orange-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <h3 className="font-montserrat font-bold text-orange-800">Key Highlights</h3>
-              </div>
-              <p className="text-sm text-orange-700 mb-3">What to expect at this dive site</p>
-              <div className="space-y-2">
-                <div className="flex items-center text-sm text-gray-700">
-                  <svg className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Shore dive from jetty with walk-in entry
+          {/* Blackwall Reach specific sections */}
+          {diveSite.name === "Blackwall Reach" && (
+            <>
+              {/* Featured Species */}
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
+                  <Button 
+                    variant="link" 
+                    onClick={() => setActiveTab("species")}
+                    className="text-sm text-[#088395] hover:text-[#0A4D68] font-semibold p-0"
+                  >
+                    View all
+                  </Button>
                 </div>
-                <div className="flex items-center text-sm text-gray-700">
-                  <svg className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Macro photography hotspot with abundant invertebrates
-                </div>
-                <div className="flex items-center text-sm text-gray-700">
-                  <svg className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Easy access via jetty steps with facilities nearby
-                </div>
-                <div className="flex items-center text-sm text-gray-700">
-                  <svg className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Artificial reef ecosystem on silty rubble seabed
-                </div>
-                <div className="flex items-center text-sm text-gray-700">
-                  <svg className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Night diving opportunities with rays and marine mammals
-                </div>
-                <div className="flex items-center text-sm text-gray-700">
-                  <svg className="w-4 h-4 mr-2 text-orange-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                  </svg>
-                  Rich marine growth on encrusted pylons
-                </div>
-              </div>
-            </div>
 
-            {/* User Experience & Safety Tips */}
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-5 rounded-r-lg">
-              <div className="flex items-center mb-3">
-                <svg className="w-5 h-5 mr-2 text-yellow-600" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                </svg>
-                <h3 className="font-montserrat font-bold text-yellow-800">User Experience & Safety Tips</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  {isLoadingSpecies ? (
+                    Array(6).fill(0).map((_, i) => (
+                      <div key={i} className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm">
+                        <Skeleton className="w-full h-24" />
+                        <div className="p-2">
+                          <Skeleton className="h-4 w-20 mb-1" />
+                          <Skeleton className="h-3 w-24" />
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    species?.slice(0, 6).map(({ species }) => (
+                      <Link key={species.id} href={`/species/${species.id}`}>
+                        <a className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block">
+                          <img 
+                            src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
+                            alt={species.commonName} 
+                            className="w-full h-24 object-cover"
+                          />
+                          <div className="p-2">
+                            <h4 className="font-montserrat font-semibold text-sm">{species.commonName}</h4>
+                            <p className="text-xs text-[#757575] italic">{species.scientificName}</p>
+                          </div>
+                        </a>
+                      </Link>
+                    ))
+                  )}
+                </div>
               </div>
-              <div className="space-y-2 text-sm text-gray-700">
-                <div><strong className="text-yellow-700">Facilities:</strong> Toilets and rinse showers available near car park</div>
-                <div><strong className="text-yellow-700">Safety:</strong> Watch for discarded fishing tackle under jetty - bring dive knife</div>
-                <div><strong className="text-yellow-700">Buoyancy:</strong> Maintain good buoyancy control to protect silty bottom</div>
-                <div><strong className="text-yellow-700">Best Conditions:</strong> Calm with swell less than 1.5m, east to southeast winds</div>
-                <div><strong className="text-yellow-700">Avoid:</strong> Strong westerly winds that enhance swell</div>
-              </div>
-            </div>
 
-            {/* Dive Map */}
-            <div className="bg-cyan-50 border-l-4 border-cyan-400 p-5 rounded-r-lg">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-cyan-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                  </svg>
-                  <h3 className="font-montserrat font-bold text-cyan-800">Dive Map</h3>
+              {/* Key Highlights */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-orange-100 to-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-orange-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Key Highlights
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">What to expect at this urban wreck diving site</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Shore-based entry via bush track and wade ~200m
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Perth's only accessible freshwater wreck diving
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Submerged cars, barges, and urban debris wrecks
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Unique freshwater-estuarine ecosystem
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Macro photography opportunities in murky conditions
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Riverine species: bream, jellyfish, crabs, tube worms
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Requires moderate experience and navigation skills
+                    </div>
+                  </div>
                 </div>
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  onClick={() => setActiveTab("dive-map")}
-                  className="text-cyan-600 border-cyan-400 hover:bg-cyan-50 text-xs"
-                >
-                  <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.413V13H5.5z" />
-                  </svg>
-                  Upload Map
-                </Button>
               </div>
-              <p className="text-sm text-cyan-700 mb-3">Site layout and recommended routes</p>
-              <div className="space-y-1 text-sm text-gray-700">
-                <div>• Typically dive one side of jetty pylons out to ~100m</div>
-                <div>• Return on opposite side (clockwise or anti-clockwise)</div>
-                <div>• Complete loop covers entire jetty length</div>
-                <div>• Maximum depth ~9m along jetty structure</div>
-              </div>
-            </div>
 
-            {/* Habitat */}
-            <div className="bg-emerald-50 border-l-4 border-emerald-400 p-5 rounded-r-lg">
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
-                  </svg>
-                  <h3 className="font-montserrat font-bold text-emerald-800">Habitat</h3>
+              {/* Dive Map & Route */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-teal-100 to-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-teal-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                      </svg>
+                      Dive Map
+                    </span>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setActiveTab("dive-map")}
+                      className="text-teal-600 border-teal-400 hover:bg-teal-50 text-xs"
+                    >
+                      <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.413V13H5.5z" />
+                      </svg>
+                      Upload Map
+                    </Button>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Site layout and recommended navigation routes</p>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• Typical dives begin at buoy 527 proceeding along shallow wall</div>
+                    <div>• Navigate toward buoy 716 using grid-style navigation patterns</div>
+                    <div>• Multiple wrecks: sunken cars, old barges, river debris</div>
+                    <div>• Maximum depth ~15m in central river channel</div>
+                    <div>• Use torch and track landmarks to avoid disorientation</div>
+                  </div>
                 </div>
-                <Button 
-                  variant="link" 
-                  onClick={() => setActiveTab("species")}
-                  className="text-emerald-600 text-xs p-0"
-                >
-                  View Species
-                </Button>
               </div>
-              <div className="space-y-2 text-sm text-gray-700">
-                <div><strong className="text-emerald-700">Marine Life:</strong> {isLoadingSpecies ? 'Loading...' : `${species?.length || 0} species documented`}</div>
-                <div><strong className="text-emerald-700">Environment:</strong> Artificial reef on silty rubble seabed</div>
-                <div><strong className="text-emerald-700">Specialty:</strong> Macro invertebrates and small fish</div>
-                <div><strong className="text-emerald-700">Notable:</strong> Night diving for larger species like rays</div>
-              </div>
-              {species && species.length > 0 && (
-                <div className="mt-3 grid grid-cols-4 gap-2">
-                  {species.slice(0, 4).map(({ species }) => (
-                    <Link key={species.id} href={`/species/${species.id}`}>
-                      <a className="block">
-                        <img 
-                          src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
-                          alt={species.commonName} 
-                          className="w-full h-12 object-cover rounded border border-emerald-200"
-                          title={species.commonName}
-                        />
-                      </a>
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
 
-          {/* Learn Section */}
-          <div className="bg-purple-50 border-l-4 border-purple-400 p-5 rounded-r-lg">
-            <div className="flex items-center mb-3">
-              <svg className="w-5 h-5 mr-2 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <h3 className="font-montserrat font-bold text-purple-800">Learn Section</h3>
-            </div>
-            <p className="text-sm text-purple-700 mb-4">Suggested mini-lessons for deeper understanding</p>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-purple-200">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">1</div>
-                  <span className="text-sm font-medium text-gray-800">"Biodiversity of Jetty Macro Ecosystems"</span>
+              {/* Learn Section */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-purple-100 to-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-purple-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Learn Section
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Educational content about urban reef ecosystems</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
+                        <span className="text-sm text-gray-700">"Life Among Wrecks – How Submerged Structures Become Urban Reefs"</span>
+                      </div>
+                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
+                        <span className="text-sm text-gray-700">"River Health and Water Clarity – What Affects Visibility in Estuarine Dives?"</span>
+                      </div>
+                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-gray-500">
+                    <strong>Community Contributions:</strong> Explore how sunken objects transform into microhabitats and understand water chemistry effects on visibility in river environments.
+                  </div>
                 </div>
-                <Button size="sm" className="bg-purple-600 hover:bg-purple-700 text-white">
-                  Start Learning →
-                </Button>
               </div>
-              <div className="flex items-center justify-between bg-white p-3 rounded-lg border border-purple-200">
-                <div className="flex items-center">
-                  <div className="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center text-white text-sm font-bold mr-3">2</div>
-                  <span className="text-sm font-medium text-gray-800">"Threats from Fishing Debris & Marine Conservation Efforts"</span>
+
+              {/* User Experience & Safety */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-yellow-100 to-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-yellow-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      User Experience & Safety Tips
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• <strong>Access:</strong> Bush track entry, wade ~200m to diving area near buoys</div>
+                    <div>• <strong>Safety:</strong> Must use surface marker buoy, watch for boat traffic and ferry wake</div>
+                    <div>• <strong>Equipment:</strong> Bring torch and gloves - essential for macro life and wreck exploration</div>
+                    <div>• <strong>Best Conditions:</strong> Stable weather, avoid post-rainfall periods (releases tannins/silt)</div>
+                    <div>• <strong>Navigation:</strong> Good buoyancy control essential - silty conditions change quickly</div>
+                    <div>• <strong>Experience:</strong> Feels like treasure hunt - murky but fascinating with unexpected species</div>
+                  </div>
                 </div>
-                <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                  Start Learning →
-                </Button>
               </div>
-            </div>
-            <div className="mt-4 p-3 bg-purple-100 rounded-lg">
-              <p className="text-xs text-purple-800">
-                <strong>Community Contributions:</strong> Local divers frequently contribute observation maps and macro-life sketches. Join annual cleanup events led by Dolphin Dive and other local dive shops.
-              </p>
-            </div>
-          </div>
+            </>
+          )}
 
 
 
