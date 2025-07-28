@@ -56,12 +56,12 @@ const SpeciesCard: React.FC<SpeciesCardProps> = ({
         </div>
         
         <div className="mt-2 flex flex-wrap gap-1">
-          {species.habitats.slice(0, 3).map((habitat, index) => (
+          {species.habitats?.slice(0, 3).map((habitat, index) => (
             <Badge key={index} variant="outline" className="bg-[#E0F7FA] text-[#0A4D68] text-xs border-[#05BFDB]">
               {habitat}
             </Badge>
           ))}
-          {species.habitats.length > 3 && (
+          {species.habitats && species.habitats.length > 3 && (
             <Badge variant="outline" className="bg-transparent text-[#088395] text-xs border-[#088395]">
               +{species.habitats.length - 3} more
             </Badge>
