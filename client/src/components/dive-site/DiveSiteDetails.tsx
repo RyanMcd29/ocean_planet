@@ -452,7 +452,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                   ) : (
                     species?.slice(0, 4).map(({ species }) => (
                       <Link key={species.id} href={`/species/${species.id}`}>
-                        <a className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block">
+                        <div className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block cursor-pointer">
                           <img 
                             src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
                             alt={species.commonName} 
@@ -462,7 +462,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                             <h4 className="font-montserrat font-semibold text-sm">{species.commonName}</h4>
                             <p className="text-xs text-[#757575] italic">{species.scientificName}</p>
                           </div>
-                        </a>
+                        </div>
                       </Link>
                     ))
                   )}
