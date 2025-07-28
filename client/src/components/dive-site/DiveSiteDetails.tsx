@@ -95,188 +95,265 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
   };
 
   return (
-    <div className="bg-white shadow-md lg:overflow-y-auto lg:max-h-[calc(100vh-64px)]">
-      {/* Header Image and Info */}
-      <div className="relative">
-        <img 
-          src={diveSite.mainImage || 'https://images.unsplash.com/photo-1682687982501-1e58ab6d8433?q=80&w=1470&auto=format&fit=crop'}
-          alt={`${diveSite.name} underwater scene`} 
-          className="w-full h-48 object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-5">
-          <div className="flex items-center space-x-2 mb-1">
-            <span className="bg-[#05BFDB] text-white px-2 py-1 rounded text-xs font-montserrat">
-              {diveSite.difficulty}
-            </span>
-            <span className="bg-[#088395] text-white px-2 py-1 rounded text-xs font-montserrat">
-              {diveSite.minDepth}-{diveSite.maxDepth}m
-            </span>
+    <div className="lg:overflow-y-auto lg:max-h-[calc(100vh-64px)]">
+      {/* Hero Header Image and Info */}
+      <div className="relative h-80 md:h-96 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-teal-200 via-blue-400 to-blue-800">
+          <img 
+            src={diveSite.mainImage || 'https://images.unsplash.com/photo-1682687982501-1e58ab6d8433?q=80&w=1470&auto=format&fit=crop'}
+            alt={`${diveSite.name} underwater scene`} 
+            className="w-full h-full object-cover mix-blend-overlay opacity-80"
+          />
+        </div>
+        
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <span className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-2 rounded-2xl text-sm font-bold shadow-lg">
+                {diveSite.difficulty}
+              </span>
+              <span className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-4 py-2 rounded-2xl text-sm font-bold shadow-lg">
+                {diveSite.minDepth}-{diveSite.maxDepth}m
+              </span>
+              <span className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-2xl text-sm font-bold shadow-lg">
+                {diveSite.country}
+              </span>
+            </div>
+            <h2 className="text-white text-3xl md:text-4xl font-montserrat font-bold mb-3 drop-shadow-2xl">
+              {diveSite.name}
+            </h2>
+            <p className="text-white/90 text-lg flex items-center drop-shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5 mr-3">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              {diveSite.location}
+            </p>
           </div>
-          <h2 className="text-white text-2xl font-montserrat font-bold">{diveSite.name}</h2>
-          <p className="text-white opacity-90 flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 mr-2">
-              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-              <circle cx="12" cy="10" r="3"></circle>
-            </svg>
-            {diveSite.location}
-          </p>
         </div>
 
-        <div className="absolute top-4 right-4 flex space-x-2">
-          <Button variant="outline" size="icon" className="bg-white/80 hover:bg-white text-[#0A4D68] rounded-full h-9 w-9">
-            <Heart className="h-5 w-5" />
+        <div className="absolute top-6 right-6 flex space-x-3">
+          <Button variant="outline" size="icon" className="bg-white/20 hover:bg-white/30 text-white border-white/30 rounded-2xl h-12 w-12 backdrop-blur-md transition-all duration-300 hover:scale-110">
+            <Heart className="h-6 w-6" />
           </Button>
-          <Button variant="outline" size="icon" className="bg-white/80 hover:bg-white text-[#0A4D68] rounded-full h-9 w-9">
-            <Share2 className="h-5 w-5" />
+          <Button variant="outline" size="icon" className="bg-white/20 hover:bg-white/30 text-white border-white/30 rounded-2xl h-12 w-12 backdrop-blur-md transition-all duration-300 hover:scale-110">
+            <Share2 className="h-6 w-6" />
           </Button>
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-3 gap-4 p-4 bg-[#E0F7FA]">
-        <div className="text-center">
-          <p className="text-[#0A4D68] text-sm font-semibold">Visibility</p>
-          <p className="text-lg font-montserrat font-bold">{diveSite.minVisibility}-{diveSite.maxVisibility}m</p>
-        </div>
-        <div className="text-center">
-          <p className="text-[#0A4D68] text-sm font-semibold">Temperature</p>
-          <p className="text-lg font-montserrat font-bold">{diveSite.minTemp}-{diveSite.maxTemp}°C</p>
-        </div>
-        <div className="text-center">
-          <p className="text-[#0A4D68] text-sm font-semibold">Current</p>
-          <p className="text-lg font-montserrat font-bold">{diveSite.current}</p>
+      {/* Enhanced Quick Stats */}
+      <div className="bg-gradient-to-r from-teal-100 via-blue-100 to-indigo-100 p-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-gradient-to-br from-teal-200 to-blue-300 rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-center mb-3">
+              <div className="bg-white/30 rounded-full p-3">
+                <svg className="w-6 h-6 text-teal-700" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <p className="text-teal-800 text-sm font-bold mb-1">Visibility Range</p>
+            <p className="text-2xl font-montserrat font-bold text-teal-900">
+              {diveSite.minVisibility}-{diveSite.maxVisibility}m
+            </p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-blue-200 to-indigo-300 rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-center mb-3">
+              <div className="bg-white/30 rounded-full p-3">
+                <svg className="w-6 h-6 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <p className="text-blue-800 text-sm font-bold mb-1">Water Temperature</p>
+            <p className="text-2xl font-montserrat font-bold text-blue-900">
+              {diveSite.minTemp}-{diveSite.maxTemp}°C
+            </p>
+          </div>
+          
+          <div className="bg-gradient-to-br from-indigo-200 to-purple-300 rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300">
+            <div className="flex items-center justify-center mb-3">
+              <div className="bg-white/30 rounded-full p-3">
+                <svg className="w-6 h-6 text-indigo-700" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zM6 7a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <p className="text-indigo-800 text-sm font-bold mb-1">Current Strength</p>
+            <p className="text-2xl font-montserrat font-bold text-indigo-900">
+              {diveSite.current || 'Variable'}
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* Modern Tabs */}
       <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full justify-start border-b border-[#E0E0E0] rounded-none h-auto bg-transparent p-0">
-          <TabsTrigger 
-            value="overview" 
-            className="px-4 py-3 font-montserrat rounded-none border-b-2 border-transparent data-[state=active]:border-[#EB6440] data-[state=active]:text-[#0A4D68] data-[state=active]:font-semibold text-[#757575] hover:text-[#0A4D68]"
-          >
-            Overview
-          </TabsTrigger>
-          <TabsTrigger 
-            value="species" 
-            className="px-4 py-3 font-montserrat rounded-none border-b-2 border-transparent data-[state=active]:border-[#EB6440] data-[state=active]:text-[#0A4D68] data-[state=active]:font-semibold text-[#757575] hover:text-[#0A4D68]"
-          >
-            Species
-          </TabsTrigger>
-          <TabsTrigger 
-            value="dive-map" 
-            className="px-4 py-3 font-montserrat rounded-none border-b-2 border-transparent data-[state=active]:border-[#EB6440] data-[state=active]:text-[#0A4D68] data-[state=active]:font-semibold text-[#757575] hover:text-[#0A4D68]"
-          >
-            Dive Map
-          </TabsTrigger>
-          <TabsTrigger 
-            value="gallery" 
-            className="px-4 py-3 font-montserrat rounded-none border-b-2 border-transparent data-[state=active]:border-[#EB6440] data-[state=active]:text-[#0A4D68] data-[state=active]:font-semibold text-[#757575] hover:text-[#0A4D68]"
-          >
-            Gallery
-          </TabsTrigger>
-          <TabsTrigger 
-            value="reviews" 
-            className="px-4 py-3 font-montserrat rounded-none border-b-2 border-transparent data-[state=active]:border-[#EB6440] data-[state=active]:text-[#0A4D68] data-[state=active]:font-semibold text-[#757575] hover:text-[#0A4D68]"
-          >
-            Reviews
-          </TabsTrigger>
-        </TabsList>
+        <div className="bg-gradient-to-r from-slate-100 to-blue-50 px-6 pt-4">
+          <TabsList className="w-full justify-start bg-transparent p-0 h-auto space-x-2">
+            <TabsTrigger 
+              value="overview" 
+              className="px-6 py-3 font-montserrat font-semibold rounded-t-2xl border-0 bg-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-teal-500 data-[state=active]:to-blue-500 data-[state=active]:text-white text-slate-600 hover:bg-white/90 hover:text-slate-800 transition-all duration-300 shadow-sm hover:shadow-md"
+            >
+              Overview
+            </TabsTrigger>
+            <TabsTrigger 
+              value="species" 
+              className="px-6 py-3 font-montserrat font-semibold rounded-t-2xl border-0 bg-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-teal-500 data-[state=active]:text-white text-slate-600 hover:bg-white/90 hover:text-slate-800 transition-all duration-300 shadow-sm hover:shadow-md"
+            >
+              Species
+            </TabsTrigger>
+            <TabsTrigger 
+              value="dive-map" 
+              className="px-6 py-3 font-montserrat font-semibold rounded-t-2xl border-0 bg-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-500 data-[state=active]:text-white text-slate-600 hover:bg-white/90 hover:text-slate-800 transition-all duration-300 shadow-sm hover:shadow-md"
+            >
+              Dive Map
+            </TabsTrigger>
+            <TabsTrigger 
+              value="gallery" 
+              className="px-6 py-3 font-montserrat font-semibold rounded-t-2xl border-0 bg-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white text-slate-600 hover:bg-white/90 hover:text-slate-800 transition-all duration-300 shadow-sm hover:shadow-md"
+            >
+              Gallery
+            </TabsTrigger>
+            <TabsTrigger 
+              value="reviews" 
+              className="px-6 py-3 font-montserrat font-semibold rounded-t-2xl border-0 bg-white/70 data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white text-slate-600 hover:bg-white/90 hover:text-slate-800 transition-all duration-300 shadow-sm hover:shadow-md"
+            >
+              Reviews
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-        <TabsContent value="overview" className="p-4 mt-0">
-          {/* Current Water Conditions */}
-          <div className="mb-6">
+        <TabsContent value="overview" className="bg-gradient-to-br from-white to-blue-50/50 p-8 mt-0 min-h-[600px]">
+          {/* Enhanced Water Conditions Section */}
+          <div className="mb-8">
+            <div className="flex items-center mb-6">
+              <div className="bg-gradient-to-r from-blue-500 to-teal-500 rounded-2xl p-3 mr-4">
+                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 010 2h-1v1a1 1 0 11-2 0V4H8a1 1 0 010-2h1V1a1 1 0 112 0v1h1z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-montserrat font-bold text-slate-800">Current Water Conditions</h3>
+            </div>
+            
             {isLoadingConditions ? (
-              <div className="bg-white rounded-lg shadow-sm border p-4">
-                <Skeleton className="h-6 w-48 mb-4" />
-                <div className="grid grid-cols-3 gap-4">
-                  <Skeleton className="h-20 w-full" />
-                  <Skeleton className="h-20 w-full" />
-                  <Skeleton className="h-20 w-full" />
+              <div className="bg-gradient-to-br from-white to-teal-50 rounded-2xl shadow-lg border border-teal-100 p-6">
+                <Skeleton className="h-8 w-64 mb-6 bg-gradient-to-r from-teal-200 to-blue-200" />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <Skeleton className="h-24 rounded-2xl bg-gradient-to-br from-teal-100 to-teal-200" />
+                  <Skeleton className="h-24 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-200" />
+                  <Skeleton className="h-24 rounded-2xl bg-gradient-to-br from-indigo-100 to-indigo-200" />
                 </div>
               </div>
             ) : waterConditions ? (
-              <>
+              <div className="bg-gradient-to-br from-white to-teal-50/30 rounded-2xl shadow-lg border border-teal-100/50 overflow-hidden">
                 <WaterConditionsCard conditions={waterConditions} compact={true} />
-                <div className="mt-3 flex gap-2">
-                  <Button 
-                    onClick={fetchLiveData}
-                    disabled={isLoadingLive}
-                    className="bg-[#05BFDB] hover:bg-[#088395] text-white"
-                  >
-                    {isLoadingLive ? 'Loading...' : 'Get Live Data'}
-                  </Button>
-                  {showLiveData && liveConditions && (
+                <div className="p-6 bg-gradient-to-r from-teal-50 to-blue-50">
+                  <div className="flex flex-wrap gap-3">
                     <Button 
-                      variant="outline"
-                      onClick={() => setShowLiveData(false)}
-                      className="text-[#088395] border-[#088395]"
+                      onClick={fetchLiveData}
+                      disabled={isLoadingLive}
+                      className="bg-gradient-to-r from-teal-500 to-blue-500 hover:from-teal-600 hover:to-blue-600 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                     >
-                      Show Static Data
+                      {isLoadingLive ? 'Loading...' : '🌊 Get Live Data'}
                     </Button>
+                    {showLiveData && liveConditions && (
+                      <Button 
+                        variant="outline"
+                        onClick={() => setShowLiveData(false)}
+                        className="border-teal-300 text-teal-700 hover:bg-teal-50 px-6 py-3 rounded-2xl font-semibold transition-all duration-300"
+                      >
+                        📊 Show Static Data
+                      </Button>
+                    )}
+                  </div>
+                  {showLiveData && liveConditions && (
+                    <div className="mt-6 bg-white/60 rounded-2xl p-4 backdrop-blur-sm">
+                      <WaterConditionsCard conditions={liveConditions} compact={true} />
+                      <p className="text-sm text-slate-600 mt-3 font-medium">
+                        🛰️ Live data from AODN • Updated: {new Date(liveConditions.timestamp).toLocaleString()}
+                      </p>
+                    </div>
                   )}
                 </div>
-                {showLiveData && liveConditions && (
-                  <div className="mt-4">
-                    <WaterConditionsCard conditions={liveConditions} compact={true} />
-                    <p className="text-xs text-[#757575] mt-2">Live data from AODN • Updated: {new Date(liveConditions.timestamp).toLocaleString()}</p>
-                  </div>
-                )}
-              </>
+              </div>
             ) : (
-              <div className="bg-blue-50 rounded-lg p-4 border border-blue-200">
-                <p className="text-sm text-blue-700">Water conditions data not available for this dive site.</p>
+              <div className="bg-gradient-to-br from-blue-100 to-indigo-100 border border-blue-200 rounded-2xl p-6 text-center shadow-lg">
+                <div className="text-blue-700 font-semibold text-lg mb-2">📊 Water Conditions Unavailable</div>
+                <p className="text-blue-600">Water conditions data not available for this dive site.</p>
               </div>
             )}
           </div>
 
-          {/* About section */}
-          <div className="mb-6">
-            <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-2">About this dive site</h3>
-            <p className="text-sm leading-relaxed text-[#757575]">
-              {diveSite.description}
-            </p>
+          {/* Enhanced About Section */}
+          <div className="mb-8">
+            <div className="flex items-center mb-6">
+              <div className="bg-gradient-to-r from-emerald-500 to-teal-500 rounded-2xl p-3 mr-4">
+                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-montserrat font-bold text-slate-800">About This Dive Site</h3>
+            </div>
+            <div className="bg-gradient-to-br from-white to-emerald-50/30 rounded-2xl shadow-lg border border-emerald-100/50 p-8">
+              <p className="text-lg leading-relaxed text-slate-700 font-medium">
+                {diveSite.description}
+              </p>
+            </div>
           </div>
 
           {/* AMMO Jetty specific sections */}
           {diveSite.name === "AMMO Jetty" && (
             <>
-              {/* Featured Species */}
-              <div className="mb-6">
-                <div className="flex justify-between items-center mb-3">
-                  <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
+              {/* Enhanced Featured Species */}
+              <div className="mb-8">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center">
+                    <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl p-3 mr-4">
+                      <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl font-montserrat font-bold text-slate-800">Featured Species</h3>
+                  </div>
                   <Button 
-                    variant="link" 
                     onClick={() => setActiveTab("species")}
-                    className="text-sm text-[#088395] hover:text-[#0A4D68] font-semibold p-0"
+                    className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-6 py-3 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
                   >
-                    View all
+                    🐠 View All Species
                   </Button>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {isLoadingSpecies ? (
                     Array(4).fill(0).map((_, i) => (
-                      <div key={i} className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm">
-                        <Skeleton className="w-full h-24" />
-                        <div className="p-2">
-                          <Skeleton className="h-4 w-20 mb-1" />
-                          <Skeleton className="h-3 w-24" />
+                      <div key={i} className="bg-gradient-to-br from-white to-purple-50 rounded-2xl overflow-hidden shadow-lg border border-purple-100">
+                        <Skeleton className="w-full h-32 bg-gradient-to-r from-purple-200 to-pink-200" />
+                        <div className="p-4">
+                          <Skeleton className="h-6 w-32 mb-2 bg-gradient-to-r from-purple-200 to-pink-200" />
+                          <Skeleton className="h-4 w-40 bg-gradient-to-r from-gray-200 to-gray-300" />
                         </div>
                       </div>
                     ))
                   ) : (
                     species?.slice(0, 4).map(({ species }) => (
                       <Link key={species.id} href={`/species/${species.id}`}>
-                        <a className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block">
-                          <img 
-                            src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
-                            alt={species.commonName} 
-                            className="w-full h-24 object-cover"
-                          />
-                          <div className="p-2">
-                            <h4 className="font-montserrat font-semibold text-sm">{species.commonName}</h4>
-                            <p className="text-xs text-[#757575] italic">{species.scientificName}</p>
+                        <a className="bg-gradient-to-br from-white to-purple-50/50 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl border border-purple-100/50 transition-all duration-300 hover:scale-105 block group">
+                          <div className="relative overflow-hidden">
+                            <img 
+                              src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
+                              alt={species.commonName} 
+                              className="w-full h-32 object-cover group-hover:scale-110 transition-transform duration-300"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                          </div>
+                          <div className="p-4">
+                            <h4 className="font-montserrat font-bold text-lg text-slate-800 mb-1 group-hover:text-purple-700 transition-colors duration-300">
+                              {species.commonName}
+                            </h4>
+                            <p className="text-sm text-slate-600 italic font-medium">{species.scientificName}</p>
                           </div>
                         </a>
                       </Link>
@@ -285,60 +362,74 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                 </div>
               </div>
 
-              {/* Key Highlights */}
-              <div className="mb-6">
-                <div className="bg-gradient-to-r from-orange-100 to-orange-50 border-l-4 border-orange-400 p-4 rounded-r-lg">
-                  <div className="flex items-center mb-2">
-                    <span className="text-orange-600 font-semibold text-sm flex items-center">
-                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                      </svg>
-                      Key Highlights
-                    </span>
+              {/* Enhanced Key Highlights */}
+              <div className="mb-8">
+                <div className="flex items-center mb-6">
+                  <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-3 mr-4">
+                    <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
                   </div>
-                  <p className="text-sm text-gray-700 mb-3">What to expect at this dive site</p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    <div className="flex items-center text-sm text-gray-600">
-                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      Shore dive from jetty with walk-in entry
+                  <h3 className="text-2xl font-montserrat font-bold text-slate-800">Key Highlights</h3>
+                </div>
+                <div className="bg-gradient-to-br from-white to-orange-50/50 rounded-2xl shadow-lg border border-orange-100/50 p-8">
+                  <p className="text-lg text-slate-700 mb-6 font-medium">What to expect at this dive site</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-center p-4 bg-gradient-to-r from-orange-100 to-red-100 rounded-2xl">
+                      <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2 mr-4">
+                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="text-slate-700 font-medium">Shore dive from jetty with walk-in entry</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      Macro photography hotspot with abundant invertebrates
+                    <div className="flex items-center p-4 bg-gradient-to-r from-orange-100 to-red-100 rounded-2xl">
+                      <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2 mr-4">
+                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="text-slate-700 font-medium">Macro photography hotspot with abundant invertebrates</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      Easy access via jetty steps with facilities nearby
+                    <div className="flex items-center p-4 bg-gradient-to-r from-orange-100 to-red-100 rounded-2xl">
+                      <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2 mr-4">
+                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="text-slate-700 font-medium">Easy access via jetty steps with facilities nearby</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      Artificial reef ecosystem on silty rubble seabed
+                    <div className="flex items-center p-4 bg-gradient-to-r from-orange-100 to-red-100 rounded-2xl">
+                      <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2 mr-4">
+                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="text-slate-700 font-medium">Artificial reef ecosystem on silty rubble seabed</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      Night diving opportunities with rays and marine mammals
+                    <div className="flex items-center p-4 bg-gradient-to-r from-orange-100 to-red-100 rounded-2xl">
+                      <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2 mr-4">
+                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="text-slate-700 font-medium">Night diving opportunities with rays and marine mammals</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      Suitable for Open Water certification and refresher courses
+                    <div className="flex items-center p-4 bg-gradient-to-r from-orange-100 to-red-100 rounded-2xl">
+                      <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2 mr-4">
+                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="text-slate-700 font-medium">Suitable for Open Water certification and refresher courses</span>
                     </div>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <svg className="w-4 h-4 mr-2 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                      </svg>
-                      Rich marine growth on encrusted pylons
+                    <div className="flex items-center p-4 bg-gradient-to-r from-orange-100 to-red-100 rounded-2xl">
+                      <div className="bg-gradient-to-r from-orange-500 to-red-500 rounded-full p-2 mr-4">
+                        <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="text-slate-700 font-medium">Rich marine growth on encrusted pylons</span>
                     </div>
                   </div>
                 </div>
@@ -763,31 +854,31 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             </div>
           )}
 
-          {/* User Contribution Button */}
-          <div className="mt-8 mb-4">
-            <Button className="w-full bg-[#EB6440] hover:bg-[#FFAB91] text-white py-3 rounded-lg transition font-montserrat font-semibold flex items-center justify-center">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 h-5 w-5">
+          {/* Enhanced User Contribution Button */}
+          <div className="flex justify-center mt-12 mb-8">
+            <Button className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white px-12 py-4 rounded-3xl font-bold text-lg shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-300 flex items-center gap-3">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6">
                 <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
                 <circle cx="12" cy="13" r="4"></circle>
               </svg>
-              Share Your Experience
+              📸 Share Your Experience
             </Button>
           </div>
         </TabsContent>
 
-        <TabsContent value="species" className="mt-0">
+        <TabsContent value="species" className="bg-gradient-to-br from-emerald-50 to-teal-50 p-8 mt-0 min-h-[600px]">
           <SpeciesTab diveSiteId={diveSite.id} />
         </TabsContent>
 
-        <TabsContent value="dive-map" className="mt-0">
+        <TabsContent value="dive-map" className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 mt-0 min-h-[600px]">
           <DiveMapTab diveSiteId={diveSite.id} />
         </TabsContent>
 
-        <TabsContent value="gallery" className="mt-0">
+        <TabsContent value="gallery" className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 mt-0 min-h-[600px]">
           <GalleryTab diveSiteId={diveSite.id} />
         </TabsContent>
 
-        <TabsContent value="reviews" className="mt-0">
+        <TabsContent value="reviews" className="bg-gradient-to-br from-orange-50 to-red-50 p-8 mt-0 min-h-[600px]">
           <ReviewsTab diveSiteId={diveSite.id} />
         </TabsContent>
       </Tabs>
