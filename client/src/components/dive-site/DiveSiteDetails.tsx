@@ -1015,9 +1015,391 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
             </>
           )}
 
+          {/* Camilla Wreck specific sections */}
+          {diveSite.name === "Camilla Wreck" && (
+            <>
+              {/* Featured Species */}
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
+                  <Button 
+                    variant="link" 
+                    onClick={() => setActiveTab("species")}
+                    className="text-sm text-[#088395] hover:text-[#0A4D68] font-semibold p-0"
+                  >
+                    View all
+                  </Button>
+                </div>
 
+                <div className="grid grid-cols-2 gap-3">
+                  {isLoadingSpecies ? (
+                    Array(4).fill(0).map((_, i) => (
+                      <div key={i} className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm">
+                        <Skeleton className="w-full h-24" />
+                        <div className="p-2">
+                          <Skeleton className="h-4 w-20 mb-1" />
+                          <Skeleton className="h-3 w-24" />
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    species?.slice(0, 4).map(({ species }) => (
+                      <Link key={species.id} href={`/species/${species.id}`}>
+                        <div className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block cursor-pointer">
+                          <img 
+                            src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
+                            alt={species.commonName} 
+                            className="w-full h-24 object-cover"
+                          />
+                          <div className="p-2">
+                            <h4 className="font-montserrat font-semibold text-sm">{species.commonName}</h4>
+                            <p className="text-xs text-[#757575] italic">{species.scientificName}</p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))
+                  )}
+                </div>
+              </div>
 
+              {/* Key Highlights */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-amber-100 to-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-amber-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Key Highlights
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Historic shallow wreck perfect for beginners</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      1834 schooner wreck, scuttled in 1903
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Maximum depth only 3.6m - snorkeling possible
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      80m surface swim from Challenger Beach
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Paddle grass ecosystem with sea anemones
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Stripeys, cardinalfish, and wavy grubfish
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Protected maritime heritage site
+                    </div>
+                  </div>
+                </div>
+              </div>
 
+              {/* Dive Map & Route */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-teal-100 to-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-teal-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                      </svg>
+                      Dive Map
+                    </span>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setActiveTab("dive-map")}
+                      className="text-teal-600 border-teal-400 hover:bg-teal-50 text-xs"
+                    >
+                      <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.413V13H5.5z" />
+                      </svg>
+                      Upload Map
+                    </Button>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Simple site layout near ALCOA Jetty</p>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• Walk north 120m to erosion point in dunes</div>
+                    <div>• Head west into water, swim 80m to wreck</div>
+                    <div>• Wreck is approximately 10m in length</div>
+                    <div>• Surrounded by paddle grass beds</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Learn Section */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-purple-100 to-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-purple-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Learn Section
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
+                        <span className="text-sm text-gray-700">"Maritime History of the Camilla"</span>
+                      </div>
+                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
+                        <span className="text-sm text-gray-700">"Paddle Grass Ecosystems"</span>
+                      </div>
+                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-gray-500">
+                    <strong>Community Notes:</strong> Use dive flag due to boat traffic. Historic context adds interest despite modest marine life.
+                  </div>
+                </div>
+              </div>
+
+              {/* User Experience & Safety */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-yellow-100 to-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-yellow-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      User Experience & Safety Tips
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• <strong>Access:</strong> Challenger Beach via Sutton Road off Cockburn Road</div>
+                    <div>• <strong>Conditions:</strong> Site exposed, avoid rough weather and high winds</div>
+                    <div>• <strong>Visibility:</strong> Low to moderate, easily disturbed sediment</div>
+                    <div>• <strong>Navigation:</strong> Use dive flag - proximity to working jetty</div>
+                    <div>• <strong>Heritage:</strong> Protected site - do not disturb or remove artifacts</div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Jervoise Bay Groin specific sections */}
+          {diveSite.name === "Jervoise Bay Groin" && (
+            <>
+              {/* Featured Species */}
+              <div className="mb-6">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
+                  <Button 
+                    variant="link" 
+                    onClick={() => setActiveTab("species")}
+                    className="text-sm text-[#088395] hover:text-[#0A4D68] font-semibold p-0"
+                  >
+                    View all
+                  </Button>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {isLoadingSpecies ? (
+                    Array(4).fill(0).map((_, i) => (
+                      <div key={i} className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm">
+                        <Skeleton className="w-full h-24" />
+                        <div className="p-2">
+                          <Skeleton className="h-4 w-20 mb-1" />
+                          <Skeleton className="h-3 w-24" />
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    species?.slice(0, 4).map(({ species }) => (
+                      <Link key={species.id} href={`/species/${species.id}`}>
+                        <div className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200 block cursor-pointer">
+                          <img 
+                            src={species.imageUrl || 'https://images.unsplash.com/photo-1567425928496-1ab66c650131?q=80&w=1074&auto=format&fit=crop'} 
+                            alt={species.commonName} 
+                            className="w-full h-24 object-cover"
+                          />
+                          <div className="p-2">
+                            <h4 className="font-montserrat font-semibold text-sm">{species.commonName}</h4>
+                            <p className="text-xs text-[#757575] italic">{species.scientificName}</p>
+                          </div>
+                        </div>
+                      </Link>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* Key Highlights */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-cyan-100 to-cyan-50 border-l-4 border-cyan-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-cyan-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                      Key Highlights
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Sheltered artificial reef perfect for poor weather</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Man-made rock groins create shelter
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Excellent during poor weather conditions
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Rich soft and brain coral growth
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Seahorses, cuttlefish, and nudibranchs
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Depths up to 10m along groin walls
+                    </div>
+                    <div className="flex items-center text-sm text-gray-600">
+                      <svg className="w-4 h-4 mr-2 text-cyan-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                      Adjacent to Cockburn Power Boat Club
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Dive Map & Route */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-teal-100 to-teal-50 border-l-4 border-teal-400 p-4 rounded-r-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-teal-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                      </svg>
+                      Dive Map
+                    </span>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setActiveTab("dive-map")}
+                      className="text-teal-600 border-teal-400 hover:bg-teal-50 text-xs"
+                    >
+                      <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M5.5 13a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 13H11V9.413l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.413V13H5.5z" />
+                      </svg>
+                      Upload Map
+                    </Button>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Man-made structures forming sea defense</p>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• Several rock groins and concrete jetty structures</div>
+                    <div>• Explore along groin walls with increasing depth</div>
+                    <div>• Beach entry or careful navigation over rocks</div>
+                    <div>• Watch for boat traffic from adjacent boat club</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Learn Section */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-purple-100 to-purple-50 border-l-4 border-purple-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-purple-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Learn Section
+                    </span>
+                  </div>
+                  <p className="text-sm text-gray-700 mb-3">Understanding artificial reef ecosystems</p>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
+                        <span className="text-sm text-gray-700">"Artificial Reefs and Marine Habitats"</span>
+                      </div>
+                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                    <div className="flex items-center justify-between bg-white p-2 rounded border">
+                      <div className="flex items-center">
+                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
+                        <span className="text-sm text-gray-700">"Adaptations in Sheltered Environments"</span>
+                      </div>
+                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
+                        Start Learning →
+                      </button>
+                    </div>
+                  </div>
+                  <div className="mt-3 text-xs text-gray-500">
+                    <strong>Community Notes:</strong> Valuable site for poor weather diving. Plan entry/exit points carefully based on conditions.
+                  </div>
+                </div>
+              </div>
+
+              {/* User Experience & Safety */}
+              <div className="mb-6">
+                <div className="bg-gradient-to-r from-yellow-100 to-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r-lg">
+                  <div className="flex items-center mb-2">
+                    <span className="text-yellow-600 font-semibold text-sm flex items-center">
+                      <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                      </svg>
+                      User Experience & Safety Tips
+                    </span>
+                  </div>
+                  <div className="text-sm text-gray-600 space-y-1">
+                    <div>• <strong>Access:</strong> O'Kane Court off Cockburn Road, near boat club</div>
+                    <div>• <strong>Entry:</strong> Beach or rock entry - assess based on ability</div>
+                    <div>• <strong>Best Feature:</strong> Sheltered from most weather conditions</div>
+                    <div>• <strong>Caution:</strong> Watch for boat traffic and fishing activities</div>
+                    <div>• <strong>Navigation:</strong> Uneven rocks at some entry points - use care</div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
 
           {/* Habitat Information */}
           <HabitatInfo diveSite={diveSite} />
