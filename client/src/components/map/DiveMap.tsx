@@ -15,16 +15,19 @@ interface DiveMapProps {
   selectedDiveSiteId?: number;
 }
 
-// Component to handle map center and zoom changes
+// Component to handle initial map setup only (no auto-relocate)
 const MapCenterControl: React.FC<{ 
   center: [number, number]; 
   zoom: number;
-}> = ({ center, zoom }) => {
+  shouldCenter: boolean;
+}> = ({ center, zoom, shouldCenter }) => {
   const map = useMap();
   
   useEffect(() => {
-    map.setView(center, zoom);
-  }, [center, zoom, map]);
+    if (shouldCenter) {
+      map.setView(center, zoom);
+    }
+  }, [center, zoom, map, shouldCenter]);
   
   return null;
 };
@@ -44,6 +47,7 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
   const [filters, setFilters] = useState<Record<string, any>>({});
   const [mapCenter, setMapCenter] = useState<[number, number]>([0, 20]); // Center on global view
   const [currentZoom, setCurrentZoom] = useState(3);
+  const [shouldCenter, setShouldCenter] = useState(true); // Only center on initial load or user action
   
   const { data: diveSites, isLoading, error } = useQuery({
     queryKey: ['/api/dive-sites', searchQuery, filters],
@@ -55,12 +59,14 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
     ? clusterDiveSites(diveSites, currentZoom)
     : { clusters: [], individualSites: [] };
   
-  // Update map center when a dive site is selected
+  // Update map center when a dive site is selected (user action)
   useEffect(() => {
     if (selectedDiveSiteId && diveSites) {
       const selectedSite = diveSites.find(site => site.id === selectedDiveSiteId);
       if (selectedSite) {
         setMapCenter([selectedSite.latitude, selectedSite.longitude]);
+        setCurrentZoom(10); // Zoom in to selected site
+        setShouldCenter(true); // Allow centering for user selection
       }
     }
   }, [selectedDiveSiteId, diveSites]);
@@ -72,6 +78,7 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
     
     setMapCenter([centerLat, centerLng]);
     setCurrentZoom(6); // Zoom in to show individual sites
+    setShouldCenter(true); // Allow centering for cluster click
   };
   
   const handleSearchChange = (query: string) => {
@@ -112,8 +119,11 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         
-        <MapCenterControl center={mapCenter} zoom={currentZoom} />
-        <ZoomHandler onZoomChange={setCurrentZoom} />
+        <MapCenterControl center={mapCenter} zoom={currentZoom} shouldCenter={shouldCenter} />
+        <ZoomHandler onZoomChange={(zoom) => {
+          setCurrentZoom(zoom);
+          setShouldCenter(false); // Disable auto-centering after user zoom
+        }} />
         
         {/* Render regional clusters */}
         {clusters.map(cluster => (
