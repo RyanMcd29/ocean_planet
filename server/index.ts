@@ -64,13 +64,14 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  // Seed the database with sample data
-  if (process.env.SEED_DATABASE === 'true') {
+  // Seed the database with initial data
+  try {
     await seedDatabase();
+    console.log('Database initialization complete');
+  } catch (error) {
+    console.error('Error initializing database:', error);
   }
-  console.log('Database initialization complete');
-
-
+  
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
