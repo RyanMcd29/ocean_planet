@@ -5,13 +5,15 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 // Import schema types and tables
 import {
   users, diveSites, species, diveSiteSpecies, photos, reviews,
-  nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, diveMaps,
+  nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
+  diveMaps, diveLogs, diveLogSpecies,
   type User, type InsertUser, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
   type NearbyDiveSite, type InsertNearbyDiveSite, type DiveCenter, type InsertDiveCenter,
   type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies,
-  type DiveMap, type InsertDiveMap
+  type WaterConditions, type InsertWaterConditions, type DiveMap, type InsertDiveMap,
+  type DiveLog, type InsertDiveLog, type DiveLogSpecies, type InsertDiveLogSpecies
 } from "@shared/schema";
 
 // Import the storage interface
@@ -486,5 +488,81 @@ export class DatabaseStorage implements IStorage {
       .from(diveMaps)
       .where(eq(diveMaps.diveSiteId, diveSiteId))
       .orderBy(sql`${diveMaps.uploadedAt} DESC`);
+  }
+
+  // Dive Logs Management
+  async createDiveLog(diveLog: InsertDiveLog): Promise<DiveLog> {
+    const result = await db
+      .insert(diveLogs)
+      .values({
+        userId: diveLog.userId,
+        diveSiteId: diveLog.diveSiteId,
+        diveDate: diveLog.diveDate,
+        diveTime: diveLog.diveTime,
+        duration: diveLog.duration,
+        maxDepth: diveLog.maxDepth,
+        avgDepth: diveLog.avgDepth ?? null,
+        waterTemp: diveLog.waterTemp ?? null,
+        visibility: diveLog.visibility ?? null,
+        current: diveLog.current ?? null,
+        conditions: diveLog.conditions ?? null,
+        description: diveLog.description,
+        equipment: diveLog.equipment ?? null,
+        certificationLevel: diveLog.certificationLevel ?? null,
+        buddyName: diveLog.buddyName ?? null
+      })
+      .returning();
+    return result[0];
+  }
+
+  async getDiveLog(id: number): Promise<DiveLog | undefined> {
+    const result = await db.select().from(diveLogs).where(eq(diveLogs.id, id));
+    return result.length > 0 ? result[0] : undefined;
+  }
+
+  async getUserDiveLogs(userId: number): Promise<DiveLog[]> {
+    return await db
+      .select()
+      .from(diveLogs)
+      .where(eq(diveLogs.userId, userId))
+      .orderBy(sql`${diveLogs.diveDate} DESC`);
+  }
+
+  async getDiveSiteLogs(diveSiteId: number): Promise<DiveLog[]> {
+    return await db
+      .select()
+      .from(diveLogs)
+      .where(eq(diveLogs.diveSiteId, diveSiteId))
+      .orderBy(sql`${diveLogs.diveDate} DESC`);
+  }
+
+  async addSpeciesToDiveLog(diveLogSpecies: InsertDiveLogSpecies): Promise<DiveLogSpecies> {
+    const result = await db
+      .insert(diveLogSpecies)
+      .values({
+        diveLogId: diveLogSpecies.diveLogId,
+        speciesId: diveLogSpecies.speciesId,
+        quantity: diveLogSpecies.quantity,
+        notes: diveLogSpecies.notes ?? null
+      })
+      .returning();
+    return result[0];
+  }
+
+  async getDiveLogSpecies(diveLogId: number): Promise<{species: Species, quantity: number, notes: string}[]> {
+    const results = await db
+      .select({
+        species: species,
+        quantity: diveLogSpecies.quantity,
+        notes: diveLogSpecies.notes
+      })
+      .from(diveLogSpecies)
+      .innerJoin(
+        species,
+        eq(diveLogSpecies.speciesId, species.id)
+      )
+      .where(eq(diveLogSpecies.diveLogId, diveLogId));
+    
+    return results.map(r => ({ ...r, notes: r.notes || '' }));
   }
 }

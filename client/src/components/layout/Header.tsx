@@ -64,12 +64,14 @@ const Header: React.FC = () => {
         </nav>
         
         <div className="flex items-center space-x-3">
-          <Button 
-            className="hidden md:flex bg-[#EB6440] hover:bg-[#FFAB91] text-white" 
-            size="sm"
-          >
-            Log Dive
-          </Button>
+          <Link href="/log-dive">
+            <Button 
+              className="hidden md:flex bg-[#EB6440] hover:bg-[#FFAB91] text-white" 
+              size="sm"
+            >
+              Log Dive
+            </Button>
+          </Link>
           
           <Avatar className="w-9 h-9 bg-[#05BFDB] hover:bg-[#E0F7FA] hover:text-[#0A4D68] cursor-pointer transition duration-200">
             <AvatarFallback>JD</AvatarFallback>
@@ -102,9 +104,11 @@ const Header: React.FC = () => {
               Learn
             </Link>
 
-            <Button className="w-full bg-[#EB6440] hover:bg-[#FFAB91] text-white">
-              Log Dive
-            </Button>
+            <Link href="/log-dive">
+              <Button className="w-full bg-[#EB6440] hover:bg-[#FFAB91] text-white">
+                Log Dive
+              </Button>
+            </Link>
           </div>
         </div>
       )}
