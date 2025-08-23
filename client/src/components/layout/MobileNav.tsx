@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
+import { Fish } from "lucide-react";
 
 const MobileNav: React.FC = () => {
   const [location] = useLocation();
@@ -30,15 +31,7 @@ const MobileNav: React.FC = () => {
             "flex flex-col items-center px-2 py-1 flex-1",
             isActive("/species") ? "text-[#05BFDB]" : "text-white"
           )}>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6">
-              <circle cx="5" cy="6" r="3"/>
-              <path d="M12 6h5a2 2 0 0 1 2 2v7"/>
-              <path d="M12 6V4a2 2 0 0 1 2-2h3"/>
-              <path d="M12 6V4a2 2 0 0 0-2-2H7"/>
-              <path d="M12 6h-5a2 2 0 0 0-2 2v7"/>
-              <circle cx="5" cy="18" r="3"/>
-              <circle cx="19" cy="18" r="3"/>
-            </svg>
+            <Fish className="w-6 h-6" />
             <span className="text-xs mt-1">Species</span>
           </Link>
           
