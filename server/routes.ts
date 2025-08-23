@@ -300,13 +300,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/users/:id/favorites', async (req, res) => {
     try {
       const userId = parseInt(req.params.id);
-      console.log('Fetching favorites for user:', userId);
       const favorites = await storage.getUserFavoriteDiveSites(userId);
-      console.log('Favorites result:', favorites);
       
       res.json(favorites);
     } catch (error) {
-      console.error('Error in getUserFavoriteDiveSites:', error);
       res.status(500).json({ error: 'Failed to fetch favorites' });
     }
   });
@@ -330,13 +327,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/users/:id/spotted-species', async (req, res) => {
     try {
       const userId = parseInt(req.params.id);
-      console.log('Fetching spotted species for user:', userId);
       const spotted = await storage.getUserSpottedSpecies(userId);
-      console.log('Spotted species result:', spotted);
       
       res.json(spotted);
     } catch (error) {
-      console.error('Error in getUserSpottedSpecies:', error);
       res.status(500).json({ error: 'Failed to fetch spotted species' });
     }
   });

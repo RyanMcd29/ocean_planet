@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchSpeciesById, fetchDiveSites } from "@/lib/api";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, MapPin, Info, AlertTriangle } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import { ArrowLeft, MapPin, Info, AlertTriangle, Check } from "lucide-react";
 import SpeciesTag from "@/components/ui/SpeciesTag";
 
 const SpeciesPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const speciesId = parseInt(id);
+  const [selectedDiveSiteId, setSelectedDiveSiteId] = useState<number | null>(null);
+  const [showDiveSiteSelector, setShowDiveSiteSelector] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
   
   const { data: species, isLoading, error } = useQuery({
     queryKey: [`/api/species/${speciesId}`],
@@ -23,6 +30,56 @@ const SpeciesPage: React.FC = () => {
     queryKey: ['/api/dive-sites'],
     queryFn: () => fetchDiveSites(),
   });
+
+  // Check if user has already spotted this species
+  const { data: userSpottedSpecies } = useQuery({
+    queryKey: ['/api/users/1/spotted-species'],
+  });
+
+  const isAlreadySpotted = userSpottedSpecies?.some((item: any) => item.species.id === speciesId);
+
+  // Mutation to log species sighting
+  const logSightingMutation = useMutation({
+    mutationFn: async (data: { userId: number; diveSiteId: number; speciesId: number; notes?: string }) => {
+      return apiRequest('/api/spotted-species', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Sighting Logged!",
+        description: `Successfully logged your sighting of ${species?.commonName}`,
+      });
+      queryClient.invalidateQueries({ queryKey: ['/api/users/1/spotted-species'] });
+      setShowDiveSiteSelector(false);
+      setSelectedDiveSiteId(null);
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to log sighting. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleLogSighting = () => {
+    if (!selectedDiveSiteId) {
+      setShowDiveSiteSelector(true);
+      return;
+    }
+    
+    logSightingMutation.mutate({
+      userId: 1, // Using hardcoded user ID for now
+      diveSiteId: selectedDiveSiteId,
+      speciesId: speciesId,
+      notes: `Spotted during dive at ${diveSites?.find(site => site.id === selectedDiveSiteId)?.name}`
+    });
+  };
   
   // We would normally get this from an API call, but for now let's filter dive sites that might have this species
   // In a real implementation, there would be a separate endpoint for this data
@@ -159,9 +216,51 @@ const SpeciesPage: React.FC = () => {
                 <p className="text-[#757575] mb-4">
                   Help marine scientists track and monitor {species.commonName} populations by logging your sightings during dives. Your data contributes to global conservation efforts.
                 </p>
-                <Button className="bg-[#05BFDB] hover:bg-[#088395] text-white">
-                  Log a Sighting
-                </Button>
+                
+                {showDiveSiteSelector && !isAlreadySpotted && (
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-[#0A4D68] mb-2">
+                      Where did you spot this species?
+                    </label>
+                    <Select onValueChange={(value) => setSelectedDiveSiteId(parseInt(value))}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a dive site" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {diveSites?.map((site: any) => (
+                          <SelectItem key={site.id} value={site.id.toString()}>
+                            {site.name} - {site.location}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                )}
+                
+                {isAlreadySpotted ? (
+                  <Button disabled className="bg-green-500 text-white">
+                    <Check className="h-4 w-4 mr-2" />
+                    Already Logged
+                  </Button>
+                ) : (
+                  <Button 
+                    className="bg-[#05BFDB] hover:bg-[#088395] text-white"
+                    onClick={handleLogSighting}
+                    disabled={logSightingMutation.isPending}
+                  >
+                    {logSightingMutation.isPending ? 'Logging...' : 'Log Sighting'}
+                  </Button>
+                )}
+                
+                {showDiveSiteSelector && (
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setShowDiveSiteSelector(false)}
+                    className="ml-2"
+                  >
+                    Cancel
+                  </Button>
+                )}
               </CardContent>
             </Card>
           </div>
