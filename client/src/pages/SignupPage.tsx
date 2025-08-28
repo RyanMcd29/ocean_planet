@@ -27,42 +27,55 @@ export default function SignupPage() {
 
   const registrationMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      return apiRequest('/api/users/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      return apiRequest('POST', '/api/users/register', data);
     },
-    onSuccess: (response) => {
-      toast({
-        title: "Welcome to Ocean Planet!",
-        description: "Your account has been created successfully.",
-      });
-      setLocation("/profile");
-    },
-    onError: (error: any) => {
-      const errorData = error.response?.data || error;
-      
-      if (errorData.errors) {
-        // Handle validation errors
-        const errorMessages = Object.entries(errorData.errors)
-          .map(([field, messages]: [string, any]) => `${field}: ${Array.isArray(messages) ? messages.join(', ') : messages}`)
-          .join('\n');
-        
+    onSuccess: async (response) => {
+      try {
+        const data = await response.json();
         toast({
-          title: "Registration Failed",
-          description: errorMessages,
-          variant: "destructive",
+          title: "Welcome to Ocean Planet!",
+          description: "Your account has been created successfully.",
         });
-      } else {
+        setLocation("/profile");
+      } catch (error) {
         toast({
           title: "Registration Failed",
-          description: errorData.message || "There was an error creating your account. Please try again.",
+          description: "There was an error processing your registration.",
           variant: "destructive",
         });
       }
+    },
+    onError: (error: any) => {
+      // Handle different error formats
+      let errorMessage = "There was an error creating your account. Please try again.";
+      
+      if (error.message) {
+        // Try to parse the error message for validation errors
+        try {
+          const errorText = error.message.split(': ')[1]; // Remove status code
+          const errorData = JSON.parse(errorText);
+          
+          if (errorData.errors) {
+            const errorMessages = Object.entries(errorData.errors)
+              .map(([field, messages]: [string, any]) => 
+                `${field}: ${Array.isArray(messages) ? messages.join(', ') : messages}`
+              )
+              .join('\n');
+            errorMessage = errorMessages;
+          } else if (errorData.message) {
+            errorMessage = errorData.message;
+          }
+        } catch (parseError) {
+          // If parsing fails, use the original error message
+          errorMessage = error.message;
+        }
+      }
+      
+      toast({
+        title: "Registration Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
     },
   });
 
