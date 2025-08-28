@@ -1,0 +1,141 @@
+# Implement User Registration System - Ocean Planet
+
+## Project Context
+Ocean Planet is a full-stack diving platform built with React + TypeScript (frontend), Express.js (backend), PostgreSQL with Drizzle ORM, and deployed on Replit.
+
+## Objective
+Implement complete user registration functionality, including database schema updates and API endpoints.
+
+## Required Database Changes
+
+### Current Users Schema:
+```sql
+- id (serial, primary key)
+- username (text, unique, not null)
+- password (text, not null)
+- email (text, unique, not null)  
+- profilePicture (text)
+- bio (text)
+```
+
+### New Required Schema:
+```sql
+- id (serial, primary key)
+- name (text, not null)
+- lastname (text, not null)
+- email (text, unique, not null)
+- password (text, not null)
+- preferredActivity (text, not null) - options: 'diving', 'freediving', 'snorkeling', 'other'
+- profilePicture (text)
+- bio (text)
+- createdAt (timestamp, default now())
+- updatedAt (timestamp, default now())
+```
+
+**Note:** Remove the `username` field and replace it with `name` and `lastname`.
+
+## Functionality to Implement
+
+### 1. Database Migration
+- Update the Drizzle schema file to reflect the new Users table structure
+- Create and run migration to update existing database
+- Ensure all existing user references are properly updated
+
+### 2. Backend API Implementation
+- Create POST `/api/users/register` endpoint
+- Implement password hashing (use bcrypt)
+- Add email validation
+- Add input validation and sanitization
+- Return appropriate success/error responses
+- Handle duplicate email validation
+
+### 3. Frontend Form Integration
+- Update the existing registration form to include new fields:
+  - First Name (name)
+  - Last Name (lastname)
+  - Email
+  - Password
+  - Confirm Password
+  - Preferred Activity (dropdown with options)
+- Add client-side validation
+- Connect form submission to the new API endpoint
+- Handle success/error states with user feedback
+- Add loading states during submission
+
+### 4. Type Safety
+- Update TypeScript interfaces/types for the new User schema
+- Ensure type consistency across frontend and backend
+- Update any existing code that references the old username field
+
+## Technical Requirements
+
+### Security
+- Hash passwords using bcrypt before storing
+- Implement proper input validation and sanitization
+- Add rate limiting to prevent abuse
+- Use environment variables for sensitive configuration
+
+### Validation Rules
+- Name: Required, min 2 characters, max 50 characters
+- Last Name: Required, min 2 characters, max 50 characters  
+- Email: Required, valid email format, unique
+- Password: Required, min 8 characters, include uppercase, lowercase, number
+- Preferred Activity: Required, must be one of the allowed options
+
+### API Response Format
+```json
+// Success Response
+{
+  "success": true,
+  "message": "User registered successfully",
+  "user": {
+    "id": 1,
+    "name": "John",
+    "lastname": "Doe",
+    "email": "john@example.com",
+    "preferredActivity": "diving",
+    "createdAt": "2025-01-10T10:30:00Z"
+  }
+}
+
+// Error Response
+{
+  "success": false,
+  "message": "Validation failed",
+  "errors": {
+    "email": "Email already exists",
+    "password": "Password must be at least 8 characters"
+  }
+}
+```
+
+## Files to Modify/Create
+
+### Backend Files:
+- Update database schema file (likely in `db/schema.ts` or similar)
+- Create migration file
+- Create/update user routes (`routes/users.ts` or similar)
+- Update user types/interfaces
+
+### Frontend Files:
+- Update registration form component
+- Update user types/interfaces
+- Add form validation utilities if needed
+- Update any components that reference user data
+
+## Expected Behavior After Implementation
+1. User fills out the registration form with all required fields
+2. Frontend validates input and shows immediate feedback
+3. On submission, data is sent to backend API
+4. Backend validates, hashes password, and saves to database
+5. User receives success confirmation or error messages
+6. Form is reset on successful registration
+
+## Notes
+- Maintain consistency with existing Ocean Platform UI/UX patterns
+- Follow the project's existing code style and structure
+- Ensure the registration form is mobile-responsive
+- Consider adding email verification in future iterations (but not required for this implementation)
+
+## Priority
+This is a high-priority feature needed to enable user authentication. Please implement all components (database, backend, frontend) in a single comprehensive update.
