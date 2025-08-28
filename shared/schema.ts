@@ -5,12 +5,13 @@ import { z } from "zod";
 // User account table
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  name: text("name").notNull(),
-  lastname: text("lastname").notNull(),
+  username: text("username"), // Keep for backward compatibility
+  name: text("name"),
+  lastname: text("lastname"),
   email: text("email").notNull().unique(),
-  password: text("password").notNull(),
-  preferredActivity: text("preferred_activity").notNull(), // 'diving', 'freediving', 'snorkeling', 'other'
-  profilePicture: text("profile_picture"),
+  password: text("password_hash").notNull(), // Match actual DB column
+  preferredActivity: text("preferred_activity"), // 'diving', 'freediving', 'snorkeling', 'other'
+  profilePicture: text("profile_image_url"), // Match actual DB column
   bio: text("bio"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),

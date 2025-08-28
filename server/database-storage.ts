@@ -35,11 +35,12 @@ export class DatabaseStorage implements IStorage {
     const result = await db
       .insert(users)
       .values({
-        name: insertUser.name,
-        lastname: insertUser.lastname,
+        username: `${insertUser.name}_${insertUser.lastname}`.toLowerCase().replace(/\s+/g, '_'), // Generate username from name
+        name: insertUser.name || 'User',
+        lastname: insertUser.lastname || 'Name',
         email: insertUser.email,
-        password: insertUser.password,
-        preferredActivity: insertUser.preferredActivity,
+        password: insertUser.password, // This maps to password_hash in DB
+        preferredActivity: insertUser.preferredActivity || 'diving',
         profilePicture: insertUser.profilePicture ?? null,
         bio: insertUser.bio ?? null
       })
@@ -568,3 +569,5 @@ export class DatabaseStorage implements IStorage {
     return results.map(r => ({ ...r, notes: r.notes || '' }));
   }
 }
+
+export const storage = new DatabaseStorage();
