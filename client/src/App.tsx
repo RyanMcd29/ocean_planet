@@ -3,9 +3,11 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from "@/contexts/AuthContext";
 import NotFound from "@/pages/not-found";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import HomePage from "@/pages/Home";
 import DiveSitePage from "@/pages/DiveSitePage";
 import SpeciesPage from "@/pages/SpeciesPage";
@@ -20,6 +22,7 @@ import MissionPage from "@/pages/MissionPage";
 import BottomTrawlingLessonPage from "@/pages/BottomTrawlingLessonPage";
 import MicroLessonsPage from "@/pages/MicroLessonsPage";
 import SignupPage from "@/pages/SignupPage";
+import LoginPage from "@/pages/LoginPage";
 
 import MobileNav from "@/components/layout/MobileNav";
 
@@ -32,16 +35,29 @@ function Router() {
         <Route path="/dive-site/:id" component={DiveSitePage} />
         <Route path="/species" component={SpeciesBrowsePage} />
         <Route path="/species/:id" component={SpeciesPage} />
-        <Route path="/profile" component={ProfilePage} />
+        <Route path="/profile">
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        </Route>
         <Route path="/community" component={CommunityPage} />
-        <Route path="/log-dive" component={LogDivePage} />
-        <Route path="/learn" component={LearnPage} />
+        <Route path="/log-dive">
+          <ProtectedRoute>
+            <LogDivePage />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/learn">
+          <ProtectedRoute>
+            <LearnPage />
+          </ProtectedRoute>
+        </Route>
         <Route path="/learn/lesson/:id" component={LessonDetailPage} />
         <Route path="/learn/quiz/:id" component={QuizPage} />
         <Route path="/mission" component={MissionPage} />
         <Route path="/micro-lessons" component={MicroLessonsPage} />
         <Route path="/lessons/bottom-trawling" component={BottomTrawlingLessonPage} />
         <Route path="/signup" component={SignupPage} />
+        <Route path="/login" component={LoginPage} />
 
         <Route component={NotFound} />
       </Switch>
@@ -54,11 +70,12 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        {/* Wrap the Router with our LearningPromptProvider */}
-        <Router />
-      </TooltipProvider>
+      <AuthProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Router />
+        </TooltipProvider>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

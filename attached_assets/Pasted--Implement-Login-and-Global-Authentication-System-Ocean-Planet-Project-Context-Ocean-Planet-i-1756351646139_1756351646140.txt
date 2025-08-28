@@ -1,0 +1,187 @@
+# Implement Login and Global Authentication System - Ocean Planet
+
+## Project Context
+Ocean Planet is a full-stack diving platform with user registration already implemented. Now we need to add login functionality and global authentication management.
+
+## Objective
+Implement a complete login system with global authentication state management that protects specific routes and features throughout the application.
+
+## Authentication Requirements
+
+### 1. Login Functionality
+- Create login form with email and password fields
+- Implement POST `/api/users/login` endpoint
+- Use bcrypt to verify passwords
+- Generate and manage user sessions/tokens
+- Return user data on successful login
+
+### 2. Global Authentication State
+- Implement global authentication context/state management
+- Track if user is logged in across the entire application
+- Store user information (name, email, preferredActivity, etc.)
+- Persist login state across browser sessions
+- Handle logout functionality
+
+### 3. Protected Routes and Features
+Protect the following features - redirect to login if user is not authenticated:
+
+**Navigation Items:**
+- "My Dives" - should redirect to login if not authenticated
+- "Log Dive" button - should redirect to login if not authenticated
+- "Learn" section - should redirect to login if not authenticated
+- User profile button (avatar in header) - should redirect to login if not authenticated
+
+**Expected Flow:**
+1. User clicks on any protected feature
+2. If not logged in → redirect to login page
+3. After successful login → redirect back to originally requested page
+4. If already logged in → show the requested feature/page normally
+
+## Technical Implementation
+
+### 1. Backend API Endpoints
+
+#### Login Endpoint
+```
+POST /api/users/login
+Request Body: { email: string, password: string }
+
+Success Response:
+{
+  "success": true,
+  "message": "Login successful",
+  "user": {
+    "id": 1,
+    "name": "John",
+    "lastname": "Doe",
+    "email": "john@example.com",
+    "preferredActivity": "diving",
+    "profilePicture": "url...",
+    "bio": "..."
+  },
+  "token": "jwt_token_or_session_id"
+}
+
+Error Response:
+{
+  "success": false,
+  "message": "Invalid credentials"
+}
+```
+
+#### Session/Token Validation Endpoint
+```
+GET /api/users/me
+Headers: Authorization: Bearer [token] or use sessions
+Response: User data if valid, 401 if invalid
+```
+
+#### Logout Endpoint
+```
+POST /api/users/logout
+Response: { "success": true, "message": "Logged out successfully" }
+```
+
+### 2. Frontend Authentication System
+
+#### Authentication Context/Provider
+- Create React Context for authentication state
+- Wrap the entire app with AuthProvider
+- Provide authentication methods: login, logout, checkAuth
+- Manage loading states during authentication checks
+
+#### Protected Route Component
+- Create a ProtectedRoute or useAuthGuard hook
+- Check authentication status before rendering protected content
+- Redirect to login with return URL parameter
+- Handle loading states while checking authentication
+
+#### Login Form Component
+- Email and password fields with validation
+- Handle form submission and API calls
+- Show loading states and error messages
+- Redirect to return URL after successful login
+- Link to registration form
+
+### 3. Navigation and UI Updates
+
+#### Header Component Updates
+- Show different states based on authentication:
+  - Not logged in: Show "Login" button
+  - Logged in: Show user avatar/profile button with dropdown menu
+- User dropdown should include: Profile, Settings, Logout options
+
+#### Route Protection Implementation
+Apply authentication checks to:
+- `/my-dives` route
+- `/log-dive` route  
+- `/learn` route
+- User profile routes
+- Any other user-specific features
+
+### 4. Session Management
+- Implement session persistence (localStorage/sessionStorage or HTTP-only cookies)
+- Auto-logout on token expiration
+- Refresh token mechanism if using JWT
+- Clear user data on logout
+
+## Security Considerations
+- Use secure session management (HTTP-only cookies preferred)
+- Implement CSRF protection if using cookies
+- Add rate limiting to login endpoint
+- Validate and sanitize all inputs
+- Use secure password comparison with bcrypt
+- Implement proper error handling without exposing sensitive information
+
+## User Experience Requirements
+
+### Login Form
+- Clean, responsive design matching Ocean Planet theme
+- Form validation with helpful error messages
+- "Remember me" option for persistent sessions
+- "Forgot password" link (placeholder for future implementation)
+- Easy navigation between login and registration forms
+
+### Authentication Flow
+- Smooth redirects without jarring page transitions
+- Clear loading indicators during authentication
+- Helpful error messages for failed login attempts
+- Automatic redirect to intended destination after login
+
+### Protected Features Behavior
+- Intuitive flow when accessing protected features while not logged in
+- Clear indication that login is required
+- Seamless continuation after authentication
+
+## Files to Modify/Create
+
+### Backend Files:
+- Create/update authentication routes (`routes/auth.ts` or `routes/users.ts`)
+- Add middleware for session/token validation
+- Update existing user routes to include authentication checks
+
+### Frontend Files:
+- Create AuthContext and AuthProvider (`contexts/AuthContext.tsx`)
+- Create Login form component (`components/Login.tsx`)
+- Create ProtectedRoute component or useAuthGuard hook
+- Update Header component with authentication-aware navigation
+- Update routing to include login page and protected routes
+- Add authentication service/utilities
+
+## Expected Behavior After Implementation
+
+### For Non-Authenticated Users:
+1. Clicks "My Dives" → Redirected to login page
+2. Clicks "Log Dive" → Redirected to login page
+3. Clicks "Learn" → Redirected to login page
+4. Clicks user avatar → Redirected to login page
+5. After login → Automatically redirected to originally requested page
+
+### For Authenticated Users:
+1. Header shows user avatar with dropdown menu
+2. All protected routes work normally
+3. Can logout from dropdown menu
+4. Session persists across browser sessions (if "Remember me" selected)
+
+## Priority
+This is a critical feature that enables the full user experience. Please implement all components (backend authentication, frontend context, protected routes, and UI updates) in a comprehensive update that maintains consistency with the existing Ocean Planet design and architecture.

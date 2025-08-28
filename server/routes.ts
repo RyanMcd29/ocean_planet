@@ -12,7 +12,8 @@ import {
   insertUserFavoriteSchema,
   insertUserSpottedSpeciesSchema,
   insertDiveMapSchema,
-  registrationSchema
+  registrationSchema,
+  loginSchema
 } from "@shared/schema";
 import bcrypt from 'bcryptjs';
 import { OceanDataService } from "./services/oceanData";
@@ -110,6 +111,124 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     } catch (error) {
       console.error('Registration error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error"
+      });
+    }
+  });
+
+  // User login endpoint
+  app.post('/api/users/login', async (req: Request, res: Response) => {
+    try {
+      // Validate the request body
+      const validationResult = loginSchema.safeParse(req.body);
+      
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation failed",
+          errors: validationResult.error.flatten().fieldErrors
+        });
+      }
+
+      const { email, password } = validationResult.data;
+
+      // Find user by email
+      const user = await storage.getUserByEmail(email);
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid credentials"
+        });
+      }
+
+      // Verify password
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({
+          success: false,
+          message: "Invalid credentials"
+        });
+      }
+
+      // Store user session (simple session approach)
+      req.session.userId = user.id;
+      req.session.save((err) => {
+        if (err) {
+          console.error('Session save error:', err);
+        }
+      });
+
+      // Return success response (exclude password)
+      const { password: _, ...userResponse } = user;
+      res.status(200).json({
+        success: true,
+        message: "Login successful",
+        user: userResponse
+      });
+    } catch (error) {
+      console.error('Login error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error"
+      });
+    }
+  });
+
+  // Get current user endpoint (check authentication)
+  app.get('/api/users/me', async (req: Request, res: Response) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Not authenticated"
+        });
+      }
+
+      const user = await storage.getUser(req.session.userId);
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          message: "User not found"
+        });
+      }
+
+      // Return user data (exclude password)
+      const { password, ...userResponse } = user;
+      res.status(200).json({
+        success: true,
+        user: userResponse
+      });
+    } catch (error) {
+      console.error('Get user error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error"
+      });
+    }
+  });
+
+  // User logout endpoint
+  app.post('/api/users/logout', async (req: Request, res: Response) => {
+    try {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Session destroy error:', err);
+          return res.status(500).json({
+            success: false,
+            message: "Failed to logout"
+          });
+        }
+        
+        res.clearCookie('connect.sid'); // Default session cookie name
+        res.status(200).json({
+          success: true,
+          message: "Logged out successfully"
+        });
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
       res.status(500).json({
         success: false,
         message: "Internal server error"

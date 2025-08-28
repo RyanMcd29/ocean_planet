@@ -324,3 +324,11 @@ export type DiveMap = typeof diveMaps.$inferSelect;
 export type InsertDiveMap = z.infer<typeof insertDiveMapSchema>;
 export type DiveLogSpecies = typeof diveLogSpecies.$inferSelect;
 export type InsertDiveLogSpecies = z.infer<typeof insertDiveLogSpeciesSchema>;
+
+// Login schema
+export const loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(1, "Password is required")
+});
+
+export type LoginData = z.infer<typeof loginSchema>;
