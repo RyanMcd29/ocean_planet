@@ -5,15 +5,56 @@ import { z } from "zod";
 // User account table
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
-  username: text("username").notNull().unique(),
-  password: text("password").notNull(),
+  name: text("name").notNull(),
+  lastname: text("lastname").notNull(),
   email: text("email").notNull().unique(),
+  password: text("password").notNull(),
+  preferredActivity: text("preferred_activity").notNull(), // 'diving', 'freediving', 'snorkeling', 'other'
   profilePicture: text("profile_picture"),
   bio: text("bio"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+// Registration schema with validation
+export const registrationSchema = insertUserSchema.extend({
+  confirmPassword: z.string().min(8),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
+}).refine((data) => {
+  // Password strength validation
+  const hasUpperCase = /[A-Z]/.test(data.password);
+  const hasLowerCase = /[a-z]/.test(data.password);
+  const hasNumbers = /\d/.test(data.password);
+  return hasUpperCase && hasLowerCase && hasNumbers;
+}, {
+  message: "Password must contain uppercase, lowercase, and number",
+  path: ["password"],
+}).refine((data) => {
+  // Name validation
+  return data.name.length >= 2 && data.name.length <= 50;
+}, {
+  message: "Name must be 2-50 characters",
+  path: ["name"],
+}).refine((data) => {
+  // Last name validation
+  return data.lastname.length >= 2 && data.lastname.length <= 50;
+}, {
+  message: "Last name must be 2-50 characters",
+  path: ["lastname"],
+}).refine((data) => {
+  // Preferred activity validation
+  return ['diving', 'freediving', 'snorkeling', 'other'].includes(data.preferredActivity);
+}, {
+  message: "Invalid preferred activity",
+  path: ["preferredActivity"],
 });
 
 // Dive site information table

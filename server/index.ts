@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedDatabase } from "./seed-database";
+import { db } from "./db";
 
 const app = express();
 app.use(express.json());
@@ -67,7 +68,34 @@ app.use((req, res, next) => {
   // Seed the database with initial data
   try {
     await seedDatabase();
-    console.log('Database initialization complete');
+    // Add missing columns to users table if they don't exist
+  try {
+    await db.execute(`
+      ALTER TABLE users 
+      ADD COLUMN IF NOT EXISTS name text,
+      ADD COLUMN IF NOT EXISTS lastname text,
+      ADD COLUMN IF NOT EXISTS preferred_activity text,
+      ADD COLUMN IF NOT EXISTS created_at timestamp DEFAULT now(),
+      ADD COLUMN IF NOT EXISTS updated_at timestamp DEFAULT now()
+    `);
+    
+    // Update existing users with default values
+    await db.execute(`
+      UPDATE users SET 
+        name = COALESCE(name, 'User'),
+        lastname = COALESCE(lastname, 'Name'),
+        preferred_activity = COALESCE(preferred_activity, 'diving'),
+        created_at = COALESCE(created_at, now()),
+        updated_at = COALESCE(updated_at, now())
+      WHERE name IS NULL OR lastname IS NULL OR preferred_activity IS NULL
+    `);
+    
+    console.log('User table migration completed');
+  } catch (error) {
+    console.log('User table migration may have already been completed or failed:', error.message);
+  }
+
+  console.log('Database initialization complete');
   } catch (error) {
     console.error('Error initializing database:', error);
   }

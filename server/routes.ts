@@ -11,8 +11,10 @@ import {
   insertReviewSchema,
   insertUserFavoriteSchema,
   insertUserSpottedSpeciesSchema,
-  insertDiveMapSchema
+  insertDiveMapSchema,
+  registrationSchema
 } from "@shared/schema";
+import bcrypt from 'bcryptjs';
 import { OceanDataService } from "./services/oceanData";
 import multer from "multer";
 import path from "path";
@@ -56,6 +58,65 @@ function validateRequest<T>(schema: z.ZodType<T>, body: unknown): T | undefined 
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // User registration endpoint
+  app.post('/api/users/register', async (req: Request, res: Response) => {
+    try {
+      // Validate the request body
+      const validationResult = registrationSchema.safeParse(req.body);
+      
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation failed",
+          errors: validationResult.error.flatten().fieldErrors
+        });
+      }
+
+      const { confirmPassword, ...userData } = validationResult.data;
+
+      // Check if user already exists
+      const existingUser = await storage.getUserByEmail(userData.email);
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation failed",
+          errors: {
+            email: ["Email already exists"]
+          }
+        });
+      }
+
+      // Hash the password
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+
+      // Create the user with backward compatibility
+      const newUser = await storage.createUser({
+        name: userData.name,
+        lastname: userData.lastname,
+        email: userData.email,
+        password: hashedPassword,
+        preferredActivity: userData.preferredActivity,
+        profilePicture: userData.profilePicture || null,
+        bio: userData.bio || null
+      });
+
+      // Return success response (exclude password)
+      const { password, ...userResponse } = newUser;
+      res.status(201).json({
+        success: true,
+        message: "User registered successfully",
+        user: userResponse
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error"
+      });
+    }
+  });
+
   // API endpoints
   const apiRouter = app.route('/api');
   

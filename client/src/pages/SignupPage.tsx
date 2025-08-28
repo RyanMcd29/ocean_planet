@@ -3,10 +3,13 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Waves, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function SignupPage() {
   const [, setLocation] = useLocation();
@@ -15,9 +18,52 @@ export default function SignupPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
+    lastname: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    preferredActivity: ""
+  });
+
+  const registrationMutation = useMutation({
+    mutationFn: async (data: typeof formData) => {
+      return apiRequest('/api/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+    },
+    onSuccess: (response) => {
+      toast({
+        title: "Welcome to Ocean Planet!",
+        description: "Your account has been created successfully.",
+      });
+      setLocation("/profile");
+    },
+    onError: (error: any) => {
+      const errorData = error.response?.data || error;
+      
+      if (errorData.errors) {
+        // Handle validation errors
+        const errorMessages = Object.entries(errorData.errors)
+          .map(([field, messages]: [string, any]) => `${field}: ${Array.isArray(messages) ? messages.join(', ') : messages}`)
+          .join('\n');
+        
+        toast({
+          title: "Registration Failed",
+          description: errorMessages,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Registration Failed",
+          description: errorData.message || "There was an error creating your account. Please try again.",
+          variant: "destructive",
+        });
+      }
+    },
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,9 +74,27 @@ export default function SignupPage() {
     }));
   };
 
+  const handleSelectChange = (value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      preferredActivity: value
+    }));
+  };
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Basic client-side validation
+    if (!formData.name.trim() || !formData.lastname.trim() || !formData.email.trim() || 
+        !formData.password.trim() || !formData.confirmPassword.trim() || !formData.preferredActivity.trim()) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Password Mismatch",
@@ -40,31 +104,7 @@ export default function SignupPage() {
       return;
     }
 
-    if (formData.password.length < 6) {
-      toast({
-        title: "Password Too Short",
-        description: "Password must be at least 6 characters long.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      // For now, simulate successful signup since we don't have auth backend
-      toast({
-        title: "Welcome to Ocean Planet!",
-        description: "Your account has been created successfully.",
-      });
-      
-      // Redirect to profile page after signup
-      setLocation("/profile");
-    } catch (error) {
-      toast({
-        title: "Signup Failed",
-        description: "There was an error creating your account. Please try again.",
-        variant: "destructive",
-      });
-    }
+    registrationMutation.mutate(formData);
   };
 
   return (
@@ -86,22 +126,43 @@ export default function SignupPage() {
 
         <CardContent className="space-y-4">
           <form onSubmit={handleSignup} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-sm font-medium text-gray-700">
-                Full Name
-              </Label>
-              <div className="relative">
-                <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Enter your full name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                  className="pl-10"
-                  required
-                />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-sm font-medium text-gray-700">
+                  First Name
+                </Label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    placeholder="First name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="pl-10"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="lastname" className="text-sm font-medium text-gray-700">
+                  Last Name
+                </Label>
+                <div className="relative">
+                  <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Input
+                    id="lastname"
+                    name="lastname"
+                    type="text"
+                    placeholder="Last name"
+                    value={formData.lastname}
+                    onChange={handleInputChange}
+                    className="pl-10"
+                    required
+                  />
+                </div>
               </div>
             </div>
 
@@ -122,6 +183,23 @@ export default function SignupPage() {
                   required
                 />
               </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="preferredActivity" className="text-sm font-medium text-gray-700">
+                Preferred Activity
+              </Label>
+              <Select onValueChange={handleSelectChange} required>
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose your preferred ocean activity" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="diving">Scuba Diving</SelectItem>
+                  <SelectItem value="freediving">Freediving</SelectItem>
+                  <SelectItem value="snorkeling">Snorkeling</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
@@ -148,6 +226,9 @@ export default function SignupPage() {
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
+              <p className="text-xs text-gray-500">
+                Must be 8+ characters with uppercase, lowercase, and number
+              </p>
             </div>
 
             <div className="space-y-2">
@@ -179,8 +260,9 @@ export default function SignupPage() {
             <Button
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5"
+              disabled={registrationMutation.isPending}
             >
-              Create Account
+              {registrationMutation.isPending ? "Creating Account..." : "Create Account"}
             </Button>
           </form>
 

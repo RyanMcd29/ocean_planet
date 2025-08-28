@@ -26,8 +26,8 @@ export class DatabaseStorage implements IStorage {
     return result.length > 0 ? result[0] : undefined;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const result = await db.select().from(users).where(eq(users.username, username));
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const result = await db.select().from(users).where(eq(users.email, email));
     return result.length > 0 ? result[0] : undefined;
   }
 
@@ -35,9 +35,11 @@ export class DatabaseStorage implements IStorage {
     const result = await db
       .insert(users)
       .values({
-        username: insertUser.username,
-        password: insertUser.password,
+        name: insertUser.name,
+        lastname: insertUser.lastname,
         email: insertUser.email,
+        password: insertUser.password,
+        preferredActivity: insertUser.preferredActivity,
         profilePicture: insertUser.profilePicture ?? null,
         bio: insertUser.bio ?? null
       })
