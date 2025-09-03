@@ -51,14 +51,20 @@ const LogDivePage: React.FC = () => {
   const form = useForm<LogDiveFormData>({
     resolver: zodResolver(logDiveSchema),
     defaultValues: {
+      diveSiteId: undefined,
       diveDate: new Date().toISOString().split('T')[0],
       diveTime: "10:00",
       duration: 45,
       maxDepth: 18,
       avgDepth: 12,
+      waterTemp: undefined,
+      visibility: undefined,
       current: "None",
       conditions: "Good",
+      description: "",
+      equipment: "",
       certificationLevel: "Open Water",
+      buddyName: "",
     },
   });
 

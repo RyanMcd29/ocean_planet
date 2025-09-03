@@ -493,7 +493,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const validationResult = insertDiveLogSchema.safeParse(req.body);
+      // Transform the date string to a Date object and add userId
+      const requestData = {
+        ...req.body,
+        diveDate: new Date(req.body.diveDate),
+        userId: req.session.userId
+      };
+
+      const validationResult = insertDiveLogSchema.safeParse(requestData);
       if (!validationResult.success) {
         return res.status(400).json({
           success: false,
@@ -502,10 +509,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const diveLogData = {
-        ...validationResult.data,
-        userId: req.session.userId
-      };
+      const diveLogData = validationResult.data;
 
       const newDiveLog = await storage.createDiveLog(diveLogData);
 
