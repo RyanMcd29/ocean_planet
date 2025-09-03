@@ -132,7 +132,7 @@ export class DatabaseStorage implements IStorage {
         profilePicture: row.profilePicture,
         bio: row.bio,
         countryId: row.countryId,
-        country: row.country.id ? row.country : undefined
+        country: row.country && row.country.id ? row.country : undefined
       };
     } catch (error) {
       console.error('Database error in getUserWithCountry:', error);

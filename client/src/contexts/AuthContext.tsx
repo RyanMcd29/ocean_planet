@@ -68,7 +68,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       const data = await response.json();
 
       if (data.success && data.user) {
-        setUser(data.user);
+        // After successful login, fetch complete user data including country
+        await checkAuth();
         return { success: true, message: data.message, user: data.user };
       } else {
         return { success: false, message: data.message };

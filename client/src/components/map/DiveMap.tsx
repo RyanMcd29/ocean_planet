@@ -57,6 +57,11 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
     queryFn: () => fetchDiveSites(searchQuery, filters)
   });
 
+  // Reset initialization when authentication status changes
+  useEffect(() => {
+    setHasInitialized(false);
+  }, [isAuthenticated]);
+
   // Center map on user's country when they're logged in and on initial load
   useEffect(() => {
     if (!hasInitialized && isAuthenticated && user?.country?.latitude && user?.country?.longitude) {
