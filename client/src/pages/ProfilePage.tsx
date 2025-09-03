@@ -147,34 +147,6 @@ const ProfilePage: React.FC = () => {
             </CardContent>
           </Card>
           
-          <Card className="mt-4">
-            <CardHeader>
-              <CardTitle className="text-lg text-[#0A4D68]">Certifications</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center">
-                <Award className="h-5 w-5 text-[#05BFDB] mr-2" />
-                <div>
-                  <p className="font-medium">PADI Advanced Open Water</p>
-                  <p className="text-xs text-[#757575]">Completed April 2018</p>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <Award className="h-5 w-5 text-[#05BFDB] mr-2" />
-                <div>
-                  <p className="font-medium">PADI Nitrox Specialty</p>
-                  <p className="text-xs text-[#757575]">Completed May 2019</p>
-                </div>
-              </div>
-              <div className="flex items-center">
-                <Award className="h-5 w-5 text-[#05BFDB] mr-2" />
-                <div>
-                  <p className="font-medium">PADI Underwater Photography</p>
-                  <p className="text-xs text-[#757575]">Completed July 2020</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
         
         <div className="lg:col-span-3">
@@ -470,9 +442,11 @@ const ProfilePage: React.FC = () => {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="text-xl text-[#0A4D68]">Species I've Spotted</CardTitle>
-                  <Button className="bg-[#05BFDB] hover:bg-[#088395] text-white">
-                    <Fish className="h-4 w-4 mr-2" /> Log Sighting
-                  </Button>
+                  <Link href="/log-dive">
+                    <Button className="bg-[#05BFDB] hover:bg-[#088395] text-white">
+                      <Fish className="h-4 w-4 mr-2" /> Log A Dive
+                    </Button>
+                  </Link>
                 </CardHeader>
                 <CardContent>
                   {spottedLoading ? (
