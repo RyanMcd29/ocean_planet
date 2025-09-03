@@ -90,6 +90,56 @@ export class DatabaseStorage implements IStorage {
     return result[0];
   }
 
+  async getUserWithCountry(id: number): Promise<(User & { country?: Country }) | undefined> {
+    try {
+      const result = await db
+        .select({
+          id: users.id,
+          username: users.username,
+          name: users.name,
+          lastname: users.lastname,
+          email: users.email,
+          password: users.password,
+          preferredActivity: users.preferredActivity,
+          profilePicture: users.profilePicture,
+          bio: users.bio,
+          countryId: users.countryId,
+          country: {
+            id: countries.id,
+            name: countries.name,
+            code: countries.code,
+            latitude: countries.latitude,
+            longitude: countries.longitude,
+          }
+        })
+        .from(users)
+        .leftJoin(countries, eq(users.countryId, countries.id))
+        .where(eq(users.id, id));
+
+      if (!result.length) {
+        return undefined;
+      }
+
+      const row = result[0];
+      return {
+        id: row.id,
+        username: row.username,
+        name: row.name,
+        lastname: row.lastname,
+        email: row.email,
+        password: row.password,
+        preferredActivity: row.preferredActivity,
+        profilePicture: row.profilePicture,
+        bio: row.bio,
+        countryId: row.countryId,
+        country: row.country.id ? row.country : undefined
+      };
+    } catch (error) {
+      console.error('Database error in getUserWithCountry:', error);
+      throw error;
+    }
+  }
+
   async updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined> {
     const result = await db
       .update(users)

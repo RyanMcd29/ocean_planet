@@ -1,0 +1,86 @@
+# Center Map on User's Country After Login - Ocean Planet
+
+## Project Context
+Ocean Planet diving platform has:
+- User authentication system with login/logout
+- Countries table with latitude/longitude coordinates  
+- Users table with country_id foreign key
+- Interactive map using Leaflet showing dive sites
+
+## Objective
+When a logged-in user visits the map page, automatically center the map on their country using the coordinates from the countries table.
+
+## Required Implementation
+
+### 1. Backend API Enhancement
+Update the user authentication endpoint to include country coordinates:
+
+**Modify existing `/api/users/me` or login response to include:**
+```json
+{
+  "success": true,
+  "user": {
+    "id": 1,
+    "name": "John",
+    "lastname": "Doe", 
+    "email": "john@example.com",
+    "preferredActivity": "diving",
+    "country": {
+      "id": 2,
+      "name": "Australia",
+      "code": "AU",
+      "latitude": -25.2744,
+      "longitude": 133.7751
+    }
+  }
+}
+```
+
+### 2. Frontend Map Initialization
+Update the map component to:
+- Check if user is logged in when map loads
+- Use user's country coordinates to center the map
+- Fall back to default coordinates if user not logged in
+- Set appropriate zoom level for country view
+
+### 3. Implementation Requirements
+
+#### Map Centering Logic:
+- **Logged in user:** Center map on user's country coordinates
+- **Not logged in:** Use default global view or current behavior
+- **Error handling:** Fall back to default view if country coordinates unavailable
+
+#### User Experience:
+- Map should center smoothly when user navigates to map page
+- Appropriate zoom level for country view (not too close, not too far)
+- Should work consistently every time user visits map page while logged in
+
+#### Technical Details:
+- Use existing Leaflet map instance and configuration
+- Integrate with existing authentication context/state
+- Handle async loading of user data appropriately
+- Maintain existing map functionality (dive site markers, clustering, etc.)
+
+## Expected Behavior
+
+### For Logged-in Users:
+1. User logs in and navigates to map page
+2. Map initializes centered on their country (e.g., Australia)
+3. Appropriate zoom level shows country overview
+4. All existing map features work normally (dive sites, markers, etc.)
+
+### For Non-logged-in Users:
+1. User visits map page without being logged in
+2. Map uses default initialization (current behavior)
+3. All map features work normally
+
+## Technical Notes
+
+- Use existing authentication context to get user data
+- Leverage existing API endpoints where possible
+- Maintain backward compatibility with current map functionality
+- Consider performance - don't make extra API calls if user data already available
+- Handle edge cases gracefully (invalid coordinates, network errors, etc.)
+
+## Priority
+This enhancement provides immediate value by showing users dive sites relevant to their location. Please implement this as a seamless enhancement to the existing map and authentication systems.

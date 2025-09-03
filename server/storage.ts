@@ -6,19 +6,25 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 import {
   users, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
-  diveLogs, diveLogSpecies, diveMaps,
+  diveLogs, diveLogSpecies, diveMaps, countries,
   type User, type InsertUser, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
   type NearbyDiveSite, type InsertNearbyDiveSite, type DiveCenter, type InsertDiveCenter,
   type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies,
   type WaterConditions, type InsertWaterConditions, type DiveLog, type InsertDiveLog,
-  type DiveLogSpecies, type InsertDiveLogSpecies, type DiveMap, type InsertDiveMap
+  type DiveLogSpecies, type InsertDiveLogSpecies, type DiveMap, type InsertDiveMap,
+  type Country, type InsertCountry
 } from '@shared/schema';
 
 export interface IStorage {
+  // Country management
+  getAllCountries(): Promise<Country[]>;
+  getCountry(id: number): Promise<Country | undefined>;
+
   // User management
   getUser(id: number): Promise<User | undefined>;
+  getUserWithCountry(id: number): Promise<(User & { country?: Country }) | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, userData: Partial<InsertUser>): Promise<User | undefined>;

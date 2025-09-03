@@ -219,7 +219,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const user = await storage.getUser(req.session.userId);
+      const user = await storage.getUserWithCountry(req.session.userId);
       if (!user) {
         return res.status(401).json({
           success: false,

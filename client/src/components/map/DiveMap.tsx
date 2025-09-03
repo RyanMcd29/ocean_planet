@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchDiveSites } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { clusterDiveSites, getRegionBounds } from "@/utils/mapClustering";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface DiveMapProps {
   onSelectDiveSite: (diveSite: DiveSite) => void;
@@ -43,16 +44,34 @@ const ZoomHandler: React.FC<{ onZoomChange: (zoom: number) => void }> = ({ onZoo
 };
 
 const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId }) => {
+  const { user, isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<Record<string, any>>({});
-  const [mapCenter, setMapCenter] = useState<[number, number]>([0, 20]); // Center on global view
+  const [mapCenter, setMapCenter] = useState<[number, number]>([0, 20]); // Default to global view
   const [currentZoom, setCurrentZoom] = useState(3);
   const [shouldCenter, setShouldCenter] = useState(true); // Only center on initial load or user action
+  const [hasInitialized, setHasInitialized] = useState(false);
   
   const { data: diveSites, isLoading, error } = useQuery({
     queryKey: ['/api/dive-sites', searchQuery, filters],
     queryFn: () => fetchDiveSites(searchQuery, filters)
   });
+
+  // Center map on user's country when they're logged in and on initial load
+  useEffect(() => {
+    if (!hasInitialized && isAuthenticated && user?.country?.latitude && user?.country?.longitude) {
+      setMapCenter([user.country.latitude, user.country.longitude]);
+      setCurrentZoom(6); // Appropriate zoom for country view
+      setShouldCenter(true);
+      setHasInitialized(true);
+    } else if (!hasInitialized && !isAuthenticated) {
+      // Set default global view for non-authenticated users
+      setMapCenter([0, 20]);
+      setCurrentZoom(3);
+      setShouldCenter(true);
+      setHasInitialized(true);
+    }
+  }, [isAuthenticated, user, hasInitialized]);
 
   // Cluster dive sites based on zoom level
   const { clusters, individualSites } = diveSites 
