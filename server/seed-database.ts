@@ -21,9 +21,12 @@ async function createTablesIfNotExists() {
       ALTER TABLE users ADD COLUMN IF NOT EXISTS country_id INTEGER;
     `);
 
-    // Create dive_logs table
+    // Drop and recreate dive_logs table with correct structure
+    await client.query(`DROP TABLE IF EXISTS dive_log_species;`);
+    await client.query(`DROP TABLE IF EXISTS dive_logs;`);
+    
     await client.query(`
-      CREATE TABLE IF NOT EXISTS dive_logs (
+      CREATE TABLE dive_logs (
         id SERIAL PRIMARY KEY,
         user_id INTEGER NOT NULL,
         dive_site_id INTEGER NOT NULL,
