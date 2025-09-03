@@ -66,7 +66,7 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
   useEffect(() => {
     if (!hasInitialized && isAuthenticated && user?.country?.latitude && user?.country?.longitude) {
       setMapCenter([user.country.latitude, user.country.longitude]);
-      setCurrentZoom(6); // Appropriate zoom for country view
+      setCurrentZoom(4); // Broader view for country overview
       setShouldCenter(true);
       setHasInitialized(true);
     } else if (!hasInitialized && !isAuthenticated) {
