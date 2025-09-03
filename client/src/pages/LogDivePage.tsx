@@ -15,6 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { MapPin, Clock, Thermometer, Eye, Waves, Users, FileText, Fish, Plus, X } from "lucide-react";
+import { useLocation } from "wouter";
 
 // Form validation schema
 const logDiveSchema = z.object({
@@ -47,6 +48,7 @@ const LogDivePage: React.FC = () => {
   const [speciesSearch, setSpeciesSearch] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
 
   const form = useForm<LogDiveFormData>({
     resolver: zodResolver(logDiveSchema),
@@ -95,8 +97,11 @@ const LogDivePage: React.FC = () => {
         description: "Your dive has been added to your logbook.",
       });
       queryClient.invalidateQueries({ queryKey: ['/api/dive-logs'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/users', 'spotted-species'] });
       form.reset();
       setSelectedSpecies([]);
+      // Navigate to My Dives page
+      setLocation('/profile?tab=dives');
     },
     onError: (error: any) => {
       toast({

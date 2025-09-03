@@ -550,7 +550,30 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getUserSpottedSpecies(userId: number): Promise<{ species: Species, diveSite: DiveSite, dateSpotted: Date }[]> {
-    const results = await db
+    // Get species from dive logs (species spotted during logged dives)
+    const diveLogSpeciesResults = await db
+      .select({
+        species: species,
+        diveSite: diveSites,
+        dateSpotted: diveLogs.diveDate
+      })
+      .from(diveLogSpecies)
+      .innerJoin(
+        diveLogs,
+        eq(diveLogSpecies.diveLogId, diveLogs.id)
+      )
+      .innerJoin(
+        species,
+        eq(diveLogSpecies.speciesId, species.id)
+      )
+      .innerJoin(
+        diveSites,
+        eq(diveLogs.diveSiteId, diveSites.id)
+      )
+      .where(eq(diveLogs.userId, userId));
+
+    // Get species from user spotted species table (general sightings)
+    const userSpottedResults = await db
       .select({
         species: species,
         diveSite: diveSites,
@@ -566,9 +589,14 @@ export class DatabaseStorage implements IStorage {
         eq(userSpottedSpecies.diveSiteId, diveSites.id)
       )
       .where(eq(userSpottedSpecies.userId, userId));
-    
-    // Force non-null dateSpotted since we've set it as a Date when inserting
-    return results.map(r => ({ ...r, dateSpotted: r.dateSpotted || new Date() }));
+
+    // Combine both results and remove duplicates by species ID
+    const allSightings = [...diveLogSpeciesResults, ...userSpottedResults];
+    const uniqueSightings = allSightings.filter((sighting, index, self) => 
+      index === self.findIndex(s => s.species.id === sighting.species.id)
+    );
+
+    return uniqueSightings.map(r => ({ ...r, dateSpotted: r.dateSpotted || new Date() }));
   }
 
   // Dive Maps Management
