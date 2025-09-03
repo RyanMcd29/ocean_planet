@@ -52,6 +52,7 @@ const ProfilePage: React.FC = () => {
   const { data: spottedSpecies, isLoading: spottedLoading } = useQuery({
     queryKey: [`/api/users/${user.id}/spotted-species`],
     queryFn: () => fetchUserSpottedSpecies(user.id),
+    staleTime: 0, // Always refetch to get latest data
   });
 
   // Fetch user's dive logs
