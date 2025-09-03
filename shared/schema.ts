@@ -1,6 +1,16 @@
 import { pgTable, text, serial, integer, boolean, jsonb, timestamp, real } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+import { relations } from "drizzle-orm";
+
+// Countries table
+export const countries = pgTable("countries", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(),
+  code: text("code").notNull().unique(), // ISO country codes (AU, US, etc.)
+  latitude: real("latitude"), // For future map centering
+  longitude: real("longitude"), // For future map centering
+});
 
 // User account table
 export const users = pgTable("users", {
@@ -13,9 +23,22 @@ export const users = pgTable("users", {
   preferredActivity: text("preferred_activity"), // 'diving', 'freediving', 'snorkeling', 'other'
   profilePicture: text("profile_image_url"), // Match actual DB column
   bio: text("bio"),
+  countryId: integer("country_id"), // Foreign key to countries table
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+// Define relations
+export const usersRelations = relations(users, ({ one }) => ({
+  country: one(countries, {
+    fields: [users.countryId],
+    references: [countries.id],
+  }),
+}));
+
+export const countriesRelations = relations(countries, ({ many }) => ({
+  users: many(users),
+}));
 
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
@@ -26,6 +49,7 @@ export const insertUserSchema = createInsertSchema(users).omit({
 // Registration schema with validation
 export const registrationSchema = insertUserSchema.extend({
   confirmPassword: z.string().min(8),
+  countryId: z.number().optional(), // Optional, will default to Australia
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -332,3 +356,11 @@ export const loginSchema = z.object({
 });
 
 export type LoginData = z.infer<typeof loginSchema>;
+
+// Countries schema and types
+export const insertCountrySchema = createInsertSchema(countries).omit({
+  id: true,
+});
+
+export type Country = typeof countries.$inferSelect;
+export type InsertCountry = z.infer<typeof insertCountrySchema>;

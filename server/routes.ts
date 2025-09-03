@@ -13,7 +13,8 @@ import {
   insertUserSpottedSpeciesSchema,
   insertDiveMapSchema,
   registrationSchema,
-  loginSchema
+  loginSchema,
+  insertCountrySchema
 } from "@shared/schema";
 import bcrypt from 'bcryptjs';
 import { OceanDataService } from "./services/oceanData";
@@ -59,6 +60,23 @@ function validateRequest<T>(schema: z.ZodType<T>, body: unknown): T | undefined 
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Countries endpoint
+  app.get('/api/countries', async (req: Request, res: Response) => {
+    try {
+      const countries = await storage.getAllCountries();
+      res.status(200).json({
+        success: true,
+        countries: countries
+      });
+    } catch (error) {
+      console.error('Get countries error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch countries"
+      });
+    }
+  });
+
   // User registration endpoint
   app.post('/api/users/register', async (req: Request, res: Response) => {
     try {
@@ -87,6 +105,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
+      // Validate country_id if provided
+      if (userData.countryId) {
+        const country = await storage.getCountry(userData.countryId);
+        if (!country) {
+          return res.status(400).json({
+            success: false,
+            message: "Validation failed",
+            errors: {
+              countryId: ["Invalid country selected"]
+            }
+          });
+        }
+      }
+
       // Hash the password
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
@@ -99,7 +131,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         password: hashedPassword,
         preferredActivity: userData.preferredActivity,
         profilePicture: userData.profilePicture || null,
-        bio: userData.bio || null
+        bio: userData.bio || null,
+        countryId: userData.countryId || null
       });
 
       // Return success response (exclude password)

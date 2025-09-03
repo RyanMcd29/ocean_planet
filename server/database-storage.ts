@@ -4,10 +4,10 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 
 // Import schema types and tables
 import {
-  users, diveSites, species, diveSiteSpecies, photos, reviews,
+  users, countries, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
   diveMaps, diveLogs, diveLogSpecies,
-  type User, type InsertUser, type DiveSite, type InsertDiveSite,
+  type User, type InsertUser, type Country, type InsertCountry, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
   type NearbyDiveSite, type InsertNearbyDiveSite, type DiveCenter, type InsertDiveCenter,
@@ -20,6 +20,34 @@ import {
 import { IStorage } from './storage';
 
 export class DatabaseStorage implements IStorage {
+  // Country Management
+  async getAllCountries(): Promise<Country[]> {
+    return await db.select().from(countries).orderBy(countries.name);
+  }
+
+  async getCountry(id: number): Promise<Country | undefined> {
+    const result = await db.select().from(countries).where(eq(countries.id, id));
+    return result.length > 0 ? result[0] : undefined;
+  }
+
+  async getCountryByCode(code: string): Promise<Country | undefined> {
+    const result = await db.select().from(countries).where(eq(countries.code, code));
+    return result.length > 0 ? result[0] : undefined;
+  }
+
+  async createCountry(insertCountry: InsertCountry): Promise<Country> {
+    const result = await db
+      .insert(countries)
+      .values({
+        name: insertCountry.name,
+        code: insertCountry.code,
+        latitude: insertCountry.latitude ?? null,
+        longitude: insertCountry.longitude ?? null
+      })
+      .returning();
+    return result[0];
+  }
+
   // User Management
   async getUser(id: number): Promise<User | undefined> {
     const result = await db.select().from(users).where(eq(users.id, id));
@@ -37,6 +65,14 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
+    // Get Australia's ID as default country (we'll add countries seeding later)
+    let countryId = insertUser.countryId;
+    if (!countryId) {
+      // Default to Australia if no country specified
+      const australia = await db.select().from(countries).where(eq(countries.code, 'AU')).limit(1);
+      countryId = australia.length > 0 ? australia[0].id : null;
+    }
+
     const result = await db
       .insert(users)
       .values({
@@ -47,7 +83,8 @@ export class DatabaseStorage implements IStorage {
         password: insertUser.password, // This maps to password_hash in DB
         preferredActivity: insertUser.preferredActivity || 'diving',
         profilePicture: insertUser.profilePicture ?? null,
-        bio: insertUser.bio ?? null
+        bio: insertUser.bio ?? null,
+        countryId: countryId
       })
       .returning();
     return result[0];

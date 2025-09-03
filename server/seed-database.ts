@@ -1,15 +1,88 @@
-import { db } from './db';
-import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, waterConditions } from "@shared/schema";
+import { db, pool } from './db';
+import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, waterConditions, countries, users } from "@shared/schema";
+import { sql } from "drizzle-orm";
+
+async function createTablesIfNotExists() {
+  const client = await pool.connect();
+  try {
+    // Create countries table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS countries (
+        id SERIAL PRIMARY KEY,
+        name TEXT UNIQUE NOT NULL,
+        code TEXT UNIQUE NOT NULL,
+        latitude REAL,
+        longitude REAL
+      );
+    `);
+
+    // Add country_id column to users table if it doesn't exist
+    await client.query(`
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS country_id INTEGER;
+    `);
+
+    console.log('Tables created/verified successfully');
+  } catch (error) {
+    console.error('Error creating tables:', error);
+  } finally {
+    client.release();
+  }
+}
+
+async function seedCountries() {
+  console.log('Seeding countries...');
+  
+  const existingCountries = await db.select().from(countries);
+  if (existingCountries.length > 0) {
+    console.log('Countries already seeded, skipping...');
+    return;
+  }
+
+  const countriesData = [
+    { name: 'Australia', code: 'AU', latitude: -27.0, longitude: 133.0 },
+    { name: 'United States', code: 'US', latitude: 39.8283, longitude: -98.5795 },
+    { name: 'Canada', code: 'CA', latitude: 56.1304, longitude: -106.3468 },
+    { name: 'United Kingdom', code: 'GB', latitude: 55.3781, longitude: -3.4360 },
+    { name: 'New Zealand', code: 'NZ', latitude: -40.9006, longitude: 174.8860 },
+    { name: 'Germany', code: 'DE', latitude: 51.1657, longitude: 10.4515 },
+    { name: 'France', code: 'FR', latitude: 46.2276, longitude: 2.2137 },
+    { name: 'Japan', code: 'JP', latitude: 36.2048, longitude: 138.2529 },
+    { name: 'Maldives', code: 'MV', latitude: 3.2028, longitude: 73.2207 },
+    { name: 'Philippines', code: 'PH', latitude: 12.8797, longitude: 121.7740 },
+    { name: 'Indonesia', code: 'ID', latitude: -0.7893, longitude: 113.9213 },
+    { name: 'Thailand', code: 'TH', latitude: 15.8700, longitude: 100.9925 },
+    { name: 'Malaysia', code: 'MY', latitude: 4.2105, longitude: 101.9758 },
+    { name: 'Egypt', code: 'EG', latitude: 26.0975, longitude: 31.1367 },
+    { name: 'Mexico', code: 'MX', latitude: 23.6345, longitude: -102.5528 },
+    { name: 'Belize', code: 'BZ', latitude: 17.1899, longitude: -88.4976 },
+    { name: 'Costa Rica', code: 'CR', latitude: 9.7489, longitude: -83.7534 },
+    { name: 'Bahamas', code: 'BS', latitude: 25.0343, longitude: -77.3963 },
+    { name: 'South Africa', code: 'ZA', latitude: -30.5595, longitude: 22.9375 },
+    { name: 'Brazil', code: 'BR', latitude: -14.2350, longitude: -51.9253 },
+  ];
+
+  for (const country of countriesData) {
+    await db.insert(countries).values(country);
+  }
+  
+  console.log(`Seeded ${countriesData.length} countries`);
+}
 
 async function seedDatabase() {
   console.log('Starting database seeding...');
 
   try {
+    // First, ensure tables exist
+    await createTablesIfNotExists();
+
+    // Always seed countries first (they are needed for registration)
+    await seedCountries();
+
     // Check if we already have data
     const existingDiveSites = await db.select().from(diveSites);
 
     if (existingDiveSites.length > 0) {
-      console.log('Database already contains data, skipping seed.');
+      console.log('Database already contains dive sites, skipping dive site seeding.');
       return;
     }
 

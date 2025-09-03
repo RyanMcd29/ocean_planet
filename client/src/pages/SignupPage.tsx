@@ -6,9 +6,9 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Waves, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
+import { Waves, Mail, Lock, User, Eye, EyeOff, Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 
 export default function SignupPage() {
@@ -22,7 +22,20 @@ export default function SignupPage() {
     email: "",
     password: "",
     confirmPassword: "",
-    preferredActivity: ""
+    preferredActivity: "",
+    countryId: 2 // Default to Australia (ID: 2)
+  });
+
+  // Fetch countries for the dropdown
+  const { data: countriesResponse, isLoading: isLoadingCountries } = useQuery({
+    queryKey: ["/api/countries"],
+    queryFn: async () => {
+      const response = await fetch("/api/countries");
+      if (!response.ok) {
+        throw new Error("Failed to fetch countries");
+      }
+      return response.json();
+    },
   });
 
   const registrationMutation = useMutation({
@@ -87,10 +100,10 @@ export default function SignupPage() {
     }));
   };
 
-  const handleSelectChange = (value: string) => {
+  const handleSelectChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
-      preferredActivity: value
+      [field]: field === 'countryId' ? parseInt(value) : value
     }));
   };
 
@@ -99,7 +112,7 @@ export default function SignupPage() {
     
     // Basic client-side validation
     if (!formData.name.trim() || !formData.lastname.trim() || !formData.email.trim() || 
-        !formData.password.trim() || !formData.confirmPassword.trim() || !formData.preferredActivity.trim()) {
+        !formData.password.trim() || !formData.confirmPassword.trim() || !formData.preferredActivity.trim() || !formData.countryId) {
       toast({
         title: "Missing Information",
         description: "Please fill in all required fields.",
@@ -202,7 +215,7 @@ export default function SignupPage() {
               <Label htmlFor="preferredActivity" className="text-sm font-medium text-gray-700">
                 Preferred Activity
               </Label>
-              <Select onValueChange={handleSelectChange} required>
+              <Select onValueChange={(value) => handleSelectChange('preferredActivity', value)} required>
                 <SelectTrigger>
                   <SelectValue placeholder="Choose your preferred ocean activity" />
                 </SelectTrigger>
@@ -211,6 +224,35 @@ export default function SignupPage() {
                   <SelectItem value="freediving">Freediving</SelectItem>
                   <SelectItem value="snorkeling">Snorkeling</SelectItem>
                   <SelectItem value="other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="country" className="text-sm font-medium text-gray-700">
+                Country
+              </Label>
+              <Select 
+                onValueChange={(value) => handleSelectChange('countryId', value)} 
+                defaultValue={formData.countryId.toString()}
+                required
+              >
+                <SelectTrigger>
+                  <div className="flex items-center">
+                    <Globe className="mr-2 h-4 w-4 text-gray-400" />
+                    <SelectValue placeholder="Select your country" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  {isLoadingCountries ? (
+                    <SelectItem value="loading" disabled>Loading countries...</SelectItem>
+                  ) : (
+                    countriesResponse?.countries?.map((country: any) => (
+                      <SelectItem key={country.id} value={country.id.toString()}>
+                        {country.name}
+                      </SelectItem>
+                    ))
+                  )}
                 </SelectContent>
               </Select>
             </div>

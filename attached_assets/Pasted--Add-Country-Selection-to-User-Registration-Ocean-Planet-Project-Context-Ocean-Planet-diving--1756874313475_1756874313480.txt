@@ -1,0 +1,184 @@
+# Add Country Selection to User Registration - Ocean Planet
+
+## Project Context
+Ocean Planet diving platform already has user registration implemented. Now we need to add country selection functionality to the registration form.
+
+## Objective
+Add a country selection dropdown to the user registration form that fetches countries from the database, defaults to Australia, and saves the selected country ID when registering a new user.
+
+## Database Schema (Already Implemented)
+The following tables are already created and populated:
+
+**Countries Table:**
+- id (serial, primary key)
+- name (text, unique, not null)
+- code (text, unique, not null) - ISO country codes
+- latitude, longitude (for future map centering)
+
+**Users Table:**
+- All existing fields plus:
+- country_id (integer, foreign key to countries.id, default: Australia's ID)
+
+## Required Implementation
+
+### 1. Backend API Endpoint
+Create a new endpoint to fetch all countries for the registration form:
+
+```
+GET /api/countries
+Response:
+{
+  "success": true,
+  "countries": [
+    {
+      "id": 1,
+      "name": "Argentina",
+      "code": "AR"
+    },
+    {
+      "id": 2,
+      "name": "Australia", 
+      "code": "AU"
+    },
+    // ... all countries
+  ]
+}
+```
+
+### 2. Update Registration Endpoint
+Modify the existing POST `/api/users/register` endpoint to:
+- Accept `country_id` in the request body
+- Validate that the provided `country_id` exists in the countries table
+- Use Australia as default if `country_id` is not provided or invalid
+- Save the `country_id` when creating the new user
+
+**Updated Registration Request Body:**
+```json
+{
+  "name": "John",
+  "lastname": "Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "preferredActivity": "diving",
+  "country_id": 2  // Optional, defaults to Australia if not provided
+}
+```
+
+### 3. Frontend Registration Form Updates
+
+#### Add Country Selection Field
+- Add a searchable dropdown/select component for country selection
+- Load countries from the new API endpoint when the form loads
+- Set Australia as the default selected option
+- Include country selection in form validation
+
+#### Form Field Requirements:
+- **Label:** "Country"
+- **Type:** Searchable dropdown/select
+- **Default:** Australia pre-selected
+- **Validation:** Required field (should always have a value due to default)
+- **UX:** Allow typing to search/filter countries by name
+
+#### Updated Form Structure:
+```
+Registration Form:
+- First Name (name) *
+- Last Name (lastname) *
+- Email *
+- Password *
+- Confirm Password *
+- Preferred Activity (dropdown) *
+- Country (searchable dropdown) * [DEFAULT: Australia]
+- Submit Button
+```
+
+### 4. Implementation Details
+
+#### Backend Validation:
+- Verify `country_id` exists in countries table before saving user
+- If invalid `country_id` provided, return validation error
+- If no `country_id` provided, use Australia's ID as default
+
+#### Frontend Country Dropdown:
+- Fetch countries when component mounts
+- Show loading state while fetching countries
+- Handle error state if countries can't be loaded
+- Search/filter functionality for better UX
+- Countries should be sorted alphabetically
+- Show country name in dropdown (not country codes)
+
+#### Error Handling:
+- If countries API fails, show error message and disable registration
+- If invalid country selected, show appropriate validation message
+- Maintain form state during country selection
+
+### 5. User Experience Requirements
+
+#### Country Selection UX:
+- Australia should be visibly pre-selected when form loads
+- Typing should filter countries (e.g., typing "aus" shows Australia)
+- Clear visual indication of selected country
+- Responsive design for mobile devices
+- Fast, smooth interactions
+
+#### Registration Flow:
+1. User opens registration form
+2. Country dropdown loads with Australia pre-selected
+3. User can change country by clicking dropdown and selecting different option
+4. User completes other form fields
+5. On submit, country_id is included in registration data
+6. Backend saves user with selected country
+7. Success confirmation shows user was registered
+
+### 6. Technical Implementation Notes
+
+#### API Integration:
+- Use existing HTTP client/service for API calls
+- Cache countries list in frontend (avoid re-fetching on form re-renders)
+- Handle loading and error states appropriately
+
+#### Form Validation:
+- Country field should be required but will always have value due to default
+- Validate country_id exists before form submission
+- Show validation errors inline with form field
+
+#### Database Operations:
+- Use existing database connection and ORM (Drizzle)
+- Ensure proper error handling for database operations
+- Return appropriate HTTP status codes and error messages
+
+## Files to Modify/Create
+
+### Backend Files:
+- Add `/api/countries` route (create new route file or add to existing)
+- Update `/api/users/register` route to handle country_id
+- Update user creation database queries to include country_id
+
+### Frontend Files:
+- Update registration form component to include country dropdown
+- Add countries service/API call functionality
+- Update registration form validation
+- Update TypeScript interfaces for countries and registration data
+
+## Expected Behavior After Implementation
+
+### Form Loading:
+1. Registration form loads with all fields
+2. Countries dropdown loads and shows Australia as selected
+3. User can see all available countries in dropdown
+
+### Country Selection:
+1. User clicks country dropdown
+2. Can scroll through alphabetically sorted countries
+3. Can type to search/filter countries
+4. Selection updates form state
+
+### Registration Process:
+1. User fills form with Australia or different country selected
+2. Form validation passes (including country validation)
+3. Registration API call includes selected country_id
+4. User is created with correct country association
+5. Success message confirms registration
+
+## Priority
+This is a foundational feature for the map centering functionality. Please implement all components (backend API, registration endpoint updates, and frontend form enhancement) to work seamlessly with the existing registration system.
