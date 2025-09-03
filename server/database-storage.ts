@@ -660,6 +660,39 @@ export class DatabaseStorage implements IStorage {
     
     return results.map(r => ({ ...r, notes: r.notes || '' }));
   }
+
+  async updateDiveLog(id: number, diveLogData: Partial<InsertDiveLog>): Promise<DiveLog | undefined> {
+    const result = await db
+      .update(diveLogs)
+      .set({
+        diveSiteId: diveLogData.diveSiteId,
+        diveDate: diveLogData.diveDate,
+        diveTime: diveLogData.diveTime,
+        duration: diveLogData.duration,
+        maxDepth: diveLogData.maxDepth,
+        avgDepth: diveLogData.avgDepth ?? undefined,
+        waterTemp: diveLogData.waterTemp ?? undefined,
+        visibility: diveLogData.visibility ?? undefined,
+        current: diveLogData.current ?? undefined,
+        conditions: diveLogData.conditions ?? undefined,
+        description: diveLogData.description,
+        equipment: diveLogData.equipment ?? undefined,
+        certificationLevel: diveLogData.certificationLevel ?? undefined,
+        buddyName: diveLogData.buddyName ?? undefined
+      })
+      .where(eq(diveLogs.id, id))
+      .returning();
+    return result.length > 0 ? result[0] : undefined;
+  }
+
+  async deleteDiveLog(id: number): Promise<boolean> {
+    // First delete related species sightings
+    await db.delete(diveLogSpecies).where(eq(diveLogSpecies.diveLogId, id));
+    
+    // Then delete the dive log
+    const result = await db.delete(diveLogs).where(eq(diveLogs.id, id));
+    return result.rowCount !== undefined && result.rowCount > 0;
+  }
 }
 
 export const storage = new DatabaseStorage();

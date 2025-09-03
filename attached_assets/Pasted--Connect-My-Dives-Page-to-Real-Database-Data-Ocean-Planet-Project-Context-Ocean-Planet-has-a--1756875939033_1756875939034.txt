@@ -1,0 +1,116 @@
+# Connect My Dives Page to Real Database Data - Ocean Planet
+
+## Project Context
+Ocean Planet has a fully functional authentication system and database with the following relevant tables:
+- **users** (with authentication working)
+- **dive_sites** (populated with real dive site data)
+- **dive_logs** (for storing user dive records)
+- **species** (populated with 477+ marine species)
+- **photos** (for dive-related images)
+- **reviews** (for dive site reviews)
+
+## Current Issue
+The "My Dives" page is currently showing mock/fictional data instead of connecting to the real database tables.
+
+## Objective
+Replace all mock data in the My Dives page with real database connections so logged-in users can see their actual dive records, add new dives, and manage their diving history.
+
+## Required Implementation
+
+### 1. Backend API Integration
+Create or update API endpoints for My Dives functionality:
+- **GET /api/dive-logs** - Fetch all dive logs for the logged-in user
+- **POST /api/dive-logs** - Create new dive log entry
+- **PUT/PATCH /api/dive-logs/:id** - Update existing dive log
+- **DELETE /api/dive-logs/:id** - Delete dive log entry
+
+### 2. Database Connections
+Connect the My Dives page to use real data from:
+- **dive_logs table** for user's dive history
+- **dive_sites table** for dive site information and selection
+- **species table** for species sightings during dives
+- **users table** for dive log ownership (current logged-in user)
+
+### 3. Authentication Integration
+- Ensure all dive log operations are tied to the currently logged-in user
+- Protect all dive-related endpoints with authentication middleware
+- Only show/allow access to the user's own dive logs
+
+### 4. Functionality Requirements
+
+#### Display User's Dive History:
+- Show actual dive logs from database for logged-in user
+- Display dive site names, dates, depths, conditions, notes
+- Show associated species sightings if any
+- Include any photos uploaded for each dive
+
+#### Add New Dive Functionality:
+- Allow users to log new dives with real dive sites from database
+- Enable species sighting logging during dive entry
+- Save all data to appropriate database tables
+- Handle image uploads if supported
+
+#### Edit/Delete Existing Dives:
+- Allow users to modify their existing dive logs
+- Enable deletion of dive records
+- Maintain data integrity across related tables
+
+### 5. Data Integration Points
+
+#### Replace Mock Data With:
+- Real dive sites from dive_sites table
+- Actual user dive logs from dive_logs table  
+- Real species data from species table
+- Authentic user information from users table
+
+#### Maintain Existing UI/UX:
+- Keep current page design and user interface
+- Preserve existing functionality and user experience
+- Ensure responsive design continues to work
+- Maintain loading states and error handling
+
+### 6. User Experience Requirements
+
+#### For Users With Dive Logs:
+- Display their actual diving history
+- Show real dive sites they've visited
+- Enable easy editing and management of logs
+
+#### For New Users (No Dive Logs):
+- Show empty state with call-to-action to log first dive
+- Provide easy access to add new dive functionality
+- Guide users through the dive logging process
+
+#### Data Loading:
+- Implement proper loading states while fetching data
+- Handle errors gracefully if database unavailable
+- Show appropriate messages for empty states
+
+## Technical Requirements
+
+### Database Operations:
+- Use existing Drizzle ORM setup and database connections
+- Ensure proper foreign key relationships are maintained
+- Implement efficient queries to avoid N+1 problems
+
+### Authentication:
+- Integrate with existing authentication system
+- Ensure users can only access their own dive data
+- Maintain security for all dive-related operations
+
+### Error Handling:
+- Provide meaningful error messages for failed operations
+- Handle network issues and database connectivity problems
+- Maintain data consistency during CRUD operations
+
+## Expected Outcome
+
+After implementation:
+- My Dives page shows real data from database tables
+- Users can create, read, update, and delete their actual dive logs
+- All dive information connects to real dive sites and species data
+- Authentication properly protects user data
+- Page maintains current design but uses live database connections
+
+## Priority
+This is essential for transitioning from a demo application to a functional diving platform. Please implement comprehensive database integration while preserving the existing user interface and experience.

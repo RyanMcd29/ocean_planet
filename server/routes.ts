@@ -12,6 +12,8 @@ import {
   insertUserFavoriteSchema,
   insertUserSpottedSpeciesSchema,
   insertDiveMapSchema,
+  insertDiveLogSchema,
+  insertDiveLogSpeciesSchema,
   registrationSchema,
   loginSchema,
   insertCountrySchema
@@ -439,6 +441,248 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(userData);
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch user' });
+    }
+  });
+  
+  // Dive Logs endpoints
+  // Get all dive logs for authenticated user
+  app.get('/api/dive-logs', async (req: Request, res: Response) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Not authenticated"
+        });
+      }
+
+      const diveLogs = await storage.getUserDiveLogs(req.session.userId);
+      
+      // Fetch dive site and species information for each log
+      const diveLogsWithDetails = await Promise.all(
+        diveLogs.map(async (log) => {
+          const diveSite = await storage.getDiveSite(log.diveSiteId);
+          const species = await storage.getDiveLogSpecies(log.id);
+          return {
+            ...log,
+            diveSite,
+            species
+          };
+        })
+      );
+
+      res.status(200).json({
+        success: true,
+        diveLogs: diveLogsWithDetails
+      });
+    } catch (error) {
+      console.error('Get dive logs error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch dive logs"
+      });
+    }
+  });
+
+  // Create new dive log
+  app.post('/api/dive-logs', async (req: Request, res: Response) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Not authenticated"
+        });
+      }
+
+      const validationResult = insertDiveLogSchema.safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid dive log data",
+          errors: validationResult.error.flatten().fieldErrors
+        });
+      }
+
+      const diveLogData = {
+        ...validationResult.data,
+        userId: req.session.userId
+      };
+
+      const newDiveLog = await storage.createDiveLog(diveLogData);
+
+      // If species were spotted during the dive, add them
+      if (req.body.species && Array.isArray(req.body.species)) {
+        for (const speciesData of req.body.species) {
+          await storage.addSpeciesToDiveLog({
+            diveLogId: newDiveLog.id,
+            speciesId: speciesData.speciesId,
+            quantity: speciesData.quantity || 1,
+            notes: speciesData.notes || null
+          });
+        }
+      }
+
+      res.status(201).json({
+        success: true,
+        message: "Dive log created successfully",
+        diveLog: newDiveLog
+      });
+    } catch (error) {
+      console.error('Create dive log error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to create dive log"
+      });
+    }
+  });
+
+  // Get specific dive log
+  app.get('/api/dive-logs/:id', async (req: Request, res: Response) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Not authenticated"
+        });
+      }
+
+      const diveLogId = parseInt(req.params.id);
+      const diveLog = await storage.getDiveLog(diveLogId);
+
+      if (!diveLog) {
+        return res.status(404).json({
+          success: false,
+          message: "Dive log not found"
+        });
+      }
+
+      // Check if dive log belongs to authenticated user
+      if (diveLog.userId !== req.session.userId) {
+        return res.status(403).json({
+          success: false,
+          message: "Access denied"
+        });
+      }
+
+      const diveSite = await storage.getDiveSite(diveLog.diveSiteId);
+      const species = await storage.getDiveLogSpecies(diveLog.id);
+
+      res.status(200).json({
+        success: true,
+        diveLog: {
+          ...diveLog,
+          diveSite,
+          species
+        }
+      });
+    } catch (error) {
+      console.error('Get dive log error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch dive log"
+      });
+    }
+  });
+
+  // Update dive log
+  app.put('/api/dive-logs/:id', async (req: Request, res: Response) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Not authenticated"
+        });
+      }
+
+      const diveLogId = parseInt(req.params.id);
+      const existingDiveLog = await storage.getDiveLog(diveLogId);
+
+      if (!existingDiveLog) {
+        return res.status(404).json({
+          success: false,
+          message: "Dive log not found"
+        });
+      }
+
+      // Check ownership
+      if (existingDiveLog.userId !== req.session.userId) {
+        return res.status(403).json({
+          success: false,
+          message: "Access denied"
+        });
+      }
+
+      const validationResult = insertDiveLogSchema.partial().safeParse(req.body);
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid dive log data",
+          errors: validationResult.error.flatten().fieldErrors
+        });
+      }
+
+      const updatedDiveLog = await storage.updateDiveLog(diveLogId, validationResult.data);
+
+      res.status(200).json({
+        success: true,
+        message: "Dive log updated successfully",
+        diveLog: updatedDiveLog
+      });
+    } catch (error) {
+      console.error('Update dive log error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to update dive log"
+      });
+    }
+  });
+
+  // Delete dive log
+  app.delete('/api/dive-logs/:id', async (req: Request, res: Response) => {
+    try {
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Not authenticated"
+        });
+      }
+
+      const diveLogId = parseInt(req.params.id);
+      const existingDiveLog = await storage.getDiveLog(diveLogId);
+
+      if (!existingDiveLog) {
+        return res.status(404).json({
+          success: false,
+          message: "Dive log not found"
+        });
+      }
+
+      // Check ownership
+      if (existingDiveLog.userId !== req.session.userId) {
+        return res.status(403).json({
+          success: false,
+          message: "Access denied"
+        });
+      }
+
+      const deleted = await storage.deleteDiveLog(diveLogId);
+
+      if (deleted) {
+        res.status(200).json({
+          success: true,
+          message: "Dive log deleted successfully"
+        });
+      } else {
+        res.status(500).json({
+          success: false,
+          message: "Failed to delete dive log"
+        });
+      }
+    } catch (error) {
+      console.error('Delete dive log error:', error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to delete dive log"
+      });
     }
   });
   

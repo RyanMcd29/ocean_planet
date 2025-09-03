@@ -88,6 +88,8 @@ export interface IStorage {
   getDiveLog(id: number): Promise<DiveLog | undefined>;
   getUserDiveLogs(userId: number): Promise<DiveLog[]>;
   getDiveSiteLogs(diveSiteId: number): Promise<DiveLog[]>;
+  updateDiveLog(id: number, diveLog: Partial<InsertDiveLog>): Promise<DiveLog | undefined>;
+  deleteDiveLog(id: number): Promise<boolean>;
   addSpeciesToDiveLog(diveLogSpecies: InsertDiveLogSpecies): Promise<DiveLogSpecies>;
   getDiveLogSpecies(diveLogId: number): Promise<{species: Species, quantity: number, notes: string}[]>;
 }

@@ -4,41 +4,91 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Edit, MapPin, Camera, Fish, Star, Calendar, Award, Plus } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { Edit, MapPin, Camera, Fish, Star, Calendar, Award, Plus, Clock, Thermometer, MoreVertical, Trash2 } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchDiveSites, fetchUserFavorites, fetchUserSpottedSpecies, fetchSpeciesById } from "@/lib/api";
 import { Link } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import PhotoGallery from "@/components/dive-site/PhotoGallery";
-
-// Mock user data - would normally come from authentication system
-const currentUser = {
-  id: 1,
-  username: "diverjane",
-  email: "jane@example.com",
-  profilePicture: null,
-  bio: "PADI Advanced Open Water diver with a passion for marine conservation and underwater photography. Exploring reefs around the world since 2015.",
-  divesCompleted: 48,
-  speciesSpotted: 127,
-  memberSince: "2021-03-15"
-};
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const ProfilePage: React.FC = () => {
+  const { user, isAuthenticated } = useAuth();
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
   const [activeTab, setActiveTab] = useState("overview");
   const [showPhotoUploader, setShowPhotoUploader] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+
+  // Redirect if not authenticated
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="container mx-auto px-4 py-6 max-w-6xl">
+        <Card>
+          <CardContent className="p-8 text-center">
+            <p className="text-[#757575] mb-4">Please log in to view your profile.</p>
+            <Link href="/login">
+              <Button className="bg-[#05BFDB] hover:bg-[#088395] text-white">
+                Login
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
   
   // Fetch user's favorite dive sites
   const { data: favorites, isLoading: favoritesLoading } = useQuery({
-    queryKey: [`/api/users/${currentUser.id}/favorites`],
-    queryFn: () => fetchUserFavorites(currentUser.id),
+    queryKey: [`/api/users/${user.id}/favorites`],
+    queryFn: () => fetchUserFavorites(user.id),
   });
   
   // Fetch user's spotted species
   const { data: spottedSpecies, isLoading: spottedLoading } = useQuery({
-    queryKey: [`/api/users/${currentUser.id}/spotted-species`],
-    queryFn: () => fetchUserSpottedSpecies(currentUser.id),
+    queryKey: [`/api/users/${user.id}/spotted-species`],
+    queryFn: () => fetchUserSpottedSpecies(user.id),
+  });
+
+  // Fetch user's dive logs
+  const { data: diveLogs, isLoading: diveLogsLoading } = useQuery({
+    queryKey: ['/api/dive-logs'],
+    queryFn: async () => {
+      const response = await fetch('/api/dive-logs', {
+        credentials: 'include'
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch dive logs');
+      }
+      const data = await response.json();
+      return data.diveLogs || [];
+    },
+    enabled: isAuthenticated
+  });
+
+  // Delete dive log mutation
+  const deleteDiveLogMutation = useMutation({
+    mutationFn: async (diveLogId: number) => {
+      return apiRequest('DELETE', `/api/dive-logs/${diveLogId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/dive-logs'] });
+      toast({
+        title: "Dive log deleted",
+        description: "Your dive log has been successfully deleted.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete dive log",
+        variant: "destructive",
+      });
+    },
   });
   
   return (
@@ -52,8 +102,8 @@ const ProfilePage: React.FC = () => {
                   <AvatarFallback className="bg-[#0A4D68] text-white text-xl">JD</AvatarFallback>
                 </Avatar>
                 
-                <h2 className="text-xl font-montserrat font-bold text-[#0A4D68]">{currentUser.username}</h2>
-                <p className="text-[#757575] text-sm mb-4">{currentUser.email}</p>
+                <h2 className="text-xl font-montserrat font-bold text-[#0A4D68]">{user.name} {user.lastname}</h2>
+                <p className="text-[#757575] text-sm mb-4">{user.email}</p>
                 
                 <div className="flex space-x-2 mb-4">
                   <Badge className="bg-[#05BFDB]">Advanced Diver</Badge>
@@ -66,11 +116,11 @@ const ProfilePage: React.FC = () => {
                 
                 <div className="w-full grid grid-cols-3 gap-2 text-center border-t border-gray-200 pt-4">
                   <div>
-                    <p className="text-xl font-bold text-[#0A4D68]">{currentUser.divesCompleted}</p>
+                    <p className="text-xl font-bold text-[#0A4D68]">{diveLogs?.length || 0}</p>
                     <p className="text-xs text-[#757575]">Dives</p>
                   </div>
                   <div>
-                    <p className="text-xl font-bold text-[#0A4D68]">{currentUser.speciesSpotted}</p>
+                    <p className="text-xl font-bold text-[#0A4D68]">{spottedSpecies?.length || 0}</p>
                     <p className="text-xs text-[#757575]">Species</p>
                   </div>
                   <div>
@@ -84,13 +134,13 @@ const ProfilePage: React.FC = () => {
               
               <div className="mt-6 border-t border-gray-200 pt-4">
                 <h3 className="text-sm font-medium text-[#0A4D68] mb-2">About</h3>
-                <p className="text-sm text-[#757575]">{currentUser.bio}</p>
+                <p className="text-sm text-[#757575]">{user.bio || "No bio provided yet."}</p>
               </div>
               
               <div className="mt-4">
                 <div className="flex items-center text-sm text-[#757575]">
                   <Calendar className="h-4 w-4 mr-2" />
-                  <span>Member since {new Date(currentUser.memberSince).toLocaleDateString()}</span>
+                  <span>Preferred Activity: {user.preferredActivity}</span>
                 </div>
               </div>
             </CardContent>
@@ -278,9 +328,90 @@ const ProfilePage: React.FC = () => {
                   </Button>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-[#757575] italic text-center py-8">
-                    Dive log feature coming soon! Track your dive history, conditions, and encounters.
-                  </p>
+                  {diveLogsLoading ? (
+                    <div className="space-y-4">
+                      {Array(3).fill(0).map((_, i) => (
+                        <Skeleton key={i} className="h-24 w-full rounded-lg" />
+                      ))}
+                    </div>
+                  ) : diveLogs && diveLogs.length > 0 ? (
+                    <div className="space-y-4">
+                      {diveLogs.slice(0, 3).map((dive: any) => (
+                        <div key={dive.id} className="bg-[#F5F5F5] rounded-lg p-4 relative">
+                          <div className="flex justify-between items-start mb-2">
+                            <div>
+                              <h4 className="font-semibold text-[#0A4D68]">{dive.diveSite?.name || "Unknown Site"}</h4>
+                              <p className="text-sm text-[#757575]">{new Date(dive.diveDate).toLocaleDateString()}</p>
+                            </div>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="sm">
+                                  <MoreVertical className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent>
+                                <DropdownMenuItem>
+                                  <Edit className="h-4 w-4 mr-2" />
+                                  Edit
+                                </DropdownMenuItem>
+                                <DropdownMenuItem 
+                                  onClick={() => deleteDiveLogMutation.mutate(dive.id)}
+                                  className="text-red-600"
+                                >
+                                  <Trash2 className="h-4 w-4 mr-2" />
+                                  Delete
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-4 text-sm">
+                            <div className="flex items-center">
+                              <Clock className="h-4 w-4 mr-1 text-[#088395]" />
+                              <span>{dive.duration} min</span>
+                            </div>
+                            <div className="flex items-center">
+                              <MapPin className="h-4 w-4 mr-1 text-[#088395]" />
+                              <span>{dive.maxDepth}m max</span>
+                            </div>
+                            {dive.waterTemp && (
+                              <div className="flex items-center">
+                                <Thermometer className="h-4 w-4 mr-1 text-[#088395]" />
+                                <span>{dive.waterTemp}°C</span>
+                              </div>
+                            )}
+                            {dive.species && dive.species.length > 0 && (
+                              <div className="flex items-center">
+                                <Fish className="h-4 w-4 mr-1 text-[#088395]" />
+                                <span>{dive.species.length} species spotted</span>
+                              </div>
+                            )}
+                          </div>
+                          
+                          {dive.description && (
+                            <p className="text-sm text-[#757575] mt-2 line-clamp-2">{dive.description}</p>
+                          )}
+                        </div>
+                      ))}
+                      
+                      {diveLogs.length > 3 && (
+                        <div className="text-center">
+                          <p className="text-sm text-[#757575]">
+                            Showing 3 of {diveLogs.length} dive logs
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <Fish className="h-12 w-12 text-[#088395] mx-auto mb-4" />
+                      <p className="text-[#757575] mb-4">You haven't logged any dives yet.</p>
+                      <Button className="bg-[#05BFDB] hover:bg-[#088395] text-white">
+                        <Plus className="h-4 w-4 mr-2" />
+                        Log Your First Dive
+                      </Button>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
               
