@@ -111,9 +111,11 @@ const ProfilePage: React.FC = () => {
                   <Badge variant="outline" className="border-[#088395] text-[#088395]">Contributor</Badge>
                 </div>
                 
-                <Button variant="outline" size="sm" className="mb-6">
-                  <Edit className="h-4 w-4 mr-1" /> Edit Profile
-                </Button>
+                <Link href="/profile/edit">
+                  <Button variant="outline" size="sm" className="mb-6">
+                    <Edit className="h-4 w-4 mr-1" /> Edit Profile
+                  </Button>
+                </Link>
                 
                 <div className="w-full grid grid-cols-3 gap-2 text-center border-t border-gray-200 pt-4">
                   <div>

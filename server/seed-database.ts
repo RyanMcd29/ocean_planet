@@ -1,5 +1,5 @@
 import { db, pool } from './db';
-import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, waterConditions, countries, users, diveLogs, diveLogSpecies } from "@shared/schema";
+import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, waterConditions, countries, users, diveLogs, diveLogSpecies, certifications, userCertifications } from "@shared/schema";
 import { sql } from "drizzle-orm";
 
 async function createTablesIfNotExists() {
@@ -58,6 +58,30 @@ async function createTablesIfNotExists() {
       );
     `);
 
+    // Create certifications table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS certifications (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        agency TEXT NOT NULL,
+        description TEXT,
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    // Create user_certifications table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS user_certifications (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        certification_id INTEGER NOT NULL,
+        date_obtained DATE,
+        certification_number TEXT,
+        created_at TIMESTAMP DEFAULT NOW(),
+        UNIQUE(user_id, certification_id)
+      );
+    `);
+
     console.log('Tables created/verified successfully');
   } catch (error) {
     console.error('Error creating tables:', error);
@@ -105,6 +129,90 @@ async function seedCountries() {
   console.log(`Seeded ${countriesData.length} countries`);
 }
 
+async function seedCertifications() {
+  console.log('Seeding certifications...');
+  
+  const existingCertifications = await db.select().from(certifications);
+  if (existingCertifications.length > 0) {
+    console.log('Certifications already seeded, skipping...');
+    return;
+  }
+
+  // PADI Certifications
+  const padiCertifications = [
+    { name: "Discover Scuba Diving", agency: "PADI", description: "Introductory scuba experience in a pool or confined water" },
+    { name: "Scuba Diver", agency: "PADI", description: "Basic certification for diving to 12 meters with a dive professional" },
+    { name: "Open Water Diver", agency: "PADI", description: "Entry-level certification for diving to 18 meters" },
+    { name: "Adventure Diver", agency: "PADI", description: "First step after Open Water, complete 3 adventure dives" },
+    { name: "Advanced Open Water Diver", agency: "PADI", description: "Advanced certification for diving to 30 meters" },
+    { name: "Rescue Diver", agency: "PADI", description: "Learn to prevent and manage dive emergencies" },
+    { name: "Divemaster", agency: "PADI", description: "Professional level certification to guide certified divers" },
+    { name: "Open Water Scuba Instructor", agency: "PADI", description: "Qualified to teach scuba diving courses" },
+    { name: "Master Scuba Diver Trainer", agency: "PADI", description: "Specialty instructor certification" },
+    { name: "Course Director", agency: "PADI", description: "Highest level PADI instructor certification" },
+    { name: "Enriched Air Diver", agency: "PADI", description: "Nitrox specialty certification" },
+    { name: "Deep Diver", agency: "PADI", description: "Specialty for diving to 40 meters" },
+    { name: "Wreck Diver", agency: "PADI", description: "Specialty for exploring shipwrecks" },
+    { name: "Night Diver", agency: "PADI", description: "Specialty for night and limited visibility diving" },
+    { name: "Underwater Photographer", agency: "PADI", description: "Specialty for underwater photography" },
+    { name: "Peak Performance Buoyancy", agency: "PADI", description: "Specialty for mastering buoyancy control" }
+  ];
+
+  // SSI Certifications
+  const ssiCertifications = [
+    { name: "Try Scuba", agency: "SSI", description: "Introductory scuba experience" },
+    { name: "Scuba Diver", agency: "SSI", description: "Basic certification for guided diving to 12 meters" },
+    { name: "Open Water Diver", agency: "SSI", description: "Entry-level certification for independent diving to 18 meters" },
+    { name: "Advanced Adventurer", agency: "SSI", description: "Advanced skills development program" },
+    { name: "Advanced Open Water Diver", agency: "SSI", description: "Advanced certification for diving to 30 meters" },
+    { name: "Stress & Rescue", agency: "SSI", description: "Emergency response and rescue training" },
+    { name: "Dive Guide", agency: "SSI", description: "Professional level certification" },
+    { name: "Divemaster", agency: "SSI", description: "Leadership level certification" },
+    { name: "Open Water Instructor", agency: "SSI", description: "Instructor level certification" },
+    { name: "Enriched Air Nitrox", agency: "SSI", description: "Nitrox specialty certification" },
+    { name: "Deep Diving", agency: "SSI", description: "Deep diving specialty to 40 meters" },
+    { name: "Wreck Diving", agency: "SSI", description: "Wreck exploration specialty" },
+    { name: "Night Diving & Limited Visibility", agency: "SSI", description: "Night diving specialty" },
+    { name: "Digital Underwater Photography", agency: "SSI", description: "Underwater photography specialty" }
+  ];
+
+  // SDI Certifications
+  const sdiCertifications = [
+    { name: "Open Water Scuba Diver", agency: "SDI", description: "Entry-level recreational diving certification" },
+    { name: "Advanced Diver", agency: "SDI", description: "Advanced recreational diving certification" },
+    { name: "Rescue Diver", agency: "SDI", description: "Rescue and emergency response certification" },
+    { name: "Master Scuba Diver", agency: "SDI", description: "Highest recreational diving certification" },
+    { name: "Divemaster", agency: "SDI", description: "Professional level certification" },
+    { name: "Instructor", agency: "SDI", description: "Instructor level certification" },
+    { name: "Nitrox Diver", agency: "SDI", description: "Enriched air specialty" },
+    { name: "Deep Diver", agency: "SDI", description: "Deep diving specialty" },
+    { name: "Wreck Diver", agency: "SDI", description: "Wreck diving specialty" },
+    { name: "Night/Limited Visibility Diver", agency: "SDI", description: "Night diving specialty" }
+  ];
+
+  // TDI Certifications (Technical Diving)
+  const tdiCertifications = [
+    { name: "Nitrox Diver", agency: "TDI", description: "Technical nitrox diving certification" },
+    { name: "Advanced Nitrox Diver", agency: "TDI", description: "Advanced technical nitrox certification" },
+    { name: "Decompression Procedures Diver", agency: "TDI", description: "Decompression diving certification" },
+    { name: "Extended Range Diver", agency: "TDI", description: "Extended range technical diving" },
+    { name: "Trimix Diver", agency: "TDI", description: "Trimix technical diving certification" },
+    { name: "Advanced Trimix Diver", agency: "TDI", description: "Advanced trimix certification" },
+    { name: "CCR Diver", agency: "TDI", description: "Closed circuit rebreather certification" },
+    { name: "Cave Diver", agency: "TDI", description: "Technical cave diving certification" },
+    { name: "Technical Instructor", agency: "TDI", description: "Technical diving instructor" }
+  ];
+
+  // Insert all certifications
+  const allCertifications = [...padiCertifications, ...ssiCertifications, ...sdiCertifications, ...tdiCertifications];
+  
+  for (const cert of allCertifications) {
+    await db.insert(certifications).values(cert);
+  }
+
+  console.log(`Successfully seeded ${allCertifications.length} certifications`);
+}
+
 async function seedDatabase() {
   console.log('Starting database seeding...');
 
@@ -114,6 +222,9 @@ async function seedDatabase() {
 
     // Always seed countries first (they are needed for registration)
     await seedCountries();
+
+    // Always seed certifications (they are needed for profile management)
+    await seedCertifications();
 
     // Check if we already have data
     const existingDiveSites = await db.select().from(diveSites);

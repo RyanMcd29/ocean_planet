@@ -16,7 +16,10 @@ import {
   insertDiveLogSpeciesSchema,
   registrationSchema,
   loginSchema,
-  insertCountrySchema
+  insertCountrySchema,
+  insertCertificationSchema,
+  insertUserCertificationSchema,
+  updateProfileSchema
 } from "@shared/schema";
 import bcrypt from 'bcryptjs';
 import { OceanDataService } from "./services/oceanData";
@@ -1012,6 +1015,136 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error creating dive map:', error);
       res.status(500).json({ error: "Failed to upload dive map" });
+    }
+  });
+
+  // Profile Management Endpoints
+  app.get('/api/users/profile', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.user?.id) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const user = await storage.getUser(req.session.user.id);
+      if (!user) {
+        return res.status(404).json({ success: false, message: "User not found" });
+      }
+
+      res.json({ success: true, user });
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch profile" });
+    }
+  });
+
+  app.put('/api/users/profile', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.user?.id) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const profileData = validateRequest(updateProfileSchema, req.body);
+      if (!profileData) {
+        return res.status(400).json({ success: false, message: "Invalid profile data" });
+      }
+
+      // Check if email is already taken by another user
+      const existingUser = await storage.getUserByEmail(profileData.email);
+      if (existingUser && existingUser.id !== req.session.user.id) {
+        return res.status(400).json({ success: false, message: "Email is already taken" });
+      }
+
+      const updatedUser = await storage.updateUserProfile(req.session.user.id, profileData);
+      if (!updatedUser) {
+        return res.status(404).json({ success: false, message: "User not found" });
+      }
+
+      res.json({ success: true, user: updatedUser });
+    } catch (error) {
+      console.error('Error updating user profile:', error);
+      res.status(500).json({ success: false, message: "Failed to update profile" });
+    }
+  });
+
+  // Certification Management Endpoints
+  app.get('/api/certifications', async (req: Request, res: Response) => {
+    try {
+      const certifications = await storage.getAllCertifications();
+      res.json({ success: true, certifications });
+    } catch (error) {
+      console.error('Error fetching certifications:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch certifications" });
+    }
+  });
+
+  app.get('/api/users/certifications', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.user?.id) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const userCertifications = await storage.getUserCertifications(req.session.user.id);
+      res.json({ success: true, certifications: userCertifications });
+    } catch (error) {
+      console.error('Error fetching user certifications:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch user certifications" });
+    }
+  });
+
+  app.post('/api/users/certifications', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.user?.id) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const certificationData = validateRequest(insertUserCertificationSchema, req.body);
+      if (!certificationData) {
+        return res.status(400).json({ success: false, message: "Invalid certification data" });
+      }
+
+      // Verify the certification exists
+      const certification = await storage.getCertification(certificationData.certificationId);
+      if (!certification) {
+        return res.status(400).json({ success: false, message: "Certification not found" });
+      }
+
+      // Add the user ID from session
+      const userCertificationData = {
+        ...certificationData,
+        userId: req.session.user.id
+      };
+
+      const userCertification = await storage.addUserCertification(userCertificationData);
+      res.status(201).json({ success: true, certification: userCertification });
+    } catch (error) {
+      if (error.code === '23505') { // Unique constraint violation
+        return res.status(400).json({ success: false, message: "You already have this certification" });
+      }
+      console.error('Error adding user certification:', error);
+      res.status(500).json({ success: false, message: "Failed to add certification" });
+    }
+  });
+
+  app.delete('/api/users/certifications/:id', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.user?.id) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const certificationId = parseInt(req.params.id);
+      if (isNaN(certificationId)) {
+        return res.status(400).json({ success: false, message: "Invalid certification ID" });
+      }
+
+      const success = await storage.removeUserCertification(certificationId, req.session.user.id);
+      if (!success) {
+        return res.status(404).json({ success: false, message: "Certification not found" });
+      }
+
+      res.json({ success: true, message: "Certification removed successfully" });
+    } catch (error) {
+      console.error('Error removing user certification:', error);
+      res.status(500).json({ success: false, message: "Failed to remove certification" });
     }
   });
 

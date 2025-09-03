@@ -12,6 +12,7 @@ import HomePage from "@/pages/Home";
 import DiveSitePage from "@/pages/DiveSitePage";
 import SpeciesPage from "@/pages/SpeciesPage";
 import ProfilePage from "@/pages/ProfilePage";
+import EditProfilePage from "@/pages/EditProfilePage";
 import LearnPage from "@/pages/LearnPage";
 import LessonDetailPage from "@/pages/LessonDetailPage";
 import QuizPage from "@/pages/QuizPage";
@@ -38,6 +39,11 @@ function Router() {
         <Route path="/profile">
           <ProtectedRoute>
             <ProfilePage />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/profile/edit">
+          <ProtectedRoute>
+            <EditProfilePage />
           </ProtectedRoute>
         </Route>
         <Route path="/community" component={CommunityPage} />

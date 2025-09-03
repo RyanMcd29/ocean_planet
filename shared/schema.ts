@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, jsonb, timestamp, real } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, jsonb, timestamp, real, date, unique } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -364,3 +364,70 @@ export const insertCountrySchema = createInsertSchema(countries).omit({
 
 export type Country = typeof countries.$inferSelect;
 export type InsertCountry = z.infer<typeof insertCountrySchema>;
+
+// Certifications table - master list of all available diving certifications
+export const certifications = pgTable("certifications", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(), // e.g., "Open Water Diver"
+  agency: text("agency").notNull(), // e.g., "PADI", "SSI", "SDI", "TDI"
+  description: text("description"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// User certifications table - tracks which certifications each user has
+export const userCertifications = pgTable("user_certifications", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  certificationId: integer("certification_id").notNull(),
+  dateObtained: date("date_obtained"), // nullable - user might not remember
+  certificationNumber: text("certification_number"), // nullable 
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  // Prevent duplicate certifications for the same user
+  userCertificationUnique: unique().on(table.userId, table.certificationId),
+}));
+
+// Define relations for certifications
+export const certificationsRelations = relations(certifications, ({ many }) => ({
+  userCertifications: many(userCertifications),
+}));
+
+export const userCertificationsRelations = relations(userCertifications, ({ one }) => ({
+  user: one(users, {
+    fields: [userCertifications.userId],
+    references: [users.id],
+  }),
+  certification: one(certifications, {
+    fields: [userCertifications.certificationId],
+    references: [certifications.id],
+  }),
+}));
+
+// Certification schemas and types
+export const insertCertificationSchema = createInsertSchema(certifications).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertUserCertificationSchema = createInsertSchema(userCertifications).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type Certification = typeof certifications.$inferSelect;
+export type InsertCertification = z.infer<typeof insertCertificationSchema>;
+
+export type UserCertification = typeof userCertifications.$inferSelect;
+export type InsertUserCertification = z.infer<typeof insertUserCertificationSchema>;
+
+// Profile update schema - for editing user information
+export const updateProfileSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
+  lastname: z.string().min(2, "Last name must be at least 2 characters").max(50, "Last name must be less than 50 characters"),
+  email: z.string().email("Invalid email address"),
+  preferredActivity: z.enum(['diving', 'freediving', 'snorkeling', 'other']),
+  countryId: z.number().optional(),
+  bio: z.string().max(500, "Bio must be less than 500 characters").optional(),
+});
+
+export type UpdateProfile = z.infer<typeof updateProfileSchema>;

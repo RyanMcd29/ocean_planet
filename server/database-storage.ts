@@ -6,14 +6,16 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 import {
   users, countries, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
-  diveMaps, diveLogs, diveLogSpecies,
+  diveMaps, diveLogs, diveLogSpecies, certifications, userCertifications,
   type User, type InsertUser, type Country, type InsertCountry, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
   type NearbyDiveSite, type InsertNearbyDiveSite, type DiveCenter, type InsertDiveCenter,
   type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies,
   type WaterConditions, type InsertWaterConditions, type DiveMap, type InsertDiveMap,
-  type DiveLog, type InsertDiveLog, type DiveLogSpecies, type InsertDiveLogSpecies
+  type DiveLog, type InsertDiveLog, type DiveLogSpecies, type InsertDiveLogSpecies,
+  type Certification, type InsertCertification, type UserCertification, type InsertUserCertification,
+  type UpdateProfile
 } from "@shared/schema";
 
 // Import the storage interface
@@ -746,6 +748,90 @@ export class DatabaseStorage implements IStorage {
     // Then delete the dive log
     const result = await db.delete(diveLogs).where(eq(diveLogs.id, id));
     return result.rowCount !== undefined && result.rowCount > 0;
+  }
+
+  // Profile Management
+  async updateUserProfile(userId: number, profileData: UpdateProfile): Promise<User | undefined> {
+    const result = await db
+      .update(users)
+      .set({
+        name: profileData.name,
+        lastname: profileData.lastname,
+        email: profileData.email,
+        preferredActivity: profileData.preferredActivity,
+        countryId: profileData.countryId,
+        bio: profileData.bio,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, userId))
+      .returning();
+    return result.length > 0 ? result[0] : undefined;
+  }
+
+  // Certification Management
+  async getAllCertifications(): Promise<Certification[]> {
+    return await db.select().from(certifications).orderBy(certifications.agency, certifications.name);
+  }
+
+  async createCertification(insertCertification: InsertCertification): Promise<Certification> {
+    const result = await db
+      .insert(certifications)
+      .values(insertCertification)
+      .returning();
+    return result[0];
+  }
+
+  async getUserCertifications(userId: number): Promise<Array<UserCertification & { certification: Certification }>> {
+    const results = await db
+      .select({
+        id: userCertifications.id,
+        userId: userCertifications.userId,
+        certificationId: userCertifications.certificationId,
+        dateObtained: userCertifications.dateObtained,
+        certificationNumber: userCertifications.certificationNumber,
+        createdAt: userCertifications.createdAt,
+        certification: {
+          id: certifications.id,
+          name: certifications.name,
+          agency: certifications.agency,
+          description: certifications.description,
+          createdAt: certifications.createdAt
+        }
+      })
+      .from(userCertifications)
+      .leftJoin(certifications, eq(userCertifications.certificationId, certifications.id))
+      .where(eq(userCertifications.userId, userId))
+      .orderBy(certifications.agency, certifications.name);
+
+    return results.map(r => ({
+      id: r.id,
+      userId: r.userId,
+      certificationId: r.certificationId,
+      dateObtained: r.dateObtained,
+      certificationNumber: r.certificationNumber,
+      createdAt: r.createdAt,
+      certification: r.certification as Certification
+    }));
+  }
+
+  async addUserCertification(insertUserCertification: InsertUserCertification): Promise<UserCertification> {
+    const result = await db
+      .insert(userCertifications)
+      .values(insertUserCertification)
+      .returning();
+    return result[0];
+  }
+
+  async removeUserCertification(id: number, userId: number): Promise<boolean> {
+    const result = await db
+      .delete(userCertifications)
+      .where(and(eq(userCertifications.id, id), eq(userCertifications.userId, userId)));
+    return result.rowCount !== undefined && result.rowCount > 0;
+  }
+
+  async getCertification(id: number): Promise<Certification | undefined> {
+    const result = await db.select().from(certifications).where(eq(certifications.id, id));
+    return result.length > 0 ? result[0] : undefined;
   }
 }
 

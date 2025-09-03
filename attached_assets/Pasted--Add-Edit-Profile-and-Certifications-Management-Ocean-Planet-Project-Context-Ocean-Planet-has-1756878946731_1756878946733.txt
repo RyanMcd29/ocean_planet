@@ -1,0 +1,147 @@
+# Add Edit Profile and Certifications Management - Ocean Planet
+
+## Project Context
+Ocean Planet has a fully functional My Dives page with user authentication. Now we need to enhance the "Edit Profile" functionality to allow users to edit their personal information and manage their diving certifications.
+
+## Database Tables (Already Created - DO NOT CREATE AGAIN)
+
+The following tables already exist in the database:
+
+### certifications table:
+- id (serial, primary key)
+- name (text, not null) - e.g., "Open Water Diver"
+- agency (text, not null) - e.g., "PADI", "SSI", "SDI", "TDI"
+- description (text)
+- created_at (timestamp)
+
+### user_certifications table:
+- id (serial, primary key)
+- user_id (integer, foreign key to users.id)
+- certification_id (integer, foreign key to certifications.id)
+- date_obtained (date, nullable) - can be null if user doesn't remember
+- certification_number (text, nullable)
+- created_at (timestamp)
+- UNIQUE constraint on (user_id, certification_id) to prevent duplicates
+
+**Note:** The database is already populated with ~45 certifications from PADI, SSI, SDI, and TDI agencies.
+
+## Objective
+Enhance the "Edit Profile" action from My Dives page to include:
+1. **Personal Information Editing** - Allow users to update their profile data
+2. **Certifications Management** - Allow users to add and remove their diving certifications
+
+## Required Implementation
+
+### 1. Backend API Endpoints
+
+#### Profile Management:
+- **GET /api/users/profile** - Get current user's profile information
+- **PUT/PATCH /api/users/profile** - Update user's profile information
+
+#### Certifications Management:
+- **GET /api/certifications** - Get all available certifications (for selection)
+- **GET /api/users/certifications** - Get current user's certifications
+- **POST /api/users/certifications** - Add certification to user
+- **DELETE /api/users/certifications/:id** - Remove certification from user
+
+### 2. Edit Profile Page/Modal Enhancement
+
+#### Personal Information Section:
+Allow editing of user fields:
+- First Name (name)
+- Last Name (lastname)
+- Email
+- Preferred Activity (diving, freediving, snorkeling, other)
+- Country (dropdown with existing countries)
+- Bio
+- Profile Picture (if supported)
+
+#### Certifications Section:
+- **Display Current Certifications:** Show user's existing certifications with agency, name, date obtained, and certification number
+- **Add Certification:** Dropdown to select from available certifications, with optional date and certification number fields
+- **Remove Certification:** Allow users to delete certifications they no longer want to display
+
+### 3. User Experience Requirements
+
+#### Profile Editing:
+- Pre-populate form fields with current user data
+- Validate input fields (email format, required fields, etc.)
+- Show success/error messages after updates
+- Maintain responsive design for mobile users
+
+#### Certifications Management:
+- **Add Certification Flow:**
+  1. Select certification from searchable dropdown (grouped by agency)
+  2. Optionally enter date obtained
+  3. Optionally enter certification number
+  4. Save and immediately show in user's certification list
+
+- **Remove Certification Flow:**
+  1. Click remove/delete button on existing certification
+  2. Confirm deletion (optional confirmation dialog)
+  3. Remove from display immediately
+
+#### Data Display:
+- Group certifications by agency (PADI, SSI, SDI, TDI)
+- Show certification name, date obtained (if provided), and certification number (if provided)
+- Handle empty states when user has no certifications
+- Prevent adding duplicate certifications (handled by database constraint)
+
+### 4. Technical Requirements
+
+#### Authentication:
+- Ensure all endpoints require authenticated user
+- Users can only edit their own profile and certifications
+- Protect against unauthorized access
+
+#### Data Validation:
+- Validate that selected certifications exist in database
+- Ensure date obtained is valid date format (if provided)
+- Validate email format and uniqueness
+- Handle database constraint violations gracefully
+
+#### Error Handling:
+- Show meaningful error messages for failed operations
+- Handle network errors and database connectivity issues
+- Prevent duplicate certification additions with user-friendly messages
+
+### 5. Integration Points
+
+#### Navigation:
+- "Edit Profile" action from My Dives page should open this enhanced profile editing interface
+- Can be implemented as modal, separate page, or in-place editing
+- Maintain consistent navigation and user flow
+
+#### Data Consistency:
+- Use existing authentication context for user identification
+- Integrate with existing user data management
+- Ensure updates reflect immediately in UI after successful save
+
+## Expected Functionality
+
+### Profile Editing:
+1. User clicks "Edit Profile" from My Dives
+2. Form loads with current user information pre-filled
+3. User can modify any editable fields
+4. Changes save to database and update UI immediately
+5. Success confirmation shown to user
+
+### Certifications Management:
+1. **Adding Certifications:**
+   - User sees dropdown with all available certifications
+   - Can search/filter by agency or certification name
+   - Optionally adds date and certification number
+   - Certification appears in user's list immediately after save
+
+2. **Viewing Certifications:**
+   - User sees organized list of their certifications
+   - Grouped by agency for easy viewing
+   - Shows all relevant information (name, date, number)
+
+3. **Removing Certifications:**
+   - User can remove certifications they no longer want to display
+   - Immediate removal from display after confirmation
+   - No impact on other users or certification catalog
+
+## Priority
+This feature enhances user engagement by allowing personalization and professional credential display. Please implement comprehensive profile and certification management while maintaining the existing My Dives page functionality and design consistency.
