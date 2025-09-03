@@ -615,12 +615,38 @@ export class DatabaseStorage implements IStorage {
     return result.length > 0 ? result[0] : undefined;
   }
 
-  async getUserDiveLogs(userId: number): Promise<DiveLog[]> {
-    return await db
-      .select()
+  async getUserDiveLogs(userId: number): Promise<any[]> {
+    const results = await db
+      .select({
+        id: diveLogs.id,
+        userId: diveLogs.userId,
+        diveSiteId: diveLogs.diveSiteId,
+        diveDate: diveLogs.diveDate,
+        diveTime: diveLogs.diveTime,
+        duration: diveLogs.duration,
+        maxDepth: diveLogs.maxDepth,
+        avgDepth: diveLogs.avgDepth,
+        waterTemp: diveLogs.waterTemp,
+        visibility: diveLogs.visibility,
+        current: diveLogs.current,
+        conditions: diveLogs.conditions,
+        description: diveLogs.description,
+        equipment: diveLogs.equipment,
+        certificationLevel: diveLogs.certificationLevel,
+        buddyName: diveLogs.buddyName,
+        dateLogged: diveLogs.dateLogged,
+        diveSite: {
+          id: diveSites.id,
+          name: diveSites.name,
+          location: diveSites.location
+        }
+      })
       .from(diveLogs)
+      .leftJoin(diveSites, eq(diveLogs.diveSiteId, diveSites.id))
       .where(eq(diveLogs.userId, userId))
       .orderBy(sql`${diveLogs.diveDate} DESC`);
+    
+    return results;
   }
 
   async getDiveSiteLogs(diveSiteId: number): Promise<DiveLog[]> {

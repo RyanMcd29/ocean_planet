@@ -1,5 +1,5 @@
 import { db, pool } from './db';
-import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, waterConditions, countries, users } from "@shared/schema";
+import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, waterConditions, countries, users, diveLogs, diveLogSpecies } from "@shared/schema";
 import { sql } from "drizzle-orm";
 
 async function createTablesIfNotExists() {
@@ -19,6 +19,40 @@ async function createTablesIfNotExists() {
     // Add country_id column to users table if it doesn't exist
     await client.query(`
       ALTER TABLE users ADD COLUMN IF NOT EXISTS country_id INTEGER;
+    `);
+
+    // Create dive_logs table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS dive_logs (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        dive_site_id INTEGER NOT NULL,
+        dive_date TIMESTAMP NOT NULL,
+        dive_time TEXT NOT NULL,
+        duration INTEGER NOT NULL,
+        max_depth REAL NOT NULL,
+        avg_depth REAL,
+        water_temp REAL,
+        visibility REAL,
+        current TEXT,
+        conditions TEXT,
+        description TEXT,
+        equipment TEXT,
+        certification_level TEXT,
+        buddy_name TEXT,
+        date_logged TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    // Create dive_log_species table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS dive_log_species (
+        id SERIAL PRIMARY KEY,
+        dive_log_id INTEGER NOT NULL,
+        species_id INTEGER NOT NULL,
+        quantity INTEGER,
+        notes TEXT
+      );
     `);
 
     console.log('Tables created/verified successfully');
