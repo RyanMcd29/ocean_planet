@@ -514,14 +514,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const newDiveLog = await storage.createDiveLog(diveLogData);
 
       // If species were spotted during the dive, add them
-      if (req.body.species && Array.isArray(req.body.species)) {
+      if (req.body.species && Array.isArray(req.body.species) && req.body.species.length > 0) {
         for (const speciesData of req.body.species) {
-          await storage.addSpeciesToDiveLog({
-            diveLogId: newDiveLog.id,
-            speciesId: speciesData.speciesId,
-            quantity: speciesData.quantity || 1,
-            notes: speciesData.notes || null
-          });
+          if (speciesData && speciesData.speciesId) {
+            await storage.addSpeciesToDiveLog({
+              diveLogId: newDiveLog.id,
+              speciesId: speciesData.speciesId,
+              quantity: speciesData.quantity || 1,
+              notes: speciesData.notes || ""
+            });
+          }
         }
       }
 

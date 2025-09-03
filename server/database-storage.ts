@@ -657,14 +657,14 @@ export class DatabaseStorage implements IStorage {
       .orderBy(sql`${diveLogs.diveDate} DESC`);
   }
 
-  async addSpeciesToDiveLog(diveLogSpecies: InsertDiveLogSpecies): Promise<DiveLogSpecies> {
+  async addSpeciesToDiveLog(diveLogSpeciesData: InsertDiveLogSpecies): Promise<DiveLogSpecies> {
     const result = await db
       .insert(diveLogSpecies)
       .values({
-        diveLogId: diveLogSpecies.diveLogId,
-        speciesId: diveLogSpecies.speciesId,
-        quantity: diveLogSpecies.quantity,
-        notes: diveLogSpecies.notes ?? null
+        diveLogId: diveLogSpeciesData.diveLogId,
+        speciesId: diveLogSpeciesData.speciesId,
+        quantity: diveLogSpeciesData.quantity,
+        notes: diveLogSpeciesData.notes ?? null
       })
       .returning();
     return result[0];
