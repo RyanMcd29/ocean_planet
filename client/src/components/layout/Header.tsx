@@ -82,7 +82,7 @@ const Header: React.FC = () => {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Avatar className="w-9 h-9 bg-[#05BFDB] hover:bg-[#E0F7FA] hover:text-[#0A4D68] cursor-pointer transition duration-200">
-                    <AvatarFallback>
+                    <AvatarFallback className="text-[#0A4D68] font-semibold">
                       {user?.name?.charAt(0)?.toUpperCase() || 'U'}
                       {user?.lastname?.charAt(0)?.toUpperCase() || ''}
                     </AvatarFallback>
