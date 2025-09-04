@@ -1021,11 +1021,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Profile Management Endpoints
   app.get('/api/users/profile', async (req: Request, res: Response) => {
     try {
-      if (!req.session?.user?.id) {
+      if (!req.session?.userId) {
         return res.status(401).json({ success: false, message: "Not authenticated" });
       }
 
-      const user = await storage.getUser(req.session.user.id);
+      const user = await storage.getUser(req.session.userId);
       if (!user) {
         return res.status(404).json({ success: false, message: "User not found" });
       }
@@ -1039,7 +1039,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.put('/api/users/profile', async (req: Request, res: Response) => {
     try {
-      if (!req.session?.user?.id) {
+      if (!req.session?.userId) {
         return res.status(401).json({ success: false, message: "Not authenticated" });
       }
 
@@ -1050,11 +1050,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Check if email is already taken by another user
       const existingUser = await storage.getUserByEmail(profileData.email);
-      if (existingUser && existingUser.id !== req.session.user.id) {
+      if (existingUser && existingUser.id !== req.session.userId) {
         return res.status(400).json({ success: false, message: "Email is already taken" });
       }
 
-      const updatedUser = await storage.updateUserProfile(req.session.user.id, profileData);
+      const updatedUser = await storage.updateUserProfile(req.session.userId, profileData);
       if (!updatedUser) {
         return res.status(404).json({ success: false, message: "User not found" });
       }
@@ -1079,11 +1079,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/users/certifications', async (req: Request, res: Response) => {
     try {
-      if (!req.session?.user?.id) {
+      if (!req.session?.userId) {
         return res.status(401).json({ success: false, message: "Not authenticated" });
       }
 
-      const userCertifications = await storage.getUserCertifications(req.session.user.id);
+      const userCertifications = await storage.getUserCertifications(req.session.userId);
       res.json({ success: true, certifications: userCertifications });
     } catch (error) {
       console.error('Error fetching user certifications:', error);
@@ -1093,7 +1093,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/users/certifications', async (req: Request, res: Response) => {
     try {
-      if (!req.session?.user?.id) {
+      if (!req.session?.userId) {
         return res.status(401).json({ success: false, message: "Not authenticated" });
       }
 
@@ -1111,7 +1111,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Add the user ID from session
       const userCertificationData = {
         ...certificationData,
-        userId: req.session.user.id
+        userId: req.session.userId
       };
 
       const userCertification = await storage.addUserCertification(userCertificationData);
@@ -1127,7 +1127,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete('/api/users/certifications/:id', async (req: Request, res: Response) => {
     try {
-      if (!req.session?.user?.id) {
+      if (!req.session?.userId) {
         return res.status(401).json({ success: false, message: "Not authenticated" });
       }
 
@@ -1136,7 +1136,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ success: false, message: "Invalid certification ID" });
       }
 
-      const success = await storage.removeUserCertification(certificationId, req.session.user.id);
+      const success = await storage.removeUserCertification(certificationId, req.session.userId);
       if (!success) {
         return res.status(404).json({ success: false, message: "Certification not found" });
       }
