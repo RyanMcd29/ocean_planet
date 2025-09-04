@@ -1104,10 +1104,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ success: false, message: "Not authenticated" });
       }
 
-      const certificationData = validateRequest(insertUserCertificationSchema, req.body);
-      if (!certificationData) {
-        return res.status(400).json({ success: false, message: "Invalid certification data" });
+      console.log('Certification request body:', req.body);
+      
+      // Validate the basic structure first
+      if (!req.body.certificationId) {
+        return res.status(400).json({ success: false, message: "Certification ID is required" });
       }
+
+      const certificationData = {
+        certificationId: req.body.certificationId,
+        dateObtained: req.body.dateObtained || null,
+        certificationNumber: req.body.certificationNumber || null,
+      };
+
+      console.log('Processed certification data:', certificationData);
 
       // Verify the certification exists
       const certification = await storage.getCertification(certificationData.certificationId);
