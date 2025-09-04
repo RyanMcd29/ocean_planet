@@ -15,7 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { ArrowLeft, Save, IdCard, Award, Plus, X, Calendar } from "lucide-react";
+import { ArrowLeft, Save, IdCard } from "lucide-react";
+import CertificationsSection from "@/components/CertificationsSection";
 
 // Validation schema for profile updates
 const updateProfileSchema = z.object({
@@ -27,20 +28,12 @@ const updateProfileSchema = z.object({
   bio: z.string().max(500, "Bio must be less than 500 characters").optional(),
 });
 
-const addCertificationSchema = z.object({
-  certificationId: z.number().min(1, "Please select a certification"),
-  dateObtained: z.string().optional(),
-  certificationNumber: z.string().optional(),
-});
-
 type UpdateProfileForm = z.infer<typeof updateProfileSchema>;
-type AddCertificationForm = z.infer<typeof addCertificationSchema>;
 
 export default function NewEditProfilePage() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [showAddCertification, setShowAddCertification] = useState(false);
 
   // Use the working /api/users/me endpoint instead of the broken profile endpoint
   const { data: userData, isLoading: userLoading } = useQuery({
@@ -52,15 +45,7 @@ export default function NewEditProfilePage() {
     queryKey: ['/api/countries'],
   });
 
-  // Fetch available certifications
-  const { data: certificationsData } = useQuery({
-    queryKey: ['/api/certifications'],
-  });
-
-  // Fetch user's current certifications
-  const { data: userCertifications, isLoading: certificationsLoading } = useQuery({
-    queryKey: ['/api/users/certifications'],
-  });
+  // Removed certification queries - handled by CertificationsSection component
 
   // Profile form
   const profileForm = useForm<UpdateProfileForm>({
@@ -75,15 +60,7 @@ export default function NewEditProfilePage() {
     },
   });
 
-  // Certification form
-  const certificationForm = useForm<AddCertificationForm>({
-    resolver: zodResolver(addCertificationSchema),
-    defaultValues: {
-      certificationId: 0,
-      dateObtained: "",
-      certificationNumber: "",
-    },
-  });
+  // Removed certification form - handled by CertificationsSection component
 
   // Set form values when user data loads - using the working /api/users/me response
   useEffect(() => {
@@ -126,72 +103,14 @@ export default function NewEditProfilePage() {
     },
   });
 
-  // Add certification mutation
-  const addCertificationMutation = useMutation({
-    mutationFn: (data: AddCertificationForm) => {
-      const payload = {
-        certificationId: data.certificationId,
-        dateObtained: data.dateObtained || null,
-        certificationNumber: data.certificationNumber || null,
-      };
-      return apiRequest("/api/users/certifications", {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
-    },
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Certification added successfully!",
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/users/certifications'] });
-      setShowAddCertification(false);
-      certificationForm.reset();
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to add certification",
-        variant: "destructive",
-      });
-    },
-  });
-
-  // Remove certification mutation
-  const removeCertificationMutation = useMutation({
-    mutationFn: (certificationId: number) => apiRequest(`/api/users/certifications/${certificationId}`, {
-      method: "DELETE",
-    }),
-    onSuccess: () => {
-      toast({
-        title: "Success",
-        description: "Certification removed successfully!",
-      });
-      queryClient.invalidateQueries({ queryKey: ['/api/users/certifications'] });
-    },
-    onError: (error: any) => {
-      toast({
-        title: "Error",
-        description: error.message || "Failed to remove certification",
-        variant: "destructive",
-      });
-    },
-  });
+  // Removed certification mutations - handled by CertificationsSection component
 
   const onSubmitProfile = (data: UpdateProfileForm) => {
     console.log('Submitting profile data:', data);
     updateProfileMutation.mutate(data);
   };
 
-  const onSubmitCertification = (data: AddCertificationForm) => {
-    addCertificationMutation.mutate(data);
-  };
-
-  const handleRemoveCertification = (certificationId: number) => {
-    if (confirm("Are you sure you want to remove this certification?")) {
-      removeCertificationMutation.mutate(certificationId);
-    }
-  };
+  // Removed certification handlers - handled by CertificationsSection component
 
   if (userLoading) {
     return (
@@ -214,18 +133,7 @@ export default function NewEditProfilePage() {
   }
 
   const countries = countriesData?.countries || [];
-  const certifications = certificationsData?.certifications || [];
-  const userCerts = userCertifications?.certifications || [];
   const user = userData?.user;
-
-  // Group certifications by agency
-  const certificationsByAgency = certifications.reduce((acc: any, cert: any) => {
-    if (!acc[cert.agency]) {
-      acc[cert.agency] = [];
-    }
-    acc[cert.agency].push(cert);
-    return acc;
-  }, {});
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -386,189 +294,7 @@ export default function NewEditProfilePage() {
           </Card>
 
           {/* Certifications Management */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-xl text-[#0A4D68] flex items-center gap-2">
-                  <Award className="h-5 w-5" />
-                  Diving Certifications
-                </CardTitle>
-                <Button
-                  onClick={() => setShowAddCertification(!showAddCertification)}
-                  className="bg-[#05BFDB] hover:bg-[#088395] text-white"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Certification
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              {/* Add Certification Form */}
-              {showAddCertification && (
-                <Card className="bg-[#F5F5F5]">
-                  <CardHeader>
-                    <CardTitle className="text-lg text-[#0A4D68]">Add New Certification</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Form {...certificationForm}>
-                      <form onSubmit={certificationForm.handleSubmit(onSubmitCertification)} className="space-y-4">
-                        <FormField
-                          control={certificationForm.control}
-                          name="certificationId"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Certification</FormLabel>
-                              <Select onValueChange={(value) => field.onChange(parseInt(value))}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select a certification" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {Object.entries(certificationsByAgency).map(([agency, certs]: [string, any]) => (
-                                    <div key={agency}>
-                                      <div className="px-2 py-1 text-sm font-semibold text-[#088395]">
-                                        {agency}
-                                      </div>
-                                      {certs.map((cert: any) => (
-                                        <SelectItem key={cert.id} value={cert.id.toString()}>
-                                          {cert.name}
-                                        </SelectItem>
-                                      ))}
-                                    </div>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <FormField
-                            control={certificationForm.control}
-                            name="dateObtained"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Date Obtained (Optional)</FormLabel>
-                                <FormControl>
-                                  <Input type="date" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={certificationForm.control}
-                            name="certificationNumber"
-                            render={({ field }) => (
-                              <FormItem>
-                                <FormLabel>Certification Number (Optional)</FormLabel>
-                                <FormControl>
-                                  <Input placeholder="e.g., 123456789" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-
-                        <div className="flex gap-2">
-                          <Button 
-                            type="submit" 
-                            disabled={addCertificationMutation.isPending}
-                            className="bg-[#05BFDB] hover:bg-[#088395] text-white"
-                          >
-                            {addCertificationMutation.isPending ? "Adding..." : "Add Certification"}
-                          </Button>
-                          <Button 
-                            type="button" 
-                            variant="outline"
-                            onClick={() => setShowAddCertification(false)}
-                          >
-                            Cancel
-                          </Button>
-                        </div>
-                      </form>
-                    </Form>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Current Certifications */}
-              <div>
-                <h3 className="text-lg font-semibold text-[#0A4D68] mb-4">Your Certifications</h3>
-                {certificationsLoading ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Array(4).fill(0).map((_, i) => (
-                      <Skeleton key={i} className="h-32 w-full" />
-                    ))}
-                  </div>
-                ) : userCerts.length > 0 ? (
-                  <div className="space-y-4">
-                    {Object.entries(
-                      userCerts.reduce((acc: any, userCert: any) => {
-                        const agency = userCert.certification.agency;
-                        if (!acc[agency]) acc[agency] = [];
-                        acc[agency].push(userCert);
-                        return acc;
-                      }, {})
-                    ).map(([agency, certs]: [string, any]) => (
-                      <div key={agency}>
-                        <div className="flex items-center gap-2 mb-3">
-                          <Badge variant="outline" className="text-[#088395] border-[#088395]">
-                            {agency}
-                          </Badge>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {certs.map((userCert: any) => (
-                            <Card key={userCert.id} className="relative">
-                              <CardContent className="p-4">
-                                <div className="flex justify-between items-start">
-                                  <div className="flex-1">
-                                    <h4 className="font-semibold text-[#0A4D68]">
-                                      {userCert.certification.name}
-                                    </h4>
-                                    {userCert.dateObtained && (
-                                      <div className="flex items-center text-sm text-[#757575] mt-1">
-                                        <Calendar className="h-3 w-3 mr-1" />
-                                        {new Date(userCert.dateObtained).toLocaleDateString()}
-                                      </div>
-                                    )}
-                                    {userCert.certificationNumber && (
-                                      <div className="text-sm text-[#757575] mt-1">
-                                        Cert #: {userCert.certificationNumber}
-                                      </div>
-                                    )}
-                                  </div>
-                                  <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleRemoveCertification(userCert.id)}
-                                    className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                  >
-                                    <X className="h-4 w-4" />
-                                  </Button>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
-                        <Separator className="my-4" />
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-8 text-[#757575]">
-                    <Award className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>No certifications added yet.</p>
-                    <p className="text-sm">Add your diving certifications to showcase your qualifications.</p>
-                  </div>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+          <CertificationsSection />
         </div>
       </div>
     </div>
