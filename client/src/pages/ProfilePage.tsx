@@ -297,8 +297,10 @@ const ProfilePage: React.FC = () => {
             
             <TabsContent value="dives" className="space-y-6">
               {/* Diving Certifications Section */}
-              <div className="w-full">
+              <div className="w-full bg-red-100 p-4 mb-4">
+                <h2 className="text-lg font-bold text-red-800">DEBUG: This should show before certifications</h2>
                 <CertificationsSection />
+                <h2 className="text-lg font-bold text-red-800">DEBUG: This should show after certifications</h2>
               </div>
               
               <Card>
