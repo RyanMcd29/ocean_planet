@@ -95,25 +95,7 @@ export class DatabaseStorage implements IStorage {
   async getUserWithCountry(id: number): Promise<(User & { country?: Country }) | undefined> {
     try {
       const result = await db
-        .select({
-          id: users.id,
-          username: users.username,
-          name: users.name,
-          lastname: users.lastname,
-          email: users.email,
-          password: users.password,
-          preferredActivity: users.preferredActivity,
-          profilePicture: users.profilePicture,
-          bio: users.bio,
-          countryId: users.countryId,
-          country: {
-            id: countries.id,
-            name: countries.name,
-            code: countries.code,
-            latitude: countries.latitude,
-            longitude: countries.longitude,
-          }
-        })
+        .select()
         .from(users)
         .leftJoin(countries, eq(users.countryId, countries.id))
         .where(eq(users.id, id));
@@ -124,17 +106,19 @@ export class DatabaseStorage implements IStorage {
 
       const row = result[0];
       return {
-        id: row.id,
-        username: row.username,
-        name: row.name,
-        lastname: row.lastname,
-        email: row.email,
-        password: row.password,
-        preferredActivity: row.preferredActivity,
-        profilePicture: row.profilePicture,
-        bio: row.bio,
-        countryId: row.countryId,
-        country: row.country && row.country.id ? row.country : undefined
+        id: row.users.id,
+        username: row.users.username,
+        name: row.users.name,
+        lastname: row.users.lastname,
+        email: row.users.email,
+        password: row.users.password,
+        preferredActivity: row.users.preferredActivity,
+        profilePicture: row.users.profilePicture,
+        bio: row.users.bio,
+        countryId: row.users.countryId,
+        createdAt: row.users.createdAt,
+        updatedAt: row.users.updatedAt,
+        country: row.countries ? row.countries : undefined
       };
     } catch (error) {
       console.error('Database error in getUserWithCountry:', error);
