@@ -127,8 +127,6 @@ export class DatabaseStorage implements IStorage {
     } catch (error) {
       console.error('=== Database error in getUserWithCountry ===');
       console.error('Error:', error);
-      console.error('Error message:', error.message);
-      console.error('Error stack:', error.stack);
       throw error;
     }
   }

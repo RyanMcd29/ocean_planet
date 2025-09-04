@@ -1050,8 +1050,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('=== PROFILE ENDPOINT ERROR ===');
       console.error('Error details:', error);
-      console.error('Error message:', error.message);
-      console.error('Error stack:', error.stack);
       res.status(500).json({ success: false, message: "Failed to fetch profile" });
     }
   });
