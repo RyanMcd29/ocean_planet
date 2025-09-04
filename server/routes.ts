@@ -51,7 +51,7 @@ const upload = multer({
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
     } else {
-      cb(new Error('Only image files are allowed'), false);
+      cb(new Error('Only image files are allowed'));
     }
   }
 });
@@ -1021,11 +1021,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Profile Management Endpoints
   app.get('/api/users/profile', async (req: Request, res: Response) => {
     try {
+      console.log('Profile request - Session:', req.session);
+      console.log('Profile request - userId:', req.session?.userId);
+      
       if (!req.session?.userId) {
         return res.status(401).json({ success: false, message: "Not authenticated" });
       }
 
       const user = await storage.getUser(req.session.userId);
+      console.log('Found user:', user);
       if (!user) {
         return res.status(404).json({ success: false, message: "User not found" });
       }
@@ -1033,7 +1037,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ success: true, user });
     } catch (error) {
       console.error('Error fetching user profile:', error);
-      res.status(500).json({ success: false, message: "Failed to fetch profile" });
+      res.status(500).json({ error: "Failed to fetch user" });
     }
   });
 
