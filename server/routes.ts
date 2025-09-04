@@ -1020,36 +1020,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Profile Management Endpoints
   app.get('/api/users/profile', async (req: Request, res: Response) => {
-    console.log('=== PROFILE ENDPOINT CALLED ===');
+    console.log('NEW PROFILE ENDPOINT HIT');
     
     if (!req.session?.userId) {
-      console.log('No user ID in session');
-      return res.status(401).json({
-        success: false,
-        message: "Not authenticated"
-      });
+      return res.status(401).json({ success: false, message: "Not authenticated" });
     }
 
-    console.log('Calling getUserWithCountry with ID:', req.session.userId);
-    
     try {
+      console.log('Getting user with ID:', req.session.userId);
       const user = await storage.getUserWithCountry(req.session.userId);
-      console.log('getUserWithCountry returned:', user);
       
       if (!user) {
-        console.log('No user found for ID:', req.session.userId);
-        return res.status(404).json({
-          success: false,
-          message: "User not found"
-        });
+        return res.status(404).json({ success: false, message: "User not found" });
       }
 
-      console.log('About to send success response');
-      return res.json({ success: true, user });
-    } catch (err) {
-      console.error('=== PROFILE ENDPOINT ERROR ===');
-      console.error('Error:', err);
-      return res.status(500).json({ success: false, message: "Failed to fetch profile" });
+      console.log('SUCCESS - returning user data');
+      res.json({ success: true, user });
+    } catch (error: any) {
+      console.error('Profile error:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch profile" });
     }
   });
 
@@ -1094,16 +1083,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get('/api/users/certifications', async (req: Request, res: Response) => {
+    console.log('NEW CERTIFICATIONS ENDPOINT HIT');
+    
     if (!req.session?.userId) {
       return res.status(401).json({ success: false, message: "Not authenticated" });
     }
 
     try {
       const userCertifications = await storage.getUserCertifications(req.session.userId);
-      return res.json({ success: true, certifications: userCertifications });
-    } catch (err) {
-      console.error('Error fetching user certifications:', err);
-      return res.status(500).json({ success: false, message: "Failed to fetch user certifications" });
+      res.json({ success: true, certifications: userCertifications });
+    } catch (error: any) {
+      console.error('Certifications error:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch user certifications" });
     }
   });
 
