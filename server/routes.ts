@@ -1021,24 +1021,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Profile Management Endpoints
   app.get('/api/users/profile', async (req: Request, res: Response) => {
     try {
-      if (!req.session.userId) {
+      console.log('=== PROFILE ENDPOINT CALLED ===');
+      console.log('Session:', req.session);
+      console.log('User ID from session:', req.session?.userId);
+      
+      if (!req.session?.userId) {
+        console.log('No user ID in session');
         return res.status(401).json({
           success: false,
           message: "Not authenticated"
         });
       }
 
+      console.log('Calling getUserWithCountry with ID:', req.session.userId);
       const user = await storage.getUserWithCountry(req.session.userId);
+      console.log('getUserWithCountry returned:', user);
+      
       if (!user) {
-        return res.status(401).json({
+        console.log('No user found for ID:', req.session.userId);
+        return res.status(404).json({
           success: false,
           message: "User not found"
         });
       }
 
+      console.log('Returning user successfully');
       res.json({ success: true, user });
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      console.error('=== PROFILE ENDPOINT ERROR ===');
+      console.error('Error details:', error);
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
       res.status(500).json({ success: false, message: "Failed to fetch profile" });
     }
   });

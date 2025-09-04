@@ -94,34 +94,41 @@ export class DatabaseStorage implements IStorage {
 
   async getUserWithCountry(id: number): Promise<(User & { country?: Country }) | undefined> {
     try {
-      const result = await db
-        .select()
-        .from(users)
-        .leftJoin(countries, eq(users.countryId, countries.id))
-        .where(eq(users.id, id));
-
-      if (!result.length) {
+      console.log('=== getUserWithCountry called with ID:', id);
+      
+      // First get user directly to see if it exists
+      const userOnly = await db.select().from(users).where(eq(users.id, id));
+      console.log('Direct user query result:', userOnly);
+      
+      if (!userOnly.length) {
+        console.log('No user found with ID:', id);
         return undefined;
       }
 
-      const row = result[0];
-      return {
-        id: row.users.id,
-        username: row.users.username,
-        name: row.users.name,
-        lastname: row.users.lastname,
-        email: row.users.email,
-        password: row.users.password,
-        preferredActivity: row.users.preferredActivity,
-        profilePicture: row.users.profilePicture,
-        bio: row.users.bio,
-        countryId: row.users.countryId,
-        createdAt: row.users.createdAt,
-        updatedAt: row.users.updatedAt,
-        country: row.countries ? row.countries : undefined
+      const user = userOnly[0];
+      console.log('Found user:', user);
+
+      // Now get country if user has countryId
+      let country = undefined;
+      if (user.countryId) {
+        console.log('Getting country for countryId:', user.countryId);
+        const countryResult = await db.select().from(countries).where(eq(countries.id, user.countryId));
+        country = countryResult.length > 0 ? countryResult[0] : undefined;
+        console.log('Country result:', country);
+      }
+
+      const result = {
+        ...user,
+        country
       };
+      
+      console.log('Returning final result:', result);
+      return result;
     } catch (error) {
-      console.error('Database error in getUserWithCountry:', error);
+      console.error('=== Database error in getUserWithCountry ===');
+      console.error('Error:', error);
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
       throw error;
     }
   }
