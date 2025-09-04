@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "wouter";
 import { WaveIcon } from "@/lib/icons";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Footer: React.FC = () => {
+  const { isAuthenticated } = useAuth();
+  
   return (
     <footer className="bg-[#0A4D68] text-white py-6 mt-auto">
       <div className="container mx-auto px-4">
@@ -33,7 +36,9 @@ const Footer: React.FC = () => {
             <div>
               <h3 className="text-lg font-montserrat font-semibold mb-3">Community</h3>
               <ul className="space-y-2">
-                <li><Link href="/signup" className="text-sm text-gray-300 hover:text-white transition">Join Us</Link></li>
+                {!isAuthenticated && (
+                  <li><Link href="/signup" className="text-sm text-gray-300 hover:text-white transition">Join Us</Link></li>
+                )}
                 <li><Link href="/gallery" className="text-sm text-gray-300 hover:text-white transition">Share Photos</Link></li>
                 <li><Link href="/citizen-science" className="text-sm text-gray-300 hover:text-white transition">Citizen Science</Link></li>
                 <li><Link href="/events" className="text-sm text-gray-300 hover:text-white transition">Events</Link></li>

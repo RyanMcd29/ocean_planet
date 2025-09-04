@@ -24,6 +24,7 @@ import BottomTrawlingLessonPage from "@/pages/BottomTrawlingLessonPage";
 import MicroLessonsPage from "@/pages/MicroLessonsPage";
 import SignupPage from "@/pages/SignupPage";
 import LoginPage from "@/pages/LoginPage";
+import ContactPage from "@/pages/ContactPage";
 
 import MobileNav from "@/components/layout/MobileNav";
 
@@ -64,6 +65,7 @@ function Router() {
         <Route path="/lessons/bottom-trawling" component={BottomTrawlingLessonPage} />
         <Route path="/signup" component={SignupPage} />
         <Route path="/login" component={LoginPage} />
+        <Route path="/contact" component={ContactPage} />
 
         <Route component={NotFound} />
       </Switch>
