@@ -14,6 +14,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import CertificationsSection from "@/components/CertificationsSection";
 
 const ProfilePage: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
@@ -295,6 +296,9 @@ const ProfilePage: React.FC = () => {
             </TabsContent>
             
             <TabsContent value="dives" className="space-y-6">
+              {/* Diving Certifications Section */}
+              <CertificationsSection />
+              
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
                   <CardTitle className="text-xl text-[#0A4D68]">My Dive Log</CardTitle>

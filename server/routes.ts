@@ -1083,21 +1083,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get('/api/users/certifications', async (req: Request, res: Response) => {
-    console.log('CERTIFICATIONS GET ENDPOINT HIT');
+    console.log('=== NEW WORKING CERTIFICATIONS ENDPOINT ===');
     
     if (!req.session?.userId) {
       return res.status(401).json({ success: false, message: "Not authenticated" });
     }
 
     try {
-      console.log('Getting certifications for user ID:', req.session.userId);
-      const userCertifications = await storage.getUserCertifications(req.session.userId);
-      console.log('Found user certifications:', userCertifications);
+      // Use direct SQL query to get user certifications with certification details
+      const query = `
+        SELECT 
+          uc.id,
+          uc.date_obtained as "dateObtained",
+          uc.certification_number as "certificationNumber",
+          uc.created_at as "createdAt",
+          c.id as "certificationId",
+          c.name as "certificationName",
+          c.agency,
+          c.level,
+          c.description
+        FROM user_certifications uc
+        JOIN certifications c ON uc.certification_id = c.id
+        WHERE uc.user_id = $1
+        ORDER BY uc.created_at DESC
+      `;
+      
+      const result = await db.execute({
+        sql: query,
+        args: [req.session.userId]
+      });
+      
+      console.log('Raw user certifications query result:', result.rows);
+      
+      // Transform the result to match expected format
+      const userCertifications = result.rows.map((row: any) => ({
+        id: row.id,
+        dateObtained: row.dateObtained,
+        certificationNumber: row.certificationNumber,
+        createdAt: row.createdAt,
+        certification: {
+          id: row.certificationId,
+          name: row.certificationName,
+          agency: row.agency,
+          level: row.level,
+          description: row.description
+        }
+      }));
+
+      console.log('Processed user certifications:', userCertifications);
+      
       res.json({ success: true, certifications: userCertifications });
     } catch (error: any) {
       console.error('=== CERTIFICATIONS GET ERROR ===');
       console.error('Error:', error);
-      res.status(500).json({ success: false, message: "Failed to fetch user certifications" });
+      res.status(500).json({ success: false, message: "Failed to fetch user certifications", error: error.message });
     }
   });
 

@@ -90,18 +90,12 @@ export default function CertificationsSection() {
     return acc;
   }, {});
 
-  // Mock user certifications for now - you can see the database has your data
-  const mockUserCerts = [
-    {
-      id: 1,
-      certification: {
-        name: "Your certification was saved successfully!",
-        agency: "Database"
-      },
-      dateObtained: null,
-      certificationNumber: "555604"
-    }
-  ];
+  // Fetch user's current certifications
+  const { data: userCertifications, isLoading: certificationsLoading } = useQuery({
+    queryKey: ['/api/users/certifications'],
+  });
+
+  const userCerts = userCertifications?.certifications || [];
 
   return (
     <Card>
@@ -217,10 +211,16 @@ export default function CertificationsSection() {
         {/* Current Certifications */}
         <div>
           <h3 className="text-lg font-semibold text-[#0A4D68] mb-4">Your Certifications</h3>
-          {mockUserCerts.length > 0 ? (
+          {certificationsLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {Array(2).fill(0).map((_, i) => (
+                <Skeleton key={i} className="h-32 w-full" />
+              ))}
+            </div>
+          ) : userCerts.length > 0 ? (
             <div className="space-y-4">
               {Object.entries(
-                mockUserCerts.reduce((acc: any, userCert: any) => {
+                userCerts.reduce((acc: any, userCert: any) => {
                   const agency = userCert.certification.agency;
                   if (!acc[agency]) acc[agency] = [];
                   acc[agency].push(userCert);
