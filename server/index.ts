@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
-import connectPgSimple from "connect-pg-simple";
+import MemoryStore from "memorystore";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedDatabase } from "./seed-database";
@@ -10,14 +10,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Configure sessions with PostgreSQL store
-const PgSession = connectPgSimple(session);
+// Configure sessions with MemoryStore (persists longer than default)
+const MemStore = MemoryStore(session);
 
 app.use(session({
-  store: new PgSession({
-    conString: process.env.DATABASE_URL,
-    tableName: 'session', // Use lowercase table name
-    createTableIfMissing: true
+  store: new MemStore({
+    checkPeriod: 86400000 // prune expired entries every 24h
   }),
   secret: process.env.SESSION_SECRET || 'ocean-planet-secret-key-change-in-production',
   resave: false,
