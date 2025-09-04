@@ -297,7 +297,9 @@ const ProfilePage: React.FC = () => {
             
             <TabsContent value="dives" className="space-y-6">
               {/* Diving Certifications Section */}
-              <CertificationsSection />
+              <div className="w-full">
+                <CertificationsSection />
+              </div>
               
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
