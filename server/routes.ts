@@ -1021,19 +1021,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Profile Management Endpoints
   app.get('/api/users/profile', async (req: Request, res: Response) => {
     try {
-      if (!req.session?.userId) {
-        return res.status(401).json({ success: false, message: "Not authenticated" });
+      if (!req.session.userId) {
+        return res.status(401).json({
+          success: false,
+          message: "Not authenticated"
+        });
       }
 
       const user = await storage.getUserWithCountry(req.session.userId);
       if (!user) {
-        return res.status(404).json({ success: false, message: "User not found" });
+        return res.status(401).json({
+          success: false,
+          message: "User not found"
+        });
       }
 
       res.json({ success: true, user });
     } catch (error) {
-      console.error('Profile endpoint error:', error);
-      res.status(500).json({ error: "Failed to fetch user" });
+      console.error('Error fetching user profile:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch profile" });
     }
   });
 
@@ -1079,15 +1085,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/users/certifications', async (req: Request, res: Response) => {
     try {
-      if (!req.session?.userId) {
+      if (!req.session.userId) {
         return res.status(401).json({ success: false, message: "Not authenticated" });
       }
 
       const userCertifications = await storage.getUserCertifications(req.session.userId);
       res.json({ success: true, certifications: userCertifications });
     } catch (error) {
-      console.error('Certifications endpoint error:', error);
-      res.status(500).json({ error: "Failed to fetch user" });
+      console.error('Error fetching user certifications:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch user certifications" });
     }
   });
 
