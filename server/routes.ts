@@ -1083,17 +1083,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get('/api/users/certifications', async (req: Request, res: Response) => {
-    console.log('NEW CERTIFICATIONS ENDPOINT HIT');
+    console.log('CERTIFICATIONS GET ENDPOINT HIT');
     
     if (!req.session?.userId) {
       return res.status(401).json({ success: false, message: "Not authenticated" });
     }
 
     try {
+      console.log('Getting certifications for user ID:', req.session.userId);
       const userCertifications = await storage.getUserCertifications(req.session.userId);
+      console.log('Found user certifications:', userCertifications);
       res.json({ success: true, certifications: userCertifications });
     } catch (error: any) {
-      console.error('Certifications error:', error);
+      console.error('=== CERTIFICATIONS GET ERROR ===');
+      console.error('Error:', error);
       res.status(500).json({ success: false, message: "Failed to fetch user certifications" });
     }
   });
