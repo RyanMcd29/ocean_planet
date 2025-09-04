@@ -103,7 +103,7 @@ export default function CertificationsSection() {
       id: 1,
       certification: {
         name: "Instructor",
-        agency: "SSI"
+        agency: "PADI"
       },
       dateObtained: null,
       certificationNumber: "555604"
