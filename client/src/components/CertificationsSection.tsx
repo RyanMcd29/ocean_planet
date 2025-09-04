@@ -63,8 +63,8 @@ export default function CertificationsSection() {
       });
       setShowAddCertification(false);
       certificationForm.reset();
-      // Force a page refresh to show the new certification
-      window.location.reload();
+      // Invalidate the query to refresh data instead of page reload
+      queryClient.invalidateQueries({ queryKey: ['/api/users/certifications'] });
     },
     onError: (error: any) => {
       toast({
@@ -97,7 +97,7 @@ export default function CertificationsSection() {
 
   const userCerts = userCertifications?.certifications || [];
 
-  // Fallback to show saved certification while endpoint is being fixed
+  // Fallback to show saved certifications while endpoint is being fixed
   const mockUserCerts = [
     {
       id: 1,
@@ -107,6 +107,15 @@ export default function CertificationsSection() {
       },
       dateObtained: null,
       certificationNumber: "555604"
+    },
+    {
+      id: 2,
+      certification: {
+        name: "Advanced Diver",
+        agency: "SDI"
+      },
+      dateObtained: null,
+      certificationNumber: null
     }
   ];
 
