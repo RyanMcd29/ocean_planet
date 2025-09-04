@@ -104,7 +104,7 @@ app.use((req, res, next) => {
     `);
     
     console.log('User table migration completed');
-  } catch (error) {
+  } catch (error: any) {
     console.log('User table migration may have already been completed or failed:', error.message);
   }
 

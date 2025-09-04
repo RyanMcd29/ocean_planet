@@ -64,19 +64,19 @@ export const registrationSchema = insertUserSchema.extend({
   path: ["password"],
 }).refine((data) => {
   // Name validation
-  return data.name.length >= 2 && data.name.length <= 50;
+  return data.name && data.name.length >= 2 && data.name.length <= 50;
 }, {
   message: "Name must be 2-50 characters",
   path: ["name"],
 }).refine((data) => {
   // Last name validation
-  return data.lastname.length >= 2 && data.lastname.length <= 50;
+  return data.lastname && data.lastname.length >= 2 && data.lastname.length <= 50;
 }, {
   message: "Last name must be 2-50 characters",
   path: ["lastname"],
 }).refine((data) => {
   // Preferred activity validation
-  return ['diving', 'freediving', 'snorkeling', 'other'].includes(data.preferredActivity);
+  return data.preferredActivity && ['diving', 'freediving', 'snorkeling', 'other'].includes(data.preferredActivity);
 }, {
   message: "Invalid preferred activity",
   path: ["preferredActivity"],

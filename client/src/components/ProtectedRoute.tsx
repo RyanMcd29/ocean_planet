@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useAuth } from '@/contexts/AuthContext';
 import { Loader2 } from 'lucide-react';
@@ -11,6 +11,15 @@ interface ProtectedRouteProps {
 export default function ProtectedRoute({ children, fallback }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading } = useAuth();
   const [location, navigate] = useLocation();
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      // Redirect to login with return URL
+      const currentPath = location;
+      const loginUrl = `/login?returnUrl=${encodeURIComponent(currentPath)}`;
+      navigate(loginUrl);
+    }
+  }, [isLoading, isAuthenticated, location, navigate]);
 
   if (isLoading) {
     return (
@@ -26,10 +35,6 @@ export default function ProtectedRoute({ children, fallback }: ProtectedRoutePro
   }
 
   if (!isAuthenticated) {
-    // Redirect to login with return URL
-    const currentPath = location;
-    const loginUrl = `/login?returnUrl=${encodeURIComponent(currentPath)}`;
-    navigate(loginUrl);
     return null;
   }
 

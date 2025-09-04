@@ -316,10 +316,16 @@ async function seedDatabase() {
       current: "Minimal to Moderate",
       minDepth: 8,
       maxDepth: 18,
-      visibility: "Very Good",
-      bestTimeToVisit: "October to April",
-      temperature: "18°C to 24°C",
-      marineLifeRichness: "High",
+      minVisibility: 15,
+      maxVisibility: 25,
+      minTemp: 18,
+      maxTemp: 24,
+      bestSeason: "October to April",
+      peakVisibilityMonth: "December",
+      conservationStatus: "Marine Protected Area",
+      conservationInfo: "Protected reef system requiring careful diving practices to preserve unique limestone formations.",
+      mainImage: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      highlights: ["Limestone Formations", "Swim-throughs", "Crystal Caverns", "Diverse Marine Life"],
       habitats: ["Limestone Reef", "Swim-throughs", "Rocky Reef"]
     }).returning();
 
@@ -334,10 +340,16 @@ async function seedDatabase() {
       current: "Light to Moderate",
       minDepth: 10,
       maxDepth: 25,
-      visibility: "Good",
-      bestTimeToVisit: "November to March",
-      temperature: "18°C to 22°C",
-      marineLifeRichness: "High",
+      minVisibility: 12,
+      maxVisibility: 20,
+      minTemp: 18,
+      maxTemp: 22,
+      bestSeason: "November to March",
+      peakVisibilityMonth: "January",
+      conservationStatus: "Marine Protected Area",
+      conservationInfo: "Protected reef system supporting diverse marine ecosystems requiring sustainable diving practices.",
+      mainImage: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      highlights: ["Rocky Formations", "Kelp Forest", "Diverse Fish Species", "Underwater Topography"],
       habitats: ["Rocky Reef", "Kelp Forest", "Sandy Bottom"]
     }).returning();
 
