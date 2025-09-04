@@ -70,6 +70,7 @@ export default function EditProfilePage() {
       lastname: "",
       email: "",
       preferredActivity: "diving",
+      countryId: undefined,
       bio: "",
     },
   });

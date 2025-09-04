@@ -1116,7 +1116,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const userCertification = await storage.addUserCertification(userCertificationData);
       res.status(201).json({ success: true, certification: userCertification });
-    } catch (error) {
+    } catch (error: any) {
       if (error.code === '23505') { // Unique constraint violation
         return res.status(400).json({ success: false, message: "You already have this certification" });
       }
