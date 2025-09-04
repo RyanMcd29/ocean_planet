@@ -243,27 +243,47 @@ export default function CertificationsSection() {
               ))}
             </div>
           ) : displayCerts.length > 0 ? (
-            <div className="space-y-4">
-              {Object.entries(
-                displayCerts.reduce((acc: any, userCert: any) => {
-                  const agency = userCert.certification.agency;
-                  if (!acc[agency]) acc[agency] = [];
-                  acc[agency].push(userCert);
-                  return acc;
-                }, {})
-              ).map(([agency, certs]: [string, any]) => (
-                <div key={agency}>
-                  <div className="flex items-center gap-2 mb-3">
-                    <Badge variant="outline" className="text-[#088395] border-[#088395]">
-                      {agency}
-                    </Badge>
-                  </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {displayCerts.map((userCert: any) => (
+                <Card key={userCert.id} className="relative">
+                  <CardContent className="p-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Badge variant="outline" className="text-[#088395] border-[#088395] text-xs">
+                            {userCert.certification.agency}
+                          </Badge>
+                        </div>
+                        <h4 className="font-semibold text-[#0A4D68]">
+                          {userCert.certification.name}
+                        </h4>
+                        {userCert.dateObtained && (
+                          <div className="flex items-center text-sm text-[#757575] mt-1">
+                            <Calendar className="h-3 w-3 mr-1" />
+                            {new Date(userCert.dateObtained).toLocaleDateString()}
+                          </div>
+                        )}
+                        {userCert.certificationNumber && (
+                          <div className="text-sm text-[#757575] mt-1">
+                            Cert #: {userCert.certificationNumber}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {certs.map((userCert: any) => (
                       <Card key={userCert.id} className="relative">
                         <CardContent className="p-4">
                           <div className="flex justify-between items-start">
                             <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <Badge variant="outline" className="text-[#088395] border-[#088395] text-xs">
+                                  {userCert.certification.agency}
+                                </Badge>
+                              </div>
                               <h4 className="font-semibold text-[#0A4D68]">
                                 {userCert.certification.name}
                               </h4>
@@ -284,9 +304,6 @@ export default function CertificationsSection() {
                       </Card>
                     ))}
                   </div>
-                  <Separator className="my-4" />
-                </div>
-              ))}
             </div>
           ) : (
             <div className="text-center py-8 text-[#757575]">

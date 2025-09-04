@@ -101,7 +101,9 @@ const ProfilePage: React.FC = () => {
             <CardContent className="p-6">
               <div className="flex flex-col items-center text-center">
                 <Avatar className="h-24 w-24 mb-4">
-                  <AvatarFallback className="bg-[#0A4D68] text-white text-xl">JD</AvatarFallback>
+                  <AvatarFallback className="bg-[#0A4D68] text-white text-xl">
+                    {user ? `${user.name[0]}${user.lastname[0]}` : 'GW'}
+                  </AvatarFallback>
                 </Avatar>
                 
                 <h2 className="text-xl font-montserrat font-bold text-[#0A4D68]">{user.name} {user.lastname}</h2>
@@ -177,54 +179,8 @@ const ProfilePage: React.FC = () => {
                 </Link>
               </div>
               
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl text-[#0A4D68]">Recent Activity</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex">
-                      <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#E0F7FA]">
-                        <MapPin className="h-5 w-5 text-[#05BFDB]" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Logged a new dive at Great Barrier Reef</p>
-                        <p className="text-sm text-[#757575]">2 days ago • 65 minutes at 18m depth</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex">
-                      <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#E0F7FA]">
-                        <Camera className="h-5 w-5 text-[#05BFDB]" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Uploaded 5 new photos</p>
-                        <p className="text-sm text-[#757575]">3 days ago • Great Barrier Reef</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex">
-                      <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#E0F7FA]">
-                        <Fish className="h-5 w-5 text-[#05BFDB]" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Spotted Manta Ray for the first time</p>
-                        <p className="text-sm text-[#757575]">1 week ago • Great Barrier Reef</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex">
-                      <div className="mr-4 flex h-10 w-10 items-center justify-center rounded-full bg-[#E0F7FA]">
-                        <Star className="h-5 w-5 text-[#05BFDB]" />
-                      </div>
-                      <div>
-                        <p className="font-medium">Added Blue Hole to favorite dive sites</p>
-                        <p className="text-sm text-[#757575]">2 weeks ago</p>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+              {/* Diving Certifications Section - moved from dives tab */}
+              <CertificationsSection />
               
               <Card>
                 <CardHeader>
@@ -296,12 +252,6 @@ const ProfilePage: React.FC = () => {
             </TabsContent>
             
             <TabsContent value="dives" className="space-y-6">
-              {/* Diving Certifications Section */}
-              <div className="w-full bg-red-100 p-4 mb-4">
-                <h2 className="text-lg font-bold text-red-800">DEBUG: This should show before certifications</h2>
-                <CertificationsSection />
-                <h2 className="text-lg font-bold text-red-800">DEBUG: This should show after certifications</h2>
-              </div>
               
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between">
