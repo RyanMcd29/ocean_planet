@@ -1108,7 +1108,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ORDER BY uc.created_at DESC
       `;
       
-      const result = await db.execute({
+      const result = await storage.db.execute({
         sql: query,
         args: [req.session.userId]
       });
