@@ -1,6 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
-import MemoryStore from "memorystore";
+import FileStore from "session-file-store";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedDatabase } from "./seed-database";
@@ -10,12 +10,15 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Configure sessions with MemoryStore (persists longer than default)
-const MemStore = MemoryStore(session);
+// Configure sessions with persistent file store
+const SessionFileStore = FileStore(session);
 
 app.use(session({
-  store: new MemStore({
-    checkPeriod: 86400000 // prune expired entries every 24h
+  store: new SessionFileStore({
+    path: './sessions',
+    ttl: 86400, // 24 hours in seconds
+    retries: 5,
+    logFn: () => {} // Disable logging
   }),
   secret: process.env.SESSION_SECRET || 'ocean-planet-secret-key-change-in-production',
   resave: false,
