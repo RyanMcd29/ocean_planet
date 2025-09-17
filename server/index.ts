@@ -24,7 +24,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false, // Set to true in production with HTTPS
+    secure: process.env.NODE_ENV === 'production' || process.env.REPLIT_DEPLOYMENT === '1', // Dynamic for production/Replit
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }

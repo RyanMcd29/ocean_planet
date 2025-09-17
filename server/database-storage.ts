@@ -159,10 +159,16 @@ export class DatabaseStorage implements IStorage {
         current: diveSite.current ?? null,
         minDepth: diveSite.minDepth ?? null,
         maxDepth: diveSite.maxDepth ?? null,
-        visibility: diveSite.visibility ?? null,
-        bestTimeToVisit: diveSite.bestTimeToVisit ?? null,
-        temperature: diveSite.temperature ?? null,
-        marineLifeRichness: diveSite.marineLifeRichness ?? null,
+        minVisibility: diveSite.minVisibility ?? null,
+        maxVisibility: diveSite.maxVisibility ?? null,
+        minTemp: diveSite.minTemp ?? null,
+        maxTemp: diveSite.maxTemp ?? null,
+        bestSeason: diveSite.bestSeason ?? null,
+        peakVisibilityMonth: diveSite.peakVisibilityMonth ?? null,
+        conservationStatus: diveSite.conservationStatus ?? null,
+        conservationInfo: diveSite.conservationInfo ?? null,
+        mainImage: diveSite.mainImage ?? null,
+        highlights: diveSite.highlights ?? null,
         habitats: diveSite.habitats ?? null
       })
       .returning();
@@ -821,6 +827,56 @@ export class DatabaseStorage implements IStorage {
   async getCertification(id: number): Promise<Certification | undefined> {
     const result = await db.select().from(certifications).where(eq(certifications.id, id));
     return result.length > 0 ? result[0] : undefined;
+  }
+
+  // Water Conditions Management
+  async createWaterConditions(conditions: InsertWaterConditions): Promise<WaterConditions> {
+    const [newConditions] = await db
+      .insert(waterConditions)
+      .values({
+        diveSiteId: conditions.diveSiteId,
+        waterTemp: conditions.waterTemp ?? null,
+        visibility: conditions.visibility ?? null,
+        currentStrength: conditions.currentStrength ?? null,
+        currentDirection: conditions.currentDirection ?? null,
+        waveHeight: conditions.waveHeight ?? null,
+        windSpeed: conditions.windSpeed ?? null,
+        windDirection: conditions.windDirection ?? null,
+        weatherConditions: conditions.weatherConditions ?? null,
+        surfaceConditions: conditions.surfaceConditions ?? null,
+        divingConditions: conditions.divingConditions ?? null,
+        reportedBy: conditions.reportedBy ?? null,
+        additionalNotes: conditions.additionalNotes ?? null,
+        timestamp: conditions.timestamp ?? new Date()
+      })
+      .returning();
+    return newConditions;
+  }
+
+  async getLatestWaterConditions(diveSiteId: number): Promise<WaterConditions | undefined> {
+    const [latestConditions] = await db
+      .select()
+      .from(waterConditions)
+      .where(eq(waterConditions.diveSiteId, diveSiteId))
+      .orderBy(sql`${waterConditions.timestamp} DESC`)
+      .limit(1);
+    return latestConditions;
+  }
+
+  async getWaterConditionsHistory(diveSiteId: number, days: number = 7): Promise<WaterConditions[]> {
+    const cutoffDate = new Date();
+    cutoffDate.setDate(cutoffDate.getDate() - days);
+    
+    return await db
+      .select()
+      .from(waterConditions)
+      .where(
+        and(
+          eq(waterConditions.diveSiteId, diveSiteId),
+          gte(waterConditions.timestamp, cutoffDate)
+        )
+      )
+      .orderBy(sql`${waterConditions.timestamp} DESC`);
   }
 }
 

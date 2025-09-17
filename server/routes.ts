@@ -280,6 +280,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Dive Sites
   app.get('/api/dive-sites', async (req: Request, res: Response) => {
     try {
+      console.log('=== DIVE SITES ENDPOINT DEBUG ===');
+      console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL);
+      console.log('Request query:', req.query);
+      
       const query = req.query.q as string || '';
       const filters: Record<string, any> = {};
       
@@ -289,14 +293,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (req.query.minDepth) filters.minDepth = parseInt(req.query.minDepth as string);
       if (req.query.maxDepth) filters.maxDepth = parseInt(req.query.maxDepth as string);
       
-      // If no query or filters, return all dive sites
+      console.log('Applied filters:', filters);
+      console.log('Search query:', query);
+      
+      // If no query or filters, return all dive sites - ALWAYS FROM DATABASE
       const hasFilters = Object.keys(filters).length > 0;
-      const diveSites = query || hasFilters 
-        ? await storage.searchDiveSites(query, filters)
-        : await storage.getAllDiveSites();
+      console.log('Has filters:', hasFilters);
+      
+      let diveSites;
+      if (query || hasFilters) {
+        console.log('Calling storage.searchDiveSites()');
+        diveSites = await storage.searchDiveSites(query, filters);
+      } else {
+        console.log('Calling storage.getAllDiveSites()');
+        diveSites = await storage.getAllDiveSites();
+      }
+      
+      console.log('Retrieved dive sites count:', diveSites?.length || 0);
+      console.log('=== END DIVE SITES DEBUG ===');
       
       res.json(diveSites);
     } catch (error) {
+      console.error('=== DIVE SITES ERROR ===');
+      console.error('Error details:', error);
+      console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
+      console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
+      console.error('=== END ERROR DEBUG ===');
       res.status(500).json({ error: 'Failed to fetch dive sites' });
     }
   });
