@@ -69,7 +69,8 @@ const ProfilePage: React.FC = () => {
       const data = await response.json();
       return data.diveLogs || [];
     },
-    enabled: isAuthenticated
+    enabled: isAuthenticated,
+    staleTime: 0, // Always refetch to get latest data
   });
 
   // Delete dive log mutation
