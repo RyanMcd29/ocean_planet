@@ -7,13 +7,24 @@ import { Badge } from "@/components/ui/badge";
 import { Edit, MapPin, Camera, Fish, Star, Calendar, Award, Plus, Clock, Thermometer, MoreVertical, Trash2 } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetchDiveSites, fetchUserFavorites, fetchUserSpottedSpecies, fetchSpeciesById } from "@/lib/api";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import { useEffect } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import PhotoGallery from "@/components/dive-site/PhotoGallery";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import CertificationsSection from "@/components/CertificationsSection";
 
 const ProfilePage: React.FC = () => {
@@ -24,6 +35,24 @@ const ProfilePage: React.FC = () => {
   const [showPhotoUploader, setShowPhotoUploader] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [selectedDiveLogId, setSelectedDiveLogId] = useState<number | null>(null);
+  const [location, setLocation] = useLocation();
+
+  // Handle URL query parameters for tab state
+  useEffect(() => {
+    const params = new URLSearchParams(location.split('?')[1] || '');
+    const tabParam = params.get('tab');
+    if (tabParam && ['overview', 'dives', 'species', 'photos'].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [location]);
+
+  // Update URL when tab changes
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+    setLocation(`/profile?tab=${value}`);
+  };
 
   // Redirect if not authenticated
   if (!isAuthenticated || !user) {
@@ -76,16 +105,22 @@ const ProfilePage: React.FC = () => {
   // Delete dive log mutation
   const deleteDiveLogMutation = useMutation({
     mutationFn: async (diveLogId: number) => {
-      return apiRequest('DELETE', `/api/dive-logs/${diveLogId}`);
+      return apiRequest(`/api/dive-logs/${diveLogId}`, {
+        method: 'DELETE'
+      });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/dive-logs'] });
+      setDeleteDialogOpen(false);
+      setSelectedDiveLogId(null);
       toast({
         title: "Dive log deleted",
         description: "Your dive log has been successfully deleted.",
       });
     },
     onError: (error: any) => {
+      setDeleteDialogOpen(false);
+      setSelectedDiveLogId(null);
       toast({
         title: "Error",
         description: error.message || "Failed to delete dive log",
@@ -93,6 +128,12 @@ const ProfilePage: React.FC = () => {
       });
     },
   });
+
+  const handleConfirmDelete = () => {
+    if (selectedDiveLogId) {
+      deleteDiveLogMutation.mutate(selectedDiveLogId);
+    }
+  };
   
   return (
     <div className="container mx-auto px-4 py-6 max-w-6xl">
@@ -156,7 +197,7 @@ const ProfilePage: React.FC = () => {
         </div>
         
         <div className="lg:col-span-3">
-          <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab}>
+          <Tabs defaultValue="overview" value={activeTab} onValueChange={handleTabChange}>
             <TabsList className="w-full grid grid-cols-4 mb-6">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="dives">My Dives</TabsTrigger>
@@ -284,12 +325,17 @@ const ProfilePage: React.FC = () => {
                                 </Button>
                               </DropdownMenuTrigger>
                               <DropdownMenuContent>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem 
+                                  onClick={() => setLocation(`/edit-dive/${dive.id}`)}
+                                >
                                   <Edit className="h-4 w-4 mr-2" />
                                   Edit
                                 </DropdownMenuItem>
                                 <DropdownMenuItem 
-                                  onClick={() => deleteDiveLogMutation.mutate(dive.id)}
+                                  onClick={() => {
+                                    setSelectedDiveLogId(dive.id);
+                                    setDeleteDialogOpen(true);
+                                  }}
                                   className="text-red-600"
                                 >
                                   <Trash2 className="h-4 w-4 mr-2" />
@@ -519,6 +565,28 @@ const ProfilePage: React.FC = () => {
           </Tabs>
         </div>
       </div>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Dive Log</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete this dive log? This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={handleConfirmDelete}
+              className="bg-red-600 hover:bg-red-700"
+              disabled={deleteDiveLogMutation.isPending}
+            >
+              {deleteDiveLogMutation.isPending ? "Deleting..." : "Delete"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

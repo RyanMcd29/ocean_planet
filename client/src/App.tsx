@@ -18,6 +18,7 @@ import LessonDetailPage from "@/pages/LessonDetailPage";
 import QuizPage from "@/pages/QuizPage";
 import CommunityPage from "@/pages/CommunityPage";
 import LogDivePage from "@/pages/LogDivePage";
+import EditDivePage from "@/pages/EditDivePage";
 import SpeciesBrowsePage from "@/pages/SpeciesBrowsePage";
 import MissionPage from "@/pages/MissionPage";
 import BottomTrawlingLessonPage from "@/pages/BottomTrawlingLessonPage";
@@ -51,6 +52,11 @@ function Router() {
         <Route path="/log-dive">
           <ProtectedRoute>
             <LogDivePage />
+          </ProtectedRoute>
+        </Route>
+        <Route path="/edit-dive/:id">
+          <ProtectedRoute>
+            <EditDivePage />
           </ProtectedRoute>
         </Route>
         <Route path="/learn">
