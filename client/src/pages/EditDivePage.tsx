@@ -7,11 +7,11 @@ import { toast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { ArrowLeft, MapPin, Clock, Waves, Fish, Thermometer } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { ArrowLeft, MapPin, Clock, Waves, Fish, Thermometer, FileText, X } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { insertDiveLogSchema, type InsertDiveLog } from "@shared/schema";
 import { z } from "zod";
@@ -386,6 +386,259 @@ export default function EditDivePage() {
                           onChange={(e) => field.onChange(parseFloat(e.target.value))}
                         />
                       </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Species Sightings */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center text-[#0A4D68]">
+                <Fish className="w-5 h-5 mr-2" />
+                Marine Life Spotted
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-4">
+                <div>
+                  <Label>Search and Add Species</Label>
+                  <div className="flex space-x-2 mt-1">
+                    <Input
+                      placeholder="Search for species..."
+                      value={speciesSearch}
+                      onChange={(e) => setSpeciesSearch(e.target.value)}
+                    />
+                  </div>
+                  
+                  {speciesSearch && filteredSpecies.length > 0 && (
+                    <div className="mt-2 border rounded-md max-h-40 overflow-y-auto">
+                      {filteredSpecies.slice(0, 5).map((species: any) => (
+                        <div
+                          key={species.id}
+                          className="p-2 hover:bg-gray-100 cursor-pointer border-b last:border-b-0"
+                          onClick={() => addSpeciesSighting(species)}
+                        >
+                          <div className="font-medium text-sm">{species.commonName}</div>
+                          <div className="text-xs text-gray-500 italic">{species.scientificName}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {selectedSpecies.length > 0 && (
+                  <div className="space-y-3">
+                    <Label>Species Sighted</Label>
+                    {selectedSpecies.map((sighting) => {
+                      const species = (allSpecies as any[]).find((s: any) => s.id === sighting.speciesId);
+                      return (
+                        <div key={sighting.speciesId} className="border rounded-lg p-3 bg-gray-50">
+                          <div className="flex items-start justify-between mb-2">
+                            <div>
+                              <div className="font-medium text-sm">{species?.commonName}</div>
+                              <div className="text-xs text-gray-500 italic">{species?.scientificName}</div>
+                            </div>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeSpeciesSighting(sighting.speciesId)}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            <div>
+                              <Label className="text-xs">Quantity</Label>
+                              <Input
+                                type="number"
+                                min="1"
+                                value={sighting.quantity}
+                                onChange={(e) => updateSpeciesSighting(
+                                  sighting.speciesId, 
+                                  'quantity', 
+                                  parseInt(e.target.value)
+                                )}
+                                className="h-8"
+                              />
+                            </div>
+                            <div>
+                              <Label className="text-xs">Notes</Label>
+                              <Input
+                                placeholder="Optional notes..."
+                                value={sighting.notes}
+                                onChange={(e) => updateSpeciesSighting(
+                                  sighting.speciesId, 
+                                  'notes', 
+                                  e.target.value
+                                )}
+                                className="h-8"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Additional Information */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center text-[#0A4D68]">
+                <FileText className="w-5 h-5 mr-2" />
+                Additional Information
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Dive Experience Description</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Describe your dive experience, what you saw, how it felt..."
+                        rows={4}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="equipment"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Equipment Used</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="e.g., 12L steel tank, 5mm wetsuit..."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="certificationLevel"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Certification Level</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select certification" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Open Water">Open Water</SelectItem>
+                          <SelectItem value="Advanced Open Water">Advanced Open Water</SelectItem>
+                          <SelectItem value="Rescue Diver">Rescue Diver</SelectItem>
+                          <SelectItem value="Divemaster">Divemaster</SelectItem>
+                          <SelectItem value="Instructor">Instructor</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="buddyName"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Dive Buddy</FormLabel>
+                      <FormControl>
+                        <Input 
+                          placeholder="Name of your diving partner..."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="visibility"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Visibility (m)</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="number" 
+                          step="0.1"
+                          {...field} 
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value ? parseFloat(e.target.value) : undefined)}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="current"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Current</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select current strength" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="None">None</SelectItem>
+                          <SelectItem value="Light">Light</SelectItem>
+                          <SelectItem value="Moderate">Moderate</SelectItem>
+                          <SelectItem value="Strong">Strong</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="conditions"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Conditions</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select conditions" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Excellent">Excellent</SelectItem>
+                          <SelectItem value="Good">Good</SelectItem>
+                          <SelectItem value="Fair">Fair</SelectItem>
+                          <SelectItem value="Poor">Poor</SelectItem>
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
