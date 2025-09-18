@@ -684,6 +684,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const updatedDiveLog = await storage.updateDiveLog(diveLogId, validationResult.data);
 
+      // Handle species updates: first remove existing species, then add new ones
+      if (req.body.species && Array.isArray(req.body.species)) {
+        // Delete existing species for this dive log
+        await storage.deleteDiveLogSpecies(diveLogId);
+        
+        // Add new species if any
+        if (req.body.species.length > 0) {
+          for (const speciesData of req.body.species) {
+            if (speciesData && speciesData.speciesId) {
+              await storage.addSpeciesToDiveLog({
+                diveLogId: diveLogId,
+                speciesId: speciesData.speciesId,
+                quantity: speciesData.quantity || 1,
+                notes: speciesData.notes || ""
+              });
+            }
+          }
+        }
+      }
+
       res.status(200).json({
         success: true,
         message: "Dive log updated successfully",

@@ -736,9 +736,14 @@ export class DatabaseStorage implements IStorage {
     return result.length > 0 ? result[0] : undefined;
   }
 
+  async deleteDiveLogSpecies(diveLogId: number): Promise<boolean> {
+    const result = await db.delete(diveLogSpecies).where(eq(diveLogSpecies.diveLogId, diveLogId));
+    return result.rowCount !== undefined && result.rowCount >= 0;
+  }
+
   async deleteDiveLog(id: number): Promise<boolean> {
     // First delete related species sightings
-    await db.delete(diveLogSpecies).where(eq(diveLogSpecies.diveLogId, id));
+    await this.deleteDiveLogSpecies(id);
     
     // Then delete the dive log
     const result = await db.delete(diveLogs).where(eq(diveLogs.id, id));
