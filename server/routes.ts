@@ -667,7 +667,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      const validationResult = insertDiveLogSchema.partial().safeParse(req.body);
+      // Transform the date string to a Date object if provided (same as POST route)
+      const requestData = {
+        ...req.body,
+        ...(req.body.diveDate && { diveDate: new Date(req.body.diveDate) })
+      };
+
+      const validationResult = insertDiveLogSchema.partial().safeParse(requestData);
       if (!validationResult.success) {
         return res.status(400).json({
           success: false,
