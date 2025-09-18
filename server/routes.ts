@@ -1,6 +1,7 @@
 import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
-import { storage } from "./database-storage";
+import { storage, db } from "./database-storage";
+import { sql } from "drizzle-orm";
 import { z } from "zod";
 import { 
   insertUserSchema, 
@@ -1154,10 +1155,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ORDER BY uc.created_at DESC
       `;
       
-      const result = await storage.db.execute({
-        sql: query,
-        args: [req.session.userId]
-      });
+      const result = await db.execute(sql.raw(query, [req.session.userId]));
       
       console.log('Raw user certifications query result:', result.rows);
       

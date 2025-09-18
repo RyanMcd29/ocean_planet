@@ -854,13 +854,17 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getLatestWaterConditions(diveSiteId: number): Promise<WaterConditions | undefined> {
-    const [latestConditions] = await db
-      .select()
-      .from(waterConditions)
-      .where(eq(waterConditions.diveSiteId, diveSiteId))
-      .orderBy(sql`${waterConditions.timestamp} DESC`)
-      .limit(1);
-    return latestConditions;
+    // Use raw SQL to match actual database columns (temperature, date, etc.)
+    const result = await db.execute(sql`
+      SELECT id, dive_site_id as "diveSiteId", temperature as "waterTemp", visibility, 
+             current_strength as "currentStrength", weather_conditions as "weatherConditions", 
+             date, timestamp
+      FROM water_conditions 
+      WHERE dive_site_id = ${diveSiteId} 
+      ORDER BY timestamp DESC 
+      LIMIT 1
+    `);
+    return result.rows[0] as WaterConditions | undefined;
   }
 
   async getWaterConditionsHistory(diveSiteId: number, days: number = 7): Promise<WaterConditions[]> {
@@ -881,3 +885,4 @@ export class DatabaseStorage implements IStorage {
 }
 
 export const storage = new DatabaseStorage();
+export { db };
