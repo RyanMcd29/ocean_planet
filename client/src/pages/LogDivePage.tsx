@@ -83,7 +83,7 @@ const LogDivePage: React.FC = () => {
   });
 
   // Filter species based on search
-  const filteredSpecies = allSpecies.filter((species: any) =>
+  const filteredSpecies = (allSpecies as any[]).filter((species: any) =>
     species.commonName.toLowerCase().includes(speciesSearch.toLowerCase()) ||
     species.scientificName.toLowerCase().includes(speciesSearch.toLowerCase())
   );
@@ -91,7 +91,10 @@ const LogDivePage: React.FC = () => {
   // Create dive log mutation
   const createDiveLogMutation = useMutation({
     mutationFn: async (data: LogDiveFormData & { species: SpeciesSighting[] }) => {
-      return apiRequest('POST', '/api/dive-logs', data);
+      return apiRequest('/api/dive-logs', {
+        method: 'POST',
+        body: JSON.stringify(data)
+      });
     },
     onSuccess: () => {
       toast({
@@ -180,7 +183,7 @@ const LogDivePage: React.FC = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {diveSites.map((site: any) => (
+                            {(diveSites as any[]).map((site: any) => (
                               <SelectItem key={site.id} value={site.id.toString()}>
                                 {site.name} - {site.location}
                               </SelectItem>
