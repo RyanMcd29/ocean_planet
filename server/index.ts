@@ -7,6 +7,12 @@ import { seedDatabase } from "./seed-database";
 import { db } from "./db";
 
 const app = express();
+
+// Trust proxy for production (required for secure cookies behind reverse proxy)
+if (process.env.NODE_ENV === 'production' || process.env.REPLIT_DEPLOYMENT === '1') {
+  app.set('trust proxy', 1);
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -24,9 +30,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production' || process.env.REPLIT_DEPLOYMENT === '1', // Dynamic for production/Replit
+    secure: process.env.NODE_ENV === 'production' || process.env.REPLIT_DEPLOYMENT === '1', // HTTPS only in production
     httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite: (process.env.NODE_ENV === 'production' || process.env.REPLIT_DEPLOYMENT === '1') ? 'none' : 'lax', // Required for CORS in production
   }
 }));
 
