@@ -169,8 +169,8 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
         </TabsList>
 
         <TabsContent value="overview" className="p-4 mt-0">
-          {/* Water Conditions */}
-          <div className="mb-6">
+          {/* Water Conditions - Hidden */}
+          <div className="mb-6" style={{ display: 'none' }}>
             <h3 className="text-lg font-montserrat font-bold text-[#0A4D68] mb-3">Current Water Conditions</h3>
             {isLoadingConditions ? (
               <Skeleton className="h-24 w-full" />
@@ -222,6 +222,80 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
               {diveSite.description}
             </p>
           </div>
+
+          {/* Canal Rocks Species Cards */}
+          {diveSite.name === "Canal Rocks - The Honeycombs" && (
+            <div className="mb-6">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
+                <Button 
+                  variant="link" 
+                  onClick={() => setActiveTab("species")}
+                  className="text-sm text-[#088395] hover:text-[#0A4D68] font-semibold p-0"
+                >
+                  View all
+                </Button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                {/* Western Blue Groper */}
+                <div className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200" data-testid="card-species-western-blue-groper">
+                  <img 
+                    src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=400&auto=format&fit=crop" 
+                    alt="Western Blue Groper" 
+                    className="w-full h-24 object-cover"
+                  />
+                  <div className="p-2">
+                    <h4 className="font-montserrat font-semibold text-sm">Western Blue Groper</h4>
+                    <p className="text-xs text-[#757575] italic mb-1">Achoerodus gouldii</p>
+                    <p className="text-xs text-gray-600">Large, inquisitive fish commonly found around limestone reefs</p>
+                  </div>
+                </div>
+
+                {/* Harlequin Wrasse */}
+                <div className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200" data-testid="card-species-harlequin-wrasse">
+                  <img 
+                    src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&auto=format&fit=crop" 
+                    alt="Harlequin Wrasse" 
+                    className="w-full h-24 object-cover"
+                  />
+                  <div className="p-2">
+                    <h4 className="font-montserrat font-semibold text-sm">Harlequin Wrasse</h4>
+                    <p className="text-xs text-[#757575] italic mb-1">Coris sandeyeri</p>
+                    <p className="text-xs text-gray-600">Vibrant reef fish with distinctive coloration patterns</p>
+                  </div>
+                </div>
+
+                {/* Dhufish */}
+                <div className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200" data-testid="card-species-dhufish">
+                  <img 
+                    src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&auto=format&fit=crop" 
+                    alt="Dhufish" 
+                    className="w-full h-24 object-cover"
+                  />
+                  <div className="p-2">
+                    <h4 className="font-montserrat font-semibold text-sm">Dhufish</h4>
+                    <p className="text-xs text-[#757575] italic mb-1">Glaucosoma hebraicum</p>
+                    <p className="text-xs text-gray-600">Endemic Western Australian species, prized by divers and anglers</p>
+                  </div>
+                </div>
+
+                {/* Southern Stingray */}
+                <div className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200" data-testid="card-species-southern-stingray">
+                  <img 
+                    src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400&auto=format&fit=crop" 
+                    alt="Southern Stingray" 
+                    className="w-full h-24 object-cover"
+                  />
+                  <div className="p-2">
+                    <h4 className="font-montserrat font-semibold text-sm">Southern Stingray</h4>
+                    <p className="text-xs text-[#757575] italic mb-1">Dasyatis americana</p>
+                    <p className="text-xs text-gray-600">Often seen near boat ramps scavenging for fish scraps</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* AMMO Jetty specific sections */}
           {diveSite.name === "AMMO Jetty" && (
