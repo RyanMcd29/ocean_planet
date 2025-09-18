@@ -224,7 +224,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
           </div>
 
           {/* Canal Rocks Species Cards */}
-          {diveSite.name === "Canal Rocks - The Honeycombs" && (
+          {diveSite.id === 46 && (
             <div className="mb-6">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="text-lg font-montserrat font-bold text-[#0A4D68]">Featured Species</h3>
@@ -237,7 +237,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                 </Button>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Western Blue Groper */}
                 <div className="bg-[#F5F5F5] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition duration-200" data-testid="card-species-western-blue-groper">
                   <img 
