@@ -323,6 +323,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Create new dive site
+  app.post('/api/dive-sites', async (req: Request, res: Response) => {
+    try {
+      console.log('POST /api/dive-sites - Creating new dive site');
+      console.log('Request body:', req.body);
+      
+      // Validate the request body against the schema
+      const validatedData = insertDiveSiteSchema.parse(req.body);
+      console.log('Validated data:', validatedData);
+      
+      // Create the dive site using storage
+      const newDiveSite = await storage.createDiveSite(validatedData);
+      console.log('Created dive site:', newDiveSite);
+      
+      res.status(201).json(newDiveSite);
+    } catch (error) {
+      console.error('Error creating dive site:', error);
+      if (error instanceof Error && error.name === 'ZodError') {
+        return res.status(400).json({ error: 'Invalid dive site data', details: error.message });
+      }
+      res.status(500).json({ error: 'Failed to create dive site' });
+    }
+  });
+
   app.get('/api/dive-sites/:id', async (req: Request, res: Response) => {
     try {
       const diveSiteId = parseInt(req.params.id);
