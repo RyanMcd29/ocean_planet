@@ -106,6 +106,14 @@ export const diveSites = pgTable("dive_sites", {
   mainImage: text("main_image"),
   highlights: text("highlights").array(),
   habitats: text("habitats").array(),
+  accessType: text("access_type"), // Shore, Boat, Live-aboard, etc.
+  entryConditions: text("entry_conditions"),
+  surgeConditions: text("surge_conditions"),
+  seasonalEvents: text("seasonal_events"),
+  uniqueFeatures: text("unique_features"),
+  userExperienceNotes: text("user_experience_notes"),
+  diveSiteLayout: text("dive_site_layout"),
+  conservationPark: text("conservation_park"),
 });
 
 export const insertDiveSiteSchema = createInsertSchema(diveSites).omit({
