@@ -124,6 +124,25 @@ app.use((req, res, next) => {
     console.log('User table migration may have already been completed or failed:', error.message);
   }
 
+  // Add missing columns to dive_sites table if they don't exist
+  try {
+    await db.execute(`
+      ALTER TABLE dive_sites 
+      ADD COLUMN IF NOT EXISTS access_type text,
+      ADD COLUMN IF NOT EXISTS entry_conditions text,
+      ADD COLUMN IF NOT EXISTS surge_conditions text,
+      ADD COLUMN IF NOT EXISTS seasonal_events text,
+      ADD COLUMN IF NOT EXISTS unique_features text,
+      ADD COLUMN IF NOT EXISTS user_experience_notes text,
+      ADD COLUMN IF NOT EXISTS dive_site_layout text,
+      ADD COLUMN IF NOT EXISTS conservation_park text
+    `);
+    
+    console.log('Dive sites table migration completed');
+  } catch (error: any) {
+    console.log('Dive sites table migration may have already been completed or failed:', error.message);
+  }
+
   console.log('Database initialization complete');
   } catch (error) {
     console.error('Error initializing database:', error);
