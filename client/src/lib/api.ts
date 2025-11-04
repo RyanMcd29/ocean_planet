@@ -25,48 +25,61 @@ export async function fetchDiveSites(query: string = "", filters?: Record<string
     });
   }
   
-  const res = await apiRequest(url, { method: "GET" });
+  const res = await fetch(url, { credentials: "include" });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch dive sites: ${res.statusText}`);
+  }
   return await res.json() as DiveSite[];
 }
 
 export async function fetchDiveSite(id: number) {
-  const res = await apiRequest(`/api/dive-sites/${id}`, { method: "GET" });
+  const res = await fetch(`/api/dive-sites/${id}`, { credentials: "include" });
+  if (!res.ok) {
+    throw new Error(`Failed to fetch dive site: ${res.statusText}`);
+  }
   return await res.json() as DiveSite;
 }
 
 export async function fetchDiveSiteSpecies(diveSiteId: number) {
-  const res = await apiRequest(`/api/dive-sites/${diveSiteId}/species`, { method: "GET" });
+  const res = await fetch(`/api/dive-sites/${diveSiteId}/species`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch species: ${res.statusText}`);
   return await res.json() as SpeciesWithFrequency[];
 }
 
 export async function fetchDiveSitePhotos(diveSiteId: number) {
-  const res = await apiRequest(`/api/dive-sites/${diveSiteId}/photos`, { method: "GET" });
+  const res = await fetch(`/api/dive-sites/${diveSiteId}/photos`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch photos: ${res.statusText}`);
   return await res.json() as Photo[];
 }
 
 export async function fetchDiveSiteReviews(diveSiteId: number) {
-  const res = await apiRequest(`/api/dive-sites/${diveSiteId}/reviews`, { method: "GET" });
+  const res = await fetch(`/api/dive-sites/${diveSiteId}/reviews`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch reviews: ${res.statusText}`);
   return await res.json() as Review[];
 }
 
 export async function fetchNearbyDiveSites(diveSiteId: number) {
-  const res = await apiRequest(`/api/dive-sites/${diveSiteId}/nearby`, { method: "GET" });
+  const res = await fetch(`/api/dive-sites/${diveSiteId}/nearby`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch nearby sites: ${res.statusText}`);
   return await res.json() as NearbyDiveSiteWithDistance[];
 }
 
 export async function fetchDiveCenters(diveSiteId: number) {
-  const res = await apiRequest(`/api/dive-sites/${diveSiteId}/dive-centers`, { method: "GET" });
+  const res = await fetch(`/api/dive-sites/${diveSiteId}/dive-centers`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch dive centers: ${res.statusText}`);
   return await res.json() as DiveCenter[];
 }
 
 // API functions for species
 export async function fetchSpecies(query: string = "") {
-  const res = await apiRequest(`/api/species?q=${encodeURIComponent(query)}`, { method: "GET" });
+  const res = await fetch(`/api/species?q=${encodeURIComponent(query)}`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch species: ${res.statusText}`);
   return await res.json() as Species[];
 }
 
 export async function fetchSpeciesById(id: number) {
-  const res = await apiRequest(`/api/species/${id}`, { method: "GET" });
+  const res = await fetch(`/api/species/${id}`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch species: ${res.statusText}`);
   return await res.json() as Species;
 }
 
@@ -115,7 +128,8 @@ export async function toggleFavorite(userId: number, diveSiteId: number, isFavor
 }
 
 export async function fetchUserFavorites(userId: number) {
-  const res = await apiRequest(`/api/users/${userId}/favorites`, { method: "GET" });
+  const res = await fetch(`/api/users/${userId}/favorites`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch favorites: ${res.statusText}`);
   return await res.json() as DiveSite[];
 }
 
@@ -134,12 +148,14 @@ export async function addSpottedSpecies(spottedData: {
 }
 
 export async function fetchUserSpottedSpecies(userId: number) {
-  const res = await apiRequest(`/api/users/${userId}/spotted-species`, { method: "GET" });
+  const res = await fetch(`/api/users/${userId}/spotted-species`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch spotted species: ${res.statusText}`);
   return await res.json();
 }
 
 // Fetch live ocean conditions from AODN
 export async function fetchLiveConditions(diveSiteId: number) {
-  const res = await apiRequest(`/api/dive-sites/${diveSiteId}/live-conditions`, { method: "GET" });
+  const res = await fetch(`/api/dive-sites/${diveSiteId}/live-conditions`, { credentials: "include" });
+  if (!res.ok) throw new Error(`Failed to fetch live conditions: ${res.statusText}`);
   return await res.json();
 }
