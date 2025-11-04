@@ -1,10 +1,18 @@
 
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.EMAIL_API_KEY);
+// Initialize Resend only if EMAIL_API_KEY is configured
+const EMAIL_API_KEY = process.env.EMAIL_API_KEY;
+const resend = EMAIL_API_KEY ? new Resend(EMAIL_API_KEY) : null;
 
 export class EmailService {
   static async sendRegistrationEmail(email: string, name: string) {
+    // If EMAIL_API_KEY is not configured, log a warning and skip email sending
+    if (!resend) {
+      console.warn('EMAIL_API_KEY not configured - skipping registration email');
+      return { success: true, skipped: true, message: 'Email service not configured' };
+    }
+
     try {
       const { data, error } = await resend.emails.send({
         from: process.env.EMAIL_FROM || 'Ocean Planet <onboarding@resend.dev>',
