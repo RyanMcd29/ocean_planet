@@ -1865,6 +1865,29 @@ export const longJettyLesson: EnhancedLesson = {
       type: "conclusion",
       title: "Connecting Past and Present!",
       content: "Great work! You've uncovered the story of Fremantle's Long Jetty — where trade, technology, and tides met to shape Western Australia's maritime future.\n\n**What You Can Do:**\n\n- Visit **Bathers Beach or the WA Shipwrecks Museum** to explore Fremantle's early port history\n- When diving or snorkelling near heritage sites, **look, don't touch** — artefacts belong to everyone\n- Support **maritime heritage projects** that preserve old jetties and shipwrecks\n- Reflect on how early infrastructure shaped today's **coastal ecosystems and urban growth**\n\nThe Long Jetty may be gone, but its legacy lives on in Fremantle's thriving harbor and the marine life that now calls its remnants home."
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information and historical context.",
+      sources: [
+        {
+          title: "WA Museum – Long Jetty, Fremantle Maritime Heritage Trail",
+          url: "https://museum.wa.gov.au/maritime-heritage-trails/fremantle/long-jetty"
+        },
+        {
+          title: "Heritage Council WA – Fremantle Long Jetty Site Record",
+          url: "https://inherit.stateheritage.wa.gov.au/Public/Inventory/Details/1f4f05c0-fbe9-4b8f-8f79-3c6a1a95a7a2"
+        },
+        {
+          title: "WA Shipwrecks Museum – Maritime Archaeology of Fremantle",
+          url: "https://museum.wa.gov.au/museums/wa-shipwrecks"
+        },
+        {
+          title: "City of Fremantle – Bathers Beach Precinct History",
+          url: "https://www.fremantle.wa.gov.au/facilities/bathers-beach"
+        }
+      ]
     }
   ]
 };
