@@ -116,6 +116,23 @@ The application is configured for Replit's autoscaling deployment:
 - January 9, 2025. Added 3 new whale research lessons: "Whale Science 101: Tracking Giants" (Beginner), "Tracking Tech: Innovation in Whale Science" (Intermediate), and "Ecosystem Guardians: Managing Krill and Whales" (Advanced). Lessons cover whale tracking technology, satellite tagging, sonobuoys, drone research, krill ecosystem management, and CCAMLR conservation policies. Total lesson count now at 20.
 - January 10, 2025. Completed comprehensive update of 18 Perth dive sites with detailed information matching AMMO Jetty layout: Kwinana Grain Terminal, Long Jetty, MAAC, Mettams Pool, North Mole, Omeo Wreck, Palm Beach Jetty, Point Peron, Robbs Jetty, Rockingham Dive Trail, Rocky Bay, South Mole, The Coombe Reserve, Trigg Beach, Waikiki Beach, Woodman Point Groin, Wells Park Jetty, and Yanchep Lagoon. Updated all coordinates to correct decimal degrees, added comprehensive descriptions, conservation info, and species associations. Added 11 new marine species to support dive site updates.
 - October 16, 2025. Enhanced dive site detail view with new database fields: Added accessType, entryConditions, surgeConditions, seasonalEvents, uniqueFeatures, userExperienceNotes, diveSiteLayout, and conservationPark fields to the dive_sites schema. Updated DiveSiteDetails component to display these fields dynamically with color-coded information cards for Access & Entry, Highlights, Dive Site Layout, Surge & Water Conditions, Seasonal Events, Unique Features, User Experience & Safety Tips, and Conservation information. This provides a more comprehensive and structured view of dive site information.
+- November 4, 2025. Added new Maritime History category with 2 lessons: "Maritime History of the Camilla Wreck (WA)" and "Maritime History of Fremantle's Long Jetty". Both lessons follow enhanced lesson format with interactive quizzes covering WA's 19th-century maritime trade and shipbuilding history.
+- November 4, 2025. Implemented Sources & Further Reading feature for lessons. Lessons can now include an optional 'sources' step displaying clickable reference links with proper formatting. Applied to both maritime history lessons with WA Museum, Heritage Council, and City of Fremantle resources.
+- November 4, 2025. Added Final Quiz feature to lessons. Lessons can now include an optional 'finalQuiz' step before the conclusion, displaying multiple-choice questions with correct answers marked with ✅. Format uses emoji numbering (1️⃣, 2️⃣, 3️⃣) and option labels (a, b, c, d). Implemented in Camilla Wreck lesson with 3 questions testing knowledge retention.
+
+## Lesson System Features
+
+The Learn section supports multiple step types for rich educational content:
+- **intro**: Welcome screen with lesson metadata (duration, difficulty, category)
+- **text**: Text content with optional highlights and formatted sections
+- **image**: Images with captions and accompanying text
+- **funFact**: Highlighted interesting facts with special styling
+- **quiz**: Interactive multiple-choice questions with immediate feedback
+- **finalQuiz**: Summary assessment with all questions displayed and answers marked (optional)
+- **conclusion**: Wrap-up with "What You Can Do" action items
+- **sources**: Reference links for further reading (optional)
+
+Each lesson type is reusable and can be easily added by editing the lesson data in `client/src/data/enhancedLessons.ts`.
 
 ## User Preferences
 
