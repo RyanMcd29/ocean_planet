@@ -223,7 +223,7 @@ const allLessons = [
   {
     id: 15,
     title: "Southern Right Whales: Migration Mysteries",
-    category: "species-identification",
+    category: "marine-mammals",
     duration: 6,
     thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     description: "Inspired by real-world research from the Southern Ocean",
@@ -236,7 +236,7 @@ const allLessons = [
   {
     id: 16,
     title: "Southern Right Whales: Tracking Climate Change",
-    category: "conservation",
+    category: "marine-mammals",
     duration: 8,
     thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     description: "How warming oceans affect whale migration patterns",
@@ -262,7 +262,7 @@ const allLessons = [
   {
     id: 18,
     title: "Whale Science 101: Tracking Giants",
-    category: "marine-research",
+    category: "marine-mammals",
     duration: 8,
     thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
     description: "How do scientists follow whales across oceans?",
