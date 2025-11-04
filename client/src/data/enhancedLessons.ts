@@ -2135,6 +2135,145 @@ export const swanRiverDolphinsLesson: EnhancedLesson = {
   ]
 };
 
+export const pygmyBlueWhalesLesson: EnhancedLesson = {
+  id: "pygmy-blue-whales-marine-mammals",
+  title: "Pygmy Blues: The Smaller Giants of WA's Coast",
+  description: "They may be 'small' for a blue whale, but they're still ocean giants",
+  category: "marine-mammals",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🐋 Welcome to Pygmy Blue Whale Country!",
+      content: "Imagine standing on the cliffs near Perth Canyon and seeing a 24-metre whale glide past. 🐋\n\nThese are **pygmy blue whales** — slightly smaller cousins of the Antarctic blue whale — and Western Australia is one of the few places where you can see them on their migration. You're about to discover why WA's waters are so special for these ocean giants.",
+      icon: "🐋"
+    },
+    {
+      type: "text",
+      title: "🧠 Meet the Pygmy Blue Whale",
+      content: "**Pygmy blue whales** are a distinct subspecies of blue whale (Balaenoptera musculus brevicauda) that are slightly smaller than their Antarctic relatives — but 'small' is relative when you're talking about the largest animals on Earth!\n\n**Size**: Growing up to 24 meters long, weighing as much as 3,000 people combined\n\n**Critical Habitat**: WA's **Perth Canyon** is a crucial feeding ground, rich in krill concentrations\n\n**Conservation Status**: Listed as *Endangered*, with global populations still recovering from historic whaling\n\n**Migration Pattern**: These whales travel annually along WA's coast, following krill blooms\n\nDespite their massive size, these gentle giants are filter feeders, consuming tiny krill by the thousands.",
+      highlight: "Pygmy blue whales can weigh as much as 3,000 people combined!"
+    },
+    {
+      type: "quiz",
+      title: "WA's Whale Hotspot",
+      content: "Where is WA's famous feeding hotspot for pygmy blue whales?",
+      options: [
+        "Ningaloo Reef",
+        "Perth Canyon",
+        "Shark Bay",
+        "Swan River"
+      ],
+      correctAnswer: 1,
+      explanation: "Perth Canyon, a deep submarine canyon off the WA coast, is a critical feeding ground for pygmy blue whales. The canyon's unique oceanography concentrates krill, providing abundant food for these massive filter feeders."
+    },
+    {
+      type: "text",
+      title: "🐠 The Perth Canyon Ecosystem",
+      content: "Understanding pygmy blue whales means understanding their food source and the ecosystem that supports them:\n\n**Species**: Pygmy blue whales migrate annually along WA's coast, timing their journey with krill availability\n\n**Primary Food**: Massive swarms of krill that concentrate in submarine canyons like Perth Canyon\n\n**Research Teams**: Scientists use satellite tags, acoustic recorders, and aerial surveys to track whale movements and behavior\n\n**Community Involvement**: Eco-tourism operators and citizen scientists report sightings, contributing valuable data to conservation efforts\n\n**Ocean Conditions**: The canyon's unique currents and upwelling bring nutrient-rich water to the surface, supporting the entire food web\n\nThis rich marine environment makes Perth Canyon one of the most important whale habitats in the Southern Hemisphere.",
+      highlight: "Perth Canyon's unique oceanography creates perfect conditions for krill blooms!"
+    },
+    {
+      type: "quiz",
+      title: "Feeding Behavior",
+      content: "What do pygmy blue whales primarily feed on?",
+      options: [
+        "Krill",
+        "Small fish",
+        "Seaweed",
+        "Jellyfish"
+      ],
+      correctAnswer: 0,
+      explanation: "Pygmy blue whales are filter feeders that consume massive quantities of krill. They use their baleen plates to strain thousands of these tiny crustaceans from the water with each mouthful."
+    },
+    {
+      type: "text",
+      title: "🌊 Threats to Ocean Giants",
+      content: "Despite their enormous size, pygmy blue whales face significant threats in modern oceans:\n\n**🚢 Ship Strikes**: Busy shipping lanes near Fremantle pose collision risks, especially during migration periods\n\n**🔊 Noise Pollution**: Ship engines and industrial noise interfere with whale communication and navigation\n\n**🌡️ Climate Change**: Warming oceans affect krill distribution and abundance, potentially forcing whales to travel further for food\n\n**📉 Slow Recovery**: Blue whales reproduce very slowly — females have only one calf every 2-3 years, making population recovery challenging\n\n**🎣 Fishing Gear**: Entanglement in fishing equipment, though less common than for other species, remains a concern\n\nProtecting these magnificent creatures requires addressing all these interconnected threats.",
+      highlight: "Blue whales reproduce very slowly — only one calf every 2-3 years!"
+    },
+    {
+      type: "quiz",
+      title: "Climate Vulnerability",
+      content: "Why are pygmy blue whales vulnerable to climate change?",
+      options: [
+        "They depend on krill, which may decline with warming seas",
+        "They only live in rivers",
+        "They avoid deep water",
+        "They breathe less often"
+      ],
+      correctAnswer: 0,
+      explanation: "Pygmy blue whales depend heavily on krill for food. Climate change affects ocean temperatures and currents, which in turn affect krill distribution and abundance. If krill populations decline or shift location, whales may struggle to find enough food."
+    },
+    {
+      type: "finalQuiz",
+      title: "Test Your Pygmy Blue Whale Knowledge",
+      content: "Let's see what you've learned about these ocean giants!",
+      questions: [
+        {
+          question: "How large can pygmy blue whales grow?",
+          options: [
+            "10 m",
+            "24 m",
+            "50 m",
+            "5 m"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "Which threat is linked to busy shipping routes off WA?",
+          options: [
+            "Plastic ingestion",
+            "Ship strikes",
+            "Coral bleaching",
+            "Overfishing"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "Why is the pygmy blue whale population still low?",
+          options: [
+            "Natural predators",
+            "Too much diving tourism",
+            "Lack of food",
+            "Historic whaling and slow reproduction"
+          ],
+          correctAnswer: 3
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a Pygmy Blue Whale Guardian!",
+      content: "Great job! You've completed the lesson on Pygmy Blues: The Smaller Giants of WA's Coast. You now understand why these magnificent whales visit WA's waters and the challenges they face.\n\n**What You Can Do:**\n\n🐋 **Support whale-safe eco-tourism** - Choose operators who follow safe distance rules and contribute to research\n\n🌊 **Reduce ocean noise** - Back policies for quieter shipping lanes and responsible vessel operation\n\n📣 **Share whale sightings** - Report observations to citizen science platforms to help track populations\n\n♻️ **Tackle climate change** - Protecting krill populations means protecting whales' food source\n\n🚢 **Advocate for ship speed limits** - Support slower vessel speeds in whale migration corridors\n\n📚 **Stay informed** - Follow whale research organizations and their latest discoveries\n\nRemember: protecting these ocean giants means protecting the entire marine ecosystem they depend on!"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about pygmy blue whales.",
+      sources: [
+        {
+          title: "AIMS - Feeding on the go: research provides new insights into pygmy blue whale foraging behaviours",
+          url: "https://www.aims.gov.au/information-centre/news-and-stories/feeding-go-research-provides-new-insights-pygmy-blue-whale-foraging-behaviours"
+        },
+        {
+          title: "UWA Research - Physical properties and processes in the Perth Canyon, Western Australia",
+          url: "https://research-repository.uwa.edu.au/en/publications/physical-properties-and-processes-in-the-perth-canyon-western-aus/"
+        },
+        {
+          title: "Movement Ecology - Predicting suitable habitats for foraging and migration",
+          url: "https://movementecologyjournal.biomedcentral.com/articles/10.1186/s40462-024-00481-x"
+        },
+        {
+          title: "e-Atlas - Distribution and important areas for pygmy blue whales",
+          url: "https://eatlas.org.au/nwa/pygmy-blue-whales"
+        }
+      ]
+    }
+  ]
+};
+
 export const bunburyDolphinsLesson: EnhancedLesson = {
   id: "bunbury-dolphins-marine-mammals",
   title: "Bunbury's Bottlenose: The City Where Dolphins Meet the Shore",
@@ -2293,5 +2432,6 @@ export const enhancedLessons = [
   camillaWreckLesson,
   longJettyLesson,
   swanRiverDolphinsLesson,
-  bunburyDolphinsLesson
+  bunburyDolphinsLesson,
+  pygmyBlueWhalesLesson
 ];
