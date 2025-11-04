@@ -24,6 +24,7 @@ import {
 } from "@shared/schema";
 import bcrypt from 'bcryptjs';
 import { OceanDataService } from "./services/oceanData";
+import { EmailService } from "./services/emailService";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -140,6 +141,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         bio: userData.bio || null,
         countryId: userData.countryId || null
       });
+
+      // Send welcome email (don't block registration if email fails)
+      EmailService.sendRegistrationEmail(newUser.email, newUser.name || 'Diver')
+        .catch(err => console.error('Failed to send welcome email:', err));
 
       // Return success response (exclude password)
       const { password, ...userResponse } = newUser;
