@@ -1705,6 +1705,164 @@ export const ecosystemGuardiansLesson: EnhancedLesson = {
   ]
 };
 
+export const camillaWreckLesson: EnhancedLesson = {
+  id: "camilla-wreck-maritime-history",
+  title: "Maritime History of the Camilla Wreck (WA)",
+  description: "An iron-hulled relic connecting Western Australia to the age of sail and trade",
+  category: "maritime-history",
+  duration: 8,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Welcome to WA's Maritime Past!",
+      content: "Lying quietly off Fremantle's coast, the Camilla is one of Western Australia's lesser-known historic shipwrecks. Once a proud cargo vessel, it now serves as an artificial reef and a time capsule for maritime heritage. Diving the Camilla isn't just about wreck exploration — it's about tracing the story of WA's early trade and shipbuilding past.",
+      icon: "⚓"
+    },
+    {
+      type: "text",
+      title: "The Camilla's Story",
+      content: "The Camilla was a **three-masted iron barque**, built in **1870 in Scotland**, typical of the late 19th-century sailing fleet. She traded between Europe, India, and Australia, carrying cargo such as timber, coal, and general goods.\n\nWrecked in 1903 near Carnac Island, she represents WA's shift from sail to steam in maritime transport. Today, the site offers both archaeological insight and a living reef ecosystem.",
+      highlight: "The Camilla was built in Scotland in 1870 - over 150 years ago!"
+    },
+    {
+      type: "quiz",
+      title: "Test Your Knowledge",
+      content: "When was the Camilla built?",
+      options: [
+        "1870",
+        "1912",
+        "1855",
+        "1896"
+      ],
+      correctAnswer: 0,
+      explanation: "The Camilla was built in 1870 in Scotland, representing the peak of iron-hulled sailing ship construction."
+    },
+    {
+      type: "text",
+      title: "Who or What's Involved?",
+      content: "The wreck lies in **Cockburn Sound**, near **Carnac Island**, in shallow, diver-accessible water. The **WA Museum's Maritime Archaeology Department** monitors the site.\n\nOver time, coral, sponges, and small fish have colonised the hull, blending **cultural heritage with natural restoration**. Recreational divers are encouraged to explore responsibly — touching artefacts or removing items is prohibited under WA's *Maritime Archaeology Act*.",
+      highlight: "The wreck has become a thriving artificial reef ecosystem!"
+    },
+    {
+      type: "quiz",
+      title: "Who Protects the Site?",
+      content: "Who manages and protects the Camilla wreck site today?",
+      options: [
+        "CSIRO",
+        "WA Museum",
+        "Department of Fisheries",
+        "Fremantle Port Authority"
+      ],
+      correctAnswer: 1,
+      explanation: "The WA Museum's Maritime Archaeology Department monitors and protects the Camilla wreck site as part of Western Australia's underwater cultural heritage."
+    },
+    {
+      type: "text",
+      title: "Challenges and Conservation",
+      content: "**Corrosion, storms, and boat anchors** threaten to further damage the structure. **Uninformed divers** can accidentally disturb fragile materials or marine growth.\n\nMarine archaeologists balance conservation with **public access and education**, using digital 3D models to preserve its legacy. The wreck reminds us how maritime technology — and ocean stewardship — have evolved together.",
+      highlight: "3D digital mapping helps preserve the wreck's story without disturbing it"
+    },
+    {
+      type: "quiz",
+      title: "Modern Preservation",
+      content: "What modern method helps preserve the Camilla's story without disturbing the wreck?",
+      options: [
+        "3D digital mapping",
+        "Artificial reef sinking",
+        "Removing artefacts for museums",
+        "Anchoring directly above it"
+      ],
+      correctAnswer: 0,
+      explanation: "3D digital mapping and modeling allows researchers to document and preserve the wreck's condition and details without physically disturbing the site."
+    },
+    {
+      type: "conclusion",
+      title: "You've Explored Maritime History!",
+      content: "Awesome work! You've dived into the story of the *Camilla* — where maritime history meets marine life.\n\n**What You Can Do:**\n\n- Visit or dive the wreck with **licensed, eco-conscious dive operators**\n- Never touch or take artefacts — enjoy by **looking, not collecting**\n- Support **maritime museums and heritage programs** that record and share these stories\n- Learn basic **wreck-diving etiquette** to help protect underwater heritage\n\nThe Camilla reminds us that our maritime past is still with us, transformed into living ecosystems beneath the waves."
+    }
+  ]
+};
+
+export const longJettyLesson: EnhancedLesson = {
+  id: "long-jetty-maritime-history",
+  title: "Maritime History of Fremantle's Long Jetty",
+  description: "Where Western Australia first met the world by sea",
+  category: "maritime-history",
+  duration: 7,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Where WA Met the World!",
+      content: "Before Fremantle Harbour existed, ships once anchored offshore and unloaded their cargo onto a wooden jetty stretching far into the sea. This was **Fremantle's Long Jetty** — the beating heart of Western Australia's trade in the late 1800s. Today, its remnants rest beneath the water near Bathers Beach, forming both a heritage site and a home for marine life.",
+      icon: "⚓"
+    },
+    {
+      type: "text",
+      title: "The Long Jetty's Story",
+      content: "**The Long Jetty** was built in **1873**, extending **over 700 meters** from shore to deep water so ships could load and unload directly. It handled **timber, wool, whale oil, and passengers** during WA's colonial expansion.\n\nBy the 1890s, its shallow approach limited larger vessels, leading to the construction of the modern **Fremantle Inner Harbour (1897)**. The jetty was later dismantled, but remnants remain visible to divers and snorkellers.",
+      highlight: "The jetty stretched over 700 meters into the ocean - nearly half a mile!"
+    },
+    {
+      type: "quiz",
+      title: "Engineering Challenge",
+      content: "Why was Fremantle's Long Jetty built so far out to sea?",
+      options: [
+        "To reach deep water for ocean-going ships",
+        "To create a fishing platform",
+        "To block coastal erosion",
+        "To test new timber designs"
+      ],
+      correctAnswer: 0,
+      explanation: "The Long Jetty had to extend over 700 meters to reach water deep enough for large ocean-going vessels to dock and unload their cargo."
+    },
+    {
+      type: "text",
+      title: "Building with Local Timber",
+      content: "Built by the **Harbour Works Department** using **jarrah timber** from WA's southwest forests, the jetty served merchant ships trading with **Britain, India, and Asia**.\n\nToday, **archaeologists and local dive groups** map its remains as part of Fremantle's underwater heritage trail. Marine growth — **sponges, seagrass, and small reef fish** — now colonise the jetty piles, blending history with habitat.",
+      highlight: "The jetty was built from jarrah timber - one of the world's strongest hardwoods!"
+    },
+    {
+      type: "quiz",
+      title: "Materials and Construction",
+      content: "Which material was primarily used to build the Long Jetty?",
+      options: [
+        "Jarrah timber",
+        "Iron and steel",
+        "Limestone",
+        "Concrete"
+      ],
+      correctAnswer: 0,
+      explanation: "Jarrah timber from Western Australia's southwest forests was used to construct the Long Jetty, chosen for its strength and resistance to marine borers."
+    },
+    {
+      type: "text",
+      title: "Why It Was Replaced",
+      content: "By the 1890s, **sand movement and shallow depths** made navigation difficult. **Storm damage** and the need for deeper berths led to its replacement by Fremantle Harbour.\n\nMuch of the jetty was demolished, but **submerged timbers remain protected** under WA's *Maritime Archaeology Act*. Its story reminds us how engineering, environment, and economy constantly reshape the coastline.",
+      highlight: "The jetty couldn't handle the larger steamships of the late 1800s"
+    },
+    {
+      type: "quiz",
+      title: "Maritime Evolution",
+      content: "What was the main reason the Long Jetty was replaced?",
+      options: [
+        "It was destroyed by a cyclone",
+        "It was too shallow for larger vessels",
+        "It was sold to private owners",
+        "It caught fire"
+      ],
+      correctAnswer: 1,
+      explanation: "The Long Jetty's shallow water approach couldn't accommodate the increasingly large steamships of the late 1800s, leading to the construction of Fremantle's deeper inner harbor."
+    },
+    {
+      type: "conclusion",
+      title: "Connecting Past and Present!",
+      content: "Great work! You've uncovered the story of Fremantle's Long Jetty — where trade, technology, and tides met to shape Western Australia's maritime future.\n\n**What You Can Do:**\n\n- Visit **Bathers Beach or the WA Shipwrecks Museum** to explore Fremantle's early port history\n- When diving or snorkelling near heritage sites, **look, don't touch** — artefacts belong to everyone\n- Support **maritime heritage projects** that preserve old jetties and shipwrecks\n- Reflect on how early infrastructure shaped today's **coastal ecosystems and urban growth**\n\nThe Long Jetty may be gone, but its legacy lives on in Fremantle's thriving harbor and the marine life that now calls its remnants home."
+    }
+  ]
+};
+
 export const enhancedLessons = [
   bottomTrawlingLesson,
   leeuwincurrentLesson,
@@ -1722,5 +1880,7 @@ export const enhancedLessons = [
   highSeasTreatyLesson,
   whaleScience101Lesson,
   trackingTechLesson,
-  ecosystemGuardiansLesson
+  ecosystemGuardiansLesson,
+  camillaWreckLesson,
+  longJettyLesson
 ];
