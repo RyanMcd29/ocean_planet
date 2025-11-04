@@ -57,6 +57,8 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
   const [completedSteps, setCompletedSteps] = useState<number[]>([]);
   const [score, setScore] = useState({ correct: 0, total: 0 });
   const [showAnimation, setShowAnimation] = useState(false);
+  const [finalQuizAnswers, setFinalQuizAnswers] = useState<Map<number, number>>(new Map());
+  const [finalQuizFeedback, setFinalQuizFeedback] = useState<Set<number>>(new Set());
 
   const currentStepData = lesson.steps[currentStep];
   const isLastStep = currentStep === lesson.steps.length - 1;
@@ -100,6 +102,16 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
   const handleAnswerSelect = (answerIndex: number) => {
     setSelectedAnswer(answerIndex);
     setShowFeedback(true);
+  };
+
+  const handleFinalQuizAnswerSelect = (questionIndex: number, answerIndex: number) => {
+    const newAnswers = new Map(finalQuizAnswers);
+    newAnswers.set(questionIndex, answerIndex);
+    setFinalQuizAnswers(newAnswers);
+    
+    const newFeedback = new Set(finalQuizFeedback);
+    newFeedback.add(questionIndex);
+    setFinalQuizFeedback(newFeedback);
   };
 
   const getStepIcon = (type: string, index: number) => {
@@ -370,7 +382,6 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
       case 'finalQuiz':
         const questionEmojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
-        const optionLabels = ['a)', 'b)', 'c)', 'd)'];
         
         return (
           <div className="space-y-6">
@@ -382,42 +393,72 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
                 🧭 {currentStepData.title}
               </h2>
               {currentStepData.content && (
-                <p className="text-gray-600 max-w-2xl mx-auto">
+                <p className="text-gray-600 max-w-2xl mx-auto mb-2">
                   {currentStepData.content}
                 </p>
               )}
             </div>
 
-            <Card className="border-2 border-purple-200 bg-purple-50">
-              <CardContent className="p-6">
-                <div className="space-y-6">
-                  {currentStepData.questions?.map((question, qIndex) => (
-                    <div key={qIndex} className="bg-white rounded-lg p-5 border border-purple-100">
-                      <div className="font-semibold text-[#0A4D68] mb-3 text-lg">
+            <div className="space-y-6">
+              {currentStepData.questions?.map((question, qIndex) => {
+                const selectedAnswer = finalQuizAnswers.get(qIndex);
+                const showQuestionFeedback = finalQuizFeedback.has(qIndex);
+                
+                return (
+                  <Card key={qIndex} className="border-2 border-purple-200 bg-purple-50">
+                    <CardContent className="p-6">
+                      <p className="text-lg font-medium text-purple-900 mb-4">
                         {questionEmojis[qIndex]} {question.question}
+                      </p>
+                      
+                      <div className="space-y-3">
+                        {question.options.map((option, oIndex) => {
+                          const isSelected = selectedAnswer === oIndex;
+                          const isCorrect = oIndex === question.correctAnswer;
+                          const isIncorrect = showQuestionFeedback && isSelected && !isCorrect;
+                          const shouldShowCorrect = showQuestionFeedback && isCorrect;
+
+                          return (
+                            <button
+                              key={oIndex}
+                              onClick={() => handleFinalQuizAnswerSelect(qIndex, oIndex)}
+                              disabled={showQuestionFeedback}
+                              className={cn(
+                                "w-full text-left p-4 rounded-lg border-2 transition-all duration-200 flex items-center gap-3",
+                                "hover:shadow-md focus:outline-none focus:ring-2 focus:ring-purple-300",
+                                !showQuestionFeedback && "hover:border-purple-300 hover:bg-purple-50",
+                                isSelected && !showQuestionFeedback && "border-purple-400 bg-purple-100",
+                                !isSelected && !showQuestionFeedback && "border-gray-200 bg-white",
+                                shouldShowCorrect && "border-green-400 bg-green-50",
+                                isIncorrect && "border-red-400 bg-red-50",
+                                showQuestionFeedback && "cursor-default"
+                              )}
+                            >
+                              <div className={cn(
+                                "w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-bold flex-shrink-0",
+                                !showQuestionFeedback && isSelected && "border-purple-400 bg-purple-400 text-white",
+                                !showQuestionFeedback && !isSelected && "border-gray-300 text-gray-500",
+                                shouldShowCorrect && "border-green-500 bg-green-500 text-white",
+                                isIncorrect && "border-red-500 bg-red-500 text-white"
+                              )}>
+                                {String.fromCharCode(65 + oIndex)}
+                              </div>
+                              <span className="flex-1">{option}</span>
+                              {showQuestionFeedback && (
+                                <div className="flex-shrink-0">
+                                  {shouldShowCorrect && <CheckCircle className="w-5 h-5 text-green-500" />}
+                                  {isIncorrect && <XCircle className="w-5 h-5 text-red-500" />}
+                                </div>
+                              )}
+                            </button>
+                          );
+                        })}
                       </div>
-                      <div className="space-y-2 ml-6">
-                        {question.options.map((option, oIndex) => (
-                          <div 
-                            key={oIndex} 
-                            className={cn(
-                              "flex items-start gap-2 text-gray-700",
-                              oIndex === question.correctAnswer && "font-medium text-green-700"
-                            )}
-                          >
-                            <span className="font-mono">{optionLabels[oIndex]}</span>
-                            <span>
-                              {option}
-                              {oIndex === question.correctAnswer && ' ✅'}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
           </div>
         );
 
