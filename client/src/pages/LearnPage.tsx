@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import LessonCard from "@/components/lessons/LessonCard";
 import LessonViewer from "@/components/lessons/LessonViewer";
 import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewer";
@@ -15,25 +16,23 @@ import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincur
 import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin, FileText, Anchor, Navigation, Atom, Sprout, Droplet, Dna, Moon, TreePine, Sparkles, Mountain, Zap } from "lucide-react";
 
 const categories = [
-  { id: "ocean-literacy", name: "Ocean Literacy", icon: <Compass className="h-5 w-5" /> },
+  { id: "ocean-literacy", name: "Ocean Literacy", icon: "🌊", emoji: true },
   { id: "reef-ecology", name: "Reef Ecology", icon: <BookOpen className="h-5 w-5" /> },
   { id: "species-identification", name: "Species ID", icon: <Fish className="h-5 w-5" /> },
   { id: "conservation", name: "Conservation", icon: <Waves className="h-5 w-5" /> },
   { id: "marine-research", name: "Marine Research", icon: <Thermometer className="h-5 w-5" /> },
-  { id: "maritime-history", name: "Maritime History", icon: <FileText className="h-5 w-5" /> },
-  { id: "marine-mammals", name: "Marine Mammals", icon: <Fish className="h-5 w-5" /> },
-  { id: "ocean-literacy-principles", name: "Ocean Literacy Principles", icon: <Waves className="h-5 w-5" /> },
-  { id: "human-ocean-interaction", name: "Human–Ocean Interaction", icon: <Navigation className="h-5 w-5" /> },
-  { id: "basic-oceanic-physics", name: "Basic Oceanic Physics", icon: <Atom className="h-5 w-5" /> },
-  { id: "conservation-stewardship", name: "Conservation & Stewardship", icon: <Sprout className="h-5 w-5" /> },
-  { id: "diving-ethics", name: "Diving Ethics", icon: <Droplet className="h-5 w-5" /> },
-  { id: "biology-knowledge", name: "Biology Knowledge", icon: <Dna className="h-5 w-5" /> },
-  { id: "deep-sea", name: "Deep Sea", icon: <Moon className="h-5 w-5" /> },
-  { id: "estuarine-environments", name: "Estuarine Environments", icon: <TreePine className="h-5 w-5" /> },
-  { id: "cephalopods", name: "Cephalopods", icon: <Sparkles className="h-5 w-5" /> },
-  { id: "marine-ecology", name: "Marine Ecology", icon: <Fish className="h-5 w-5" /> },
-  { id: "marine-geology", name: "Marine Geology", icon: <Mountain className="h-5 w-5" /> },
-  { id: "ocean-energy", name: "Ocean Energy", icon: <Zap className="h-5 w-5" /> },
+  { id: "maritime-history", name: "Maritime History", icon: "📜", emoji: true },
+  { id: "marine-mammals", name: "Marine Mammals", icon: "🐋", emoji: true },
+  { id: "human-ocean-interaction", name: "Human–Ocean Interaction", icon: "🧭", emoji: true },
+  { id: "basic-oceanic-physics", name: "Basic Oceanic Physics", icon: "⚛️", emoji: true },
+  { id: "diving-ethics", name: "Diving Ethics", icon: "🤿", emoji: true },
+  { id: "biology-knowledge", name: "Biology Knowledge", icon: "🧬", emoji: true },
+  { id: "deep-sea", name: "Deep Sea", icon: "🌌", emoji: true },
+  { id: "estuarine-environments", name: "Estuarine Environments", icon: "🌾", emoji: true },
+  { id: "cephalopods", name: "Cephalopods", icon: "🦑", emoji: true },
+  { id: "marine-ecology", name: "Marine Ecology", icon: "🐠", emoji: true },
+  { id: "marine-geology", name: "Marine Geology", icon: "🪨", emoji: true },
+  { id: "ocean-energy", name: "Ocean Energy", icon: "⚡", emoji: true },
 ];
 
 // Sample lessons data with integrated interactive lessons
@@ -421,26 +420,32 @@ export default function LearnPage() {
             <CardHeader>
               <CardTitle>Categories</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">
-              <Button
-                variant={selectedCategory === "all" ? "default" : "ghost"}
-                className="w-full justify-start"
-                onClick={() => setSelectedCategory("all")}
-              >
-                <Award className="h-4 w-4 mr-2" />
-                All Categories
-              </Button>
-              {categories.map((category) => (
-                <Button
-                  key={category.id}
-                  variant={selectedCategory === category.id ? "default" : "ghost"}
-                  className="w-full justify-start"
-                  onClick={() => setSelectedCategory(category.id)}
-                >
-                  {category.icon}
-                  <span className="ml-2">{category.name}</span>
-                </Button>
-              ))}
+            <CardContent>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">
+                    <div className="flex items-center gap-2">
+                      <Award className="h-4 w-4" />
+                      <span>All Categories</span>
+                    </div>
+                  </SelectItem>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      <div className="flex items-center gap-2">
+                        {category.emoji ? (
+                          <span className="text-base">{category.icon}</span>
+                        ) : (
+                          category.icon
+                        )}
+                        <span>{category.name}</span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </CardContent>
           </Card>
 
