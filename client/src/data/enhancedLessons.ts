@@ -1929,6 +1929,43 @@ export const longJettyLesson: EnhancedLesson = {
       explanation: "The Long Jetty's shallow water approach couldn't accommodate the increasingly large steamships of the late 1800s, leading to the construction of Fremantle's deeper inner harbor."
     },
     {
+      type: "finalQuiz",
+      title: "Final Quiz",
+      content: "Test your knowledge of Fremantle's Long Jetty history!",
+      questions: [
+        {
+          question: "Around what year was Fremantle's Long Jetty constructed?",
+          options: [
+            "1873",
+            "1901",
+            "1850",
+            "1897"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "Where are the remnants of the jetty found today?",
+          options: [
+            "In Fremantle's Bathers Beach shallows",
+            "Near Rottnest Island",
+            "Inside Perth Harbour",
+            "South of Mandurah"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "Which major harbour replaced the Long Jetty?",
+          options: [
+            "Albany Port",
+            "Esperance Harbour",
+            "Fremantle Inner Harbour",
+            "Broome Wharf"
+          ],
+          correctAnswer: 2
+        }
+      ]
+    },
+    {
       type: "conclusion",
       title: "Connecting Past and Present!",
       content: "Great work! You've uncovered the story of Fremantle's Long Jetty — where trade, technology, and tides met to shape Western Australia's maritime future.\n\n**What You Can Do:**\n\n- Visit **Bathers Beach or the WA Shipwrecks Museum** to explore Fremantle's early port history\n- When diving or snorkelling near heritage sites, **look, don't touch** — artefacts belong to everyone\n- Support **maritime heritage projects** that preserve old jetties and shipwrecks\n- Reflect on how early infrastructure shaped today's **coastal ecosystems and urban growth**\n\nThe Long Jetty may be gone, but its legacy lives on in Fremantle's thriving harbor and the marine life that now calls its remnants home."
