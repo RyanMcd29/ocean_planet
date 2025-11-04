@@ -479,51 +479,65 @@ export default function LearnPage() {
           </div>
 
           {viewMode === "lessons" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredLessons.map((lesson) => (
-                <Card key={lesson.id} className="cursor-pointer hover:shadow-lg transition-shadow">
-                  <div className="relative">
-                    <img 
-                      src={lesson.thumbnail} 
-                      alt={lesson.title}
-                      className="w-full h-48 object-cover rounded-t-lg"
-                    />
-                    <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium flex items-center gap-1">
-                      <span>{lesson.duration} min</span>
-                    </div>
-                    {lesson.completed && (
-                      <div className="absolute top-2 left-2 bg-green-500 text-white rounded-full p-1">
-                        <Award className="h-3 w-3" />
+            <>
+              {filteredLessons.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredLessons.map((lesson) => (
+                    <Card key={lesson.id} className="cursor-pointer hover:shadow-lg transition-shadow">
+                      <div className="relative">
+                        <img 
+                          src={lesson.thumbnail} 
+                          alt={lesson.title}
+                          className="w-full h-48 object-cover rounded-t-lg"
+                        />
+                        <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium flex items-center gap-1">
+                          <span>{lesson.duration} min</span>
+                        </div>
+                        {lesson.completed && (
+                          <div className="absolute top-2 left-2 bg-green-500 text-white rounded-full p-1">
+                            <Award className="h-3 w-3" />
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <CardHeader>
-                    <div className="flex items-center gap-2 mb-2">
-                      <Badge variant="outline" className="text-xs">
-                        {lesson.difficulty}
-                      </Badge>
-                      {lesson.isInteractive && (
-                        <Badge className="bg-[#05BFDB] text-white text-xs">
-                          Interactive
-                        </Badge>
-                      )}
-                    </div>
-                    <CardTitle className="line-clamp-2">{lesson.title}</CardTitle>
-                    <CardDescription className="line-clamp-3">
-                      {lesson.description}
+                      <CardHeader>
+                        <div className="flex items-center gap-2 mb-2">
+                          <Badge variant="outline" className="text-xs">
+                            {lesson.difficulty}
+                          </Badge>
+                          {lesson.isInteractive && (
+                            <Badge className="bg-[#05BFDB] text-white text-xs">
+                              Interactive
+                            </Badge>
+                          )}
+                        </div>
+                        <CardTitle className="line-clamp-2">{lesson.title}</CardTitle>
+                        <CardDescription className="line-clamp-3">
+                          {lesson.description}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardFooter>
+                        <Button 
+                          className="w-full bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68]"
+                          onClick={() => handleLessonClick(lesson)}
+                        >
+                          {lesson.completed ? "Review" : "Start Lesson"}
+                        </Button>
+                      </CardFooter>
+                    </Card>
+                  ))}
+                </div>
+              ) : (
+                <Card className="p-12 text-center">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="text-6xl">🚧</div>
+                    <CardTitle className="text-2xl">Coming Soon!</CardTitle>
+                    <CardDescription className="text-base max-w-md">
+                      Lessons for this category are being developed. Check back soon for exciting new content about {categories.find(c => c.id === selectedCategory)?.name || 'this topic'}!
                     </CardDescription>
-                  </CardHeader>
-                  <CardFooter>
-                    <Button 
-                      className="w-full bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68]"
-                      onClick={() => handleLessonClick(lesson)}
-                    >
-                      {lesson.completed ? "Review" : "Start Lesson"}
-                    </Button>
-                  </CardFooter>
+                  </div>
                 </Card>
-              ))}
-            </div>
+              )}
+            </>
           )}
 
           {viewMode === "badges" && (
