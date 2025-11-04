@@ -1996,6 +1996,145 @@ export const longJettyLesson: EnhancedLesson = {
   ]
 };
 
+export const swanRiverDolphinsLesson: EnhancedLesson = {
+  id: "swan-river-dolphins-marine-mammals",
+  title: "Underwater Neighbors: How Swan River Dolphins Survive in the City",
+  description: "Wild dolphins living alongside skyscrapers, ferries, and city life",
+  category: "marine-mammals",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🐬 Wild Dolphins in the City!",
+      content: "What if you could spot wild dolphins while sipping coffee in a city café? ☕🐬\n\nThat's exactly what happens in Perth's Swan River, where a small population of dolphins makes its home right in the heart of the city — navigating ferries, pollution, and people. You're about to discover how these remarkable animals survive in one of Australia's busiest urban waterways.",
+      icon: "🐬"
+    },
+    {
+      type: "text",
+      title: "🧠 Meet the Swan River Dolphins",
+      content: "The Swan River dolphins are **Indo-Pacific bottlenose dolphins** (Tursiops aduncus), the same species found in coastal waters around Perth and throughout the Indian Ocean.\n\n**Population Size**: Around **20–25 individuals** live year-round in the Swan Canning Riverpark\n\n**Urban Adaptation**: These dolphins have learned to navigate a challenging urban environment filled with boat traffic, reduced water quality, and changing fish stocks\n\n**Ecosystem Indicators**: Scientists monitor their health as a key indicator of the river's overall ecosystem health\n\nUnlike their coastal cousins who have the open ocean, these dolphins have adapted to life in a confined urban waterway, making them truly unique.",
+      highlight: "Only 20-25 dolphins call the Swan River home - making every individual precious!"
+    },
+    {
+      type: "quiz",
+      title: "Understanding River Dolphins",
+      content: "Why are Swan River dolphins important to study?",
+      options: [
+        "They indicate the health of the river ecosystem",
+        "They only live in aquariums",
+        "They control ferry traffic",
+        "They eat all the seaweed"
+      ],
+      correctAnswer: 0,
+      explanation: "Swan River dolphins serve as important indicators of the river's ecosystem health. Because they're at the top of the food chain and live in the river year-round, their health reflects the overall condition of the water quality, fish populations, and environmental pressures."
+    },
+    {
+      type: "text",
+      title: "🐠 Who's Involved in Protecting Them?",
+      content: "Protecting Swan River dolphins requires collaboration between researchers, the community, and local authorities:\n\n**Species**: Indo-Pacific bottlenose dolphins living in an urban river system\n\n**Human Neighbors**: Ferry operators, fishers, local residents, kayakers, and tourists all share the river with dolphins\n\n**Research Leaders**: **Murdoch University's Cetacean Research Unit** leads scientific studies on dolphin survival, behavior, and health\n\n**Community Groups**: River Guardians and Dolphin Watch Perth involve volunteers in monitoring dolphin sightings and behavior\n\n**Conservation Advocates**: Local groups lobby to keep the river healthy for both dolphins and people\n\nThis collaborative approach helps ensure dolphins can continue living in the heart of Perth.",
+      highlight: "Murdoch University has been studying these dolphins for over a decade!"
+    },
+    {
+      type: "quiz",
+      title: "Research Knowledge",
+      content: "Which university leads much of the research on Swan River dolphins?",
+      options: [
+        "Curtin University",
+        "Murdoch University",
+        "UWA Business School",
+        "ECU"
+      ],
+      correctAnswer: 1,
+      explanation: "Murdoch University's Cetacean Research Unit has been the primary institution studying Swan River dolphins, conducting long-term research on their population dynamics, health, and adaptation to urban life."
+    },
+    {
+      type: "text",
+      title: "🌊 Urban Survival Challenges",
+      content: "Living in an urban river presents unique challenges for dolphins:\n\n**🚤 Boat Strikes**: Dolphins risk collision with ferries, speedboats, and recreational vessels in the busy waterway\n\n**🗑️ Pollution**: Urban runoff, plastics, and chemicals affect water quality and dolphin health\n\n**🏙️ Limited Space**: The small, confined population is vulnerable to disease outbreaks and genetic issues\n\n**🐟 Changing Food Supply**: Urban development and pollution affect fish populations that dolphins depend on\n\n**🔊 Noise Pollution**: Constant boat traffic and urban noise can interfere with dolphin communication\n\nDespite these challenges, Swan River dolphins have shown remarkable resilience, continuing to breed and maintain their population in the heart of Perth.",
+      highlight: "These dolphins are true urban survivors, adapting to challenges that would drive most wildlife away!"
+    },
+    {
+      type: "quiz",
+      title: "Threats and Challenges",
+      content: "What is one major threat to dolphins in the Swan River?",
+      options: [
+        "Coral bleaching",
+        "Whale predation",
+        "Boat strikes",
+        "Freshwater crocodiles"
+      ],
+      correctAnswer: 2,
+      explanation: "Boat strikes are a major threat to Swan River dolphins. With heavy ferry traffic and recreational boating in the confined river space, dolphins face constant risk of collision with vessels."
+    },
+    {
+      type: "finalQuiz",
+      title: "Test Your Swan River Dolphin Knowledge",
+      content: "Let's see what you've learned about these urban survivors!",
+      questions: [
+        {
+          question: "How many dolphins live in the Swan River population?",
+          options: [
+            "20–25",
+            "200–250",
+            "Over 1,000",
+            "Only 2"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "Why are river dolphins considered 'urban survivors'?",
+          options: [
+            "They depend on hand-feeding",
+            "They live in aquariums",
+            "They never leave the river",
+            "They live near cities and adapt to human activity"
+          ],
+          correctAnswer: 3
+        },
+        {
+          question: "What does pollution in the Swan River mainly impact?",
+          options: [
+            "Water clarity only",
+            "Dolphin health and food availability",
+            "Ferry schedules",
+            "Coral reefs"
+          ],
+          correctAnswer: 1
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a River Dolphin Guardian!",
+      content: "Great job! You've completed the lesson on Swan River dolphins and learned how these remarkable animals survive in one of Australia's most urban waterways.\n\n**What You Can Do:**\n\n🐬 **Respect dolphin space** - Never chase them in boats or kayaks; maintain safe distances\n\n🌊 **Support river clean-up programs** - Participate in or donate to initiatives that reduce plastic and pollution\n\n📣 **Share sightings** - Report dolphin observations to citizen science projects like Dolphin Watch WA\n\n♻️ **Reduce household runoff** - Use fewer chemicals in your garden; less runoff = healthier rivers\n\n🚤 **Practice responsible boating** - Slow down in dolphin areas and follow wildlife watching guidelines\n\n📚 **Stay informed** - Follow local research and conservation updates about the Swan River dolphin population\n\nRemember: these dolphins aren't just wildlife - they're our urban neighbors, and protecting them means protecting the health of our river!"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about Swan River dolphins.",
+      sources: [
+        {
+          title: "River Guardians - Dolphin Watch Perth Research",
+          url: "https://www.riverguardians.com/projects/dolphin-watch/research/"
+        },
+        {
+          title: "Murdoch University - Investigating Bottlenose Dolphins in Swan Canning Riverpark",
+          url: "https://researchportal.murdoch.edu.au/esploro/outputs/graduate/991005544374007891"
+        },
+        {
+          title: "City of South Perth - Dolphin Watch Makes a Big Splash",
+          url: "https://southperth.wa.gov.au/about-us/news-and-publications/news-and-public-notices/news-detail/2024/12/09/dolphin-watch-makes-a-big-splash"
+        },
+        {
+          title: "Research Article - Cetacean Morbillivirus in Coastal Indo-Pacific Bottlenose Dolphins, Western Australia",
+          url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3966363/"
+        }
+      ]
+    }
+  ]
+};
+
 export const bunburyDolphinsLesson: EnhancedLesson = {
   id: "bunbury-dolphins-marine-mammals",
   title: "Bunbury's Bottlenose: The City Where Dolphins Meet the Shore",
@@ -2153,5 +2292,6 @@ export const enhancedLessons = [
   ecosystemGuardiansLesson,
   camillaWreckLesson,
   longJettyLesson,
+  swanRiverDolphinsLesson,
   bunburyDolphinsLesson
 ];
