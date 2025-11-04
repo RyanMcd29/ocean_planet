@@ -1786,6 +1786,29 @@ export const camillaWreckLesson: EnhancedLesson = {
       type: "conclusion",
       title: "You've Explored Maritime History!",
       content: "Awesome work! You've dived into the story of the *Camilla* — where maritime history meets marine life.\n\n**What You Can Do:**\n\n- Visit or dive the wreck with **licensed, eco-conscious dive operators**\n- Never touch or take artefacts — enjoy by **looking, not collecting**\n- Support **maritime museums and heritage programs** that record and share these stories\n- Learn basic **wreck-diving etiquette** to help protect underwater heritage\n\nThe Camilla reminds us that our maritime past is still with us, transformed into living ecosystems beneath the waves."
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information and historical context.",
+      sources: [
+        {
+          title: "WA Museum – Long Jetty, Fremantle Maritime Heritage Trail",
+          url: "https://museum.wa.gov.au/maritime-heritage-trails/fremantle/long-jetty"
+        },
+        {
+          title: "Heritage Council WA – Fremantle Long Jetty Site Record",
+          url: "https://inherit.stateheritage.wa.gov.au/Public/Inventory/Details/1f4f05c0-fbe9-4b8f-8f79-3c6a1a95a7a2"
+        },
+        {
+          title: "WA Shipwrecks Museum – Maritime Archaeology of Fremantle",
+          url: "https://museum.wa.gov.au/museums/wa-shipwrecks"
+        },
+        {
+          title: "City of Fremantle – Bathers Beach Precinct History",
+          url: "https://www.fremantle.wa.gov.au/facilities/bathers-beach"
+        }
+      ]
     }
   ]
 };
