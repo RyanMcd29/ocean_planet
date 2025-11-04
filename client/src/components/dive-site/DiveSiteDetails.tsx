@@ -14,7 +14,8 @@ import {
   fetchLiveConditions
 } from "@/lib/api";
 import { Heart, Share2 } from "lucide-react";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
+import { enhancedLessons } from "@/data/enhancedLessons";
 import SpeciesTab from "./SpeciesTab";
 import GalleryTab from "./GalleryTab";
 import ReviewsTab from "./ReviewsTab";
@@ -35,6 +36,12 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
   const [isLoadingConditions, setIsLoadingConditions] = useState(true);
   const [showLiveData, setShowLiveData] = useState(false);
   const [isLoadingLive, setIsLoadingLive] = useState(false);
+  const [, setLocation] = useLocation();
+
+  // Find the linked lesson if it exists
+  const linkedLesson = diveSite.linkedLessonId 
+    ? enhancedLessons.find(lesson => lesson.id === diveSite.linkedLessonId)
+    : null;
 
   const { data: species, isLoading: isLoadingSpecies } = useQuery({
     queryKey: [`/api/dive-sites/${diveSite.id}/species`],
@@ -620,29 +627,39 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                       Learn Section
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 mb-3">Suggested mini-lessons for deeper understanding</p>
+                  <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
-                        <span className="text-sm text-gray-700">"Biodiversity of Jetty Macro Ecosystems"</span>
+                    {linkedLesson ? (
+                      <div className="flex items-center justify-between bg-white p-2 rounded border">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
+                        </div>
+                        <button 
+                          onClick={() => setLocation('/learn')}
+                          data-lesson-id={linkedLesson.id}
+                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
+                        >
+                          Start Learning →
+                        </button>
                       </div>
-                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
-                        Start Learning →
-                      </button>
-                    </div>
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
-                        <span className="text-sm text-gray-700">"Threats from Fishing Debris & Marine Conservation Efforts"</span>
+                    ) : (
+                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
+                        </div>
+                        <button 
+                          disabled
+                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
+                        >
+                          Not Available
+                        </button>
                       </div>
-                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
-                        Start Learning →
-                      </button>
-                    </div>
+                    )}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
-                    <strong>Community Contributions:</strong> Local divers frequently contribute observation maps and macro-life sketches. Join annual cleanup events led by Dolphin Dive and other local dive shops.
+                    <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
                   </div>
                 </div>
               </div>
@@ -819,29 +836,39 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                       Learn Section
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 mb-3">Suggested mini-lessons for deeper understanding</p>
+                  <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
-                        <span className="text-sm text-gray-700">"Artificial Reefs & Urban Marine Habitats"</span>
+                    {linkedLesson ? (
+                      <div className="flex items-center justify-between bg-white p-2 rounded border">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
+                        </div>
+                        <button 
+                          onClick={() => setLocation('/learn')}
+                          data-lesson-id={linkedLesson.id}
+                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
+                        >
+                          Start Learning →
+                        </button>
                       </div>
-                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
-                        Start Learning →
-                      </button>
-                    </div>
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
-                        <span className="text-sm text-gray-700">"Cephalopods of Cockburn Sound"</span>
+                    ) : (
+                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
+                        </div>
+                        <button 
+                          disabled
+                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
+                        >
+                          Not Available
+                        </button>
                       </div>
-                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
-                        Start Learning →
-                      </button>
-                    </div>
+                    )}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
-                    <strong>Community Notes:</strong> Local divers suggest avoiding busy times due to boat traffic. Some have shared sketches of pylon layout for entry/exit planning.
+                    <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
                   </div>
                 </div>
               </div>
@@ -1012,29 +1039,39 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                       Learn Section
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 mb-3">Understanding marine environments</p>
+                  <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
-                        <span className="text-sm text-gray-700">"Understanding Marine Protected Areas"</span>
+                    {linkedLesson ? (
+                      <div className="flex items-center justify-between bg-white p-2 rounded border">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
+                        </div>
+                        <button 
+                          onClick={() => setLocation('/learn')}
+                          data-lesson-id={linkedLesson.id}
+                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
+                        >
+                          Start Learning →
+                        </button>
                       </div>
-                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
-                        Start Learning →
-                      </button>
-                    </div>
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
-                        <span className="text-sm text-gray-700">"Adaptations of Reef-Dwelling Species"</span>
+                    ) : (
+                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
+                        </div>
+                        <button 
+                          disabled
+                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
+                        >
+                          Not Available
+                        </button>
                       </div>
-                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
-                        Start Learning →
-                      </button>
-                    </div>
+                    )}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
-                    <strong>Community Notes:</strong> Best access via Fisher Street. Check weather conditions as visibility varies with swell and wind.
+                    <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
                   </div>
                 </div>
               </div>
@@ -1212,29 +1249,39 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                       Learn Section
                     </span>
                   </div>
-                  <p className="text-sm text-gray-700 mb-3">Educational content about urban reef ecosystems</p>
+                  <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
-                        <span className="text-sm text-gray-700">"Life Among Wrecks – How Submerged Structures Become Urban Reefs"</span>
+                    {linkedLesson ? (
+                      <div className="flex items-center justify-between bg-white p-2 rounded border">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
+                        </div>
+                        <button 
+                          onClick={() => setLocation('/learn')}
+                          data-lesson-id={linkedLesson.id}
+                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
+                        >
+                          Start Learning →
+                        </button>
                       </div>
-                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
-                        Start Learning →
-                      </button>
-                    </div>
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
-                        <span className="text-sm text-gray-700">"River Health and Water Clarity – What Affects Visibility in Estuarine Dives?"</span>
+                    ) : (
+                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
+                        </div>
+                        <button 
+                          disabled
+                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
+                        >
+                          Not Available
+                        </button>
                       </div>
-                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
-                        Start Learning →
-                      </button>
-                    </div>
+                    )}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
-                    <strong>Community Contributions:</strong> Explore how sunken objects transform into microhabitats and understand water chemistry effects on visibility in river environments.
+                    <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
                   </div>
                 </div>
               </div>
@@ -1408,27 +1455,37 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                   </div>
                   <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">1</div>
-                        <span className="text-sm text-gray-700">"Maritime History of the Camilla"</span>
+                    {linkedLesson ? (
+                      <div className="flex items-center justify-between bg-white p-2 rounded border">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
+                        </div>
+                        <button 
+                          onClick={() => setLocation('/learn')}
+                          data-lesson-id={linkedLesson.id}
+                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
+                        >
+                          Start Learning →
+                        </button>
                       </div>
-                      <button className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50">
-                        Start Learning →
-                      </button>
-                    </div>
-                    <div className="flex items-center justify-between bg-white p-2 rounded border">
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">2</div>
-                        <span className="text-sm text-gray-700">"Paddle Grass Ecosystems"</span>
+                    ) : (
+                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+                        <div className="flex items-center">
+                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
+                        </div>
+                        <button 
+                          disabled
+                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
+                        >
+                          Not Available
+                        </button>
                       </div>
-                      <button className="text-green-600 text-xs px-2 py-1 border border-green-300 rounded hover:bg-green-50">
-                        Start Learning →
-                      </button>
-                    </div>
+                    )}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
-                    <strong>Community Notes:</strong> Use dive flag due to boat traffic. Historic context adds interest despite modest marine life.
+                    <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
                   </div>
                 </div>
               </div>
