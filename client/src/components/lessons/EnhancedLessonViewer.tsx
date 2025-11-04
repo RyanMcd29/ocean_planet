@@ -11,8 +11,14 @@ interface SourceItem {
   url: string;
 }
 
+interface FinalQuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number;
+}
+
 interface LessonStep {
-  type: 'intro' | 'text' | 'image' | 'funFact' | 'quiz' | 'conclusion' | 'sources';
+  type: 'intro' | 'text' | 'image' | 'funFact' | 'quiz' | 'finalQuiz' | 'conclusion' | 'sources';
   title: string;
   content: string;
   image?: string;
@@ -23,6 +29,7 @@ interface LessonStep {
   highlight?: string;
   icon?: string;
   sources?: SourceItem[];
+  questions?: FinalQuizQuestion[];
 }
 
 interface EnhancedLesson {
@@ -102,6 +109,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
       image: <Waves className="w-5 h-5" />,
       funFact: <Lightbulb className="w-5 h-5" />,
       quiz: <Zap className="w-5 h-5" />,
+      finalQuiz: <Zap className="w-5 h-5" />,
       conclusion: <Heart className="w-5 h-5" />,
       sources: <BookOpen className="w-5 h-5" />
     };
@@ -357,6 +365,59 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
                 </Card>
               )}
             </div>
+          </div>
+        );
+
+      case 'finalQuiz':
+        const questionEmojis = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+        const optionLabels = ['a)', 'b)', 'c)', 'd)'];
+        
+        return (
+          <div className="space-y-6">
+            <div className="text-center">
+              <div className="w-16 h-16 mx-auto bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full flex items-center justify-center mb-4">
+                <Zap className="w-8 h-8 text-white" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0A4D68] mb-2">
+                🧭 {currentStepData.title}
+              </h2>
+              {currentStepData.content && (
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  {currentStepData.content}
+                </p>
+              )}
+            </div>
+
+            <Card className="border-2 border-purple-200 bg-purple-50">
+              <CardContent className="p-6">
+                <div className="space-y-6">
+                  {currentStepData.questions?.map((question, qIndex) => (
+                    <div key={qIndex} className="bg-white rounded-lg p-5 border border-purple-100">
+                      <div className="font-semibold text-[#0A4D68] mb-3 text-lg">
+                        {questionEmojis[qIndex]} {question.question}
+                      </div>
+                      <div className="space-y-2 ml-6">
+                        {question.options.map((option, oIndex) => (
+                          <div 
+                            key={oIndex} 
+                            className={cn(
+                              "flex items-start gap-2 text-gray-700",
+                              oIndex === question.correctAnswer && "font-medium text-green-700"
+                            )}
+                          >
+                            <span className="font-mono">{optionLabels[oIndex]}</span>
+                            <span>
+                              {option}
+                              {oIndex === question.correctAnswer && ' ✅'}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         );
 
