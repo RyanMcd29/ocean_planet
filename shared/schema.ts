@@ -114,6 +114,7 @@ export const diveSites = pgTable("dive_sites", {
   userExperienceNotes: text("user_experience_notes"),
   diveSiteLayout: text("dive_site_layout"),
   conservationPark: text("conservation_park"),
+  linkedLessonId: text("linked_lesson_id"),
 });
 
 export const insertDiveSiteSchema = createInsertSchema(diveSites).omit({
