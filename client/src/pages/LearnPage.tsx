@@ -12,7 +12,7 @@ import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
 import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, whaleScience101Lesson, trackingTechLesson, ecosystemGuardiansLesson, type EnhancedLesson } from "@/data/enhancedLessons";
 
-import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin, Scroll, Whale, Navigation, Atom, Sprout, Droplet, Dna, Moon, Wheat, Shell, Mountain, Zap } from "lucide-react";
+import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin, FileText, Anchor, Navigation, Atom, Sprout, Droplet, Dna, Moon, TreePine, Sparkles, Mountain, Zap } from "lucide-react";
 
 const categories = [
   { id: "ocean-literacy", name: "Ocean Literacy", icon: <Compass className="h-5 w-5" /> },
@@ -20,8 +20,8 @@ const categories = [
   { id: "species-identification", name: "Species ID", icon: <Fish className="h-5 w-5" /> },
   { id: "conservation", name: "Conservation", icon: <Waves className="h-5 w-5" /> },
   { id: "marine-research", name: "Marine Research", icon: <Thermometer className="h-5 w-5" /> },
-  { id: "maritime-history", name: "Maritime History", icon: <Scroll className="h-5 w-5" /> },
-  { id: "marine-mammals", name: "Marine Mammals", icon: <Whale className="h-5 w-5" /> },
+  { id: "maritime-history", name: "Maritime History", icon: <FileText className="h-5 w-5" /> },
+  { id: "marine-mammals", name: "Marine Mammals", icon: <Fish className="h-5 w-5" /> },
   { id: "ocean-literacy-principles", name: "Ocean Literacy Principles", icon: <Waves className="h-5 w-5" /> },
   { id: "human-ocean-interaction", name: "Human–Ocean Interaction", icon: <Navigation className="h-5 w-5" /> },
   { id: "basic-oceanic-physics", name: "Basic Oceanic Physics", icon: <Atom className="h-5 w-5" /> },
@@ -29,8 +29,8 @@ const categories = [
   { id: "diving-ethics", name: "Diving Ethics", icon: <Droplet className="h-5 w-5" /> },
   { id: "biology-knowledge", name: "Biology Knowledge", icon: <Dna className="h-5 w-5" /> },
   { id: "deep-sea", name: "Deep Sea", icon: <Moon className="h-5 w-5" /> },
-  { id: "estuarine-environments", name: "Estuarine Environments", icon: <Wheat className="h-5 w-5" /> },
-  { id: "cephalopods", name: "Cephalopods", icon: <Shell className="h-5 w-5" /> },
+  { id: "estuarine-environments", name: "Estuarine Environments", icon: <TreePine className="h-5 w-5" /> },
+  { id: "cephalopods", name: "Cephalopods", icon: <Sparkles className="h-5 w-5" /> },
   { id: "marine-ecology", name: "Marine Ecology", icon: <Fish className="h-5 w-5" /> },
   { id: "marine-geology", name: "Marine Geology", icon: <Mountain className="h-5 w-5" /> },
   { id: "ocean-energy", name: "Ocean Energy", icon: <Zap className="h-5 w-5" /> },
