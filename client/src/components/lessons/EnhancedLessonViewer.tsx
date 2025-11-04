@@ -126,6 +126,25 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
     }
   };
 
+  const renderMarkdown = (text: string) => {
+    if (!text) return null;
+    
+    const parts = text.split(/(\*\*.*?\*\*|\n)/g);
+    
+    return parts.map((part, index) => {
+      if (part === '\n') {
+        return <br key={index} />;
+      }
+      
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2);
+        return <strong key={index} className="font-semibold">{boldText}</strong>;
+      }
+      
+      return <span key={index}>{part}</span>;
+    });
+  };
+
   const getStepIcon = (type: string, index: number) => {
     const icons = {
       intro: <Star className="w-5 h-5" />,
