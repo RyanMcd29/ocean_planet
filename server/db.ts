@@ -11,8 +11,11 @@ neonConfig.pipelineConnect = false;
 neonConfig.fetchFunction = fetch;
 
 if (!process.env.DATABASE_URL) {
+  console.error('⚠️  WARNING: DATABASE_URL is not set!');
+  console.error('⚠️  The application will not work without a database.');
+  console.error('⚠️  Please provision a database in your Replit deployment.');
   throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
+    "DATABASE_URL must be set. Did you forget to provision a database in the deployment configuration?",
   );
 }
 
