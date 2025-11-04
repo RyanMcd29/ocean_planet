@@ -1,0 +1,76 @@
+Prompt for Replit agent
+
+Please update my OceanPlanet project so that every mini-lesson in the Learn section can have a “Sources & Further Reading” slide at the end.
+
+What I want:
+
+Each lesson should support an optional Sources & Further Reading section.
+
+If a lesson has sources defined in its data, the app should automatically add a final slide titled “Sources & Further Reading” that lists those sources as clickable links (opening in a new tab).
+
+If a lesson has no sources defined, nothing should break – it just won’t show that final slide.
+
+Apply this now to the Maritime History mini-lesson (Long Jetty):
+
+Add a Sources & Further Reading section with these four items:
+
+WA Museum – Long Jetty, Fremantle Maritime Heritage Trail
+
+https://museum.wa.gov.au/maritime-heritage-trails/fremantle/long-jetty
+
+Heritage Council WA – Fremantle Long Jetty Site Record
+
+https://inherit.stateheritage.wa.gov.au/Public/Inventory/Details/1f4f05c0-fbe9-4b8f-8f79-3c6a1a95a7a2
+
+WA Shipwrecks Museum – Maritime Archaeology of Fremantle
+
+https://museum.wa.gov.au/museums/wa-shipwrecks
+
+City of Fremantle – Bathers Beach Precinct History
+
+https://www.fremantle.wa.gov.au/facilities/bathers-beach
+
+And for Camilla Wreck
+Prompt for Replit agent
+
+Please update my OceanPlanet project so that every mini-lesson in the Learn section can have a “Sources & Further Reading” slide at the end.
+
+What I want:
+
+Each lesson should support an optional Sources & Further Reading section.
+
+If a lesson has sources defined in its data, the app should automatically add a final slide titled “Sources & Further Reading” that lists those sources as clickable links (opening in a new tab).
+
+If a lesson has no sources defined, nothing should break – it just won’t show that final slide.
+
+Apply this now to the Maritime History mini-lesson (Long Jetty):
+
+Add a Sources & Further Reading section with these four items:
+
+WA Museum – Long Jetty, Fremantle Maritime Heritage Trail
+
+https://museum.wa.gov.au/maritime-heritage-trails/fremantle/long-jetty
+
+Heritage Council WA – Fremantle Long Jetty Site Record
+
+https://inherit.stateheritage.wa.gov.au/Public/Inventory/Details/1f4f05c0-fbe9-4b8f-8f79-3c6a1a95a7a2
+
+WA Shipwrecks Museum – Maritime Archaeology of Fremantle
+
+https://museum.wa.gov.au/museums/wa-shipwrecks
+
+City of Fremantle – Bathers Beach Precinct History
+
+https://www.fremantle.wa.gov.au/facilities/bathers-beach
+
+Important:
+
+Make this system reusable so I can easily add sources to other lessons just by editing the lesson data (not the components).
+
+Keep the existing Learn navigation, slide controls, and layout working exactly as they are.
+
+Important:
+
+Make this system reusable so I can easily add sources to other lessons just by editing the lesson data (not the components).
+
+Keep the existing Learn navigation, slide controls, and layout working exactly as they are.

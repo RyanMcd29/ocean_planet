@@ -1,5 +1,10 @@
+export interface SourceItem {
+  title: string;
+  url: string;
+}
+
 export interface EnhancedLessonStep {
-  type: 'intro' | 'text' | 'image' | 'funFact' | 'quiz' | 'conclusion';
+  type: 'intro' | 'text' | 'image' | 'funFact' | 'quiz' | 'conclusion' | 'sources';
   title: string;
   content: string;
   image?: string;
@@ -9,6 +14,7 @@ export interface EnhancedLessonStep {
   explanation?: string;
   highlight?: string;
   icon?: string;
+  sources?: SourceItem[];
 }
 
 export interface EnhancedLesson {
