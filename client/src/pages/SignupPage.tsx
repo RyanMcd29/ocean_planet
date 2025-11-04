@@ -10,10 +10,12 @@ import { Waves, Mail, Lock, User, Eye, EyeOff, Globe } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SignupPage() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -40,22 +42,29 @@ export default function SignupPage() {
 
   const registrationMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
-      return apiRequest('POST', '/api/users/register', data);
+      return apiRequest('/api/users/register', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
     },
     onSuccess: async (response) => {
-      try {
-        const data = await response.json();
-        toast({
-          title: "Welcome to Ocean Planet!",
-          description: "Your account has been created successfully.",
-        });
+      const data = await response.json();
+      toast({
+        title: "Welcome to Ocean Planet!",
+        description: "Your account has been created successfully. Logging you in...",
+      });
+      
+      // Log the user in automatically after successful registration
+      const loginResult = await login(formData.email, formData.password);
+      if (loginResult.success) {
         setLocation("/profile");
-      } catch (error) {
+      } else {
+        // If auto-login fails, redirect to login page
         toast({
-          title: "Registration Failed",
-          description: "There was an error processing your registration.",
-          variant: "destructive",
+          title: "Please Log In",
+          description: "Your account was created successfully. Please log in to continue.",
         });
+        setLocation("/login");
       }
     },
     onError: (error: any) => {
