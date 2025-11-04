@@ -59,6 +59,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
   const [showAnimation, setShowAnimation] = useState(false);
   const [finalQuizAnswers, setFinalQuizAnswers] = useState<Map<number, number>>(new Map());
   const [finalQuizFeedback, setFinalQuizFeedback] = useState<Set<number>>(new Set());
+  const [scoredFinalQuizQuestions, setScoredFinalQuizQuestions] = useState<Set<number>>(new Set());
 
   const currentStepData = lesson.steps[currentStep];
   const isLastStep = currentStep === lesson.steps.length - 1;
@@ -112,6 +113,17 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
     const newFeedback = new Set(finalQuizFeedback);
     newFeedback.add(questionIndex);
     setFinalQuizFeedback(newFeedback);
+    
+    // Track score for this final quiz question (only once)
+    if (!scoredFinalQuizQuestions.has(questionIndex) && currentStepData.questions) {
+      const question = currentStepData.questions[questionIndex];
+      const isCorrect = answerIndex === question.correctAnswer;
+      setScore(prev => ({ 
+        correct: prev.correct + (isCorrect ? 1 : 0), 
+        total: prev.total + 1 
+      }));
+      setScoredFinalQuizQuestions(prev => new Set(prev).add(questionIndex));
+    }
   };
 
   const getStepIcon = (type: string, index: number) => {
