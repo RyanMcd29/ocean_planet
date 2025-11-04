@@ -636,7 +636,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                           <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
                         </div>
                         <button 
-                          onClick={() => setLocation('/learn')}
+                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
                           data-lesson-id={linkedLesson.id}
                           className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
                         >
@@ -845,7 +845,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                           <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
                         </div>
                         <button 
-                          onClick={() => setLocation('/learn')}
+                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
                           data-lesson-id={linkedLesson.id}
                           className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
                         >
@@ -1048,7 +1048,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                           <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
                         </div>
                         <button 
-                          onClick={() => setLocation('/learn')}
+                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
                           data-lesson-id={linkedLesson.id}
                           className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
                         >
@@ -1258,7 +1258,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                           <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
                         </div>
                         <button 
-                          onClick={() => setLocation('/learn')}
+                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
                           data-lesson-id={linkedLesson.id}
                           className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
                         >
@@ -1462,7 +1462,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                           <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
                         </div>
                         <button 
-                          onClick={() => setLocation('/learn')}
+                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
                           data-lesson-id={linkedLesson.id}
                           className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
                         >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -381,6 +381,19 @@ export default function LearnPage() {
   const filteredLessons = allLessons.filter(lesson => 
     selectedCategory === "all" ? true : lesson.category === selectedCategory
   );
+
+  // Auto-open lesson from query parameter
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const lessonId = params.get('lesson');
+    
+    if (lessonId) {
+      const lesson = allLessons.find(l => l.enhancedLessonData?.id === lessonId);
+      if (lesson) {
+        handleLessonClick(lesson);
+      }
+    }
+  }, []);
 
   const handleLessonClick = (lesson: any) => {
     if (lesson.isEnhanced && lesson.enhancedLessonData) {
