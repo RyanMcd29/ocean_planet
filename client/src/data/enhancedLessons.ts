@@ -3,8 +3,14 @@ export interface SourceItem {
   url: string;
 }
 
+export interface FinalQuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number;
+}
+
 export interface EnhancedLessonStep {
-  type: 'intro' | 'text' | 'image' | 'funFact' | 'quiz' | 'conclusion' | 'sources';
+  type: 'intro' | 'text' | 'image' | 'funFact' | 'quiz' | 'finalQuiz' | 'conclusion' | 'sources';
   title: string;
   content: string;
   image?: string;
@@ -15,6 +21,7 @@ export interface EnhancedLessonStep {
   highlight?: string;
   icon?: string;
   sources?: SourceItem[];
+  questions?: FinalQuizQuestion[];
 }
 
 export interface EnhancedLesson {
