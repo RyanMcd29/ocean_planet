@@ -309,10 +309,29 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
               🎉
             </div>
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-[#0A4D68] mb-4">
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0A4D68] mb-6">
                 {currentStepData.title}
               </h2>
-              <div className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto mb-6 text-left">
+              
+              {score.total > 0 && (
+                <Card className="max-w-md mx-auto bg-gradient-to-r from-green-50 to-blue-50 border-green-200 mb-6">
+                  <CardContent className="p-6">
+                    <h3 className="text-lg font-semibold text-green-800 mb-2">Your Quiz Score</h3>
+                    <div className="text-3xl font-bold text-green-600 mb-2">
+                      {score.correct}/{score.total}
+                    </div>
+                    <p className="text-green-700 text-sm">
+                      {score.correct === score.total 
+                        ? "Perfect! You're an ocean expert!" 
+                        : score.correct >= score.total * 0.7
+                        ? "Great job! You really know your stuff!"
+                        : "Good effort! Keep learning about our oceans!"}
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+              
+              <div className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto text-left">
                 {/* Parse and format the content */}
                 {currentStepData.content.split('\n').map((paragraph, index) => {
                   if (paragraph.trim() === '') return null;
@@ -371,23 +390,6 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
                   );
                 })}
               </div>
-              {score.total > 0 && (
-                <Card className="max-w-md mx-auto bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
-                  <CardContent className="p-6">
-                    <h3 className="text-lg font-semibold text-green-800 mb-2">Your Quiz Score</h3>
-                    <div className="text-3xl font-bold text-green-600 mb-2">
-                      {score.correct}/{score.total}
-                    </div>
-                    <p className="text-green-700 text-sm">
-                      {score.correct === score.total 
-                        ? "Perfect! You're an ocean expert!" 
-                        : score.correct >= score.total * 0.7
-                        ? "Great job! You really know your stuff!"
-                        : "Good effort! Keep learning about our oceans!"}
-                    </p>
-                  </CardContent>
-                </Card>
-              )}
             </div>
           </div>
         );
