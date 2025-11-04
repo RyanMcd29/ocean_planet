@@ -181,7 +181,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
                 {currentStepData.title}
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
-                {currentStepData.content}
+                {renderMarkdown(currentStepData.content)}
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-3">
@@ -220,7 +220,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
             </div>
             <div className="bg-blue-50 rounded-lg p-4">
               <p className="text-gray-700 leading-relaxed">
-                {currentStepData.content}
+                {renderMarkdown(currentStepData.content)}
               </p>
             </div>
           </div>
@@ -239,7 +239,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
                     💡 {currentStepData.title}
                   </h3>
                   <p className="text-orange-700 leading-relaxed">
-                    {currentStepData.content}
+                    {renderMarkdown(currentStepData.content)}
                   </p>
                 </div>
               </div>
@@ -313,7 +313,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
                 {showFeedback && currentStepData.explanation && (
                   <div className="mt-6 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
                     <p className="text-blue-800 font-medium mb-2">Explanation:</p>
-                    <p className="text-blue-700">{currentStepData.explanation}</p>
+                    <p className="text-blue-700">{renderMarkdown(currentStepData.explanation)}</p>
                   </div>
                 )}
               </CardContent>
@@ -427,7 +427,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
               </h2>
               {currentStepData.content && (
                 <p className="text-gray-600 max-w-2xl mx-auto mb-2">
-                  {currentStepData.content}
+                  {renderMarkdown(currentStepData.content)}
                 </p>
               )}
             </div>
@@ -441,7 +441,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
                   <Card key={qIndex} className="border-2 border-purple-200 bg-purple-50">
                     <CardContent className="p-6">
                       <p className="text-lg font-medium text-purple-900 mb-4">
-                        {questionEmojis[qIndex]} {question.question}
+                        {questionEmojis[qIndex]} {renderMarkdown(question.question)}
                       </p>
                       
                       <div className="space-y-3">
@@ -555,8 +555,8 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
             </div>
             
             <div className="prose prose-lg max-w-none">
-              <div className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {currentStepData.content}
+              <div className="text-gray-700 leading-relaxed">
+                {renderMarkdown(currentStepData.content)}
               </div>
             </div>
 
@@ -564,7 +564,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
               <Card className="border-l-4 border-[#05BFDB] bg-blue-50">
                 <CardContent className="p-4">
                   <p className="text-[#088395] font-medium">
-                    💡 {currentStepData.highlight}
+                    💡 {renderMarkdown(currentStepData.highlight)}
                   </p>
                 </CardContent>
               </Card>
