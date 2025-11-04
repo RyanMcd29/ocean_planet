@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, X, CheckCircle, XCircle, Lightbulb, Fish, Waves, Heart, Zap, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, CheckCircle, XCircle, Lightbulb, Fish, Waves, Heart, Zap, Star, BookOpen, ExternalLink } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 
+interface SourceItem {
+  title: string;
+  url: string;
+}
+
 interface LessonStep {
-  type: 'intro' | 'text' | 'image' | 'funFact' | 'quiz' | 'conclusion';
+  type: 'intro' | 'text' | 'image' | 'funFact' | 'quiz' | 'conclusion' | 'sources';
   title: string;
   content: string;
   image?: string;
@@ -17,6 +22,7 @@ interface LessonStep {
   explanation?: string;
   highlight?: string;
   icon?: string;
+  sources?: SourceItem[];
 }
 
 interface EnhancedLesson {
@@ -96,7 +102,8 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
       image: <Waves className="w-5 h-5" />,
       funFact: <Lightbulb className="w-5 h-5" />,
       quiz: <Zap className="w-5 h-5" />,
-      conclusion: <Heart className="w-5 h-5" />
+      conclusion: <Heart className="w-5 h-5" />,
+      sources: <BookOpen className="w-5 h-5" />
     };
     return icons[type as keyof typeof icons] || <Fish className="w-5 h-5" />;
   };
@@ -350,6 +357,53 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
                 </Card>
               )}
             </div>
+          </div>
+        );
+
+      case 'sources':
+        return (
+          <div className="space-y-6">
+            <div className="text-center">
+              <div className="w-20 h-20 mx-auto bg-gradient-to-r from-indigo-400 to-purple-500 rounded-full flex items-center justify-center text-white text-3xl mb-4">
+                📚
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-[#0A4D68] mb-2">
+                {currentStepData.title}
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                {currentStepData.content}
+              </p>
+            </div>
+
+            <Card className="border-2 border-indigo-200 bg-indigo-50">
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {currentStepData.sources?.map((source, index) => (
+                    <a
+                      key={index}
+                      href={source.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-testid={`link-source-${index}`}
+                      className="flex items-start gap-3 p-4 bg-white rounded-lg border border-indigo-200 hover:border-indigo-400 hover:shadow-md transition-all duration-200 group"
+                    >
+                      <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-indigo-200 transition-colors">
+                        <BookOpen className="w-5 h-5 text-indigo-600" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-[#0A4D68] group-hover:text-indigo-600 transition-colors">
+                          {source.title}
+                        </div>
+                        <div className="text-sm text-gray-500 truncate mt-1">
+                          {source.url}
+                        </div>
+                      </div>
+                      <ExternalLink className="w-5 h-5 text-indigo-400 flex-shrink-0 group-hover:text-indigo-600 transition-colors" />
+                    </a>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
           </div>
         );
 
