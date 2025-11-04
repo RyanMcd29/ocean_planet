@@ -135,12 +135,32 @@ app.use((req, res, next) => {
       ADD COLUMN IF NOT EXISTS unique_features text,
       ADD COLUMN IF NOT EXISTS user_experience_notes text,
       ADD COLUMN IF NOT EXISTS dive_site_layout text,
-      ADD COLUMN IF NOT EXISTS conservation_park text
+      ADD COLUMN IF NOT EXISTS conservation_park text,
+      ADD COLUMN IF NOT EXISTS linked_lesson_id text
     `);
     
     console.log('Dive sites table migration completed');
   } catch (error: any) {
     console.log('Dive sites table migration may have already been completed or failed:', error.message);
+  }
+
+  // Link dive sites to their related lessons
+  try {
+    await db.execute(`
+      UPDATE dive_sites 
+      SET linked_lesson_id = 'maritime-history-camilla-wreck'
+      WHERE name = 'Camilla Wreck'
+    `);
+    
+    await db.execute(`
+      UPDATE dive_sites 
+      SET linked_lesson_id = 'long-jetty-maritime-history'
+      WHERE name = 'Long Jetty (Ocean Jetty)'
+    `);
+    
+    console.log('Dive site lesson links updated');
+  } catch (error: any) {
+    console.log('Error updating dive site lesson links:', error.message);
   }
 
   console.log('Database initialization complete');
