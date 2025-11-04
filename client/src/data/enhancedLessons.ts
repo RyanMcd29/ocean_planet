@@ -1790,8 +1790,45 @@ export const camillaWreckLesson: EnhancedLesson = {
       explanation: "3D digital mapping and modeling allows researchers to document and preserve the wreck's condition and details without physically disturbing the site."
     },
     {
+      type: "finalQuiz",
+      title: "Final Quiz",
+      content: "Test your knowledge of the Camilla wreck!",
+      questions: [
+        {
+          question: "Where did the Camilla wreck occur?",
+          options: [
+            "Near Rottnest Island",
+            "At Shark Bay",
+            "Inside Fremantle Harbour",
+            "Near Carnac Island"
+          ],
+          correctAnswer: 3
+        },
+        {
+          question: "What kind of ship was the Camilla?",
+          options: [
+            "Steam tug",
+            "Three-masted iron barque",
+            "Whaling schooner",
+            "Wooden brig"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "Why is the Camilla historically significant?",
+          options: [
+            "It was Australia's first steamship",
+            "It carried gold from Kalgoorlie",
+            "It represents WA's 19th-century trade and shipbuilding",
+            "It was built in Fremantle"
+          ],
+          correctAnswer: 2
+        }
+      ]
+    },
+    {
       type: "conclusion",
-      title: "You've Explored Maritime History!",
+      title: "What You Can Do",
       content: "Awesome work! You've dived into the story of the *Camilla* — where maritime history meets marine life.\n\n**What You Can Do:**\n\n- Visit or dive the wreck with **licensed, eco-conscious dive operators**\n- Never touch or take artefacts — enjoy by **looking, not collecting**\n- Support **maritime museums and heritage programs** that record and share these stories\n- Learn basic **wreck-diving etiquette** to help protect underwater heritage\n\nThe Camilla reminds us that our maritime past is still with us, transformed into living ecosystems beneath the waves."
     },
     {
