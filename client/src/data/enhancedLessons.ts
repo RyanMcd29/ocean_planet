@@ -1996,6 +1996,143 @@ export const longJettyLesson: EnhancedLesson = {
   ]
 };
 
+export const bunburyDolphinsLesson: EnhancedLesson = {
+  id: "bunbury-dolphins-marine-mammals",
+  title: "Bunbury's Bottlenose: The City Where Dolphins Meet the Shore",
+  description: "How dolphins thrive alongside people in Western Australia's coastal city",
+  category: "marine-mammals",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Welcome to Bunbury's Dolphin Community!",
+      content: "Imagine walking along Bunbury's waterfront and spotting wild dolphins just meters from shore. In Bunbury, bottlenose dolphins are part of daily life — swimming in the estuary, playing in the surf, and reminding us how close humans and marine mammals can live together.",
+      icon: "🐬"
+    },
+    {
+      type: "text",
+      title: "Dolphins in the City",
+      content: "**Bottlenose dolphins** (Tursiops aduncus in WA) are highly social, intelligent mammals.\n\nBunbury's **Koombana Bay hosts a resident population of ~100 dolphins**. They live in close contact with people — sharing waters with swimmers, fishers, and boats.\n\nThe **Dolphin Discovery Centre** supports research, eco-tourism, and education, helping people connect with these amazing animals while protecting them.",
+      highlight: "Bunbury has a resident population of about 100 Indo-Pacific bottlenose dolphins living right in the bay!"
+    },
+    {
+      type: "quiz",
+      title: "Dolphin Home",
+      content: "Where in WA is a resident population of bottlenose dolphins found near the city?",
+      options: [
+        "Perth Canyon",
+        "Ningaloo Reef",
+        "Shark Bay only",
+        "Koombana Bay, Bunbury"
+      ],
+      correctAnswer: 3,
+      explanation: "Koombana Bay in Bunbury hosts a unique resident population of about 100 Indo-Pacific bottlenose dolphins that live alongside the city's human residents."
+    },
+    {
+      type: "text",
+      title: "Who's Involved?",
+      content: "**Species:** Indo-Pacific bottlenose dolphins (Tursiops aduncus)\n\n**Community:** The Dolphin Discovery Centre connects people with dolphins through eco-tours and citizen science programs\n\n**Researchers:** Study dolphin health, population dynamics, and human impacts on the community\n\n**Tourists & Locals:** Experience dolphins through eco-cruises, beach encounters, and responsible wildlife watching",
+    },
+    {
+      type: "quiz",
+      title: "Community Connection",
+      content: "Which local organization connects people with Bunbury's dolphins?",
+      options: [
+        "Dolphin Discovery Centre",
+        "Whale Shark Watch",
+        "Ningaloo Reef Trust",
+        "Penguin Island Foundation"
+      ],
+      correctAnswer: 0,
+      explanation: "The Dolphin Discovery Centre in Bunbury provides eco-tours, research support, and educational programs that connect people with the resident dolphin population while promoting conservation."
+    },
+    {
+      type: "text",
+      title: "Living Alongside Humans",
+      content: "While Bunbury's dolphins are a treasure, sharing space with humans creates challenges:\n\n**🚤 Boat Traffic & Fishing Gear** — Risks of entanglement, injury, or boat strikes\n\n**🏭 Pollution** — Estuary health directly affects dolphin food supply and water quality\n\n**👥 Tourism Pressure** — Too much human interaction can stress dolphins and disrupt their natural behaviors\n\n**⚖️ Conservation Balance** — People want close encounters, but dolphins need space to thrive\n\nProtecting these dolphins means finding the right balance between enjoying their presence and giving them the respect and distance they need.",
+    },
+    {
+      type: "quiz",
+      title: "Coastal Challenges",
+      content: "What is one risk dolphins face in busy coastal areas?",
+      options: [
+        "Too much seaweed",
+        "Boat strikes and entanglement",
+        "Storms only",
+        "Lack of interest from tourists"
+      ],
+      correctAnswer: 1,
+      explanation: "In busy coastal areas like Bunbury, dolphins face risks from boat strikes, entanglement in fishing gear, pollution, and excessive human interaction that can disrupt their natural behaviors."
+    },
+    {
+      type: "finalQuiz",
+      title: "Test Your Dolphin Knowledge",
+      content: "Let's see what you've learned about Bunbury's bottlenose dolphins!",
+      questions: [
+        {
+          question: "What species of dolphin lives in Bunbury's Koombana Bay?",
+          options: [
+            "Humpback dolphin",
+            "Spinner dolphin",
+            "Common dolphin",
+            "Indo-Pacific bottlenose dolphin"
+          ],
+          correctAnswer: 3
+        },
+        {
+          question: "About how many dolphins live in Bunbury's resident population?",
+          options: [
+            "20",
+            "100",
+            "1,000",
+            "10,000"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "Why is it important to manage dolphin tourism carefully?",
+          options: [
+            "To avoid boring the tourists",
+            "To sell more tickets",
+            "To prevent stress and harm to dolphins",
+            "To reduce beach litter"
+          ],
+          correctAnswer: 2
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🐬 You're Now a Dolphin Guardian!",
+      content: "Great job! You've completed the lesson on Bunbury's bottlenose dolphins. You now understand how these intelligent animals live alongside humans and what we can do to protect them.\n\n**What You Can Do:**\n\n🐬 **Choose eco-certified dolphin tours** that follow safe distance rules and respect dolphin behavior\n\n🌊 **Support the Dolphin Discovery Centre** and their research and conservation programs\n\n♻️ **Reduce plastic waste** and pollution that flows into estuaries and coastal waters\n\n📣 **Share awareness** that wild dolphins are not entertainers — they're neighbors we must protect\n\n🏖️ **Observe responsibly** by keeping your distance and never feeding or touching wild dolphins\n\nCongratulations! You're now equipped to be a responsible dolphin advocate."
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about Bunbury's dolphins.",
+      sources: [
+        {
+          title: "Dolphin Discovery Centre – Koombana Bay Dolphins Research",
+          url: "https://dolphindiscovery.com.au/research/dolphins/"
+        },
+        {
+          title: "Department of Water and Environmental Regulation – Leschenault Estuary Dolphins",
+          url: "https://estuaries.dwer.wa.gov.au/estuary/leschenault-estuary/estuary/dolphins/"
+        },
+        {
+          title: "WA Holiday Guide – Dolphin Discovery Centre Visitor Guide",
+          url: "https://www.waholidayguide.com.au/blog/a-guide-to-bunbury-s-dolphin-discovery-centre-what-to-know-before-you-go"
+        },
+        {
+          title: "Heritage Council WA – Dolphin Discovery Centre Heritage Record",
+          url: "https://inherit.dplh.wa.gov.au/public/inventory/printsinglerecord/564b7832-81dc-484b-bf66-65f55ae38e89"
+        }
+      ]
+    }
+  ]
+};
+
 export const enhancedLessons = [
   bottomTrawlingLesson,
   leeuwincurrentLesson,
@@ -2015,5 +2152,6 @@ export const enhancedLessons = [
   trackingTechLesson,
   ecosystemGuardiansLesson,
   camillaWreckLesson,
-  longJettyLesson
+  longJettyLesson,
+  bunburyDolphinsLesson
 ];
