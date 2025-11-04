@@ -54,7 +54,16 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
   
   const { data: diveSites, isLoading, error } = useQuery({
     queryKey: ['/api/dive-sites', searchQuery, filters],
-    queryFn: () => fetchDiveSites(searchQuery, filters)
+    queryFn: async () => {
+      try {
+        const result = await fetchDiveSites(searchQuery, filters);
+        console.log('Dive sites fetched successfully:', result?.length);
+        return result;
+      } catch (err) {
+        console.error('Error fetching dive sites:', err);
+        throw err;
+      }
+    }
   });
 
   // Reset initialization when authentication status changes
@@ -122,9 +131,13 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
   }
   
   if (error) {
+    console.error('DiveMap error state:', error);
     return (
       <div className="w-full h-full flex items-center justify-center bg-[#E0F7FA]">
-        <p className="text-[#EB6440] font-semibold">Failed to load dive sites</p>
+        <div className="text-center">
+          <p className="text-[#EB6440] font-semibold mb-2">Failed to load dive sites</p>
+          <p className="text-sm text-gray-600">{error instanceof Error ? error.message : 'Unknown error'}</p>
+        </div>
       </div>
     );
   }
