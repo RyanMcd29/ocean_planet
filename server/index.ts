@@ -148,7 +148,7 @@ app.use((req, res, next) => {
   try {
     await db.execute(`
       UPDATE dive_sites 
-      SET linked_lesson_id = 'maritime-history-camilla-wreck'
+      SET linked_lesson_id = 'camilla-wreck-maritime-history'
       WHERE name = 'Camilla Wreck'
     `);
     
