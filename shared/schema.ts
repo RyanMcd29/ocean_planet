@@ -440,3 +440,60 @@ export const updateProfileSchema = z.object({
 });
 
 export type UpdateProfile = z.infer<typeof updateProfileSchema>;
+
+// Lesson progress table - tracks completed lessons for each user
+export const lessonProgress = pgTable("lesson_progress", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  lessonId: text("lesson_id").notNull(), // e.g., "bunbury-bottlenose-dolphins"
+  completedAt: timestamp("completed_at").defaultNow().notNull(),
+}, (table) => ({
+  // Prevent duplicate completion records for the same lesson
+  userLessonUnique: unique().on(table.userId, table.lessonId),
+}));
+
+// Category badges table - tracks earned badges when users complete all lessons in a category
+export const categoryBadges = pgTable("category_badges", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  category: text("category").notNull(), // e.g., "marine-mammals"
+  badgeName: text("badge_name").notNull(), // e.g., "Whale Expert"
+  badgeIcon: text("badge_icon").notNull(), // e.g., "🐋"
+  unlockedAt: timestamp("unlocked_at").defaultNow().notNull(),
+}, (table) => ({
+  // Prevent duplicate badges for the same category
+  userCategoryBadgeUnique: unique().on(table.userId, table.category),
+}));
+
+// Define relations for lesson progress
+export const lessonProgressRelations = relations(lessonProgress, ({ one }) => ({
+  user: one(users, {
+    fields: [lessonProgress.userId],
+    references: [users.id],
+  }),
+}));
+
+// Define relations for category badges
+export const categoryBadgesRelations = relations(categoryBadges, ({ one }) => ({
+  user: one(users, {
+    fields: [categoryBadges.userId],
+    references: [users.id],
+  }),
+}));
+
+// Lesson progress schemas and types
+export const insertLessonProgressSchema = createInsertSchema(lessonProgress).omit({
+  id: true,
+  completedAt: true,
+});
+
+export const insertCategoryBadgeSchema = createInsertSchema(categoryBadges).omit({
+  id: true,
+  unlockedAt: true,
+});
+
+export type LessonProgress = typeof lessonProgress.$inferSelect;
+export type InsertLessonProgress = z.infer<typeof insertLessonProgressSchema>;
+
+export type CategoryBadge = typeof categoryBadges.$inferSelect;
+export type InsertCategoryBadge = z.infer<typeof insertCategoryBadgeSchema>;
