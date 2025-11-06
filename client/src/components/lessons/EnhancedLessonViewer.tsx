@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 interface SourceItem {
   title: string;
@@ -51,6 +54,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
   lesson,
   onClose
 }) => {
+  const { toast } = useToast();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -60,6 +64,47 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
   const [finalQuizAnswers, setFinalQuizAnswers] = useState<Map<number, number>>(new Map());
   const [finalQuizFeedback, setFinalQuizFeedback] = useState<Set<number>>(new Set());
   const [scoredFinalQuizQuestions, setScoredFinalQuizQuestions] = useState<Set<number>>(new Set());
+
+  // Mutation to mark lesson as complete
+  const completeLessonMutation = useMutation({
+    mutationFn: async () => {
+      return await apiRequest(`/api/progress/${lesson.id}`, {
+        method: 'POST',
+      });
+    },
+    onSuccess: (data) => {
+      // Invalidate progress and badges queries to refresh the data
+      queryClient.invalidateQueries({ queryKey: ['/api/progress'] });
+      queryClient.invalidateQueries({ queryKey: ['/api/badges'] });
+      
+      // Show success message
+      if (data.badge) {
+        toast({
+          title: "🎉 Badge Unlocked!",
+          description: `You've earned the ${data.badge.badgeName} ${data.badge.badgeIcon} badge!`,
+        });
+      } else {
+        toast({
+          title: "✅ Lesson Complete!",
+          description: "Great work! Keep exploring to unlock badges.",
+        });
+      }
+      
+      // Close the lesson viewer
+      onClose();
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to save progress. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleCompleteLesson = () => {
+    completeLessonMutation.mutate();
+  };
 
   const currentStepData = lesson.steps[currentStep];
   const isLastStep = currentStep === lesson.steps.length - 1;
@@ -640,10 +685,11 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
             {isLastStep ? (
               <Button
-                onClick={onClose}
-                className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-2"
+                onClick={handleCompleteLesson}
+                disabled={completeLessonMutation.isPending}
+                className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-2 disabled:opacity-50"
               >
-                Complete
+                {completeLessonMutation.isPending ? "Saving..." : "Complete"}
                 <CheckCircle className="w-4 h-4" />
               </Button>
             ) : (
