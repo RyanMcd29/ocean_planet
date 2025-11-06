@@ -1,0 +1,93 @@
+## 1. 📰 “Posts” – simple ocean community feed
+
+**Goal:** Let people share quick updates, trip reports, photos, questions.
+
+**MVP content for each post:**
+
+- Author name / handle
+- Timestamp
+- Text content (max length so it stays snackable)
+- Optional:
+    - Photo or link
+    - Tag(s): e.g. *Dive report*, *Question*, *Ocean fact*, *Gear chat*
+    - Location or dive site (linked to your dive site pages later)
+    - Species spotted
+
+**Basic interactions (MVP):**
+
+- ❤️ Like / “Wave” reaction
+- 💬 Comments (even just a simple text thread)
+- 🚩 Report button (for spam / inappropriate content)
+
+**Filters (keep it light at first):**
+
+- Sort by: *Newest* / *Most liked / by region*
+- Optional filter by tag: *Dive report*, *Beach cleanup stories*, *Questions*, etc.
+
+UI idea:
+
+- Tab title: **Posts**
+- Big button: **“+ New Post”**
+- Example Card style:
+    - `Alex • 2h ago • Dive report`
+    - `Text`
+    - `[Photo]`
+    - `❤️ 12 💬 3`
+
+---
+
+## 2. 📅 “Events” – ocean & local meetup hub
+
+**Goal:** A simple, structured way to share **ocean-related events near users**, especially:
+
+- Dive group meetups
+- Shore & underwater clean-ups
+- Talks, conferences, film nights
+- Citizen science days, snorkel surveys
+
+### Event fields (MVP)
+
+For each event, capture:
+
+- **Event name**
+- **Type:** Dive Trip, Beach Clean up, Talk / Lecture, Film Festival/ Film Night, Workshop, Other
+- **Date & time** (start; end optional)
+- **Location**
+    - City / region
+    - Optional: specific dive site / GPS
+- **Organizer name** (dive shop, uni club, NGO, or person)
+- **Short description** (what, who, skill level, gear needed)
+- **Link** (website, Facebook event, ticketing, etc.)
+- **Cost**: `Free` or `$` text field
+
+### MVP actions
+
+- Users can:
+    - **Create an event**
+    - **View event details**
+    - Click **“More info / Register”** → opens external link
+- Later extras you can add:
+    - “I’m interested / going”
+    - Export to calendar
+    - Event chat
+    - Share with a friend via the app Ocean Planet or Social medie eg. Facebook, Instagram, Tik Tok
+
+### Filters / browsing
+
+Keep it super simple:
+
+- Filter by **Location** (e.g. “Near me” or region list: Perth, Albany, Exmouth…)
+- Filter by **Date**: *This week*, *This month*, *All*
+- Filter by **Type** (same dropdown values as above)
+
+UI idea:
+
+- Tab title: **Events**
+- Button: **“+ Add Event”**
+- Example List of event cards:
+    - `Beach Cleanup – Coogee Jetty`
+    - `Sat 23 Nov • 8:00–11:00`
+    - `Coogee Beach, WA`
+    - `Organiser: Perth Scuba`
+    - `Type: Beach cleanup • Free`
+    - Button: **View details** / **More info**
