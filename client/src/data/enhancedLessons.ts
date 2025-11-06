@@ -2685,6 +2685,145 @@ export const humpbackHighwayLesson: EnhancedLesson = {
   ]
 };
 
+export const orcaMysteriesLesson: EnhancedLesson = {
+  id: "orca-mysteries-bremer-bay",
+  title: "Orca Mysteries: The Apex Predators of Bremer Bay",
+  description: "WA's deep canyon hosts one of the ocean's most powerful hunters",
+  category: "marine-mammals",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🐋 Welcome to Orca Country!",
+      content: "Every summer, hundreds of orcas gather off Bremer Bay, turning the remote south coast of WA into a hotspot for whale watchers and scientists. 🐋⚡\n\nKnown as **apex predators**, orcas (killer whales) sit at the very top of the food chain — but much about their lives in WA remains a mystery.",
+      icon: "🐋"
+    },
+    {
+      type: "text",
+      title: "🧠 Meet the Ocean's Top Predator",
+      content: "Orcas (*Orcinus orca*) are extraordinary marine mammals that challenge many assumptions:\n\n**🐬 Dolphin Family**: Despite being called 'killer whales,' orcas are actually the **largest members of the dolphin family**\n\n**👨‍👩‍👧‍👦 Complex Social Lives**: They live in pods with intricate family structures and cultural traditions passed down through generations\n\n**🗺️ Global Hotspot**: Bremer Bay Canyon is one of the **best places in the world** to see orcas in their natural habitat\n\n**🍽️ Mysterious Gatherings**: Scientists still don't fully understand why they congregate there — likely to hunt squid, beaked whales, and other deep-sea prey\n\n**🧬 Cultural Diversity**: Different orca populations have distinct hunting techniques, vocalizations, and social behaviors\n\nThese intelligent predators are among the ocean's most fascinating and least understood creatures.",
+      highlight: "Orcas are the largest members of the dolphin family, not true whales!"
+    },
+    {
+      type: "quiz",
+      title: "Orca Family Tree",
+      content: "What family do orcas belong to?",
+      options: [
+        "Whale family",
+        "Dolphin family",
+        "Seal family",
+        "Shark family"
+      ],
+      correctAnswer: 1,
+      explanation: "Despite their common name 'killer whale,' orcas are actually the largest members of the dolphin family (Delphinidae). They're more closely related to bottlenose dolphins than to true whales!"
+    },
+    {
+      type: "text",
+      title: "🐠 Life in the Bremer Bay Ecosystem",
+      content: "Understanding orcas at Bremer Bay means understanding the entire ecosystem they influence:\n\n**Species Community**: Orcas share these waters with sperm whales, pilot whales, beaked whales, and giant squid creating a dynamic predator-prey network\n\n**Research Teams**: Scientists track hunting behavior, record acoustic communications, and study genetics to understand population structure\n\n**Eco-Tourism**: Responsible tour operators offer cruises that bring people face-to-face with wild orcas while supporting conservation\n\n**Economic Impact**: Whale watching brings tourists, photographers, and marine enthusiasts to the remote south coast, supporting local businesses\n\n**Conservation Partners**: Wildlife groups work to protect the canyon ecosystem and minimize human disturbance to these apex predators\n\nThe Bremer Bay gathering represents one of nature's most spectacular annual events.",
+      highlight: "Bremer Bay offers one of the world's most reliable orca viewing experiences!"
+    },
+    {
+      type: "quiz",
+      title: "Canyon Companions",
+      content: "What other large animals are often seen with orcas at Bremer Bay?",
+      options: [
+        "Crocodiles",
+        "Penguins",
+        "Sperm whales",
+        "Dugongs"
+      ],
+      correctAnswer: 2,
+      explanation: "Sperm whales are frequently observed alongside orcas at Bremer Bay Canyon. The deep waters attract multiple apex predators and their prey, creating a unique opportunity to observe complex marine food web interactions."
+    },
+    {
+      type: "text",
+      title: "🌊 Mysteries and Challenges",
+      content: "Despite decades of observation, Bremer Bay's orcas still hold many secrets:\n\n**🍽️ Dietary Mysteries**: Scientists are still uncovering what orcas hunt in the canyon — likely targeting giant squid, sharks, beaked whales, and other deep-sea prey\n\n**🔊 Noise Pollution**: Ship traffic and industrial noise can interfere with orca communication and echolocation, critical for hunting\n\n**⚖️ Ecosystem Engineers**: As apex predators, orcas shape prey populations and influence the entire marine food web structure\n\n**👥 Tourism Balance**: Eco-cruises bring awareness and economic support but must be carefully managed to minimize disturbance\n\n**🌡️ Climate Impacts**: Changes in ocean temperature and currents may affect prey distribution and orca feeding success\n\n**🧬 Population Questions**: Researchers are still determining how many distinct orca populations use the canyon and where they go the rest of the year\n\nUnderstanding these challenges is crucial for protecting this remarkable gathering.",
+      highlight: "Orcas at Bremer Bay may be hunting some of the ocean's most elusive deep-sea creatures!"
+    },
+    {
+      type: "quiz",
+      title: "Research Importance",
+      content: "Why is Bremer Bay important for orca research?",
+      options: [
+        "It is one of the few predictable gathering sites",
+        "Orcas are bred there",
+        "It is a whale sanctuary only",
+        "Orcas migrate there to hibernate"
+      ],
+      correctAnswer: 0,
+      explanation: "Bremer Bay is one of the few places in the world where orcas gather predictably each summer, making it invaluable for research. This regularity allows scientists to study the same individuals and pods over many years, revealing insights into their behavior, social structure, and ecology."
+    },
+    {
+      type: "finalQuiz",
+      title: "Test Your Orca Knowledge",
+      content: "Let's see what you've learned about these apex predators!",
+      questions: [
+        {
+          question: "What makes orcas 'apex predators'?",
+          options: [
+            "They are the largest fish",
+            "They breathe underwater",
+            "They only eat plankton",
+            "They have no natural predators"
+          ],
+          correctAnswer: 3
+        },
+        {
+          question: "Where is the famous orca hotspot in WA?",
+          options: [
+            "Ningaloo Reef",
+            "Bremer Bay Canyon",
+            "Swan River",
+            "Perth Canyon"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "What is one challenge of studying orcas?",
+          options: [
+            "They migrate into rivers",
+            "Their diets and behaviors remain partly mysterious",
+            "They only live in aquariums",
+            "They don't make sounds"
+          ],
+          correctAnswer: 1
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now an Orca Expert!",
+      content: "Great job! You've completed the lesson on *Orca Mysteries: The Apex Predators of Bremer Bay.* You now understand why these powerful predators gather in WA waters and the mysteries scientists are still working to solve.\n\n**What You Can Do:**\n\n🐋 **Choose responsible eco-tourism operators** that respect safe distances and follow orca viewing guidelines\n\n📣 **Share awareness** - Orcas aren't villains, they're vital apex predators maintaining healthy ocean ecosystems\n\n🌊 **Support marine research** that helps unravel their role in WA's marine food webs\n\n♻️ **Reduce ocean noise and pollution** by backing cleaner shipping practices and industries\n\n🎓 **Stay informed** - Follow Bremer Bay orca research and share new discoveries\n\n📸 **Be a responsible observer** - If you're lucky enough to see orcas, observe without disturbing\n\nRemember: these apex predators are essential for maintaining the balance of our ocean ecosystems!"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about Bremer Bay's orcas.",
+      sources: [
+        {
+          title: "Bouchet, P., Meeuwig, J., et al. (2018) - Bremer Canyon Emerging Priorities Project",
+          url: "https://www.nespmarine.edu.au/system/files/Bouchet%20et%20al%20Bremer%20Canyon%20Final%20%20Report_Milestone%207_19March2018.pdf"
+        },
+        {
+          title: "ABC News - Research continues into Bremer Canyon orca hotspot that baffles scientists",
+          url: "https://www.abc.net.au/news/2023-01-30/hundreds-of-orcas-return-to-south-coast-hotspot/101897876"
+        },
+        {
+          title: "Whale Watch Western Australia - Why Do Orca Come to Bremer Canyon?",
+          url: "https://whalewatchwesternaustralia.com/why-do-orca-killer-whales-come-to-bremer-canyon/"
+        },
+        {
+          title: "Flinders University News - Clues to Killer Whale Cluster",
+          url: "https://news.flinders.edu.au/blog/2021/05/12/clues-to-killer-whale-cluster/"
+        }
+      ]
+    }
+  ]
+};
+
 export const enhancedLessons = [
   bottomTrawlingLesson,
   leeuwincurrentLesson,
@@ -2709,5 +2848,6 @@ export const enhancedLessons = [
   bunburyDolphinsLesson,
   pygmyBlueWhalesLesson,
   humpbackHighwayLesson,
-  australianSeaLionLesson
+  australianSeaLionLesson,
+  orcaMysteriesLesson
 ];

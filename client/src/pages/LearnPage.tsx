@@ -11,7 +11,7 @@ import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewe
 import EnhancedLessonViewer from "@/components/lessons/EnhancedLessonViewer";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
-import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, whaleScience101Lesson, trackingTechLesson, ecosystemGuardiansLesson, camillaWreckLesson, longJettyLesson, swanRiverDolphinsLesson, bunburyDolphinsLesson, pygmyBlueWhalesLesson, humpbackHighwayLesson, australianSeaLionLesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, whaleScience101Lesson, trackingTechLesson, ecosystemGuardiansLesson, camillaWreckLesson, longJettyLesson, swanRiverDolphinsLesson, bunburyDolphinsLesson, pygmyBlueWhalesLesson, humpbackHighwayLesson, australianSeaLionLesson, orcaMysteriesLesson, type EnhancedLesson } from "@/data/enhancedLessons";
 
 import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin, FileText, Anchor, Navigation, Atom, Sprout, Droplet, Dna, Moon, TreePine, Sparkles, Mountain, Zap } from "lucide-react";
 
@@ -388,6 +388,19 @@ const allLessons = [
     isEnhanced: true,
     specialBadge: "🦭",
     enhancedLessonData: australianSeaLionLesson
+  },
+  {
+    id: 28,
+    title: "Orca Mysteries: The Apex Predators of Bremer Bay",
+    category: "marine-mammals",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1607153333879-c174d265f1d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "WA's deep canyon hosts one of the ocean's most powerful hunters",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🐋",
+    enhancedLessonData: orcaMysteriesLesson
   }
 ];
 
