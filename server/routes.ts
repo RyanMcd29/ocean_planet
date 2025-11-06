@@ -1477,6 +1477,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.log('Event creation request body:', req.body);
       const validationResult = insertEventSchema.safeParse({
         ...req.body,
+        startDate: new Date(req.body.startDate),
+        endDate: req.body.endDate ? new Date(req.body.endDate) : undefined,
         userId: req.session.userId
       });
 
