@@ -103,6 +103,67 @@ async function createTablesIfNotExists() {
       );
     `);
 
+    // Create posts table for community posts
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS posts (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        content TEXT NOT NULL,
+        photo_url TEXT,
+        tags TEXT[],
+        location TEXT,
+        dive_site_id INTEGER,
+        species_spotted TEXT[],
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    // Create post_likes table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS post_likes (
+        id SERIAL PRIMARY KEY,
+        post_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+        UNIQUE(user_id, post_id)
+      );
+    `);
+
+    // Create post_comments table
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS post_comments (
+        id SERIAL PRIMARY KEY,
+        post_id INTEGER NOT NULL,
+        user_id INTEGER NOT NULL,
+        content TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL
+      );
+    `);
+
+    // Create events table for community events
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS events (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        type TEXT NOT NULL,
+        start_date TIMESTAMP NOT NULL,
+        end_date TIMESTAMP,
+        location TEXT NOT NULL,
+        city TEXT,
+        dive_site_id INTEGER,
+        latitude REAL,
+        longitude REAL,
+        organizer_name TEXT NOT NULL,
+        description TEXT NOT NULL,
+        external_link TEXT,
+        cost TEXT,
+        created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
     console.log('Tables created/verified successfully');
   } catch (error) {
     console.error('Error creating tables:', error);

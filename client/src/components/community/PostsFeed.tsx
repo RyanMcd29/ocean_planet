@@ -1,0 +1,373 @@
+import { useState } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Heart, MessageCircle, MapPin, Send } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { queryClient, apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
+
+interface Post {
+  id: number;
+  userId: number;
+  content: string;
+  photoUrl?: string;
+  tags?: string[];
+  location?: string;
+  diveSiteId?: number;
+  speciesSpotted?: string[];
+  createdAt: Date;
+  user: {
+    id: number;
+    name: string;
+    lastname: string;
+    username: string;
+  };
+  likeCount: number;
+  commentCount: number;
+}
+
+interface Comment {
+  id: number;
+  postId: number;
+  userId: number;
+  content: string;
+  createdAt: Date;
+  user: {
+    name: string;
+    lastname: string;
+  };
+}
+
+const POST_TAGS = ["Dive report", "Question", "Ocean fact", "Gear chat", "Beach cleanup", "Conservation"];
+
+export function PostsFeed() {
+  const [newPost, setNewPost] = useState("");
+  const [selectedTag, setSelectedTag] = useState<string>("");
+  const [sortBy, setSortBy] = useState("newest");
+  const [filterTag, setFilterTag] = useState("all");
+  const [expandedComments, setExpandedComments] = useState<number | null>(null);
+  const [commentText, setCommentText] = useState("");
+  const { toast } = useToast();
+
+  // Fetch posts
+  const { data: posts = [], isLoading, error } = useQuery<Post[]>({
+    queryKey: ['/api/posts', { sort: sortBy, tag: filterTag === 'all' ? '' : filterTag }],
+    select: (data: any) => data?.posts || [],
+  });
+
+  // Create post mutation
+  const createPostMutation = useMutation({
+    mutationFn: async (data: { content: string; tags?: string[] }) => {
+      return await apiRequest('/api/posts', {
+        method: 'POST',
+        body: JSON.stringify(data),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/posts'] });
+      setNewPost("");
+      setSelectedTag("");
+      toast({ title: "Post shared!", description: "Your post has been shared with the community." });
+    },
+  });
+
+  // Like/unlike post mutation
+  const likePostMutation = useMutation({
+    mutationFn: async (postId: number) => {
+      return await apiRequest(`/api/posts/${postId}/like`, {
+        method: 'POST',
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/posts'] });
+    },
+  });
+
+  // Fetch comments for a post
+  const { data: comments = [] } = useQuery<Comment[]>({
+    queryKey: [`/api/posts/${expandedComments}/comments`],
+    enabled: expandedComments !== null,
+    select: (data: any) => data?.comments || [],
+  });
+
+  // Create comment mutation
+  const createCommentMutation = useMutation({
+    mutationFn: async ({ postId, content }: { postId: number; content: string }) => {
+      return await apiRequest(`/api/posts/${postId}/comments`, {
+        method: 'POST',
+        body: JSON.stringify({ content }),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['/api/posts'] });
+      queryClient.invalidateQueries({ queryKey: [`/api/posts/${expandedComments}/comments`] });
+      setCommentText("");
+    },
+  });
+
+  const handleSharePost = () => {
+    if (!newPost.trim()) {
+      toast({ title: "Error", description: "Please write something to share.", variant: "destructive" });
+      return;
+    }
+
+    const tags = selectedTag ? [selectedTag] : [];
+    createPostMutation.mutate({ content: newPost, tags });
+  };
+
+  const handleToggleComments = (postId: number) => {
+    setExpandedComments(expandedComments === postId ? null : postId);
+    setCommentText("");
+  };
+
+  const handleAddComment = (postId: number) => {
+    if (!commentText.trim()) return;
+    createCommentMutation.mutate({ postId, content: commentText });
+  };
+
+  if (isLoading) {
+    return <div className="flex justify-center py-8">Loading posts...</div>;
+  }
+
+  return (
+    <div className="space-y-0">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Main Feed */}
+        <div className="lg:col-span-2">
+          {/* New Post Card */}
+          <Card className="mb-6" data-testid="card-new-post">
+            <CardHeader>
+              <CardTitle className="text-[#0A4D68]">+ New Post</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Textarea
+                placeholder="Share your latest dive, species sighting, or ocean story..."
+                value={newPost}
+                onChange={(e) => setNewPost(e.target.value)}
+                className="mb-3"
+                data-testid="input-new-post-content"
+              />
+              
+              <div className="flex items-center justify-between mb-3">
+                <Select value={selectedTag} onValueChange={setSelectedTag}>
+                  <SelectTrigger className="w-48" data-testid="select-post-tag">
+                    <SelectValue placeholder="Add tag (optional)" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {POST_TAGS.map((tag) => (
+                      <SelectItem key={tag} value={tag}>{tag}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex justify-end">
+                <Button 
+                  className="bg-[#088395] hover:bg-[#0A4D68]"
+                  onClick={handleSharePost}
+                  disabled={createPostMutation.isPending}
+                  data-testid="button-share-post"
+                >
+                  {createPostMutation.isPending ? "Sharing..." : "Share Post"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Filters */}
+          <div className="flex gap-3 mb-4">
+            <Select value={sortBy} onValueChange={setSortBy}>
+              <SelectTrigger className="w-40" data-testid="select-sort-posts">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="newest">Newest</SelectItem>
+                <SelectItem value="popular">Most Liked</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Select value={filterTag} onValueChange={setFilterTag}>
+              <SelectTrigger className="w-48" data-testid="select-filter-tag">
+                <SelectValue placeholder="All tags" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All tags</SelectItem>
+                {POST_TAGS.map((tag) => (
+                  <SelectItem key={tag} value={tag}>{tag}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Posts List */}
+          {posts.length === 0 ? (
+            <Card>
+              <CardContent className="py-12 text-center text-gray-500">
+                <p>No posts yet. Be the first to share something!</p>
+              </CardContent>
+            </Card>
+          ) : (
+            posts.map((post) => (
+              <Card key={post.id} className="mb-4 hover:shadow-md transition-shadow" data-testid={`card-post-${post.id}`}>
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-center space-x-3">
+                      <Avatar className="w-10 h-10">
+                        <AvatarFallback className="bg-[#05BFDB] text-white">
+                          {post.user.name?.charAt(0) || 'U'}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-semibold text-[#0A4D68]">
+                          {post.user.name} {post.user.lastname}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+                        </p>
+                      </div>
+                    </div>
+                    {post.tags && post.tags.length > 0 && (
+                      <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800">
+                        {post.tags[0]}
+                      </Badge>
+                    )}
+                  </div>
+                </CardHeader>
+                
+                <CardContent className="pt-0">
+                  <p className="text-gray-700 mb-3 whitespace-pre-wrap">{post.content}</p>
+                  
+                  {post.photoUrl && (
+                    <div className="mb-3 rounded-lg overflow-hidden">
+                      <img 
+                        src={post.photoUrl} 
+                        alt="Post image"
+                        className="w-full h-64 object-cover"
+                      />
+                    </div>
+                  )}
+                  
+                  {post.location && (
+                    <Badge variant="outline" className="text-xs mb-3">
+                      <MapPin className="w-3 h-3 mr-1" />
+                      {post.location}
+                    </Badge>
+                  )}
+                  
+                  <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+                    <div className="flex items-center space-x-4">
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="text-gray-600 hover:text-red-500"
+                        onClick={() => likePostMutation.mutate(post.id)}
+                        data-testid={`button-like-${post.id}`}
+                      >
+                        <Heart className="w-4 h-4 mr-1" />
+                        {post.likeCount}
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="text-gray-600 hover:text-[#05BFDB]"
+                        onClick={() => handleToggleComments(post.id)}
+                        data-testid={`button-comments-${post.id}`}
+                      >
+                        <MessageCircle className="w-4 h-4 mr-1" />
+                        {post.commentCount}
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Comments Section */}
+                  {expandedComments === post.id && (
+                    <div className="mt-4 pt-4 border-t border-gray-100">
+                      <div className="space-y-3 mb-3" data-testid={`comments-list-${post.id}`}>
+                        {comments.map((comment) => (
+                          <div key={comment.id} className="flex space-x-2">
+                            <Avatar className="w-8 h-8">
+                              <AvatarFallback className="bg-[#05BFDB] text-white text-xs">
+                                {comment.user.name?.charAt(0) || 'U'}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 bg-gray-50 rounded-lg p-3">
+                              <p className="text-sm font-semibold text-[#0A4D68]">
+                                {comment.user.name} {comment.user.lastname}
+                              </p>
+                              <p className="text-sm text-gray-700">{comment.content}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <div className="flex gap-2">
+                        <Textarea
+                          placeholder="Write a comment..."
+                          value={commentText}
+                          onChange={(e) => setCommentText(e.target.value)}
+                          className="min-h-[60px]"
+                          data-testid={`input-comment-${post.id}`}
+                        />
+                        <Button
+                          size="sm"
+                          className="bg-[#088395] hover:bg-[#0A4D68]"
+                          onClick={() => handleAddComment(post.id)}
+                          disabled={createCommentMutation.isPending}
+                          data-testid={`button-send-comment-${post.id}`}
+                        >
+                          <Send className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            ))
+          )}
+        </div>
+
+        {/* Sidebar */}
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-[#0A4D68] text-lg">Community Guidelines</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2 text-sm text-gray-600">
+                <p>• Share respectful, ocean-friendly content</p>
+                <p>• Help identify species accurately</p>
+                <p>• Report dive conditions honestly</p>
+                <p>• Support conservation efforts</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-[#0A4D68] text-lg">Quick Tags</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2">
+                {POST_TAGS.map((tag) => (
+                  <Badge 
+                    key={tag} 
+                    variant="outline" 
+                    className="cursor-pointer hover:bg-blue-50"
+                    onClick={() => setFilterTag(tag)}
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -497,3 +497,141 @@ export type InsertLessonProgress = z.infer<typeof insertLessonProgressSchema>;
 
 export type CategoryBadge = typeof categoryBadges.$inferSelect;
 export type InsertCategoryBadge = z.infer<typeof insertCategoryBadgeSchema>;
+
+// Community Posts table
+export const posts = pgTable("posts", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(),
+  content: text("content").notNull(),
+  photoUrl: text("photo_url"),
+  tags: text("tags").array(), // 'Dive report', 'Question', 'Ocean fact', 'Gear chat'
+  location: text("location"),
+  diveSiteId: integer("dive_site_id"),
+  speciesSpotted: text("species_spotted").array(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Post likes table
+export const postLikes = pgTable("post_likes", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").notNull(),
+  userId: integer("user_id").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  userPostLikeUnique: unique().on(table.userId, table.postId),
+}));
+
+// Post comments table
+export const postComments = pgTable("post_comments", {
+  id: serial("id").primaryKey(),
+  postId: integer("post_id").notNull(),
+  userId: integer("user_id").notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Community Events table
+export const events = pgTable("events", {
+  id: serial("id").primaryKey(),
+  userId: integer("user_id").notNull(), // Creator
+  name: text("name").notNull(),
+  type: text("type").notNull(), // 'Dive Trip', 'Beach Clean up', 'Talk / Lecture', 'Film Festival/ Film Night', 'Workshop', 'Other'
+  startDate: timestamp("start_date").notNull(),
+  endDate: timestamp("end_date"),
+  location: text("location").notNull(),
+  city: text("city"),
+  diveSiteId: integer("dive_site_id"),
+  latitude: real("latitude"),
+  longitude: real("longitude"),
+  organizerName: text("organizer_name").notNull(),
+  description: text("description").notNull(),
+  externalLink: text("external_link"),
+  cost: text("cost"), // 'Free' or '$' text field
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Define relations for posts
+export const postsRelations = relations(posts, ({ one, many }) => ({
+  user: one(users, {
+    fields: [posts.userId],
+    references: [users.id],
+  }),
+  diveSite: one(diveSites, {
+    fields: [posts.diveSiteId],
+    references: [diveSites.id],
+  }),
+  likes: many(postLikes),
+  comments: many(postComments),
+}));
+
+export const postLikesRelations = relations(postLikes, ({ one }) => ({
+  post: one(posts, {
+    fields: [postLikes.postId],
+    references: [posts.id],
+  }),
+  user: one(users, {
+    fields: [postLikes.userId],
+    references: [users.id],
+  }),
+}));
+
+export const postCommentsRelations = relations(postComments, ({ one }) => ({
+  post: one(posts, {
+    fields: [postComments.postId],
+    references: [posts.id],
+  }),
+  user: one(users, {
+    fields: [postComments.userId],
+    references: [users.id],
+  }),
+}));
+
+// Define relations for events
+export const eventsRelations = relations(events, ({ one }) => ({
+  user: one(users, {
+    fields: [events.userId],
+    references: [users.id],
+  }),
+  diveSite: one(diveSites, {
+    fields: [events.diveSiteId],
+    references: [diveSites.id],
+  }),
+}));
+
+// Posts schemas and types
+export const insertPostSchema = createInsertSchema(posts).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertPostLikeSchema = createInsertSchema(postLikes).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertPostCommentSchema = createInsertSchema(postComments).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Events schemas and types
+export const insertEventSchema = createInsertSchema(events).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type Post = typeof posts.$inferSelect;
+export type InsertPost = z.infer<typeof insertPostSchema>;
+
+export type PostLike = typeof postLikes.$inferSelect;
+export type InsertPostLike = z.infer<typeof insertPostLikeSchema>;
+
+export type PostComment = typeof postComments.$inferSelect;
+export type InsertPostComment = z.infer<typeof insertPostCommentSchema>;
+
+export type Event = typeof events.$inferSelect;
+export type InsertEvent = z.infer<typeof insertEventSchema>;

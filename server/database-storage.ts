@@ -7,6 +7,7 @@ import {
   users, countries, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
   diveMaps, diveLogs, diveLogSpecies, certifications, userCertifications, lessonProgress, categoryBadges,
+  posts, postLikes, postComments, events,
   type User, type InsertUser, type Country, type InsertCountry, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
@@ -16,7 +17,9 @@ import {
   type DiveLog, type InsertDiveLog, type DiveLogSpecies, type InsertDiveLogSpecies,
   type Certification, type InsertCertification, type UserCertification, type InsertUserCertification,
   type UpdateProfile, type LessonProgress, type InsertLessonProgress,
-  type CategoryBadge, type InsertCategoryBadge
+  type CategoryBadge, type InsertCategoryBadge,
+  type Post, type InsertPost, type PostLike, type InsertPostLike,
+  type PostComment, type InsertPostComment, type Event, type InsertEvent
 } from "@shared/schema";
 
 // Import the storage interface
@@ -1002,6 +1005,201 @@ export class DatabaseStorage implements IStorage {
       .values(badge)
       .returning();
     return newBadge;
+  }
+
+  // Community Posts Management
+  async getAllPosts(sort?: string, tag?: string): Promise<(Post & { user: User; likeCount: number; commentCount: number; isLiked?: boolean })[]> {
+    const query = db
+      .select({
+        id: posts.id,
+        userId: posts.userId,
+        content: posts.content,
+        photoUrl: posts.photoUrl,
+        tags: posts.tags,
+        location: posts.location,
+        diveSiteId: posts.diveSiteId,
+        speciesSpotted: posts.speciesSpotted,
+        createdAt: posts.createdAt,
+        updatedAt: posts.updatedAt,
+        user: users,
+        likeCount: sql<number>`(SELECT COUNT(*) FROM ${postLikes} WHERE ${postLikes.postId} = ${posts.id})`,
+        commentCount: sql<number>`(SELECT COUNT(*) FROM ${postComments} WHERE ${postComments.postId} = ${posts.id})`
+      })
+      .from(posts)
+      .leftJoin(users, eq(posts.userId, users.id));
+
+    let results = await query;
+
+    // Filter by tag if provided
+    if (tag) {
+      results = results.filter((post: any) => post.tags && post.tags.includes(tag));
+    }
+
+    // Sort results
+    if (sort === 'popular') {
+      results.sort((a: any, b: any) => b.likeCount - a.likeCount);
+    } else {
+      // Default to newest
+      results.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    }
+
+    return results as any;
+  }
+
+  async createPost(insertPost: InsertPost): Promise<Post> {
+    const [post] = await db
+      .insert(posts)
+      .values(insertPost)
+      .returning();
+    return post;
+  }
+
+  async togglePostLike(postId: number, userId: number): Promise<{ liked: boolean }> {
+    // Check if like exists
+    const existingLike = await db
+      .select()
+      .from(postLikes)
+      .where(and(eq(postLikes.postId, postId), eq(postLikes.userId, userId)));
+
+    if (existingLike.length > 0) {
+      // Unlike
+      await db
+        .delete(postLikes)
+        .where(and(eq(postLikes.postId, postId), eq(postLikes.userId, userId)));
+      return { liked: false };
+    } else {
+      // Like
+      await db
+        .insert(postLikes)
+        .values({ postId, userId });
+      return { liked: true };
+    }
+  }
+
+  async getPostComments(postId: number): Promise<(PostComment & { user: User })[]> {
+    const results = await db
+      .select({
+        id: postComments.id,
+        postId: postComments.postId,
+        userId: postComments.userId,
+        content: postComments.content,
+        createdAt: postComments.createdAt,
+        user: users
+      })
+      .from(postComments)
+      .leftJoin(users, eq(postComments.userId, users.id))
+      .where(eq(postComments.postId, postId))
+      .orderBy(sql`${postComments.createdAt} ASC`);
+
+    return results as any;
+  }
+
+  async createPostComment(insertComment: InsertPostComment): Promise<PostComment> {
+    const [comment] = await db
+      .insert(postComments)
+      .values(insertComment)
+      .returning();
+    return comment;
+  }
+
+  // Community Events Management
+  async getAllEvents(location?: string, date?: string, type?: string): Promise<(Event & { user: User })[]> {
+    let query = db
+      .select({
+        id: events.id,
+        userId: events.userId,
+        name: events.name,
+        type: events.type,
+        startDate: events.startDate,
+        endDate: events.endDate,
+        location: events.location,
+        city: events.city,
+        diveSiteId: events.diveSiteId,
+        latitude: events.latitude,
+        longitude: events.longitude,
+        organizerName: events.organizerName,
+        description: events.description,
+        externalLink: events.externalLink,
+        cost: events.cost,
+        createdAt: events.createdAt,
+        updatedAt: events.updatedAt,
+        user: users
+      })
+      .from(events)
+      .leftJoin(users, eq(events.userId, users.id));
+
+    let results = await query;
+
+    // Filter by location if provided
+    if (location && location !== 'all') {
+      results = results.filter((event: any) => 
+        event.city?.toLowerCase().includes(location.toLowerCase()) ||
+        event.location?.toLowerCase().includes(location.toLowerCase())
+      );
+    }
+
+    // Filter by type if provided
+    if (type && type !== 'all') {
+      results = results.filter((event: any) => event.type === type);
+    }
+
+    // Filter by date if provided
+    if (date) {
+      const now = new Date();
+      if (date === 'week') {
+        const weekFromNow = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+        results = results.filter((event: any) => 
+          new Date(event.startDate) >= now && new Date(event.startDate) <= weekFromNow
+        );
+      } else if (date === 'month') {
+        const monthFromNow = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+        results = results.filter((event: any) => 
+          new Date(event.startDate) >= now && new Date(event.startDate) <= monthFromNow
+        );
+      }
+    }
+
+    // Sort by start date (soonest first)
+    results.sort((a: any, b: any) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+
+    return results as any;
+  }
+
+  async createEvent(insertEvent: InsertEvent): Promise<Event> {
+    const [event] = await db
+      .insert(events)
+      .values(insertEvent)
+      .returning();
+    return event;
+  }
+
+  async getEventById(eventId: number): Promise<(Event & { user: User }) | undefined> {
+    const results = await db
+      .select({
+        id: events.id,
+        userId: events.userId,
+        name: events.name,
+        type: events.type,
+        startDate: events.startDate,
+        endDate: events.endDate,
+        location: events.location,
+        city: events.city,
+        diveSiteId: events.diveSiteId,
+        latitude: events.latitude,
+        longitude: events.longitude,
+        organizerName: events.organizerName,
+        description: events.description,
+        externalLink: events.externalLink,
+        cost: events.cost,
+        createdAt: events.createdAt,
+        updatedAt: events.updatedAt,
+        user: users
+      })
+      .from(events)
+      .leftJoin(users, eq(events.userId, users.id))
+      .where(eq(events.id, eventId));
+
+    return results.length > 0 ? results[0] as any : undefined;
   }
 }
 

@@ -22,7 +22,11 @@ import {
   insertUserCertificationSchema,
   updateProfileSchema,
   insertLessonProgressSchema,
-  insertCategoryBadgeSchema
+  insertCategoryBadgeSchema,
+  insertPostSchema,
+  insertPostCommentSchema,
+  insertPostLikeSchema,
+  insertEventSchema
 } from "@shared/schema";
 import bcrypt from 'bcryptjs';
 import { OceanDataService } from "./services/oceanData";
@@ -1342,6 +1346,169 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error fetching badges:', error);
       res.status(500).json({ success: false, message: "Failed to fetch badges" });
+    }
+  });
+
+  // Community Posts endpoints
+
+  // GET /api/posts - Get all posts with filters
+  app.get('/api/posts', async (req: Request, res: Response) => {
+    try {
+      const { sort, tag } = req.query;
+      const posts = await storage.getAllPosts(sort as string, tag as string);
+      res.json({ success: true, posts });
+    } catch (error) {
+      console.error('Error fetching posts:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch posts" });
+    }
+  });
+
+  // POST /api/posts - Create a new post
+  app.post('/api/posts', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.userId) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const validationResult = insertPostSchema.safeParse({
+        ...req.body,
+        userId: req.session.userId
+      });
+
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation failed",
+          errors: validationResult.error.flatten().fieldErrors
+        });
+      }
+
+      const post = await storage.createPost(validationResult.data);
+      res.status(201).json({ success: true, post });
+    } catch (error) {
+      console.error('Error creating post:', error);
+      res.status(500).json({ success: false, message: "Failed to create post" });
+    }
+  });
+
+  // POST /api/posts/:postId/like - Like/unlike a post
+  app.post('/api/posts/:postId/like', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.userId) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const postId = parseInt(req.params.postId);
+      const result = await storage.togglePostLike(postId, req.session.userId);
+      res.json({ success: true, liked: result.liked });
+    } catch (error) {
+      console.error('Error toggling like:', error);
+      res.status(500).json({ success: false, message: "Failed to toggle like" });
+    }
+  });
+
+  // GET /api/posts/:postId/comments - Get comments for a post
+  app.get('/api/posts/:postId/comments', async (req: Request, res: Response) => {
+    try {
+      const postId = parseInt(req.params.postId);
+      const comments = await storage.getPostComments(postId);
+      res.json({ success: true, comments });
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch comments" });
+    }
+  });
+
+  // POST /api/posts/:postId/comments - Add a comment to a post
+  app.post('/api/posts/:postId/comments', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.userId) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const postId = parseInt(req.params.postId);
+      const validationResult = insertPostCommentSchema.safeParse({
+        postId,
+        userId: req.session.userId,
+        content: req.body.content
+      });
+
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation failed",
+          errors: validationResult.error.flatten().fieldErrors
+        });
+      }
+
+      const comment = await storage.createPostComment(validationResult.data);
+      res.status(201).json({ success: true, comment });
+    } catch (error) {
+      console.error('Error creating comment:', error);
+      res.status(500).json({ success: false, message: "Failed to create comment" });
+    }
+  });
+
+  // Community Events endpoints
+
+  // GET /api/events - Get all events with filters
+  app.get('/api/events', async (req: Request, res: Response) => {
+    try {
+      const { location, date, type } = req.query;
+      const events = await storage.getAllEvents(
+        location as string,
+        date as string,
+        type as string
+      );
+      res.json({ success: true, events });
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch events" });
+    }
+  });
+
+  // POST /api/events - Create a new event
+  app.post('/api/events', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.userId) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const validationResult = insertEventSchema.safeParse({
+        ...req.body,
+        userId: req.session.userId
+      });
+
+      if (!validationResult.success) {
+        return res.status(400).json({
+          success: false,
+          message: "Validation failed",
+          errors: validationResult.error.flatten().fieldErrors
+        });
+      }
+
+      const event = await storage.createEvent(validationResult.data);
+      res.status(201).json({ success: true, event });
+    } catch (error) {
+      console.error('Error creating event:', error);
+      res.status(500).json({ success: false, message: "Failed to create event" });
+    }
+  });
+
+  // GET /api/events/:eventId - Get event details
+  app.get('/api/events/:eventId', async (req: Request, res: Response) => {
+    try {
+      const eventId = parseInt(req.params.eventId);
+      const event = await storage.getEventById(eventId);
+      
+      if (!event) {
+        return res.status(404).json({ success: false, message: "Event not found" });
+      }
+
+      res.json({ success: true, event });
+    } catch (error) {
+      console.error('Error fetching event:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch event" });
     }
   });
 
