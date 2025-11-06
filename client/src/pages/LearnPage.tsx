@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -9,11 +9,15 @@ import LessonCard from "@/components/lessons/LessonCard";
 import LessonViewer from "@/components/lessons/LessonViewer";
 import InteractiveLessonViewer from "@/components/lessons/InteractiveLessonViewer";
 import EnhancedLessonViewer from "@/components/lessons/EnhancedLessonViewer";
+import { CircularProgress } from "@/components/lessons/CircularProgress";
+import { BadgeShowcase, type Badge as BadgeData } from "@/components/lessons/BadgeShowcase";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
 import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, whaleScience101Lesson, trackingTechLesson, ecosystemGuardiansLesson, camillaWreckLesson, longJettyLesson, swanRiverDolphinsLesson, bunburyDolphinsLesson, pygmyBlueWhalesLesson, humpbackHighwayLesson, australianSeaLionLesson, orcaMysteriesLesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { useQuery } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 
-import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin, FileText, Anchor, Navigation, Atom, Sprout, Droplet, Dna, Moon, Trees, Sparkles, Mountain, Zap } from "lucide-react";
+import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin, FileText, Anchor, Navigation, Atom, Sprout, Droplet, Dna, Moon, Trees, Sparkles, Mountain, Zap, Check } from "lucide-react";
 
 const categories = [
   { id: "ocean-literacy", name: "Ocean Literacy", icon: "🌊", emoji: true },
@@ -476,10 +480,85 @@ export default function LearnPage() {
   const [currentEnhancedLesson, setCurrentEnhancedLesson] = useState<EnhancedLesson | null>(null);
   const [showInteractiveLesson, setShowInteractiveLesson] = useState(false);
 
-  // Calculate completion stats
+  // Fetch lesson progress and badges from backend
+  const { data: progressData, isLoading: progressLoading } = useQuery<{ lessonId: string; completedAt: string }[]>({
+    queryKey: ['/api/progress'],
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const { data: badgesData, isLoading: badgesLoading } = useQuery<{
+    category: string;
+    badgeName: string;
+    badgeIcon: string;
+    unlockedAt: string;
+  }[]>({
+    queryKey: ['/api/badges'],
+    retry: false,
+    staleTime: 1000 * 60 * 5,
+  });
+
+  // Map of category to badge info
+  const categoryBadgeMap: Record<string, { badgeName: string; badgeIcon: string }> = {
+    'marine-mammals': { badgeName: 'Whale Expert', badgeIcon: '🐋' },
+    'ocean-literacy': { badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+    'maritime-history': { badgeName: 'History Keeper', badgeIcon: '⚓' },
+    'conservation': { badgeName: 'Ocean Guardian', badgeIcon: '🌿' },
+    'reef-ecology': { badgeName: 'Reef Master', badgeIcon: '🪸' },
+    'species-identification': { badgeName: 'Species Expert', badgeIcon: '🐠' },
+  };
+
+  // Calculate completion stats from backend data
+  const completedLessonIds = useMemo(() => new Set(progressData?.map(p => p.lessonId) || []), [progressData]);
   const totalLessons = allLessons.length;
-  const completedLessons = allLessons.filter(lesson => lesson.completed).length;
-  const completionPercentage = Math.round((completedLessons / totalLessons) * 100);
+  const completedLessons = completedLessonIds.size;
+  const completionPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
+  // Calculate badge status for each category
+  const badges = useMemo(() => {
+    const categoryLessonsMap: Record<string, string[]> = {};
+    
+    // Group lessons by category
+    allLessons.forEach(lesson => {
+      if (lesson.enhancedLessonData?.id && lesson.category) {
+        if (!categoryLessonsMap[lesson.category]) {
+          categoryLessonsMap[lesson.category] = [];
+        }
+        categoryLessonsMap[lesson.category].push(lesson.enhancedLessonData.id);
+      }
+    });
+
+    // Create badge objects
+    const unlockedBadges = new Set(badgesData?.map(b => b.category) || []);
+    const badgesList: BadgeData[] = [];
+
+    Object.keys(categoryBadgeMap).forEach(category => {
+      const categoryLessons = categoryLessonsMap[category] || [];
+      const completedCount = categoryLessons.filter(id => completedLessonIds.has(id)).length;
+      const totalCount = categoryLessons.length;
+      const isUnlocked = unlockedBadges.has(category);
+
+      if (totalCount > 0) {
+        const badgeInfo = categoryBadgeMap[category];
+        const unlockedBadge = badgesData?.find(b => b.category === category);
+        
+        badgesList.push({
+          category,
+          badgeName: badgeInfo.badgeName,
+          badgeIcon: badgeInfo.badgeIcon,
+          isLocked: !isUnlocked,
+          completedCount,
+          totalCount,
+          unlockedAt: unlockedBadge ? new Date(unlockedBadge.unlockedAt) : undefined,
+        });
+      }
+    });
+
+    return badgesList;
+  }, [badgesData, completedLessonIds]);
+
+  // Calculate completion stats (legacy for non-integrated lessons)
+  const legacyCompletedLessons = allLessons.filter(lesson => lesson.completed).length;
 
   // Filter lessons by category
   const filteredLessons = allLessons.filter(lesson => 
@@ -549,13 +628,17 @@ export default function LearnPage() {
           <Card>
             <CardHeader>
               <CardTitle>My Progress</CardTitle>
-              <CardDescription>
-                {completedLessons} of {totalLessons} lessons completed
-              </CardDescription>
             </CardHeader>
-            <CardContent>
-              <Progress value={completionPercentage} className="mb-2" />
-              <p className="text-sm text-muted-foreground">{completionPercentage}% complete</p>
+            <CardContent className="flex justify-center py-4">
+              {progressLoading ? (
+                <div className="text-center text-muted-foreground">Loading...</div>
+              ) : (
+                <CircularProgress
+                  progress={completionPercentage}
+                  completedCount={completedLessons}
+                  totalCount={totalLessons}
+                />
+              )}
             </CardContent>
           </Card>
 
@@ -689,26 +772,13 @@ export default function LearnPage() {
           )}
 
           {viewMode === "badges" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {badges.map((badge) => (
-                <Card key={badge.id} className={`${badge.earned ? 'border-yellow-200 bg-yellow-50' : 'opacity-60'}`}>
-                  <CardHeader className="text-center">
-                    <div className="mx-auto mb-2">
-                      {badge.icon}
-                    </div>
-                    <CardTitle className="text-lg">{badge.name}</CardTitle>
-                    <CardDescription>{badge.description}</CardDescription>
-                  </CardHeader>
-                  <CardFooter className="justify-center">
-                    {badge.earned ? (
-                      <Badge className="bg-yellow-500">Earned!</Badge>
-                    ) : (
-                      <Badge variant="outline">Locked</Badge>
-                    )}
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
+            <>
+              {badgesLoading ? (
+                <div className="text-center py-12 text-muted-foreground">Loading badges...</div>
+              ) : (
+                <BadgeShowcase badges={badges} className="mb-8" />
+              )}
+            </>
           )}
         </div>
       </div>
