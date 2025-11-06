@@ -1606,7 +1606,7 @@ export const ecosystemGuardiansLesson: EnhancedLesson = {
   id: "ecosystem-guardians",
   title: "Ecosystem Guardians: Managing Krill and Whales",
   description: "Why saving krill means saving the ocean",
-  category: "marine-conservation",
+  category: "marine-research",
   duration: 12,
   difficulty: "Advanced",
   steps: [
@@ -1624,12 +1624,12 @@ export const ecosystemGuardiansLesson: EnhancedLesson = {
     {
       type: "quiz",
       title: "Ecosystem Importance",
-      content: "What makes krill so important to Antarctic ecosystems?",
+      content: "Why are krill vital to the Antarctic ecosystem?",
       options: [
-        "They clean the ocean",
-        "They are a key food source for many species",
-        "They fertilize coral reefs",
-        "They control shark populations"
+        "They fertilise coral reefs",
+        "They provide food for many animals",
+        "They reduce ocean salinity",
+        "They warm the water"
       ],
       correctAnswer: 1,
       explanation: "Krill are a keystone species because they form the base of the Antarctic food web. Almost all Antarctic animals either eat krill directly or depend on animals that do, making them essential for ecosystem stability."
@@ -1643,15 +1643,15 @@ export const ecosystemGuardiansLesson: EnhancedLesson = {
     {
       type: "quiz",
       title: "Research Integration",
-      content: "What does the CAKE project focus on?",
+      content: "What is CCAMLR's conservative krill-catch trigger?",
       options: [
-        "Only krill biology",
-        "Krill-based ecosystem management",
-        "Whale behavior alone",
-        "Ocean chemistry only"
+        "620,000 tonnes",
+        "1 million tonnes",
+        "3.2 million tonnes",
+        "100,000 tonnes"
       ],
-      correctAnswer: 1,
-      explanation: "The CAKE project takes an ecosystem-based approach, integrating krill biology, whale behavior, environmental monitoring, and human impacts to develop comprehensive management strategies."
+      correctAnswer: 0,
+      explanation: "CCAMLR has set a conservative trigger level of 620,000 tonnes annually for krill fishing, representing only about 1% of estimated krill biomass to ensure ecosystem protection."
     },
     {
       type: "text",
@@ -1661,16 +1661,16 @@ export const ecosystemGuardiansLesson: EnhancedLesson = {
     },
     {
       type: "quiz",
-      title: "Management Approach",
-      content: "What is the current conservative krill catch trigger set by CCAMLR?",
+      title: "Climate Impacts",
+      content: "Why is krill reproduction under threat?",
       options: [
-        "1 million tonnes",
-        "620,000 tonnes",
-        "5.6 million tonnes",
-        "100,000 tonnes"
+        "Whale predation",
+        "Ocean acidification and warming",
+        "Reduced sunlight hours",
+        "Ship noise"
       ],
       correctAnswer: 1,
-      explanation: "CCAMLR has set a conservative trigger level of 620,000 tonnes annually for krill fishing, representing only about 1% of estimated krill biomass to ensure ecosystem protection."
+      explanation: "Ocean acidification affects krill shell development, while warming temperatures and sea ice loss disrupt their breeding cycles and feeding areas, making reproduction increasingly difficult."
     },
     {
       type: "text",
@@ -1679,41 +1679,75 @@ export const ecosystemGuardiansLesson: EnhancedLesson = {
       highlight: "Some whale populations may need to travel 30% further to find food as krill habitats shift!"
     },
     {
-      type: "quiz",
-      title: "Climate Impacts",
-      content: "Why is krill reproduction at risk from climate change?",
-      options: [
-        "Overfishing alone",
-        "Ocean acidification and warming temperatures",
-        "Whale predation",
-        "Lack of sunlight in winter"
-      ],
-      correctAnswer: 1,
-      explanation: "Ocean acidification affects krill shell development, while warming temperatures and sea ice loss disrupt their breeding cycles and feeding areas, making reproduction increasingly difficult."
-    },
-    {
       type: "text",
       title: "🎣 Fishing Pressure: The Human Factor",
       content: "Increasing human demand for krill creates additional pressure on Antarctic ecosystems:\n\n**📈 Growing Market** - Krill oil supplements and aquaculture feed drive increased harvesting demand\n\n**🛃 Fishing Technology** - Advanced fishing vessels can harvest krill more efficiently than ever before\n\n**🌍 Global Competition** - Multiple nations are expanding their krill fishing operations\n\n**⚖️ Regulatory Challenges** - Balancing economic interests with conservation needs across international waters\n\n**🔄 Cumulative Effects** - Fishing pressure combined with climate change creates compound stress on ecosystems\n\n**Management Responses:**\n- **Seasonal closures** during critical breeding periods\n- **Spatial restrictions** to protect important feeding areas\n- **Vessel monitoring** systems to ensure compliance\n- **Research requirements** for all fishing operations\n- **Ecosystem-based quotas** that consider predator needs",
       highlight: "Krill fishing technology can now harvest 120 tonnes per hour - equivalent to what a blue whale eats in a month!"
     },
     {
-      type: "quiz",
-      title: "Fishing Management",
-      content: "What approach does CCAMLR use to manage krill fishing?",
-      options: [
-        "Maximum sustainable yield only",
-        "Ecosystem-based management considering all species",
-        "Economic optimization",
-        "Single-species management"
-      ],
-      correctAnswer: 1,
-      explanation: "CCAMLR uses ecosystem-based management that considers the needs of all krill-dependent species, not just krill populations alone, ensuring the entire food web remains healthy."
+      type: "finalQuiz",
+      title: "Final Quiz",
+      content: "Test your knowledge of krill-whale ecosystem management!",
+      questions: [
+        {
+          question: "What does it mean when a species is called 'keystone'?",
+          options: [
+            "It builds reefs",
+            "It migrates farthest",
+            "It supports the entire ecosystem's structure",
+            "It's the largest animal"
+          ],
+          correctAnswer: 2
+        },
+        {
+          question: "How do krill help store carbon?",
+          options: [
+            "Their waste and bodies sink, locking carbon deep in the ocean",
+            "They reflect sunlight",
+            "They photosynthesise oxygen",
+            "They build carbonate reefs"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "What is one major human-driven risk to krill populations?",
+          options: [
+            "Deep-sea mining",
+            "Overfishing for krill oil products",
+            "Whale watching boats",
+            "Scuba diving"
+          ],
+          correctAnswer: 1
+        }
+      ]
     },
     {
       type: "conclusion",
       title: "🌊 You're Now an Ecosystem Guardian!",
-      content: "Outstanding! You now understand the complex relationships between krill, whales, and ocean ecosystems. This knowledge makes you a true guardian of Antarctic marine life.\n\n**What You Can Do:**\n\n**🌊 Support sustainable fisheries policies** - Advocate for ecosystem-based management approaches\n\n**🦐 Make informed consumer choices** - Avoid unnecessary krill oil supplements and choose sustainable seafood\n\n**💬 Share critical knowledge** - Help others understand the vital role of krill in ocean health\n\n**🌡️ Fight climate change** - Support policies that address ocean acidification and warming\n\n**📚 Stay informed** - Follow CCAMLR and AAD research on Antarctic ecosystem management\n\n**🐋 Support whale conservation** - Understanding krill-whale connections helps protect both species\n\n**🌍 Think ecosystems** - Recognize that protecting one species means protecting the entire food web\n\nCongratulations on completing this advanced lesson! You're now equipped to understand and advocate for one of Earth's most important ecosystems."
+      content: "Outstanding! You now understand the complex relationships between krill, whales, and ocean ecosystems. This knowledge makes you a true guardian of Antarctic marine life.\n\n**What You Can Do:**\n\n**🦐 Avoid krill oil supplements** - Choose algae-based alternatives\n\n**🌊 Support sustainable fisheries** and Antarctic MPAs\n\n**📣 Share why krill are the hidden heroes** of our planet's carbon cycle\n\n**🌡️ Fight climate change** - Support policies that address ocean acidification and warming\n\n**📚 Stay informed** - Follow CCAMLR and AAD research on Antarctic ecosystem management\n\n**🐋 Support whale conservation** - Understanding krill-whale connections helps protect both species\n\n**🌍 Think ecosystems** - Recognize that protecting one species means protecting the entire food web\n\nCongratulations on completing this advanced lesson! You're now equipped to understand and advocate for one of Earth's most important ecosystems."
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about krill-whale ecosystem management.",
+      sources: [
+        {
+          title: "Atkinson, A. et al. (2023) - Antarctic krill biomass and ecosystem role",
+          url: "https://www.nature.com/articles/s41558-023-01723-2"
+        },
+        {
+          title: "CCAMLR - Krill Fisheries and Management Overview",
+          url: "https://www.ccamlr.org/en/fisheries/krill-fisheries"
+        },
+        {
+          title: "Australian Antarctic Division - Krill Research Projects",
+          url: "https://www.antarctica.gov.au/science/wildlife/krill/"
+        },
+        {
+          title: "Nicol, S. & Foster, J. (2016) - The importance of Antarctic krill in Southern Ocean ecosystems",
+          url: "https://doi.org/10.1016/j.dsr2.2016.02.002"
+        }
+      ]
     }
   ]
 };
