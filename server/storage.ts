@@ -6,7 +6,7 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 import {
   users, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
-  diveLogs, diveLogSpecies, diveMaps, countries,
+  diveLogs, diveLogSpecies, diveMaps, countries, lessonProgress, categoryBadges,
   type User, type InsertUser, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
@@ -14,7 +14,8 @@ import {
   type UserFavorite, type InsertUserFavorite, type UserSpottedSpecies, type InsertUserSpottedSpecies,
   type WaterConditions, type InsertWaterConditions, type DiveLog, type InsertDiveLog,
   type DiveLogSpecies, type InsertDiveLogSpecies, type DiveMap, type InsertDiveMap,
-  type Country, type InsertCountry
+  type Country, type InsertCountry, type LessonProgress, type InsertLessonProgress,
+  type CategoryBadge, type InsertCategoryBadge
 } from '@shared/schema';
 
 export interface IStorage {
@@ -92,6 +93,15 @@ export interface IStorage {
   deleteDiveLog(id: number): Promise<boolean>;
   addSpeciesToDiveLog(diveLogSpecies: InsertDiveLogSpecies): Promise<DiveLogSpecies>;
   getDiveLogSpecies(diveLogId: number): Promise<{species: Species, quantity: number, notes: string}[]>;
+  
+  // Lesson progress tracking
+  getUserLessonProgress(userId: number): Promise<LessonProgress[]>;
+  markLessonComplete(userId: number, lessonId: string): Promise<LessonProgress>;
+  checkAndUnlockBadge(userId: number, lessonId: string): Promise<CategoryBadge | null>;
+  
+  // Category badges
+  getUserBadges(userId: number): Promise<CategoryBadge[]>;
+  createBadge(badge: InsertCategoryBadge): Promise<CategoryBadge>;
 }
 
 // In-memory implementation of the storage interface

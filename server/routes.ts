@@ -20,7 +20,9 @@ import {
   insertCountrySchema,
   insertCertificationSchema,
   insertUserCertificationSchema,
-  updateProfileSchema
+  updateProfileSchema,
+  insertLessonProgressSchema,
+  insertCategoryBadgeSchema
 } from "@shared/schema";
 import bcrypt from 'bcryptjs';
 import { OceanDataService } from "./services/oceanData";
@@ -1279,6 +1281,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error('Error removing user certification:', error);
       res.status(500).json({ success: false, message: "Failed to remove certification" });
+    }
+  });
+
+  // Lesson Progress endpoints
+  
+  // GET /api/progress - Get user's lesson progress
+  app.get('/api/progress', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.userId) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const progress = await storage.getUserLessonProgress(req.session.userId);
+      res.json({ success: true, progress });
+    } catch (error) {
+      console.error('Error fetching lesson progress:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch progress" });
+    }
+  });
+
+  // POST /api/progress/:lessonId - Mark a lesson as complete
+  app.post('/api/progress/:lessonId', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.userId) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const { lessonId } = req.params;
+      
+      // Mark lesson as complete
+      const lessonProgress = await storage.markLessonComplete(req.session.userId, lessonId);
+      
+      // Check if this completion unlocks a category badge
+      const badge = await storage.checkAndUnlockBadge(req.session.userId, lessonId);
+      
+      res.status(201).json({ 
+        success: true, 
+        progress: lessonProgress,
+        badgeUnlocked: badge || null
+      });
+    } catch (error: any) {
+      if (error.code === '23505') { // Unique constraint violation
+        return res.status(400).json({ success: false, message: "Lesson already completed" });
+      }
+      console.error('Error marking lesson complete:', error);
+      res.status(500).json({ success: false, message: "Failed to mark lesson complete" });
+    }
+  });
+
+  // GET /api/badges - Get user's earned badges
+  app.get('/api/badges', async (req: Request, res: Response) => {
+    try {
+      if (!req.session?.userId) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+      }
+
+      const badges = await storage.getUserBadges(req.session.userId);
+      res.json({ success: true, badges });
+    } catch (error) {
+      console.error('Error fetching badges:', error);
+      res.status(500).json({ success: false, message: "Failed to fetch badges" });
     }
   });
 

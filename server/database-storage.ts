@@ -6,7 +6,7 @@ import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
 import {
   users, countries, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
-  diveMaps, diveLogs, diveLogSpecies, certifications, userCertifications,
+  diveMaps, diveLogs, diveLogSpecies, certifications, userCertifications, lessonProgress, categoryBadges,
   type User, type InsertUser, type Country, type InsertCountry, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
@@ -15,7 +15,8 @@ import {
   type WaterConditions, type InsertWaterConditions, type DiveMap, type InsertDiveMap,
   type DiveLog, type InsertDiveLog, type DiveLogSpecies, type InsertDiveLogSpecies,
   type Certification, type InsertCertification, type UserCertification, type InsertUserCertification,
-  type UpdateProfile
+  type UpdateProfile, type LessonProgress, type InsertLessonProgress,
+  type CategoryBadge, type InsertCategoryBadge
 } from "@shared/schema";
 
 // Import the storage interface
@@ -886,6 +887,121 @@ export class DatabaseStorage implements IStorage {
         )
       )
       .orderBy(sql`${waterConditions.timestamp} DESC`);
+  }
+
+  // Lesson Progress Management
+  async getUserLessonProgress(userId: number): Promise<LessonProgress[]> {
+    return await db
+      .select()
+      .from(lessonProgress)
+      .where(eq(lessonProgress.userId, userId))
+      .orderBy(sql`${lessonProgress.completedAt} DESC`);
+  }
+
+  async markLessonComplete(userId: number, lessonId: string): Promise<LessonProgress> {
+    const [progress] = await db
+      .insert(lessonProgress)
+      .values({
+        userId,
+        lessonId
+      })
+      .returning();
+    return progress;
+  }
+
+  async checkAndUnlockBadge(userId: number, lessonId: string): Promise<CategoryBadge | null> {
+    // This will be implemented with lesson category data from frontend
+    // For now, we need to check if all lessons in a category are complete
+    // The frontend will pass the category information
+    // We'll fetch all completed lessons and check category completion
+    
+    // Import lesson data to determine category
+    const lessonCategories: Record<string, { category: string; badgeName: string; badgeIcon: string }> = {
+      // Marine Mammals
+      'whale-science-101': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'southern-right-whale-migration': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'southern-right-whale-climate': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'bunbury-bottlenose-dolphins': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'swan-river-dolphins': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'pygmy-blue-whales': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'humpback-highway': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'australian-sea-lion': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'orca-mysteries-bremer-bay': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      
+      // Ocean Literacy
+      'ocean-currents': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      'leeuwin-current': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      'ocean-literacy-principle-1': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      'ocean-literacy-principle-2': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      
+      // Maritime History
+      'camilla-wreck-maritime-history': { category: 'maritime-history', badgeName: 'History Keeper', badgeIcon: '⚓' },
+      'long-jetty-maritime-history': { category: 'maritime-history', badgeName: 'History Keeper', badgeIcon: '⚓' },
+      
+      // Add more categories as needed
+    };
+
+    const lessonInfo = lessonCategories[lessonId];
+    if (!lessonInfo) {
+      return null; // Unknown lesson, can't unlock badge
+    }
+
+    // Check if user already has this badge
+    const existingBadge = await db
+      .select()
+      .from(categoryBadges)
+      .where(
+        and(
+          eq(categoryBadges.userId, userId),
+          eq(categoryBadges.category, lessonInfo.category)
+        )
+      );
+
+    if (existingBadge.length > 0) {
+      return null; // Badge already unlocked
+    }
+
+    // Get all completed lessons for this user
+    const completed = await this.getUserLessonProgress(userId);
+    const completedLessonIds = completed.map(p => p.lessonId);
+
+    // Count how many lessons in this category are complete
+    const categoryLessons = Object.keys(lessonCategories).filter(
+      id => lessonCategories[id].category === lessonInfo.category
+    );
+    const completedInCategory = categoryLessons.filter(id => completedLessonIds.includes(id));
+
+    // If all lessons in category are complete, unlock badge
+    if (completedInCategory.length === categoryLessons.length) {
+      const [badge] = await db
+        .insert(categoryBadges)
+        .values({
+          userId,
+          category: lessonInfo.category,
+          badgeName: lessonInfo.badgeName,
+          badgeIcon: lessonInfo.badgeIcon
+        })
+        .returning();
+      return badge;
+    }
+
+    return null;
+  }
+
+  async getUserBadges(userId: number): Promise<CategoryBadge[]> {
+    return await db
+      .select()
+      .from(categoryBadges)
+      .where(eq(categoryBadges.userId, userId))
+      .orderBy(sql`${categoryBadges.unlockedAt} DESC`);
+  }
+
+  async createBadge(badge: InsertCategoryBadge): Promise<CategoryBadge> {
+    const [newBadge] = await db
+      .insert(categoryBadges)
+      .values(badge)
+      .returning();
+    return newBadge;
   }
 }
 
