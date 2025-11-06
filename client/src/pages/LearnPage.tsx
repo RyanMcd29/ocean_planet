@@ -543,20 +543,18 @@ export default function LearnPage() {
       const totalCount = categoryLessons.length;
       const isUnlocked = unlockedBadges.has(category);
 
-      if (totalCount > 0) {
-        const badgeInfo = categoryBadgeMap[category];
-        const unlockedBadge = badgesData?.find(b => b.category === category);
-        
-        badgesList.push({
-          category,
-          badgeName: badgeInfo.badgeName,
-          badgeIcon: badgeInfo.badgeIcon,
-          isLocked: !isUnlocked,
-          completedCount,
-          totalCount,
-          unlockedAt: unlockedBadge ? new Date(unlockedBadge.unlockedAt) : undefined,
-        });
-      }
+      const badgeInfo = categoryBadgeMap[category];
+      const unlockedBadge = badgesData?.find(b => b.category === category);
+      
+      badgesList.push({
+        category,
+        badgeName: badgeInfo.badgeName,
+        badgeIcon: badgeInfo.badgeIcon,
+        isLocked: !isUnlocked,
+        completedCount,
+        totalCount,
+        unlockedAt: unlockedBadge ? new Date(unlockedBadge.unlockedAt) : undefined,
+      });
     });
 
     return badgesList;
