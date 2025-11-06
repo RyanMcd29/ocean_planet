@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Calendar, MapPin, ExternalLink, DollarSign } from "lucide-react";
+import { Calendar, MapPin, ExternalLink, DollarSign, X, Users } from "lucide-react";
 import { format } from "date-fns";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -47,6 +47,7 @@ export function EventsList() {
   const [dateFilter, setDateFilter] = useState("all");
   const [typeFilter, setTypeFilter] = useState("all");
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const { toast } = useToast();
 
   // Form state for new event
@@ -302,7 +303,12 @@ export function EventsList() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {events.map((event) => (
-              <Card key={event.id} className="hover:shadow-lg transition-shadow" data-testid={`card-event-${event.id}`}>
+              <Card 
+                key={event.id} 
+                className="hover:shadow-lg transition-shadow cursor-pointer" 
+                onClick={() => setSelectedEvent(event)}
+                data-testid={`card-event-${event.id}`}
+              >
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
                     <div className={`p-3 rounded-lg ${
@@ -361,6 +367,119 @@ export function EventsList() {
           </div>
         )}
       </div>
+
+      {/* Event Detail Dialog */}
+      {selectedEvent && (
+        <Dialog open={!!selectedEvent} onOpenChange={(open) => !open && setSelectedEvent(null)}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <div className="flex items-start justify-between">
+                <div className="flex-1 pr-8">
+                  <DialogTitle className="text-2xl text-[#0A4D68] mb-2">{selectedEvent.name}</DialogTitle>
+                  <Badge variant="outline" className="text-sm">
+                    {selectedEvent.type}
+                  </Badge>
+                </div>
+              </div>
+            </DialogHeader>
+
+            <div className="space-y-6 mt-4">
+              {/* Event Icon */}
+              <div className="flex justify-center">
+                <div className={`p-6 rounded-full ${
+                  selectedEvent.type === 'Beach Clean up' ? 'bg-green-500' :
+                  selectedEvent.type === 'Dive Trip' ? 'bg-blue-500' :
+                  selectedEvent.type === 'Workshop' ? 'bg-purple-500' :
+                  'bg-[#088395]'
+                } text-white`}>
+                  <Calendar className="w-12 h-12" />
+                </div>
+              </div>
+
+              {/* Event Details */}
+              <div className="space-y-4">
+                <div>
+                  <h3 className="font-semibold text-[#0A4D68] mb-2">Description</h3>
+                  <p className="text-gray-700">{selectedEvent.description}</p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="font-semibold text-[#0A4D68] mb-2 flex items-center">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Date & Time
+                    </h3>
+                    <p className="text-gray-700">{format(new Date(selectedEvent.startDate), 'PPp')}</p>
+                    {selectedEvent.endDate && (
+                      <p className="text-gray-600 text-sm mt-1">
+                        Ends: {format(new Date(selectedEvent.endDate), 'PPp')}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold text-[#0A4D68] mb-2 flex items-center">
+                      <MapPin className="w-4 h-4 mr-2" />
+                      Location
+                    </h3>
+                    <p className="text-gray-700">{selectedEvent.location}</p>
+                    {selectedEvent.city && (
+                      <p className="text-gray-600 text-sm">{selectedEvent.city}</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <h3 className="font-semibold text-[#0A4D68] mb-2 flex items-center">
+                      <Users className="w-4 h-4 mr-2" />
+                      Organizer
+                    </h3>
+                    <p className="text-gray-700">{selectedEvent.organizerName}</p>
+                  </div>
+
+                  {selectedEvent.cost && (
+                    <div>
+                      <h3 className="font-semibold text-[#0A4D68] mb-2 flex items-center">
+                        <DollarSign className="w-4 h-4 mr-2" />
+                        Cost
+                      </h3>
+                      <p className="text-gray-700">{selectedEvent.cost}</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-3 pt-4 border-t">
+                {selectedEvent.externalLink && (
+                  <Button 
+                    className="flex-1 bg-[#088395] hover:bg-[#0A4D68]"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(selectedEvent.externalLink, '_blank');
+                    }}
+                    data-testid="button-event-external-link"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    More Information
+                  </Button>
+                )}
+                <Button 
+                  variant="outline"
+                  className="flex-1"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigator.clipboard.writeText(window.location.href);
+                    toast({ title: "Link copied!", description: "Event link copied to clipboard." });
+                  }}
+                  data-testid="button-share-event"
+                >
+                  Share Event
+                </Button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
