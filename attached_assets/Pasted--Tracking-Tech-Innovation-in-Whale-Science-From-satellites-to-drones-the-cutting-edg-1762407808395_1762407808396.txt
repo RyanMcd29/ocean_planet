@@ -1,0 +1,132 @@
+## 🌊 **Tracking Tech: Innovation in Whale Science**
+
+*From satellites to drones – the cutting edge of marine research*
+
+**Level:** Intermediate
+
+---
+
+### **👣 Step 1 of 5 – Introduction**
+
+Ever wondered how scientists study whales in the freezing, storm-tossed Southern Ocean? ❄️🌬️
+
+From sound sensors to flying drones, cutting-edge technology is transforming how we explore the secret lives of the world’s largest animals.
+
+---
+
+### **🧠 Step 2 of 5 – Key Concept**
+
+- **Sonobuoys** detect underwater calls across hundreds of kilometres.
+- **Acoustic moorings** record year-round ocean soundscapes.
+- **Satellite tags** send daily GPS positions and dive data.
+- **Drones & photogrammetry** measure body length, health, and even pregnancy clues.
+
+✅ **Quiz 1:**
+
+What were sonobuoys originally built to do?
+
+A) Measure sea temperature
+
+B) Track fishing vessels
+
+C) Listen for submarines ✅
+
+D) Detect ice thickness
+
+---
+
+### **🐠 Step 3 of 5 – Who or What’s Involved?**
+
+- **Australian Antarctic Division (AAD)** designs durable, low-impact tags.
+- **IWC & SORP programs** share global whale tracking data.
+- **Researchers** from UWA and CSIRO use drones to study humpback body condition.
+
+✅ **Quiz 2:**
+
+Which whale species was found migrating between Australia and New Zealand?
+
+A) Minke whale
+
+B) Humpback whale ✅
+
+C) Fin whale
+
+D) Bryde’s whale
+
+---
+
+### **🌊 Step 4 of 5 – Challenges or Consequences**
+
+- Balancing scientific value with animal welfare — every tag deployment is reviewed ethically.
+- Acoustic pollution from ships can mask whale calls.
+- Krill decline and warming seas reduce feeding success for Antarctic whales.
+
+✅ **Quiz 3:**
+
+Which whale can consume around 4.9 million krill a day?
+
+A) Antarctic blue whale ✅
+
+B) Humpback whale
+
+C) Orca
+
+D) Sperm whale
+
+---
+
+### **Step 5 of 6 – Final Quiz**
+
+1. What is a key benefit of using satellite tags?
+    - A) They provide real-time data from remote areas ✅
+    - B) They photograph whales automatically
+    - C) They clean ocean sensors
+    - D) They replace scientists at sea
+2. Why are acoustic moorings valuable for whale science?
+    - A) They track coral growth
+    - B) They measure salinity levels
+    - C) They deter whales from ships
+    - D) They record whale sounds continuously ✅
+3. What ethical issue comes with tagging technology?
+    - A) Whales may react to tag placement ✅
+    - B) Tags often attract sharks
+    - C) Tags emit too much light
+    - D) Whales eat the tags
+
+---
+
+### **🌱 Step 6 of 6 – What You Can Do**
+
+🛰️ Support research groups improving wildlife-safe technology.
+
+🌊 Advocate for quieter, cleaner shipping.
+
+📚 Follow whale-tracking maps online to stay inspired!
+
+🎉 **Wrap-Up Message**
+
+“You’re becoming a whale-science pro! Next: discover how tiny krill sustain these giants in *Ecosystem Guardians.*”
+
+---
+
+### 🔗 **Sources & Further Reading**
+
+1. Miller, B. S. et al. (2024). *Antarctic sonobuoy surveys: blue whale distribution & changes.* Frontiers in Marine Science.
+    
+    [https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2024.1324816/full](https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2024.1324816/full?utm_source=chatgpt.com)
+    
+2. Robbins, J. (2012). *Satellite telemetry and large whales – effectiveness & impacts.* Marine Mammals Australia (PDF).
+    
+    [https://www.marinemammals.gov.au/site/assets/files/1080/sc-65a-sh05.pdf](https://www.marinemammals.gov.au/site/assets/files/1080/sc-65a-sh05.pdf?utm_source=chatgpt.com)
+    
+3. *Sonobuoys – Locating by Sound.* DOSITS.
+    
+    [https://dosits.org/galleries/technology-gallery/locating-objects-by-listening-to-their-sounds/difar/](https://dosits.org/galleries/technology-gallery/locating-objects-by-listening-to-their-sounds/difar/?utm_source=chatgpt.com)
+    
+4. *Satellite Tagging Background.* Centre for Whale Research WA.
+    
+    [https://www.cwr.org.au/research/bluewhales/satellite/satellite-background.html](https://www.cwr.org.au/research/bluewhales/satellite/satellite-background.html?utm_source=chatgpt.com)
+    
+5. *Long-distance Acoustic Monitoring.* International Whaling Commission.
+    
+    [https://iwc.int/resources/news/long-distance-acoustic-monitoring-the-iwc-southern](https://iwc.int/resources/news/long-distance-acoustic-monitoring-the-iwc-southern?utm_source=chatgpt.com)
