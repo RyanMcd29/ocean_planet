@@ -13,7 +13,7 @@ import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
 import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, whaleScience101Lesson, trackingTechLesson, ecosystemGuardiansLesson, camillaWreckLesson, longJettyLesson, swanRiverDolphinsLesson, bunburyDolphinsLesson, pygmyBlueWhalesLesson, humpbackHighwayLesson, australianSeaLionLesson, orcaMysteriesLesson, type EnhancedLesson } from "@/data/enhancedLessons";
 
-import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin, FileText, Anchor, Navigation, Atom, Sprout, Droplet, Dna, Moon, TreePine, Sparkles, Mountain, Zap } from "lucide-react";
+import { Compass, BookOpen, Fish, Award, ChevronLeft, ChevronRight, Waves, Thermometer, MapPin, FileText, Anchor, Navigation, Atom, Sprout, Droplet, Dna, Moon, Trees, Sparkles, Mountain, Zap } from "lucide-react";
 
 const categories = [
   { id: "ocean-literacy", name: "Ocean Literacy", icon: "🌊", emoji: true },
