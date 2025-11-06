@@ -1527,14 +1527,14 @@ export const trackingTechLesson: EnhancedLesson = {
     {
       type: "quiz",
       title: "Technology Origins",
-      content: "What was a sonobuoy originally designed for?",
+      content: "What were sonobuoys originally built to do?",
       options: [
-        "Tracking fish schools",
-        "Listening for submarines",
-        "Measuring ocean temperature",
-        "Monitoring icebergs"
+        "Measure sea temperature",
+        "Track fishing vessels",
+        "Listen for submarines",
+        "Detect ice thickness"
       ],
-      correctAnswer: 1,
+      correctAnswer: 2,
       explanation: "Sonobuoys were originally military technology designed for submarine detection during wartime. Scientists have successfully adapted this technology for peaceful whale research."
     },
     {
@@ -1546,12 +1546,12 @@ export const trackingTechLesson: EnhancedLesson = {
     {
       type: "quiz",
       title: "Migration Discoveries",
-      content: "Which whale species' movement was discovered to include New Zealand during migration?",
+      content: "Which whale species was found migrating between Australia and New Zealand?",
       options: [
-        "Southern right whales",
-        "East coast humpback whales",
-        "Minke whales",
-        "Orcas"
+        "Minke whale",
+        "Humpback whale",
+        "Fin whale",
+        "Bryde's whale"
       ],
       correctAnswer: 1,
       explanation: "Advanced tracking technology revealed that east coast humpback whales travel to New Zealand waters during their migration, a connection that wasn't previously known."
@@ -1565,39 +1565,90 @@ export const trackingTechLesson: EnhancedLesson = {
     {
       type: "quiz",
       title: "Feeding Behavior",
-      content: "What species consumes up to 4.9 million krill per day?",
+      content: "Which whale can consume around 4.9 million krill a day?",
       options: [
-        "Humpback whale",
         "Antarctic blue whale",
-        "Sperm whale",
-        "Leopard seal"
+        "Humpback whale",
+        "Orca",
+        "Sperm whale"
       ],
-      correctAnswer: 1,
+      correctAnswer: 0,
       explanation: "Antarctic blue whales are the largest animals on Earth and require massive amounts of krill - up to 4.9 million per day during feeding season - to maintain their enormous size."
     },
     {
       type: "text",
       title: "🌊 Environmental Challenges and Solutions",
-      content: "Modern whale research faces significant environmental challenges:\n\n**❄️ Climate Change Effects** - Warming oceans are shifting krill distributions, forcing whales to travel further for food.\n\n**🌊 Ocean Acidification** - Changing ocean chemistry threatens krill reproduction, affecting the entire food web.\n\n**🎣 Fishing Pressure** - Increasing krill harvesting for human consumption competes with whale feeding needs.\n\n**🛃 Shipping Traffic** - Busy shipping lanes intersect with whale migration routes, creating collision risks.\n\n**🔊 Noise Pollution** - Ship engines and sonar interfere with whale communication and navigation.\n\n**Solutions in Development:**\n- **Smart shipping routes** that avoid peak whale migration periods\n- **Acoustic deterrents** to warn whales of approaching vessels\n- **Marine protected areas** in critical feeding and breeding zones\n- **Sustainable fishing quotas** based on real whale consumption data",
+      content: "Modern whale research faces significant environmental challenges:\n\n**❄️ Climate Change Effects** - Warming oceans are shifting krill distributions, forcing whales to travel further for food.\n\n**🌊 Ocean Acidification** - Changing ocean chemistry threatens krill reproduction, affecting the entire food web.\n\n**🎣 Fishing Pressure** - Increasing krill harvesting for human consumption competes with whale feeding needs.\n\n**🛃 Shipping Traffic** - Busy shipping lanes intersect with whale migration routes, creating collision risks.\n\n**🔊 Noise Pollution** - Ship engines and sonar interfere with whale communication and navigation.\n\n**Solutions in Development:**\n- **Smart shipping routes** that avoid peak whale migration periods\n- **Acoustic deterrents** to warn whales of approaching vessels\n- **Marine protected areas** in critical feeding and breeding zones\n- **Sustainable fishing quotas** based on real whale consumption data\n\nBalancing scientific value with animal welfare — every tag deployment is reviewed ethically.",
       highlight: "Whale tracking data is now used to reroute ships and reduce deadly collisions!"
     },
     {
-      type: "quiz",
-      title: "Environmental Threats",
-      content: "What major environmental challenge threatens krill reproduction?",
-      options: [
-        "Overfishing alone",
-        "Ocean acidification and climate change",
-        "Whale predation",
-        "Lack of sunlight in winter"
-      ],
-      correctAnswer: 1,
-      explanation: "Ocean acidification and climate change are the primary threats to krill reproduction, as these changes affect the ocean chemistry and temperature conditions krill need to survive and reproduce."
+      type: "finalQuiz",
+      title: "Final Quiz",
+      content: "Test your knowledge of whale tracking technology!",
+      questions: [
+        {
+          question: "What is a key benefit of using satellite tags?",
+          options: [
+            "They provide real-time data from remote areas",
+            "They photograph whales automatically",
+            "They clean ocean sensors",
+            "They replace scientists at sea"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "Why are acoustic moorings valuable for whale science?",
+          options: [
+            "They track coral growth",
+            "They measure salinity levels",
+            "They deter whales from ships",
+            "They record whale sounds continuously"
+          ],
+          correctAnswer: 3
+        },
+        {
+          question: "What ethical issue comes with tagging technology?",
+          options: [
+            "Whales may react to tag placement",
+            "Tags often attract sharks",
+            "Tags emit too much light",
+            "Whales eat the tags"
+          ],
+          correctAnswer: 0
+        }
+      ]
     },
     {
       type: "conclusion",
       title: "🌊 You're Now a Whale Tech Expert!",
-      content: "Excellent work! You now understand the cutting-edge technology revolutionizing whale research and conservation. This knowledge puts you at the forefront of marine science understanding.\n\n**What You Can Do:**\n\n**🌍 Advocate for marine protected areas** - Support policies that protect critical whale habitats\n\n**🛥️ Choose science-based whale watching** - Support tours that contribute to research and follow strict guidelines\n\n**📚 Stay informed** - Follow whale research organizations and their latest technological breakthroughs\n\n**🌊 Support sustainable seafood** - Choose fishing methods that don't interfere with whale feeding areas\n\n**📱 Use citizen science apps** - Report whale sightings to help researchers track populations\n\n**🎓 Share your knowledge** - Help others understand how technology is protecting whales\n\nReady for the advanced level? Next, explore ecosystem management and the critical role of krill in whale survival!"
+      content: "Excellent work! You now understand the cutting-edge technology revolutionizing whale research and conservation. This knowledge puts you at the forefront of marine science understanding.\n\n**What You Can Do:**\n\n🛰️ **Support research groups** improving wildlife-safe technology\n\n🌊 **Advocate for quieter, cleaner shipping** to reduce acoustic pollution\n\n📚 **Follow whale-tracking maps online** to stay inspired and informed\n\n**🌍 Advocate for marine protected areas** - Support policies that protect critical whale habitats\n\n**🛥️ Choose science-based whale watching** - Support tours that contribute to research and follow strict guidelines\n\n**🌊 Support sustainable seafood** - Choose fishing methods that don't interfere with whale feeding areas\n\n**📱 Use citizen science apps** - Report whale sightings to help researchers track populations\n\n**🎓 Share your knowledge** - Help others understand how technology is protecting whales\n\n🎉 You're becoming a whale-science pro! Next: discover how tiny krill sustain these giants in *Ecosystem Guardians.*"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about whale tracking technology.",
+      sources: [
+        {
+          title: "Miller, B. S. et al. (2024) - Antarctic sonobuoy surveys: blue whale distribution & changes",
+          url: "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2024.1324816/full"
+        },
+        {
+          title: "Robbins, J. (2012) - Satellite telemetry and large whales – effectiveness & impacts",
+          url: "https://www.marinemammals.gov.au/site/assets/files/1080/sc-65a-sh05.pdf"
+        },
+        {
+          title: "DOSITS - Sonobuoys: Locating by Sound",
+          url: "https://dosits.org/galleries/technology-gallery/locating-objects-by-listening-to-their-sounds/difar/"
+        },
+        {
+          title: "Centre for Whale Research WA - Satellite Tagging Background",
+          url: "https://www.cwr.org.au/research/bluewhales/satellite/satellite-background.html"
+        },
+        {
+          title: "International Whaling Commission - Long-distance Acoustic Monitoring",
+          url: "https://iwc.int/resources/news/long-distance-acoustic-monitoring-the-iwc-southern"
+        }
+      ]
     }
   ]
 };
