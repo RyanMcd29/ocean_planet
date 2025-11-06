@@ -79,6 +79,30 @@ async function createTablesIfNotExists() {
       );
     `);
 
+    // Create lesson_progress table for tracking completed lessons
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS lesson_progress (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        lesson_id TEXT NOT NULL,
+        completed_at TIMESTAMP DEFAULT NOW() NOT NULL,
+        UNIQUE(user_id, lesson_id)
+      );
+    `);
+
+    // Create category_badges table for tracking earned category badges
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS category_badges (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        category TEXT NOT NULL,
+        badge_name TEXT NOT NULL,
+        badge_icon TEXT NOT NULL,
+        unlocked_at TIMESTAMP DEFAULT NOW() NOT NULL,
+        UNIQUE(user_id, category)
+      );
+    `);
+
     console.log('Tables created/verified successfully');
   } catch (error) {
     console.error('Error creating tables:', error);

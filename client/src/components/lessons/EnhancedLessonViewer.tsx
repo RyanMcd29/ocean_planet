@@ -68,9 +68,16 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
   // Mutation to mark lesson as complete
   const completeLessonMutation = useMutation({
     mutationFn: async () => {
-      return await apiRequest(`/api/progress/${lesson.id}`, {
+      const response = await apiRequest(`/api/progress/${lesson.id}`, {
         method: 'POST',
       });
+      return await response.json() as {
+        progress: any;
+        badge?: {
+          badgeName: string;
+          badgeIcon: string;
+        };
+      };
     },
     onSuccess: (data) => {
       // Invalidate progress and badges queries to refresh the data
@@ -78,7 +85,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
       queryClient.invalidateQueries({ queryKey: ['/api/badges'] });
       
       // Show success message
-      if (data.badge) {
+      if (data?.badge) {
         toast({
           title: "🎉 Badge Unlocked!",
           description: `You've earned the ${data.badge.badgeName} ${data.badge.badgeIcon} badge!`,

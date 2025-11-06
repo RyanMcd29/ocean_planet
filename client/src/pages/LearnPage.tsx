@@ -713,7 +713,12 @@ export default function LearnPage() {
             <>
               {filteredLessons.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredLessons.map((lesson) => (
+                  {filteredLessons.map((lesson) => {
+                    const isCompleted = lesson.enhancedLessonData?.id 
+                      ? completedLessonIds.has(lesson.enhancedLessonData.id) 
+                      : lesson.completed;
+                    
+                    return (
                     <Card key={lesson.id} className="cursor-pointer hover:shadow-lg transition-shadow">
                       <div className="relative">
                         <img 
@@ -724,9 +729,9 @@ export default function LearnPage() {
                         <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-medium flex items-center gap-1">
                           <span>{lesson.duration} min</span>
                         </div>
-                        {lesson.completed && (
-                          <div className="absolute top-2 left-2 bg-green-500 text-white rounded-full p-1">
-                            <Award className="h-3 w-3" />
+                        {isCompleted && (
+                          <div className="absolute top-2 left-2 bg-gradient-to-br from-green-400 to-emerald-500 text-white rounded-full p-1.5 shadow-lg">
+                            <Check className="h-4 w-4" data-testid={`completed-${lesson.id}`} />
                           </div>
                         )}
                       </div>
@@ -751,11 +756,12 @@ export default function LearnPage() {
                           className="w-full bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68]"
                           onClick={() => handleLessonClick(lesson)}
                         >
-                          {lesson.completed ? "Review" : "Start Lesson"}
+                          {isCompleted ? "Review" : "Start Lesson"}
                         </Button>
                       </CardFooter>
                     </Card>
-                  ))}
+                  );
+                  })}
                 </div>
               ) : (
                 <Card className="p-12 text-center">
