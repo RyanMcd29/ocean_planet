@@ -1008,7 +1008,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Community Posts Management
-  async getAllPosts(sort?: string, tag?: string): Promise<(Post & { user: User; likeCount: number; commentCount: number; isLiked?: boolean })[]> {
+  async getAllPosts(sort?: string, tag?: string, location?: string): Promise<(Post & { user: User; likeCount: number; commentCount: number; isLiked?: boolean })[]> {
     const query = db
       .select({
         id: posts.id,
@@ -1019,6 +1019,7 @@ export class DatabaseStorage implements IStorage {
         location: posts.location,
         diveSiteId: posts.diveSiteId,
         speciesSpotted: posts.speciesSpotted,
+        linkedLessonId: posts.linkedLessonId,
         createdAt: posts.createdAt,
         updatedAt: posts.updatedAt,
         user: users,
@@ -1033,6 +1034,13 @@ export class DatabaseStorage implements IStorage {
     // Filter by tag if provided
     if (tag) {
       results = results.filter((post: any) => post.tags && post.tags.includes(tag));
+    }
+
+    // Filter by location if provided (case-insensitive partial match)
+    if (location) {
+      results = results.filter((post: any) => 
+        post.location && post.location.toLowerCase().includes(location.toLowerCase())
+      );
     }
 
     // Sort results

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight, X, CheckCircle, XCircle, Lightbulb, Fish, Waves, Heart, Zap, Star, BookOpen, ExternalLink } from "lucide-react";
+import { ChevronLeft, ChevronRight, X, CheckCircle, XCircle, Lightbulb, Fish, Waves, Heart, Zap, Star, BookOpen, ExternalLink, Share2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 
 interface SourceItem {
   title: string;
@@ -55,6 +56,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
   onClose
 }) => {
   const { toast } = useToast();
+  const [, setLocation] = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -111,6 +113,33 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
   const handleCompleteLesson = () => {
     completeLessonMutation.mutate();
+  };
+
+  // Mutation to share lesson to community
+  const shareLessonMutation = useMutation({
+    mutationFn: async () => {
+      const postContent = `Just completed "${lesson.title}"! 🎓 #OceanLearning`;
+      return await apiRequest('/api/posts', {
+        method: 'POST',
+        body: JSON.stringify({
+          content: postContent,
+          tags: ['Ocean fact'],
+          linkedLessonId: lesson.id
+        }),
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Shared!",
+        description: "Your lesson has been shared to the Community.",
+      });
+      // Navigate to community page
+      setLocation('/community');
+    },
+  });
+
+  const handleShareLesson = () => {
+    shareLessonMutation.mutate();
   };
 
   const currentStepData = lesson.steps[currentStep];
@@ -691,14 +720,27 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
             </div>
 
             {isLastStep ? (
-              <Button
-                onClick={handleCompleteLesson}
-                disabled={completeLessonMutation.isPending}
-                className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-2 disabled:opacity-50"
-              >
-                {completeLessonMutation.isPending ? "Saving..." : "Complete"}
-                <CheckCircle className="w-4 h-4" />
-              </Button>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={handleShareLesson}
+                  disabled={shareLessonMutation.isPending}
+                  className="flex items-center gap-2"
+                  data-testid="button-share-lesson"
+                >
+                  {shareLessonMutation.isPending ? "Sharing..." : "Share"}
+                  <Share2 className="w-4 h-4" />
+                </Button>
+                <Button
+                  onClick={handleCompleteLesson}
+                  disabled={completeLessonMutation.isPending}
+                  className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-2 disabled:opacity-50"
+                  data-testid="button-complete-lesson"
+                >
+                  {completeLessonMutation.isPending ? "Saving..." : "Complete"}
+                  <CheckCircle className="w-4 h-4" />
+                </Button>
+              </div>
             ) : (
               <Button
                 onClick={handleNext}

@@ -1354,8 +1354,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // GET /api/posts - Get all posts with filters
   app.get('/api/posts', async (req: Request, res: Response) => {
     try {
-      const { sort, tag } = req.query;
-      const posts = await storage.getAllPosts(sort as string, tag as string);
+      const { sort, tag, location } = req.query;
+      const posts = await storage.getAllPosts(sort as string, tag as string, location as string);
       res.json({ success: true, posts });
     } catch (error) {
       console.error('Error fetching posts:', error);

@@ -5,8 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Heart, MessageCircle, MapPin, Send } from "lucide-react";
+import { Heart, MessageCircle, MapPin, Send, Image as ImageIcon, X } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -20,6 +21,7 @@ interface Post {
   location?: string;
   diveSiteId?: number;
   speciesSpotted?: string[];
+  linkedLessonId?: string;
   createdAt: Date;
   user: {
     id: number;
@@ -29,6 +31,11 @@ interface Post {
   };
   likeCount: number;
   commentCount: number;
+  linkedLesson?: {
+    id: string;
+    title: string;
+    category: string;
+  };
 }
 
 interface Comment {
@@ -48,6 +55,10 @@ const POST_TAGS = ["Dive report", "Question", "Ocean fact", "Gear chat", "Beach 
 export function PostsFeed() {
   const [newPost, setNewPost] = useState("");
   const [selectedTag, setSelectedTag] = useState<string>("");
+  const [photoPreview, setPhotoPreview] = useState<string>("");
+  const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [location, setLocation] = useState("");
+  const [locationFilter, setLocationFilter] = useState("");
   const [sortBy, setSortBy] = useState("newest");
   const [filterTag, setFilterTag] = useState("all");
   const [expandedComments, setExpandedComments] = useState<number | null>(null);
@@ -56,13 +67,17 @@ export function PostsFeed() {
 
   // Fetch posts
   const { data: posts = [], isLoading, error } = useQuery<Post[]>({
-    queryKey: ['/api/posts', { sort: sortBy, tag: filterTag === 'all' ? '' : filterTag }],
+    queryKey: ['/api/posts', { 
+      sort: sortBy, 
+      tag: filterTag === 'all' ? '' : filterTag,
+      location: locationFilter
+    }],
     select: (data: any) => data?.posts || [],
   });
 
   // Create post mutation
   const createPostMutation = useMutation({
-    mutationFn: async (data: { content: string; tags?: string[] }) => {
+    mutationFn: async (data: { content: string; tags?: string[]; photoUrl?: string; location?: string }) => {
       return await apiRequest('/api/posts', {
         method: 'POST',
         body: JSON.stringify(data),
@@ -72,6 +87,9 @@ export function PostsFeed() {
       queryClient.invalidateQueries({ queryKey: ['/api/posts'] });
       setNewPost("");
       setSelectedTag("");
+      setPhotoPreview("");
+      setPhotoFile(null);
+      setLocation("");
       toast({ title: "Post shared!", description: "Your post has been shared with the community." });
     },
   });
@@ -110,6 +128,27 @@ export function PostsFeed() {
     },
   });
 
+  const handlePhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        toast({ title: "Error", description: "Photo must be less than 5MB", variant: "destructive" });
+        return;
+      }
+      setPhotoFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleRemovePhoto = () => {
+    setPhotoPreview("");
+    setPhotoFile(null);
+  };
+
   const handleSharePost = () => {
     if (!newPost.trim()) {
       toast({ title: "Error", description: "Please write something to share.", variant: "destructive" });
@@ -117,7 +156,10 @@ export function PostsFeed() {
     }
 
     const tags = selectedTag ? [selectedTag] : [];
-    createPostMutation.mutate({ content: newPost, tags });
+    const photoUrl = photoPreview || undefined;
+    const postLocation = location.trim() || undefined;
+    
+    createPostMutation.mutate({ content: newPost, tags, photoUrl, location: postLocation });
   };
 
   const handleToggleComments = (postId: number) => {
@@ -153,20 +195,67 @@ export function PostsFeed() {
                 data-testid="input-new-post-content"
               />
               
-              <div className="flex items-center justify-between mb-3">
-                <Select value={selectedTag} onValueChange={setSelectedTag}>
-                  <SelectTrigger className="w-48" data-testid="select-post-tag">
-                    <SelectValue placeholder="Add tag (optional)" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {POST_TAGS.map((tag) => (
-                      <SelectItem key={tag} value={tag}>{tag}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+              {/* Photo Preview */}
+              {photoPreview && (
+                <div className="relative mb-3">
+                  <img src={photoPreview} alt="Preview" className="w-full max-h-64 object-cover rounded-lg" />
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="absolute top-2 right-2"
+                    onClick={handleRemovePhoto}
+                    data-testid="button-remove-photo"
+                  >
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              )}
 
-              <div className="flex justify-end">
+              {/* Location Input */}
+              <div className="mb-3">
+                <Input
+                  placeholder="Add location (optional)"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  data-testid="input-post-location"
+                />
+              </div>
+              
+              <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+                <div className="flex gap-2">
+                  <Select value={selectedTag} onValueChange={setSelectedTag}>
+                    <SelectTrigger className="w-48" data-testid="select-post-tag">
+                      <SelectValue placeholder="Add tag (optional)" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {POST_TAGS.map((tag) => (
+                        <SelectItem key={tag} value={tag}>{tag}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <label htmlFor="photo-upload">
+                    <input
+                      id="photo-upload"
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={handlePhotoSelect}
+                      data-testid="input-photo-upload"
+                    />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="cursor-pointer"
+                      onClick={() => document.getElementById('photo-upload')?.click()}
+                      data-testid="button-add-photo"
+                    >
+                      <ImageIcon className="w-4 h-4 mr-2" />
+                      Photo
+                    </Button>
+                  </label>
+                </div>
+
                 <Button 
                   className="bg-[#088395] hover:bg-[#0A4D68]"
                   onClick={handleSharePost}
@@ -180,7 +269,7 @@ export function PostsFeed() {
           </Card>
 
           {/* Filters */}
-          <div className="flex gap-3 mb-4">
+          <div className="flex gap-3 mb-4 flex-wrap">
             <Select value={sortBy} onValueChange={setSortBy}>
               <SelectTrigger className="w-40" data-testid="select-sort-posts">
                 <SelectValue />
@@ -202,6 +291,14 @@ export function PostsFeed() {
                 ))}
               </SelectContent>
             </Select>
+
+            <Input
+              placeholder="Search by location..."
+              value={locationFilter}
+              onChange={(e) => setLocationFilter(e.target.value)}
+              className="w-64"
+              data-testid="input-location-filter"
+            />
           </div>
 
           {/* Posts List */}

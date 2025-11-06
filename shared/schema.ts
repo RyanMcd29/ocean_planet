@@ -508,6 +508,7 @@ export const posts = pgTable("posts", {
   location: text("location"),
   diveSiteId: integer("dive_site_id"),
   speciesSpotted: text("species_spotted").array(),
+  linkedLessonId: text("linked_lesson_id"), // For sharing lessons
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
