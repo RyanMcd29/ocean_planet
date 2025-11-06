@@ -1474,12 +1474,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ success: false, message: "Not authenticated" });
       }
 
+      console.log('Event creation request body:', req.body);
       const validationResult = insertEventSchema.safeParse({
         ...req.body,
         userId: req.session.userId
       });
 
       if (!validationResult.success) {
+        console.error('Event validation errors:', validationResult.error.flatten().fieldErrors);
         return res.status(400).json({
           success: false,
           message: "Validation failed",
