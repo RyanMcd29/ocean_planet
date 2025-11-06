@@ -2411,6 +2411,145 @@ export const bunburyDolphinsLesson: EnhancedLesson = {
   ]
 };
 
+export const australianSeaLionLesson: EnhancedLesson = {
+  id: "australian-sea-lion-marine-mammals",
+  title: "The Curious Sea Lion: Australia's Playful Marine Acrobat",
+  description: "Endemic to Australia, endangered, and full of personality",
+  category: "marine-mammals",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🦭 Welcome to Sea Lion Country!",
+      content: "Imagine snorkeling off WA's coast and a whiskered face pops up to playfully spin around you. 🦭💫\n\nThat's the **Australian sea lion** — one of the rarest and most endangered sea lions in the world, found only in southern and western Australia.",
+      icon: "🦭"
+    },
+    {
+      type: "text",
+      title: "🧠 Meet the Australian Sea Lion",
+      content: "The Australian sea lion (Neophoca cinerea) is truly special:\n\n**🌏 Endemic Species**: Found nowhere else on Earth - only in southern and western Australia\n\n**📊 Endangered Status**: Only about **12,000 individuals** remain in the wild, making them one of the world's rarest sea lions\n\n**🎭 Playful Personalities**: Known for their curious, playful behavior - often approaching divers and snorkelers with acrobatic spins and loops\n\n**🏝️ Island Homes**: Breed on offshore islands, sandy beaches, and rocky shores along the coast\n\n**🔄 Slow Recovery**: Listed as *Endangered* due to past hunting, fishing gear entanglement, and exceptionally slow reproduction rates\n\nThese charismatic marine mammals are Australia's own treasure, but they need our help to survive.",
+      highlight: "Only about 12,000 Australian sea lions remain in the wild!"
+    },
+    {
+      type: "quiz",
+      title: "Sea Lion Distribution",
+      content: "Where are Australian sea lions found?",
+      options: [
+        "Throughout the entire world",
+        "In New Zealand waters",
+        "In the Arctic Circle",
+        "Only in southern and western Australia"
+      ],
+      correctAnswer: 3,
+      explanation: "Australian sea lions are endemic to Australia, found only in southern and western Australian waters. This makes them one of the world's most geographically restricted sea lion species."
+    },
+    {
+      type: "text",
+      title: "🐠 Life in WA's Waters",
+      content: "Understanding Australian sea lions means knowing their habitat and the people working to protect them:\n\n**Species**: Australian sea lion (Neophoca cinerea) - endemic marine mammal\n\n**Key Habitats**: Offshore islands, sandy beaches, and rocky shores provide breeding and resting sites\n\n**Tourism Hotspots**: Eco-tourism operators in **Jurien Bay** and **Shoalwater Islands** offer responsible sea lion encounters\n\n**Research Teams**: Scientists monitor breeding colonies, population numbers, and threats like entanglement\n\n**Conservation Partners**: Wildlife groups work to protect breeding beaches and reduce human disturbance\n\nThese playful animals create unforgettable encounters for visitors while researchers work to ensure their survival.",
+      highlight: "Jurien Bay offers some of the world's best sea lion snorkeling experiences!"
+    },
+    {
+      type: "quiz",
+      title: "WA Sea Lion Hotspots",
+      content: "Which WA location is famous for safe sea lion snorkeling tours?",
+      options: [
+        "Ningaloo Reef",
+        "Jurien Bay",
+        "Perth Canyon",
+        "Shark Bay"
+      ],
+      correctAnswer: 1,
+      explanation: "Jurien Bay is renowned for its eco-tourism sea lion snorkeling experiences, where visitors can safely observe and interact with playful Australian sea lions in their natural habitat under guided supervision."
+    },
+    {
+      type: "text",
+      title: "🌊 Threats to Survival",
+      content: "Despite their playful nature, Australian sea lions face serious challenges:\n\n**🎣 Entanglement**: Discarded fishing gear is a major cause of death - sea lions get tangled in nets and lines, leading to injury or drowning\n\n**👶 Slow Reproduction**: Females only breed every **18 months** - the longest breeding cycle of any pinniped (seal or sea lion) - making population recovery extremely slow\n\n**👥 Human Disturbance**: Too much interaction with tourists can stress breeding colonies and disturb pups\n\n**🌡️ Climate Change**: Rising sea levels threaten low-lying breeding beaches and pupping sites\n\n**🍽️ Food Competition**: Overfishing reduces prey availability in their feeding grounds\n\nTheir slow reproduction rate means every individual lost has a significant impact on the species' survival.",
+      highlight: "Australian sea lions have the longest breeding cycle of any seal or sea lion!"
+    },
+    {
+      type: "quiz",
+      title: "Recovery Challenges",
+      content: "Why do Australian sea lions recover slowly from population declines?",
+      options: [
+        "They don't eat enough fish",
+        "They avoid the ocean",
+        "They migrate too often",
+        "They only breed every 18 months"
+      ],
+      correctAnswer: 3,
+      explanation: "Australian sea lions have the longest breeding cycle of any pinniped - females only produce pups every 18 months. This means population recovery is extremely slow compared to other marine mammals."
+    },
+    {
+      type: "finalQuiz",
+      title: "Test Your Sea Lion Knowledge",
+      content: "Let's see what you've learned about Australia's playful marine acrobats!",
+      questions: [
+        {
+          question: "Approximately how many Australian sea lions remain in the wild?",
+          options: [
+            "1,000",
+            "12,000",
+            "120,000",
+            "1 million"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "What is the biggest threat to sea lions in WA waters?",
+          options: [
+            "Entanglement in fishing gear",
+            "Coral bleaching",
+            "Ship strikes",
+            "Shark attacks"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "Why are sea lions considered 'playful marine acrobats'?",
+          options: [
+            "They often spin, leap, and interact with snorkelers",
+            "They chase boats constantly",
+            "They perform in circuses",
+            "They imitate dolphins"
+          ],
+          correctAnswer: 0
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a Sea Lion Guardian!",
+      content: "Great job! You've completed the lesson on *The Curious Sea Lion: Australia's Playful Marine Acrobat.* You now understand why these endemic animals are so special and what threatens their survival.\n\n**What You Can Do:**\n\n🦭 **Choose eco-certified sea lion tours** that follow distance guidelines and respect breeding colonies\n\n♻️ **Reduce marine litter** - properly dispose of fishing gear and plastics that can entangle sea lions\n\n📣 **Support conservation groups** protecting breeding colonies and monitoring populations\n\n🌊 **Respect their space** - every encounter should prioritize the sea lions' wellbeing over photos\n\n📚 **Share awareness** - help others understand why these playful animals need protection\n\n🎣 **Advocate for responsible fishing** - support policies that reduce bycatch and gear loss\n\nRemember: these curious marine acrobats are found nowhere else on Earth - protecting them is a uniquely Australian responsibility!"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about Australian sea lions.",
+      sources: [
+        {
+          title: "Australian Government - Australian Sea Lion Species Profile",
+          url: "https://www.dcceew.gov.au/environment/biodiversity/threatened/assessments/neophoca-cinerea-2005"
+        },
+        {
+          title: "Issues Paper: Australian Sea Lion (Neophoca cinerea)",
+          url: "https://www.dcceew.gov.au/sites/default/files/documents/neophoca-cinerea-issues-paper.pdf"
+        },
+        {
+          title: "Marine Conservation Society of Australia - Australian Sea Lions",
+          url: "https://www.marineconservation.org.au/australian-sea-lions/"
+        },
+        {
+          title: "Conservation Advice: Australian Sea Lion - Threat Analysis",
+          url: "https://bio-prd-naturekit-public-data.s3.ap-southeast-2.amazonaws.com/species_assessments/Neophoca_cinerea_11539.pdf"
+        }
+      ]
+    }
+  ]
+};
+
 export const humpbackHighwayLesson: EnhancedLesson = {
   id: "humpback-highway-marine-mammals",
   title: "Humpback Highway: Following WA's Annual Whale Parade",
@@ -2569,5 +2708,6 @@ export const enhancedLessons = [
   swanRiverDolphinsLesson,
   bunburyDolphinsLesson,
   pygmyBlueWhalesLesson,
-  humpbackHighwayLesson
+  humpbackHighwayLesson,
+  australianSeaLionLesson
 ];
