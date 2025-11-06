@@ -405,32 +405,6 @@ const allLessons = [
     isEnhanced: true,
     specialBadge: "🐋",
     enhancedLessonData: orcaMysteriesLesson
-  },
-  {
-    id: 19,
-    title: "Tracking Tech: Innovation in Whale Science",
-    category: "marine-research",
-    duration: 10,
-    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "From satellites to drones – the cutting edge of marine research",
-    completed: false,
-    difficulty: "Intermediate" as const,
-    isEnhanced: true,
-    specialBadge: "🛰️",
-    enhancedLessonData: trackingTechLesson
-  },
-  {
-    id: 20,
-    title: "Ecosystem Guardians: Managing Krill and Whales",
-    category: "marine-research",
-    duration: 12,
-    thumbnail: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-    description: "Why saving krill means saving the ocean",
-    completed: false,
-    difficulty: "Advanced" as const,
-    isEnhanced: true,
-    specialBadge: "🦐",
-    enhancedLessonData: ecosystemGuardiansLesson
   }
 ];
 
@@ -485,6 +459,7 @@ export default function LearnPage() {
     queryKey: ['/api/progress'],
     retry: false,
     staleTime: 1000 * 60 * 5,
+    select: (data: any) => data.progress || [],
   });
 
   const { data: badgesData, isLoading: badgesLoading } = useQuery<{
@@ -496,6 +471,7 @@ export default function LearnPage() {
     queryKey: ['/api/badges'],
     retry: false,
     staleTime: 1000 * 60 * 5,
+    select: (data: any) => data.badges || [],
   });
 
   // Map of category to badge info
