@@ -476,19 +476,48 @@ export default function LearnPage() {
 
   // Map of category to badge info
   const categoryBadgeMap: Record<string, { badgeName: string; badgeIcon: string }> = {
-    'marine-mammals': { badgeName: 'Whale Expert', badgeIcon: '🐋' },
     'ocean-literacy': { badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
-    'maritime-history': { badgeName: 'History Keeper', badgeIcon: '⚓' },
-    'conservation': { badgeName: 'Ocean Guardian', badgeIcon: '🌿' },
-    'reef-ecology': { badgeName: 'Reef Master', badgeIcon: '🪸' },
-    'species-identification': { badgeName: 'Species Expert', badgeIcon: '🐠' },
+    'reef-ecology': { badgeName: 'Reef Master', badgeIcon: '📘' },
+    'species-identification': { badgeName: 'Species Expert', badgeIcon: '🧬' },
+    'conservation': { badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
+    'marine-research': { badgeName: 'Marine Researcher', badgeIcon: '🧪' },
+    'maritime-history': { badgeName: 'History Keeper', badgeIcon: '📜' },
+    'marine-mammals': { badgeName: 'Whale Expert', badgeIcon: '🐋' },
+    'human-ocean-interaction': { badgeName: 'Ocean Advocate', badgeIcon: '🤝' },
+    'basic-oceanic-physics': { badgeName: 'Physics Master', badgeIcon: '⚛️' },
+    'diving-ethics': { badgeName: 'Ethical Diver', badgeIcon: '🤿' },
+    'biology-knowledge': { badgeName: 'Biology Expert', badgeIcon: '🧫' },
+    'deep-sea': { badgeName: 'Deep Explorer', badgeIcon: '🌌' },
+    'estuarine-environments': { badgeName: 'Estuary Expert', badgeIcon: '🌾' },
+    'cephalopods': { badgeName: 'Cephalopod Master', badgeIcon: '🐙' },
+    'marine-ecology': { badgeName: 'Ecology Expert', badgeIcon: '🪸' },
+    'marine-geology': { badgeName: 'Geology Master', badgeIcon: '🪨' },
+    'ocean-energy': { badgeName: 'Energy Expert', badgeIcon: '⚡' },
   };
 
   // Calculate completion stats from backend data
   const completedLessonIds = useMemo(() => new Set(progressData?.map(p => p.lessonId) || []), [progressData]);
-  const totalLessons = allLessons.length;
-  const completedLessons = completedLessonIds.size;
-  const completionPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+  
+  // Category-specific progress calculation
+  const categoryProgress = useMemo(() => {
+    if (selectedCategory === "all") {
+      // Show overall progress
+      const totalLessons = allLessons.length;
+      const completedLessons = completedLessonIds.size;
+      const completionPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+      return { totalLessons, completedLessons, completionPercentage };
+    } else {
+      // Show category-specific progress
+      const categoryLessons = allLessons.filter(lesson => lesson.category === selectedCategory);
+      const categoryLessonIds = categoryLessons
+        .filter(lesson => lesson.enhancedLessonData?.id)
+        .map(lesson => lesson.enhancedLessonData!.id);
+      const completedInCategory = categoryLessonIds.filter(id => completedLessonIds.has(id)).length;
+      const totalInCategory = categoryLessonIds.length;
+      const completionPercentage = totalInCategory > 0 ? Math.round((completedInCategory / totalInCategory) * 100) : 0;
+      return { totalLessons: totalInCategory, completedLessons: completedInCategory, completionPercentage };
+    }
+  }, [selectedCategory, completedLessonIds, allLessons]);
 
   // Calculate badge status for each category
   const badges = useMemo(() => {
@@ -610,9 +639,9 @@ export default function LearnPage() {
                 <div className="text-center text-muted-foreground">Loading...</div>
               ) : (
                 <CircularProgress
-                  progress={completionPercentage}
-                  completedCount={completedLessons}
-                  totalCount={totalLessons}
+                  progress={categoryProgress.completionPercentage}
+                  completedCount={categoryProgress.completedLessons}
+                  totalCount={categoryProgress.totalLessons}
                 />
               )}
             </CardContent>
