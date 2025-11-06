@@ -2411,6 +2411,141 @@ export const bunburyDolphinsLesson: EnhancedLesson = {
   ]
 };
 
+export const humpbackHighwayLesson: EnhancedLesson = {
+  id: "humpback-highway-marine-mammals",
+  title: "Humpback Highway: Following WA's Annual Whale Parade",
+  description: "One of the greatest migrations on Earth passes right by WA's coast",
+  category: "marine-mammals",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🐋 Welcome to the Humpback Highway!",
+      content: "Every winter, Western Australia's coastline becomes a highway for giants. 🐋✨\n\nHumpback whales travel thousands of kilometers between Antarctica and WA, putting on spectacular displays of breaching, tail-slapping, and singing along the way. You're about to discover one of the greatest migrations on Earth!",
+      icon: "🐋"
+    },
+    {
+      type: "text",
+      title: "🧠 The Great Migration",
+      content: "Humpback whales undertake one of the longest migrations in the animal kingdom:\n\n**📏 Epic Journey**: Traveling approximately **10,000 kilometers** between Antarctic feeding grounds and WA's breeding areas\n\n**🍽️ Antarctic Feeding**: Gorging on krill in the nutrient-rich Southern Ocean during summer months\n\n**🏖️ Warm Water Breeding**: Migrating north to WA's warm waters to breed and raise calves in protected bays\n\n**🌍 Population Recovery**: WA's coast hosts one of the **largest humpback populations in the world** - over 40,000 individuals!\n\n**👁️ World-Class Watching**: Albany, Exmouth, and Ningaloo offer some of the planet's best whale watching opportunities\n\nThis annual parade is one of nature's most spectacular shows, visible right from WA's shores.",
+      highlight: "Over 40,000 humpback whales migrate past WA's coast each year!"
+    },
+    {
+      type: "quiz",
+      title: "Migration Purpose",
+      content: "Why do humpback whales migrate to WA's warm waters?",
+      options: [
+        "To feed on krill",
+        "To breed and raise calves",
+        "To avoid predators",
+        "To find seaweed"
+      ],
+      correctAnswer: 1,
+      explanation: "Humpback whales migrate to WA's warm waters to breed and raise their calves in protected, temperate conditions. They feed on krill in Antarctica during summer, then travel north for breeding season."
+    },
+    {
+      type: "text",
+      title: "🐠 Meet the Stars of the Show",
+      content: "Understanding humpback whales means appreciating their behaviors and cultural connections:\n\n**Species**: Humpback whales (*Megaptera novaeangliae*) - distinctive long pectoral fins and knobby heads\n\n**Human Observers**: Whale watchers, marine researchers, Indigenous communities, and eco-tourism operators all share in this annual spectacle\n\n**Spectacular Behaviors**:\n- **Breaching** - Launching their massive bodies out of the water\n- **Spy-hopping** - Poking their heads up to look around\n- **Tail-slapping** - Smacking the water with their powerful flukes\n- **Singing** - Males produce complex, haunting songs that can last for hours\n\n**Cultural Significance**: Whales hold deep spiritual meaning in many Indigenous Dreaming stories along WA's coast, representing creation, navigation, and connection to Country\n\nThese gentle giants are truly woven into the fabric of WA's coastal culture.",
+      highlight: "Male humpback songs are among the most complex in the animal kingdom!"
+    },
+    {
+      type: "quiz",
+      title: "Whale Behavior",
+      content: "What behavior are humpbacks especially famous for?",
+      options: [
+        "Leaping out of the water (breaching)",
+        "Sleeping on the surface all day",
+        "Digging in the sand",
+        "Spinning like dolphins"
+      ],
+      correctAnswer: 0,
+      explanation: "Humpback whales are famous for breaching - launching their massive 30-40 tonne bodies completely out of the water. This spectacular behavior may serve multiple purposes including communication, parasite removal, or simply playful expression."
+    },
+    {
+      type: "text",
+      title: "🌊 Challenges on the Highway",
+      content: "Despite their impressive recovery from whaling, humpbacks still face modern threats:\n\n**🚢 Ship Strikes**: Busy shipping lanes along the migration route pose collision risks, especially for slower-moving mothers with calves\n\n**🎣 Entanglement**: Fishing gear and marine debris can trap whales, causing injury or death\n\n**🌡️ Climate Change**: Warming oceans affect krill populations in Antarctica, threatening their primary food source\n\n**🔊 Noise Pollution**: Ship engines, sonar, and industrial noise interfere with humpback songs and communication\n\n**🏗️ Coastal Development**: Increasing boat traffic and development in breeding areas can disturb critical nursery habitats\n\nProtecting the humpback highway requires addressing all these interconnected challenges.",
+      highlight: "Humpback songs can travel over 20 kilometers underwater!"
+    },
+    {
+      type: "quiz",
+      title: "Communication Importance",
+      content: "Why are humpback whale songs important?",
+      options: [
+        "They help whales sleep",
+        "They are used to communicate and attract mates",
+        "They scare away predators",
+        "They produce food"
+      ],
+      correctAnswer: 1,
+      explanation: "Humpback whale songs are used for communication and mate attraction. Only males sing, producing complex, evolving songs that can last up to 20 minutes. These songs play a crucial role in breeding behavior and social bonding."
+    },
+    {
+      type: "finalQuiz",
+      title: "Test Your Humpback Highway Knowledge",
+      content: "Let's see what you've learned about WA's annual whale parade!",
+      questions: [
+        {
+          question: "How far do humpbacks travel on their migration?",
+          options: [
+            "100 km",
+            "50 km",
+            "1,000 km",
+            "10,000 km"
+          ],
+          correctAnswer: 3
+        },
+        {
+          question: "What is a major threat to migrating humpbacks?",
+          options: [
+            "Coral bleaching",
+            "Ship strikes and entanglement",
+            "Predation by sharks",
+            "Too much tourism"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "Where do WA humpbacks go to feed?",
+          options: [
+            "Perth Canyon",
+            "Ningaloo Reef",
+            "Antarctica",
+            "Swan River"
+          ],
+          correctAnswer: 2
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a Humpback Guardian!",
+      content: "Great job! You've completed the lesson on *Humpback Highway: Following WA's Annual Whale Parade.* You now understand one of nature's greatest spectacles and how we can protect it.\n\n**What You Can Do:**\n\n🐋 **Choose responsible whale-watching operators** that respect safe distances and follow guidelines\n\n🌊 **Support conservation efforts** to reduce ship strikes and fishing gear entanglement\n\n📣 **Share knowledge** - WA's humpback highway is a global natural wonder worth protecting\n\n♻️ **Reduce carbon emissions** to safeguard Antarctic krill — the whales' food supply\n\n🚢 **Advocate for safer shipping lanes** that avoid peak migration periods\n\n📚 **Learn from Indigenous knowledge** - Respect cultural connections to whales along the coast\n\nRemember: protecting the humpback highway means protecting one of Earth's most incredible natural phenomena!"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about humpback whale migration.",
+      sources: [
+        {
+          title: "Western Australian Humpback Whale Migration Route (IMMA)",
+          url: "https://www.marinemammalhabitat.org/portfolio-item/western-australian-humpback-whale-migration-route/"
+        },
+        {
+          title: "New insights into prime Southern Ocean forage grounds for thriving Western Australian humpback whales",
+          url: "https://www.nature.com/articles/s41598-019-50497-2"
+        },
+        {
+          title: "WA DBCA - Watching Whales Information Guide",
+          url: "https://exploreparks.dbca.wa.gov.au/sites/default/files/2023-09/watching-whales-information-guide.pdf"
+        }
+      ]
+    }
+  ]
+};
+
 export const enhancedLessons = [
   bottomTrawlingLesson,
   leeuwincurrentLesson,
@@ -2433,5 +2568,6 @@ export const enhancedLessons = [
   longJettyLesson,
   swanRiverDolphinsLesson,
   bunburyDolphinsLesson,
-  pygmyBlueWhalesLesson
+  pygmyBlueWhalesLesson,
+  humpbackHighwayLesson
 ];
