@@ -119,6 +119,11 @@ async function createTablesIfNotExists() {
       );
     `);
 
+    // Add linked_lesson_id column to posts table if it doesn't exist
+    await client.query(`
+      ALTER TABLE posts ADD COLUMN IF NOT EXISTS linked_lesson_id TEXT;
+    `);
+
     // Create post_likes table
     await client.query(`
       CREATE TABLE IF NOT EXISTS post_likes (
