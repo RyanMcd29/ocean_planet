@@ -134,7 +134,7 @@ export const oceanCurrentsLesson: EnhancedLesson = {
   id: "ocean-currents-enhanced",
   title: "Understanding Ocean Currents",
   description: "Explore how massive rivers of water shape our climate and marine life",
-  category: "basic-oceanic-physics",
+  category: "oceanic-physics",
   duration: 7,
   difficulty: "Beginner",
   steps: [
@@ -209,7 +209,7 @@ export const leeuwincurrentLesson: EnhancedLesson = {
   id: "leeuwin-current-enhanced",
   title: "The Leeuwin Current",
   description: "Discover Western Australia's unique warm-water current and its impact on marine life",
-  category: "basic-oceanic-physics",
+  category: "oceanic-physics",
   duration: 6,
   difficulty: "Beginner",
   steps: [
