@@ -171,7 +171,7 @@ const SpeciesPage: React.FC = () => {
                   
                   <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mt-6 mb-2">Habitats</h3>
                   <div className="flex flex-wrap gap-2 mb-4">
-                    {species.habitats.map((habitat, index) => (
+                    {species.habitats?.map((habitat, index) => (
                       <SpeciesTag key={index} name={habitat} />
                     ))}
                   </div>
@@ -211,7 +211,7 @@ const SpeciesPage: React.FC = () => {
               </Card>
             )}
             
-            {species.keyFacts && species.keyFacts.length > 0 && (
+            {species.keyFacts && Array.isArray(species.keyFacts) && species.keyFacts.length > 0 && (
               <Card>
                 <CardContent className="p-6">
                   <div className="flex items-center mb-4">
@@ -428,7 +428,7 @@ const SpeciesPage: React.FC = () => {
                   
                   <div>
                     <p className="text-sm font-medium text-[#0A4D68]">Habitats</p>
-                    <p className="text-[#757575]">{species.habitats.join(', ')}</p>
+                    <p className="text-[#757575]">{species.habitats?.join(', ')}</p>
                   </div>
                   <div>
                     <p className="text-sm font-medium text-[#0A4D68]">Conservation Status</p>
