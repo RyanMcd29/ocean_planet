@@ -2506,19 +2506,19 @@ export const fishingDebrisLesson: EnhancedLesson = {
   steps: [
     {
       type: "intro",
-      title: "👣 Step 1 of 5 – Introduction",
+      title: "🎣 Introduction",
       content: "You've probably seen it — a tangle of fishing line around a jetty pylon, or a snagged hook on the reef.\n\nDiscarded or lost fishing gear, known as **fishing debris or ghost gear**, poses one of the biggest hazards to marine life.\n\nBut through awareness, clean-ups, and better gear design, ocean users are turning the tide.",
       icon: "🎣"
     },
     {
       type: "text",
-      title: "🧠 Step 2 of 5 – Key Concept",
+      title: "🧠 Key Concept",
       content: "**Fishing debris** includes lost nets, lines, hooks, sinkers, and traps.\n\nWhen abandoned, this gear keeps catching animals — a process called **ghost fishing**.\n\nSpecies like **sea lions, seabirds, turtles, and reef fish** are most at risk from entanglement or ingestion.\n\nThe problem is global but visible locally around **Perth jetties, Rottnest reefs, and Cockburn Sound**.\n\nConservation programs now focus on **prevention, retrieval, and education** — for example, the **Reel It In** campaign installs fishing-line recycling bins at WA jetties and boat ramps to stop line entering the water.",
       highlight: "Ghost fishing continues to catch and kill marine animals long after the gear is abandoned!"
     },
     {
       type: "quiz",
-      title: "Quiz 1",
+      title: "Understanding Ghost Fishing",
       content: "What is 'ghost fishing'?",
       options: [
         "Fishing done at night",
@@ -2531,13 +2531,13 @@ export const fishingDebrisLesson: EnhancedLesson = {
     },
     {
       type: "text",
-      title: "🐡 Step 3 of 5 – Who or What's Involved?",
+      title: "🐡 Who or What's Involved?",
       content: "**Common debris sources:** recreational line fishing from jetties, crayfish pots, trawl gear, and boat moorings.\n\n**Affected species near Perth:** sea lions at Shoalwater Islands, cormorants and pelicans around jetties, and rays and octopus at local dive sites.\n\n**Community heroes:**\n- **Tangaroa Blue Foundation** – runs the **Australian Marine Debris Initiative (AMDI)** data network\n- **Keep Australia Beautiful WA** and **local dive clubs** organise clean-ups at sites like Ammo Jetty and Woodman Point\n- **Ghost Nets Australia** retrieves derelict gear from northern WA and Indigenous Sea Country\n\nDivers, fishers, and citizen scientists now work together to remove debris and record what they find.",
       highlight: "Community-led clean-ups have removed thousands of kilograms of fishing debris from WA waters!"
     },
     {
       type: "quiz",
-      title: "Quiz 2",
+      title: "Conservation Organizations",
       content: "Which group manages the Australian Marine Debris Initiative?",
       options: [
         "Fisheries Research Institute",
@@ -2550,13 +2550,13 @@ export const fishingDebrisLesson: EnhancedLesson = {
     },
     {
       type: "text",
-      title: "🌊 Step 4 of 5 – Challenges or Consequences",
+      title: "🌊 Challenges or Consequences",
       content: "**Wildlife entanglement** causes injury, drowning, or starvation.\n\n**Microplastics** form when lines and nets break down, entering food webs.\n\nHeavy debris can **smother seagrass** or break fragile corals.\n\nClean-ups help, but long-term change needs **responsible disposal, biodegradable gear, and policy reform**.",
       highlight: "Fishing line can take up to 600 years to decompose in the ocean!"
     },
     {
       type: "quiz",
-      title: "Quiz 3",
+      title: "Long-term Impact",
       content: "Why is discarded fishing line harmful even after years underwater?",
       options: [
         "It dissolves into nutrients",
@@ -2566,6 +2566,43 @@ export const fishingDebrisLesson: EnhancedLesson = {
       ],
       correctAnswer: 1,
       explanation: "Discarded fishing line remains a threat for hundreds of years because it doesn't break down quickly and continues to entangle marine animals, causing injury and death throughout its slow decomposition."
+    },
+    {
+      type: "finalQuiz",
+      title: "Final Quiz",
+      content: "Test your knowledge of fishing debris and marine conservation!",
+      questions: [
+        {
+          question: "What term describes gear that continues catching animals after being lost?",
+          options: [
+            "Ghost gear",
+            "Recycled tackle",
+            "Float gear",
+            "Reef net"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "What local area near Perth reports frequent entanglements of sea lions?",
+          options: [
+            "Marmion Marine Park",
+            "Geographe Bay",
+            "Shoalwater Islands Marine Park",
+            "Coral Bay"
+          ],
+          correctAnswer: 2
+        },
+        {
+          question: "Which action most effectively reduces fishing debris long term?",
+          options: [
+            "Annual clean-ups only",
+            "Sinking more artificial reefs",
+            "Banning recreational diving",
+            "Designing and using biodegradable fishing gear"
+          ],
+          correctAnswer: 3
+        }
+      ]
     },
     {
       type: "conclusion",
