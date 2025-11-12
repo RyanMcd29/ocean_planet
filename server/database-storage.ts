@@ -913,35 +913,56 @@ export class DatabaseStorage implements IStorage {
   }
 
   async checkAndUnlockBadge(userId: number, lessonId: string): Promise<CategoryBadge | null> {
-    // This will be implemented with lesson category data from frontend
-    // For now, we need to check if all lessons in a category are complete
-    // The frontend will pass the category information
-    // We'll fetch all completed lessons and check category completion
-    
-    // Import lesson data to determine category
+    // Complete mapping of all lessons to their categories and badge info
     const lessonCategories: Record<string, { category: string; badgeName: string; badgeIcon: string }> = {
-      // Marine Mammals
-      'whale-science-101': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
-      'southern-right-whale-migration': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
-      'southern-right-whale-climate': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
-      'bunbury-bottlenose-dolphins': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
-      'swan-river-dolphins': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
-      'pygmy-blue-whales': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
-      'humpback-highway': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
-      'australian-sea-lion': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
-      'orca-mysteries-bremer-bay': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      // Conservation
+      'bottom-trawling-enhanced': { category: 'conservation', badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
+      'high-seas-treaty-enhanced': { category: 'conservation', badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
+      'southern-right-whale-climate': { category: 'conservation', badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
+      
+      // Oceanic Physics
+      'ocean-currents-enhanced': { category: 'oceanic-physics', badgeName: 'Physics Master', badgeIcon: '⚛️' },
+      'leeuwin-current-enhanced': { category: 'oceanic-physics', badgeName: 'Physics Master', badgeIcon: '⚛️' },
+      
+      // Species
+      'western-rock-lobster-enhanced': { category: 'species', badgeName: 'Species Expert', badgeIcon: '🧬' },
+      'reef-fish-enhanced': { category: 'species', badgeName: 'Species Expert', badgeIcon: '🧬' },
+      
+      // Reef Ecology
+      'coral-reefs-enhanced': { category: 'reef-ecology', badgeName: 'Reef Master', badgeIcon: '📘' },
+      'jetty-biodiversity-lesson': { category: 'reef-ecology', badgeName: 'Reef Master', badgeIcon: '📘' },
       
       // Ocean Literacy
-      'ocean-currents': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
-      'leeuwin-current': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
       'ocean-literacy-principle-1': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
       'ocean-literacy-principle-2': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      'ocean-literacy-principle-3': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      'ocean-literacy-principle-4': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      'ocean-literacy-principle-5': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      'ocean-literacy-principle-6': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      'ocean-literacy-principle-7': { category: 'ocean-literacy', badgeName: 'Ocean Scholar', badgeIcon: '🌊' },
+      
+      // Species Identification
+      'southern-right-whale-migration': { category: 'species-identification', badgeName: 'Species Expert', badgeIcon: '🧬' },
+      
+      // Marine Research
+      'whale-science-101': { category: 'marine-research', badgeName: 'Marine Researcher', badgeIcon: '🧪' },
+      'tracking-tech-innovation': { category: 'marine-research', badgeName: 'Marine Researcher', badgeIcon: '🧪' },
+      'ecosystem-guardians': { category: 'marine-research', badgeName: 'Marine Researcher', badgeIcon: '🧪' },
       
       // Maritime History
-      'camilla-wreck-maritime-history': { category: 'maritime-history', badgeName: 'History Keeper', badgeIcon: '⚓' },
-      'long-jetty-maritime-history': { category: 'maritime-history', badgeName: 'History Keeper', badgeIcon: '⚓' },
+      'camilla-wreck-maritime-history': { category: 'maritime-history', badgeName: 'History Keeper', badgeIcon: '📜' },
+      'long-jetty-maritime-history': { category: 'maritime-history', badgeName: 'History Keeper', badgeIcon: '📜' },
       
-      // Add more categories as needed
+      // Marine Mammals
+      'swan-river-dolphins-marine-mammals': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'pygmy-blue-whales-marine-mammals': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'bunbury-dolphins-marine-mammals': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'australian-sea-lion-marine-mammals': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'humpback-highway-marine-mammals': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      'orca-mysteries-bremer-bay': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
+      
+      // Human-Ocean Interaction
+      'fishing-debris-threats': { category: 'human-ocean-interaction', badgeName: 'Ocean Advocate', badgeIcon: '🤝' },
     };
 
     const lessonInfo = lessonCategories[lessonId];
