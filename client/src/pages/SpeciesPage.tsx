@@ -31,6 +31,12 @@ const SpeciesPage: React.FC = () => {
     queryKey: ['/api/dive-sites'],
     queryFn: () => fetchDiveSites(),
   });
+  
+  // Fetch dive sites where this species can be found
+  const { data: speciesDiveSites } = useQuery({
+    queryKey: [`/api/species/${speciesId}/dive-sites`],
+    enabled: !isNaN(speciesId),
+  });
 
   // Check if user has already spotted this species
   const { data: userSpottedSpecies } = useQuery({
@@ -81,10 +87,6 @@ const SpeciesPage: React.FC = () => {
       notes: `Spotted during dive at ${diveSites?.find(site => site.id === selectedDiveSiteId)?.name}`
     });
   };
-  
-  // We would normally get this from an API call, but for now let's filter dive sites that might have this species
-  // In a real implementation, there would be a separate endpoint for this data
-  const relevantDiveSites = diveSites?.slice(0, 3);
   
   if (isNaN(speciesId)) {
     return (
@@ -305,7 +307,7 @@ const SpeciesPage: React.FC = () => {
           </div>
           
           <div className="space-y-6">
-            {(species.regionFound || species.tags?.length > 0 || species.seasonalOccurrence || relevantDiveSites?.length > 0) && (
+            {(species.regionFound || species.tags?.length > 0 || species.seasonalOccurrence || speciesDiveSites?.length > 0) && (
               <Card>
                 <CardContent className="p-6">
                   <div className="flex items-center mb-4">
@@ -337,19 +339,24 @@ const SpeciesPage: React.FC = () => {
                         </div>
                       </div>
                     )}
-                    {relevantDiveSites && relevantDiveSites.length > 0 && (
+                    {speciesDiveSites && speciesDiveSites.length > 0 && (
                       <div>
                         <p className="text-sm font-medium text-[#0A4D68] mb-2">Where to Find</p>
                         <div className="space-y-2">
-                          {relevantDiveSites.map((site) => (
-                            <Link key={site.id} href={`/dive-site/${site.id}`}>
-                              <a className="flex items-center p-2 bg-[#F5F5F5] rounded-lg hover:bg-[#E0F7FA] transition cursor-pointer">
-                                <MapPin className="h-4 w-4 text-[#088395] mr-2 flex-shrink-0" />
-                                <div>
-                                  <p className="text-sm font-medium text-[#0A4D68]">{site.name}</p>
-                                  <p className="text-xs text-[#757575]">{site.location}</p>
+                          {speciesDiveSites.map((item: any) => (
+                            <Link key={item.diveSite.id} href={`/dive-site/${item.diveSite.id}`}>
+                              <div className="flex items-center justify-between p-2 bg-[#F5F5F5] rounded-lg hover:bg-[#E0F7FA] transition cursor-pointer">
+                                <div className="flex items-center">
+                                  <MapPin className="h-4 w-4 text-[#088395] mr-2 flex-shrink-0" />
+                                  <div>
+                                    <p className="text-sm font-medium text-[#0A4D68]">{item.diveSite.name}</p>
+                                    <p className="text-xs text-[#757575]">{item.diveSite.location}</p>
+                                  </div>
                                 </div>
-                              </a>
+                                <Badge variant="outline" className="text-xs">
+                                  {item.frequency}
+                                </Badge>
+                              </div>
                             </Link>
                           ))}
                         </div>

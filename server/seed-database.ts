@@ -1,6 +1,6 @@
 import { db, pool } from './db';
 import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, waterConditions, countries, users, diveLogs, diveLogSpecies, certifications, userCertifications } from "@shared/schema";
-import { sql } from "drizzle-orm";
+import { sql, eq, and } from "drizzle-orm";
 
 async function createTablesIfNotExists() {
   const client = await pool.connect();
@@ -380,6 +380,63 @@ async function addBlackspottedTuskfish() {
   console.log('Successfully added Blackspotted Tuskfish!');
 }
 
+async function linkBlackspottedTuskfishToDiveSites() {
+  console.log('Linking Blackspotted Tuskfish to dive sites...');
+  
+  // Find the Blackspotted Tuskfish
+  const [tuskfish] = await db.select().from(species).where(eq(species.scientificName, 'Choerodon schoenleinii'));
+  
+  if (!tuskfish) {
+    console.log('WARNING: Blackspotted Tuskfish not found, skipping dive site linking');
+    return;
+  }
+  
+  // Define dive sites and their frequencies based on known encounter likelihood
+  const diveSiteLinks = [
+    { name: "Navy Pier", frequency: "Common" },
+    { name: "Dibley-s Drop-Off", frequency: "Uncommon" },
+    { name: "Blizzard Ridge", frequency: "Uncommon" },
+    { name: "Gulliver's", frequency: "Rare" }
+  ];
+  
+  for (const link of diveSiteLinks) {
+    // Find the dive site by exact name
+    const [site] = await db.select().from(diveSites).where(eq(diveSites.name, link.name));
+    
+    if (!site) {
+      console.log(`WARNING: Dive site "${link.name}" not found, skipping link`);
+      continue;
+    }
+    
+    // Check if link already exists
+    const [existingLink] = await db
+      .select()
+      .from(diveSiteSpecies)
+      .where(
+        and(
+          eq(diveSiteSpecies.diveSiteId, site.id),
+          eq(diveSiteSpecies.speciesId, tuskfish.id)
+        )
+      );
+    
+    if (existingLink) {
+      console.log(`Link between Blackspotted Tuskfish and ${link.name} already exists, skipping`);
+      continue;
+    }
+    
+    // Create the link
+    await db.insert(diveSiteSpecies).values({
+      diveSiteId: site.id,
+      speciesId: tuskfish.id,
+      frequency: link.frequency
+    });
+    
+    console.log(`✓ Linked Blackspotted Tuskfish to ${link.name} (${link.frequency})`);
+  }
+  
+  console.log('Blackspotted Tuskfish dive site linking complete!');
+}
+
 async function seedDatabase() {
   console.log('Starting database seeding...');
 
@@ -395,6 +452,9 @@ async function seedDatabase() {
 
     // Add new species with extended taxonomic data
     await addBlackspottedTuskfish();
+
+    // Link Blackspotted Tuskfish to specific dive sites
+    await linkBlackspottedTuskfishToDiveSites();
 
     // Check if we already have data
     const existingDiveSites = await db.select().from(diveSites);

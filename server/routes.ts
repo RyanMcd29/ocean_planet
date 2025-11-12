@@ -467,6 +467,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Dive Sites by Species
+  app.get('/api/species/:id/dive-sites', async (req, res) => {
+    try {
+      const speciesId = parseInt(req.params.id);
+      const diveSites = await storage.getDiveSitesBySpecies(speciesId);
+      
+      res.json(diveSites);
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch dive sites for species' });
+    }
+  });
+  
   // User Management
   app.post('/api/users', async (req, res) => {
     try {

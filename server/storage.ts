@@ -46,6 +46,7 @@ export interface IStorage {
   addSpeciesToDiveSite(relation: InsertDiveSiteSpecies): Promise<DiveSiteSpecies>;
   getDiveSiteSpecies(diveSiteId: number): Promise<DiveSiteSpecies[]>;
   getSpeciesByDiveSite(diveSiteId: number): Promise<{species: Species, frequency: string}[]>;
+  getDiveSitesBySpecies(speciesId: number): Promise<{diveSite: DiveSite, frequency: string}[]>;
   
   // Photo uploads
   createPhoto(photo: InsertPhoto): Promise<Photo>;
@@ -500,6 +501,21 @@ export class MemStorage implements IStorage {
     );
   }
 
+  async getDiveSitesBySpecies(speciesId: number): Promise<{diveSite: DiveSite, frequency: string}[]> {
+    const relations = Array.from(this.diveSiteSpecies.values()).filter(
+      rel => rel.speciesId === speciesId
+    );
+    return Promise.all(
+      relations.map(async rel => {
+        const diveSite = await this.getDiveSite(rel.diveSiteId);
+        return {
+          diveSite: diveSite!,
+          frequency: rel.frequency || "Unknown"
+        };
+      })
+    );
+  }
+
   // Photo uploads
   async createPhoto(photo: InsertPhoto): Promise<Photo> {
     const id = this.currentIds.photo++;
@@ -922,6 +938,25 @@ export class DatabaseStorage implements IStorage {
     
     return results.map(result => ({
       species: result.species,
+      frequency: result.frequency || 'Unknown'
+    }));
+  }
+
+  async getDiveSitesBySpecies(speciesId: number): Promise<{ diveSite: DiveSite, frequency: string }[]> {
+    const results = await db
+      .select({
+        diveSite: diveSites,
+        frequency: diveSiteSpecies.frequency
+      })
+      .from(diveSiteSpecies)
+      .innerJoin(
+        diveSites,
+        eq(diveSiteSpecies.diveSiteId, diveSites.id)
+      )
+      .where(eq(diveSiteSpecies.speciesId, speciesId));
+    
+    return results.map(result => ({
+      diveSite: result.diveSite,
       frequency: result.frequency || 'Unknown'
     }));
   }
