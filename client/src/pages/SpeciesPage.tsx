@@ -305,7 +305,7 @@ const SpeciesPage: React.FC = () => {
           </div>
           
           <div className="space-y-6">
-            {(species.regionFound || species.tags?.length > 0 || species.diveSiteAreas?.length > 0 || species.seasonalOccurrence) && (
+            {(species.regionFound || species.tags?.length > 0 || species.seasonalOccurrence || relevantDiveSites?.length > 0) && (
               <Card>
                 <CardContent className="p-6">
                   <div className="flex items-center mb-4">
@@ -337,16 +337,25 @@ const SpeciesPage: React.FC = () => {
                         </div>
                       </div>
                     )}
-                    {species.diveSiteAreas && species.diveSiteAreas.length > 0 && (
+                    {relevantDiveSites && relevantDiveSites.length > 0 && (
                       <div>
-                        <p className="text-sm font-medium text-[#0A4D68] mb-2">Found At</p>
-                        <div className="flex flex-wrap gap-1">
-                          {species.diveSiteAreas.map((area, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
-                              {area}
-                            </Badge>
+                        <p className="text-sm font-medium text-[#0A4D68] mb-2">Where to Find</p>
+                        <div className="space-y-2">
+                          {relevantDiveSites.map((site) => (
+                            <Link key={site.id} href={`/dive-site/${site.id}`}>
+                              <a className="flex items-center p-2 bg-[#F5F5F5] rounded-lg hover:bg-[#E0F7FA] transition cursor-pointer">
+                                <MapPin className="h-4 w-4 text-[#088395] mr-2 flex-shrink-0" />
+                                <div>
+                                  <p className="text-sm font-medium text-[#0A4D68]">{site.name}</p>
+                                  <p className="text-xs text-[#757575]">{site.location}</p>
+                                </div>
+                              </a>
+                            </Link>
                           ))}
                         </div>
+                        <Button variant="outline" size="sm" className="w-full mt-2 text-[#088395] border-[#088395]">
+                          <Info className="h-4 w-4 mr-1" /> View All Locations
+                        </Button>
                       </div>
                     )}
                   </div>
@@ -426,33 +435,6 @@ const SpeciesPage: React.FC = () => {
                     <p className="text-[#757575]">{species.conservationStatus}</p>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">Where to Find</h3>
-                {relevantDiveSites ? (
-                  <div className="space-y-3">
-                    {relevantDiveSites.map((site) => (
-                      <Link key={site.id} href={`/dive-site/${site.id}`}>
-                        <a className="flex items-center p-3 bg-[#F5F5F5] rounded-lg hover:bg-[#E0F7FA] transition cursor-pointer">
-                          <MapPin className="h-5 w-5 text-[#088395] mr-2" />
-                          <div>
-                            <p className="font-medium text-[#0A4D68]">{site.name}</p>
-                            <p className="text-xs text-[#757575]">{site.location}</p>
-                          </div>
-                        </a>
-                      </Link>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-[#757575]">Loading dive sites...</p>
-                )}
-                
-                <Button variant="outline" className="w-full mt-3 text-[#088395] border-[#088395]">
-                  <Info className="h-4 w-4 mr-1" /> View All Locations
-                </Button>
               </CardContent>
             </Card>
             
