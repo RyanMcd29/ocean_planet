@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { ArrowLeft, MapPin, Info, AlertTriangle, Check } from "lucide-react";
+import { ArrowLeft, MapPin, Info, AlertTriangle, Check, BookOpen, Globe } from "lucide-react";
 import SpeciesTag from "@/components/ui/SpeciesTag";
 
 const SpeciesPage: React.FC = () => {
@@ -210,6 +211,44 @@ const SpeciesPage: React.FC = () => {
               </Card>
             )}
             
+            {species.keyFacts && species.keyFacts.length > 0 && (
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <BookOpen className="h-5 w-5 text-[#0A4D68] mr-2" />
+                    <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68]">Key Facts & Learning</h3>
+                  </div>
+                  <Accordion type="single" collapsible className="w-full">
+                    {species.keyFacts.map((fact: any, index: number) => (
+                      <AccordionItem key={index} value={`fact-${index}`}>
+                        <AccordionTrigger className="text-left font-medium text-[#0A4D68]">
+                          {fact.title}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div className="space-y-3">
+                            <p className="text-sm font-medium text-[#088395]">{fact.summary}</p>
+                            <p className="text-sm text-[#757575] leading-relaxed">{fact.details}</p>
+                            {fact.subPoints && fact.subPoints.length > 0 && (
+                              <div className="mt-3 pl-4 border-l-2 border-[#E0F7FA]">
+                                <ul className="space-y-2">
+                                  {fact.subPoints.map((point: string, idx: number) => (
+                                    <li key={idx} className="text-sm text-[#757575] flex items-start">
+                                      <span className="text-[#05BFDB] mr-2 flex-shrink-0">•</span>
+                                      <span>{point}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                </CardContent>
+              </Card>
+            )}
+            
             <Card>
               <CardContent className="p-6">
                 <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">Citizen Science Contributions</h3>
@@ -266,18 +305,118 @@ const SpeciesPage: React.FC = () => {
           </div>
           
           <div className="space-y-6">
+            {(species.regionFound || species.tags?.length > 0 || species.diveSiteAreas?.length > 0 || species.seasonalOccurrence) && (
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-4">
+                    <Globe className="h-5 w-5 text-[#0A4D68] mr-2" />
+                    <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68]">Distribution & Ecology</h3>
+                  </div>
+                  <div className="space-y-3">
+                    {species.regionFound && (
+                      <div>
+                        <p className="text-sm font-medium text-[#0A4D68]">Region</p>
+                        <p className="text-[#757575]">{species.regionFound}</p>
+                      </div>
+                    )}
+                    {species.seasonalOccurrence && (
+                      <div>
+                        <p className="text-sm font-medium text-[#0A4D68]">When to See</p>
+                        <p className="text-[#757575]">{species.seasonalOccurrence}</p>
+                      </div>
+                    )}
+                    {species.tags && species.tags.length > 0 && (
+                      <div>
+                        <p className="text-sm font-medium text-[#0A4D68] mb-2">Environment Tags</p>
+                        <div className="flex flex-wrap gap-1">
+                          {species.tags.map((tag, index) => (
+                            <Badge key={index} variant="secondary" className="bg-[#E0F7FA] text-[#088395] text-xs">
+                              {tag}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {species.diveSiteAreas && species.diveSiteAreas.length > 0 && (
+                      <div>
+                        <p className="text-sm font-medium text-[#0A4D68] mb-2">Found At</p>
+                        <div className="flex flex-wrap gap-1">
+                          {species.diveSiteAreas.map((area, index) => (
+                            <Badge key={index} variant="outline" className="text-xs">
+                              {area}
+                            </Badge>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+            
             <Card>
               <CardContent className="p-6">
-                <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">Species Information</h3>
+                <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68] mb-4">Classification</h3>
                 <div className="space-y-3">
                   <div>
                     <p className="text-sm font-medium text-[#0A4D68]">Category</p>
                     <p className="text-[#757575]">{species.category}</p>
                   </div>
-                  <div>
-                    <p className="text-sm font-medium text-[#0A4D68]">Scientific Classification</p>
-                    <p className="text-[#757575] italic">{species.scientificName}</p>
-                  </div>
+                  
+                  {(species.domain || species.kingdom || species.phylum || species.class || species.order || species.family || species.genus) && (
+                    <div>
+                      <p className="text-sm font-medium text-[#0A4D68] mb-2">Taxonomic Hierarchy</p>
+                      <div className="text-xs space-y-1 bg-[#F5F5F5] p-3 rounded">
+                        {species.domain && (
+                          <div className="flex justify-between">
+                            <span className="text-[#757575]">Domain:</span>
+                            <span className="font-medium text-[#0A4D68]">{species.domain}</span>
+                          </div>
+                        )}
+                        {species.kingdom && (
+                          <div className="flex justify-between">
+                            <span className="text-[#757575]">Kingdom:</span>
+                            <span className="font-medium text-[#0A4D68]">{species.kingdom}</span>
+                          </div>
+                        )}
+                        {species.phylum && (
+                          <div className="flex justify-between">
+                            <span className="text-[#757575]">Phylum:</span>
+                            <span className="font-medium text-[#0A4D68]">{species.phylum}</span>
+                          </div>
+                        )}
+                        {species.class && (
+                          <div className="flex justify-between">
+                            <span className="text-[#757575]">Class:</span>
+                            <span className="font-medium text-[#0A4D68]">{species.class}</span>
+                          </div>
+                        )}
+                        {species.order && (
+                          <div className="flex justify-between">
+                            <span className="text-[#757575]">Order:</span>
+                            <span className="font-medium text-[#0A4D68]">{species.order}</span>
+                          </div>
+                        )}
+                        {species.family && (
+                          <div className="flex justify-between">
+                            <span className="text-[#757575]">Family:</span>
+                            <span className="font-medium text-[#0A4D68]">{species.family}</span>
+                          </div>
+                        )}
+                        {species.genus && (
+                          <div className="flex justify-between">
+                            <span className="text-[#757575]">Genus:</span>
+                            <span className="font-medium text-[#0A4D68] italic">{species.genus}</span>
+                          </div>
+                        )}
+                        <div className="flex justify-between pt-1 border-t border-[#E0E0E0] mt-1">
+                          <span className="text-[#757575]">Species:</span>
+                          <span className="font-medium text-[#0A4D68] italic">{species.scientificName}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
                   <div>
                     <p className="text-sm font-medium text-[#0A4D68]">Habitats</p>
                     <p className="text-[#757575]">{species.habitats.join(', ')}</p>
@@ -316,6 +455,25 @@ const SpeciesPage: React.FC = () => {
                 </Button>
               </CardContent>
             </Card>
+            
+            {species.miniLessonRecommendations && (
+              <Card>
+                <CardContent className="p-6">
+                  <div className="flex items-center mb-3">
+                    <BookOpen className="h-5 w-5 text-[#0A4D68] mr-2" />
+                    <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68]">Recommended Lessons</h3>
+                  </div>
+                  <div className="bg-[#E0F7FA] p-3 rounded-lg">
+                    <p className="text-sm text-[#0A4D68] mb-3">{species.miniLessonRecommendations}</p>
+                    <Link href="/learn">
+                      <Button variant="outline" size="sm" className="w-full text-[#088395] border-[#088395] hover:bg-[#088395] hover:text-white">
+                        <BookOpen className="h-4 w-4 mr-1" /> Explore Lessons
+                      </Button>
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            )}
             
             <Card>
               <CardContent className="p-6">
