@@ -132,11 +132,43 @@ export const species = pgTable("species", {
   category: text("category"), // Fish, Mammal, Reptile, Invertebrate, Coral, etc.
   habitats: text("habitats").array(),
   funFacts: text("fun_facts").array(),
+  
+  // Taxonomic classification
+  domain: text("domain"),
+  kingdom: text("kingdom"),
+  phylum: text("phylum"),
+  class: text("class"),
+  order: text("order"),
+  family: text("family"),
+  genus: text("genus"),
+  
+  // Geographic and ecological data
+  regionFound: text("region_found"),
+  tags: text("tags").array(),
+  diveSiteAreas: text("dive_site_areas").array(),
+  seasonalOccurrence: text("seasonal_occurrence"),
+  
+  // Educational content
+  keyFacts: jsonb("key_facts"), // {title: string, summary: string, details?: string, subPoints?: string[]}[]
+  miniLessonRecommendations: text("mini_lesson_recommendations"),
+});
+
+// Zod schema for keyFacts structure
+export const keyFactSchema = z.object({
+  title: z.string(),
+  summary: z.string(),
+  details: z.string().optional(),
+  subPoints: z.array(z.string()).optional(),
 });
 
 export const insertSpeciesSchema = createInsertSchema(species).omit({
   id: true,
+}).extend({
+  keyFacts: z.array(keyFactSchema).optional(),
 });
+
+export type Species = typeof species.$inferSelect;
+export type InsertSpecies = z.infer<typeof insertSpeciesSchema>;
 
 // Dive site species relationship table
 export const diveSiteSpecies = pgTable("dive_site_species", {
