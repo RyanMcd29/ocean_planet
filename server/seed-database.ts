@@ -169,6 +169,23 @@ async function createTablesIfNotExists() {
       );
     `);
 
+    // Add new species taxonomic and educational fields
+    await client.query(`
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS domain TEXT;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS kingdom TEXT;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS phylum TEXT;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS class TEXT;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS "order" TEXT;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS family TEXT;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS genus TEXT;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS region_found TEXT;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS tags TEXT[];
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS dive_site_areas TEXT[];
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS seasonal_occurrence TEXT;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS key_facts JSONB;
+      ALTER TABLE species ADD COLUMN IF NOT EXISTS mini_lesson_recommendations TEXT;
+    `);
+
     console.log('Tables created/verified successfully');
   } catch (error) {
     console.error('Error creating tables:', error);
@@ -300,6 +317,69 @@ async function seedCertifications() {
   console.log(`Successfully seeded ${allCertifications.length} certifications`);
 }
 
+async function addBlackspottedTuskfish() {
+  console.log('Checking for Blackspotted Tuskfish...');
+  
+  // Check if species already exists
+  const existing = await db.select().from(species).where(sql`scientific_name = 'Choerodon schoenleinii'`);
+  
+  if (existing.length > 0) {
+    console.log('Blackspotted Tuskfish already exists, skipping...');
+    return;
+  }
+  
+  console.log('Adding Blackspotted Tuskfish with full taxonomic data...');
+  
+  await db.insert(species).values({
+    commonName: "Blackspotted Tuskfish",
+    scientificName: "Choerodon schoenleinii",
+    description: "Large tuskfish with black spot at base of dorsal fin. This impressive reef fish is known for its powerful jaws and distinctive markings, making it a favorite among divers exploring Western Australia's coral and rocky reefs.",
+    conservationStatus: "Least Concern",
+    category: "Fish",
+    habitats: ["Coral Reef", "Rocky Reef", "Tropical Waters"],
+    imageUrl: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+    
+    // Taxonomic classification
+    domain: "Eukarya",
+    kingdom: "Animalia",
+    phylum: "Chordata",
+    class: "Actinopterygii",
+    order: "Labriformes",
+    family: "Labridae",
+    genus: "Choerodon",
+    
+    // Geographic and ecological data
+    regionFound: "Gascoyne Coast Bioregion",
+    tags: ["reef"],
+    diveSiteAreas: ["Ningaloo Reef", "Dampier"],
+    seasonalOccurrence: "Year-round",
+    
+    // Educational content with structured key facts
+    keyFacts: [
+      {
+        title: "Protogynous Hermaphrodite",
+        summary: "Is a protogynous sequential hermaphrodite - starts life as a female and later changes into a male, usually when it grows larger or when a dominant male is absent.",
+        details: "This sex change is common among wrasses and tuskfishes (family Labridae) and helps balance reproduction in their social groups. One large male defends a territory with several females, and when he disappears, the largest female transforms to take his place.",
+        subPoints: [
+          "Sequential hermaphrodite: An organism that changes sex during its lifetime - starting as one sex and later becoming the other.",
+          "Protandry: Starts as a male, later changes to female (e.g. clownfish).",
+          "Protogyny: Starts as a female, later changes to male (e.g. many wrasses and parrotfish).",
+          "This ability is usually triggered by social or environmental cues - like the absence of a dominant male or changes in population structure - and helps maximize reproductive success in different conditions."
+        ]
+      }
+    ],
+    miniLessonRecommendations: "Discuss hermaphroditism in wrasses and parrotfishes.",
+    
+    funFacts: [
+      "🐟 Blackspotted Tuskfish can change sex from female to male as they mature",
+      "💪 They have powerful crushing jaws that can crack open mollusks and crustaceans",
+      "🏠 Large males defend territories with multiple females in a harem-like social structure"
+    ]
+  });
+  
+  console.log('Successfully added Blackspotted Tuskfish!');
+}
+
 async function seedDatabase() {
   console.log('Starting database seeding...');
 
@@ -312,6 +392,9 @@ async function seedDatabase() {
 
     // Always seed certifications (they are needed for profile management)
     await seedCertifications();
+
+    // Add new species with extended taxonomic data
+    await addBlackspottedTuskfish();
 
     // Check if we already have data
     const existingDiveSites = await db.select().from(diveSites);
@@ -584,6 +667,54 @@ async function seedDatabase() {
       habitats: ["Coral Reef", "Rocky Reef", "Tropical Waters"],
       imageUrl: "https://images.unsplash.com/photo-1570481947811-ef44b2e4b18a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       category: "Fish"
+    }).returning();
+
+    // Add Blackspotted Tuskfish with full taxonomic and educational data
+    const [blackspottedTuskfish] = await db.insert(species).values({
+      commonName: "Blackspotted Tuskfish",
+      scientificName: "Choerodon schoenleinii",
+      description: "Large tuskfish with black spot at base of dorsal fin. This impressive reef fish is known for its powerful jaws and distinctive markings, making it a favorite among divers exploring Western Australia's coral and rocky reefs.",
+      conservationStatus: "Least Concern",
+      category: "Fish",
+      habitats: ["Coral Reef", "Rocky Reef", "Tropical Waters"],
+      imageUrl: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
+      
+      // Taxonomic classification
+      domain: "Eukarya",
+      kingdom: "Animalia",
+      phylum: "Chordata",
+      class: "Actinopterygii",
+      order: "Labriformes",
+      family: "Labridae",
+      genus: "Choerodon",
+      
+      // Geographic and ecological data
+      regionFound: "Gascoyne Coast Bioregion",
+      tags: ["reef"],
+      diveSiteAreas: ["Ningaloo Reef", "Dampier"],
+      seasonalOccurrence: "Year-round",
+      
+      // Educational content with structured key facts
+      keyFacts: [
+        {
+          title: "Protogynous Hermaphrodite",
+          summary: "Is a protogynous sequential hermaphrodite - starts life as a female and later changes into a male, usually when it grows larger or when a dominant male is absent.",
+          details: "This sex change is common among wrasses and tuskfishes (family Labridae) and helps balance reproduction in their social groups. One large male defends a territory with several females, and when he disappears, the largest female transforms to take his place.",
+          subPoints: [
+            "Sequential hermaphrodite: An organism that changes sex during its lifetime - starting as one sex and later becoming the other.",
+            "Protandry: Starts as a male, later changes to female (e.g. clownfish).",
+            "Protogyny: Starts as a female, later changes to male (e.g. many wrasses and parrotfish).",
+            "This ability is usually triggered by social or environmental cues - like the absence of a dominant male or changes in population structure - and helps maximize reproductive success in different conditions."
+          ]
+        }
+      ],
+      miniLessonRecommendations: "Discuss hermaphroditism in wrasses and parrotfishes.",
+      
+      funFacts: [
+        "🐟 Blackspotted Tuskfish can change sex from female to male as they mature",
+        "💪 They have powerful crushing jaws that can crack open mollusks and crustaceans",
+        "🏠 Large males defend territories with multiple females in a harem-like social structure"
+      ]
     }).returning();
 
     // Associate species with dive sites

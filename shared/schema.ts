@@ -167,9 +167,6 @@ export const insertSpeciesSchema = createInsertSchema(species).omit({
   keyFacts: z.array(keyFactSchema).optional(),
 });
 
-export type Species = typeof species.$inferSelect;
-export type InsertSpecies = z.infer<typeof insertSpeciesSchema>;
-
 // Dive site species relationship table
 export const diveSiteSpecies = pgTable("dive_site_species", {
   id: serial("id").primaryKey(),
