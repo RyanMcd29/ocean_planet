@@ -666,24 +666,24 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-0 sm:p-4 z-50">
       <div className="bg-white rounded-none sm:rounded-xl shadow-2xl w-full max-w-4xl h-full sm:max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#088395] to-[#05BFDB] text-white p-3 sm:p-4 md:p-6 flex-shrink-0">
-          <div className="flex justify-between items-start mb-3 sm:mb-4">
+        <div className="bg-gradient-to-r from-[#088395] to-[#05BFDB] text-white p-2 sm:p-3 md:p-4 flex-shrink-0">
+          <div className="flex justify-between items-start mb-2 sm:mb-3">
             <div className="flex-1 pr-2">
-              <h1 className="text-lg sm:text-xl md:text-2xl font-bold">{lesson.title}</h1>
+              <h1 className="text-base sm:text-lg md:text-xl font-bold">{lesson.title}</h1>
             </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={onClose}
-              className="text-white hover:bg-white/20 flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10"
+              className="text-white hover:bg-white/20 flex-shrink-0 h-7 w-7 sm:h-8 sm:w-8"
               data-testid="button-close-lesson"
             >
-              <X className="w-4 h-4 sm:w-5 sm:h-5" />
+              <X className="w-4 h-4" />
             </Button>
           </div>
           
           {/* Progress */}
-          <div className="space-y-1 sm:space-y-2">
+          <div className="space-y-1">
             <div className="flex justify-between text-xs sm:text-sm text-blue-100">
               <span>Step {currentStep + 1} of {lesson.steps.length}</span>
               <span>{Math.round(progressPercentage)}% Complete</span>
@@ -705,7 +705,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
         </div>
 
         {/* Navigation */}
-        <div className="border-t border-gray-200 p-3 sm:p-4 md:p-6 bg-gray-50 flex-shrink-0 pb-20 sm:pb-3 md:pb-6">
+        <div className="border-t border-gray-200 p-2 sm:p-3 md:p-4 bg-gray-50 flex-shrink-0 pb-20 sm:pb-3 md:pb-4">
           <div className="flex justify-between items-center gap-2">
             <Button
               variant="outline"
