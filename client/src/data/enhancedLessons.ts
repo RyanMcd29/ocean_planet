@@ -2395,7 +2395,7 @@ export const bunburyDolphinsLesson: EnhancedLesson = {
     {
       type: "text",
       title: "Who's Involved?",
-      content: "**Species:** Indo-Pacific bottlenose dolphins (Tursiops aduncus)\n\n**Community:** The Dolphin Discovery Centre connects people with dolphins through eco-tours and citizen science programs\n\n**Researchers:** Study dolphin health, population dynamics, and human impacts on the community\n\n**Tourists & Locals:** Experience dolphins through eco-cruises, beach encounters, and responsible wildlife watching",
+      content: "**Species:** Indo-Pacific bottlenose dolphins (Tursiops aduncus)\n\n**Community:** The Dolphin Discovery Centre connects people with dolphins through eco-tours and citizen science programs\n\n**Researchers:** Study dolphin health, population dynamics, and human impacts on the community\n\n**Tourists & Locals:** Experience dolphins through eco-cruises, beach encounters, and responsible wildlife watching"
     },
     {
       type: "quiz",
@@ -2413,7 +2413,7 @@ export const bunburyDolphinsLesson: EnhancedLesson = {
     {
       type: "text",
       title: "Living Alongside Humans",
-      content: "While Bunbury's dolphins are a treasure, sharing space with humans creates challenges:\n\n**🚤 Boat Traffic & Fishing Gear** — Risks of entanglement, injury, or boat strikes\n\n**🏭 Pollution** — Estuary health directly affects dolphin food supply and water quality\n\n**👥 Tourism Pressure** — Too much human interaction can stress dolphins and disrupt their natural behaviors\n\n**⚖️ Conservation Balance** — People want close encounters, but dolphins need space to thrive\n\nProtecting these dolphins means finding the right balance between enjoying their presence and giving them the respect and distance they need.",
+      content: "While Bunbury's dolphins are a treasure, sharing space with humans creates challenges:\n\n**🚤 Boat Traffic & Fishing Gear** — Risks of entanglement, injury, or boat strikes\n\n**🏭 Pollution** — Estuary health directly affects dolphin food supply and water quality\n\n**👥 Tourism Pressure** — Too much human interaction can stress dolphins and disrupt their natural behaviors\n\n**⚖️ Conservation Balance** — People want close encounters, but dolphins need space to thrive\n\nProtecting these dolphins means finding the right balance between enjoying their presence and giving them the respect and distance they need."
     },
     {
       type: "quiz",
@@ -2444,7 +2444,57 @@ export const bunburyDolphinsLesson: EnhancedLesson = {
           correctAnswer: 3
         },
         {
-
+          question: "About how many dolphins live in Bunbury's resident population?",
+          options: [
+            "20",
+            "100",
+            "1,000",
+            "10,000"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "Why is it important to manage dolphin tourism carefully?",
+          options: [
+            "To avoid boring the tourists",
+            "To sell more tickets",
+            "To prevent stress and harm to dolphins",
+            "To reduce beach litter"
+          ],
+          correctAnswer: 2
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🐬 You're Now a Dolphin Guardian!",
+      content: "Great job! You've completed the lesson on Bunbury's bottlenose dolphins. You now understand how these intelligent animals live alongside humans and what we can do to protect them.\n\n**What You Can Do:**\n\n🐬 **Choose eco-certified dolphin tours** that follow safe distance rules and respect dolphin behavior\n\n🌊 **Support the Dolphin Discovery Centre** and their research and conservation programs\n\n♻️ **Reduce plastic waste** and pollution that flows into estuaries and coastal waters\n\n📣 **Share awareness** that wild dolphins are not entertainers — they're neighbors we must protect\n\n🏖️ **Observe responsibly** by keeping your distance and never feeding or touching wild dolphins\n\nCongratulations! You're now equipped to be a responsible dolphin advocate."
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about Bunbury's dolphins.",
+      sources: [
+        {
+          title: "Dolphin Discovery Centre – Koombana Bay Dolphins Research",
+          url: "https://dolphindiscovery.com.au/research/dolphins/"
+        },
+        {
+          title: "Department of Water and Environmental Regulation – Leschenault Estuary Dolphins",
+          url: "https://estuaries.dwer.wa.gov.au/estuary/leschenault-estuary/estuary/dolphins/"
+        },
+        {
+          title: "WA Holiday Guide – Dolphin Discovery Centre Visitor Guide",
+          url: "https://www.waholidayguide.com.au/blog/a-guide-to-bunbury-s-dolphin-discovery-centre-what-to-know-before-you-go"
+        },
+        {
+          title: "Heritage Council WA – Dolphin Discovery Centre Heritage Record",
+          url: "https://inherit.dplh.wa.gov.au/public/inventory/printsinglerecord/564b7832-81dc-484b-bf66-65f55ae38e89"
+        }
+      ]
+    }
+  ]
+};
 
 export const fishingDebrisLesson: EnhancedLesson = {
   id: "fishing-debris-threats",
