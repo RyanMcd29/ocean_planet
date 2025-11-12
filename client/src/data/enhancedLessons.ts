@@ -2444,6 +2444,110 @@ export const bunburyDolphinsLesson: EnhancedLesson = {
           correctAnswer: 3
         },
         {
+
+
+export const fishingDebrisLesson: EnhancedLesson = {
+  id: "fishing-debris-threats",
+  title: "Threats from Fishing Debris & Marine Conservation Efforts",
+  description: "How lost lines and nets tangle our oceans — and what we can do about it",
+  category: "human-ocean-interaction",
+  duration: 7,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "👣 Step 1 of 5 – Introduction",
+      content: "You've probably seen it — a tangle of fishing line around a jetty pylon, or a snagged hook on the reef.\n\nDiscarded or lost fishing gear, known as **fishing debris or ghost gear**, poses one of the biggest hazards to marine life.\n\nBut through awareness, clean-ups, and better gear design, ocean users are turning the tide.",
+      icon: "🎣"
+    },
+    {
+      type: "text",
+      title: "🧠 Step 2 of 5 – Key Concept",
+      content: "**Fishing debris** includes lost nets, lines, hooks, sinkers, and traps.\n\nWhen abandoned, this gear keeps catching animals — a process called **ghost fishing**.\n\nSpecies like **sea lions, seabirds, turtles, and reef fish** are most at risk from entanglement or ingestion.\n\nThe problem is global but visible locally around **Perth jetties, Rottnest reefs, and Cockburn Sound**.\n\nConservation programs now focus on **prevention, retrieval, and education** — for example, the **Reel It In** campaign installs fishing-line recycling bins at WA jetties and boat ramps to stop line entering the water.",
+      highlight: "Ghost fishing continues to catch and kill marine animals long after the gear is abandoned!"
+    },
+    {
+      type: "quiz",
+      title: "Quiz 1",
+      content: "What is 'ghost fishing'?",
+      options: [
+        "Fishing done at night",
+        "Ongoing capture of animals by lost gear",
+        "Fishing with sonar",
+        "A traditional fishing practice"
+      ],
+      correctAnswer: 1,
+      explanation: "Ghost fishing is the ongoing capture and killing of marine animals by abandoned or lost fishing gear. This gear continues to trap and kill wildlife for years after being discarded."
+    },
+    {
+      type: "text",
+      title: "🐡 Step 3 of 5 – Who or What's Involved?",
+      content: "**Common debris sources:** recreational line fishing from jetties, crayfish pots, trawl gear, and boat moorings.\n\n**Affected species near Perth:** sea lions at Shoalwater Islands, cormorants and pelicans around jetties, and rays and octopus at local dive sites.\n\n**Community heroes:**\n- **Tangaroa Blue Foundation** – runs the **Australian Marine Debris Initiative (AMDI)** data network\n- **Keep Australia Beautiful WA** and **local dive clubs** organise clean-ups at sites like Ammo Jetty and Woodman Point\n- **Ghost Nets Australia** retrieves derelict gear from northern WA and Indigenous Sea Country\n\nDivers, fishers, and citizen scientists now work together to remove debris and record what they find.",
+      highlight: "Community-led clean-ups have removed thousands of kilograms of fishing debris from WA waters!"
+    },
+    {
+      type: "quiz",
+      title: "Quiz 2",
+      content: "Which group manages the Australian Marine Debris Initiative?",
+      options: [
+        "Fisheries Research Institute",
+        "CSIRO",
+        "Surf Life Saving WA",
+        "Tangaroa Blue Foundation"
+      ],
+      correctAnswer: 3,
+      explanation: "Tangaroa Blue Foundation manages the Australian Marine Debris Initiative (AMDI), a comprehensive database that tracks marine debris across Australia, helping inform conservation strategies."
+    },
+    {
+      type: "text",
+      title: "🌊 Step 4 of 5 – Challenges or Consequences",
+      content: "**Wildlife entanglement** causes injury, drowning, or starvation.\n\n**Microplastics** form when lines and nets break down, entering food webs.\n\nHeavy debris can **smother seagrass** or break fragile corals.\n\nClean-ups help, but long-term change needs **responsible disposal, biodegradable gear, and policy reform**.",
+      highlight: "Fishing line can take up to 600 years to decompose in the ocean!"
+    },
+    {
+      type: "quiz",
+      title: "Quiz 3",
+      content: "Why is discarded fishing line harmful even after years underwater?",
+      options: [
+        "It dissolves into nutrients",
+        "It can still entangle marine animals",
+        "It becomes food for fish",
+        "It creates new habitat"
+      ],
+      correctAnswer: 1,
+      explanation: "Discarded fishing line remains a threat for hundreds of years because it doesn't break down quickly and continues to entangle marine animals, causing injury and death throughout its slow decomposition."
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a Marine Debris Guardian!",
+      content: "Great job! You've completed the lesson on fishing debris and marine conservation. You now understand how lost fishing gear threatens marine life and what's being done to address it.\n\n**What You Can Do:**\n\n🎣 **Dispose of fishing gear responsibly** - Use fishing line recycling bins at jetties and boat ramps\n\n🤿 **Join underwater clean-ups** - Participate in dive club debris removal programs\n\n📊 **Report debris** - Log findings with the Australian Marine Debris Initiative\n\n♻️ **Choose biodegradable options** - When available, select eco-friendly fishing gear\n\n📣 **Spread awareness** - Help others understand the impact of fishing debris\n\n🌊 **Support conservation programs** - Back organizations like Tangaroa Blue and Ghost Nets Australia\n\nRemember: every piece of debris removed saves marine lives!"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about fishing debris and marine conservation.",
+      sources: [
+        {
+          title: "Tangaroa Blue Foundation - Australian Marine Debris Initiative",
+          url: "https://www.tangaroablue.org/amdi"
+        },
+        {
+          title: "Keep Australia Beautiful WA - Reel It In Campaign",
+          url: "https://www.kabc.wa.gov.au/programs/reel-it-in"
+        },
+        {
+          title: "Ghost Nets Australia - Derelict Fishing Gear Retrieval",
+          url: "https://ghostnets.com.au/"
+        },
+        {
+          title: "CSIRO - Marine Debris Research",
+          url: "https://www.csiro.au/en/research/natural-environment/oceans/marine-debris"
+        }
+      ]
+    }
+  ]
+};
+
           question: "About how many dolphins live in Bunbury's resident population?",
           options: [
             "20",
@@ -2934,5 +3038,6 @@ export const enhancedLessons = [
   pygmyBlueWhalesLesson,
   humpbackHighwayLesson,
   australianSeaLionLesson,
-  orcaMysteriesLesson
+  orcaMysteriesLesson,
+  fishingDebrisLesson
 ];
