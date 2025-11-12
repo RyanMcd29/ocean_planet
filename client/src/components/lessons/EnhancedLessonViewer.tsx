@@ -669,8 +669,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
         <div className="bg-gradient-to-r from-[#088395] to-[#05BFDB] text-white p-3 sm:p-4 md:p-6 flex-shrink-0">
           <div className="flex justify-between items-start mb-3 sm:mb-4">
             <div className="flex-1 pr-2">
-              <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-1 sm:mb-2">{lesson.title}</h1>
-              <p className="text-blue-100 text-xs sm:text-sm md:text-base hidden sm:block">{lesson.description}</p>
+              <h1 className="text-lg sm:text-xl md:text-2xl font-bold">{lesson.title}</h1>
             </div>
             <Button
               variant="ghost"
