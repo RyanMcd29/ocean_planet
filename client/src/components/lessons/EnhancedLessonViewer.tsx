@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronLeft, ChevronRight, X, CheckCircle, XCircle, Lightbulb, Fish, Waves, Heart, Zap, Star, BookOpen, ExternalLink, Share2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -57,6 +57,7 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 }) => {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
+  const containerRef = useRef<HTMLDivElement>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -170,6 +171,9 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
       setCurrentStep(currentStep + 1);
       setSelectedAnswer(null);
       setShowFeedback(false);
+      
+      // Scroll to top of content
+      containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -178,6 +182,9 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
       setCurrentStep(currentStep - 1);
       setSelectedAnswer(null);
       setShowFeedback(false);
+      
+      // Scroll to top of content
+      containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 
@@ -253,19 +260,19 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
     switch (currentStepData.type) {
       case 'intro':
         return (
-          <div className="text-center space-y-6">
-            <div className="w-20 h-20 mx-auto bg-gradient-to-r from-[#088395] to-[#05BFDB] rounded-full flex items-center justify-center text-white text-2xl">
+          <div className="text-center space-y-4 sm:space-y-6">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-r from-[#088395] to-[#05BFDB] rounded-full flex items-center justify-center text-white text-xl sm:text-2xl">
               🌊
             </div>
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-[#0A4D68] mb-4">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0A4D68] mb-3 sm:mb-4 px-2">
                 {currentStepData.title}
               </h2>
-              <p className="text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto px-2">
                 {renderMarkdown(currentStepData.content)}
               </p>
             </div>
-            <div className="flex flex-wrap justify-center gap-3">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 px-2">
               <Badge className={getDifficultyColor(lesson.difficulty)}>
                 {lesson.difficulty}
               </Badge>
@@ -281,26 +288,26 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
       case 'image':
         return (
-          <div className="space-y-6">
-            <h2 className="text-xl md:text-2xl font-semibold text-[#0A4D68] text-center">
+          <div className="space-y-4 sm:space-y-6">
+            <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#0A4D68] text-center px-2">
               {currentStepData.title}
             </h2>
-            <div className="rounded-xl overflow-hidden shadow-lg">
+            <div className="rounded-xl overflow-hidden shadow-lg w-full">
               <img 
                 src={currentStepData.image} 
                 alt={currentStepData.title}
-                className="w-full h-64 md:h-80 object-cover"
+                className="w-full h-48 sm:h-64 md:h-80 object-cover"
               />
               {currentStepData.caption && (
-                <div className="bg-gray-50 p-4">
-                  <p className="text-sm text-gray-600 text-center italic">
+                <div className="bg-gray-50 p-3 sm:p-4">
+                  <p className="text-xs sm:text-sm text-gray-600 text-center italic">
                     {currentStepData.caption}
                   </p>
                 </div>
               )}
             </div>
-            <div className="bg-blue-50 rounded-lg p-4">
-              <p className="text-gray-700 leading-relaxed">
+            <div className="bg-blue-50 rounded-lg p-3 sm:p-4">
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 {renderMarkdown(currentStepData.content)}
               </p>
             </div>
@@ -330,20 +337,20 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
       case 'quiz':
         return (
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <div className="text-center">
-              <div className="w-16 h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-4">
-                <Zap className="w-8 h-8 text-purple-600" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 mx-auto bg-purple-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+                <Zap className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
               </div>
-              <h2 className="text-xl md:text-2xl font-semibold text-[#0A4D68] mb-2">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#0A4D68] mb-2 px-2">
                 {currentStepData.title}
               </h2>
-              <p className="text-gray-600">Test your knowledge!</p>
+              <p className="text-sm sm:text-base text-gray-600">Test your knowledge!</p>
             </div>
 
             <Card className="border-2 border-purple-200 bg-purple-50">
-              <CardContent className="p-6">
-                <p className="text-lg font-medium text-purple-900 mb-6 text-center">
+              <CardContent className="p-4 sm:p-6">
+                <p className="text-base sm:text-lg font-medium text-purple-900 mb-4 sm:mb-6 text-center">
                   {currentStepData.content}
                 </p>
                 
@@ -404,12 +411,12 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
       case 'conclusion':
         return (
-          <div className="text-center space-y-6">
-            <div className="w-20 h-20 mx-auto bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white text-3xl">
+          <div className="text-center space-y-4 sm:space-y-6">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center text-white text-2xl sm:text-3xl">
               🎉
             </div>
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-[#0A4D68] mb-6">
+              <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-[#0A4D68] mb-4 sm:mb-6 px-2">
                 {currentStepData.title}
               </h2>
               
@@ -625,26 +632,26 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
 
       default:
         return (
-          <div className="space-y-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-[#05BFDB] rounded-full flex items-center justify-center text-white">
+          <div className="space-y-4 sm:space-y-6">
+            <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-[#05BFDB] rounded-full flex items-center justify-center text-white flex-shrink-0">
                 {getStepIcon(currentStepData.type, currentStep)}
               </div>
-              <h2 className="text-xl md:text-2xl font-semibold text-[#0A4D68]">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-[#0A4D68]">
                 {currentStepData.title}
               </h2>
             </div>
             
-            <div className="prose prose-lg max-w-none">
-              <div className="text-gray-700 leading-relaxed">
+            <div className="prose prose-sm sm:prose-base max-w-none">
+              <div className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 {renderMarkdown(currentStepData.content)}
               </div>
             </div>
 
             {currentStepData.highlight && (
               <Card className="border-l-4 border-[#05BFDB] bg-blue-50">
-                <CardContent className="p-4">
-                  <p className="text-[#088395] font-medium">
+                <CardContent className="p-3 sm:p-4">
+                  <p className="text-sm sm:text-base text-[#088395] font-medium">
                     💡 {renderMarkdown(currentStepData.highlight)}
                   </p>
                 </CardContent>
@@ -656,28 +663,29 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-2 sm:p-4 z-50">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#088395] to-[#05BFDB] text-white p-6">
-          <div className="flex justify-between items-start mb-4">
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold mb-2">{lesson.title}</h1>
-              <p className="text-blue-100 text-sm md:text-base">{lesson.description}</p>
+        <div className="bg-gradient-to-r from-[#088395] to-[#05BFDB] text-white p-3 sm:p-4 md:p-6">
+          <div className="flex justify-between items-start mb-3 sm:mb-4">
+            <div className="flex-1 pr-2">
+              <h1 className="text-lg sm:text-xl md:text-2xl font-bold mb-1 sm:mb-2">{lesson.title}</h1>
+              <p className="text-blue-100 text-xs sm:text-sm md:text-base hidden sm:block">{lesson.description}</p>
             </div>
             <Button
               variant="ghost"
               size="icon"
               onClick={onClose}
-              className="text-white hover:bg-white/20 flex-shrink-0"
+              className="text-white hover:bg-white/20 flex-shrink-0 h-8 w-8 sm:h-10 sm:w-10"
+              data-testid="button-close-lesson"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
           </div>
           
           {/* Progress */}
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm text-blue-100">
+          <div className="space-y-1 sm:space-y-2">
+            <div className="flex justify-between text-xs sm:text-sm text-blue-100">
               <span>Step {currentStep + 1} of {lesson.steps.length}</span>
               <span>{Math.round(progressPercentage)}% Complete</span>
             </div>
@@ -686,33 +694,38 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
         </div>
 
         {/* Content */}
-        <div className={cn(
-          "p-6 md:p-8 overflow-y-auto transition-all duration-300 flex-1",
-          showAnimation && "opacity-0 translate-y-4",
-          !showAnimation && "opacity-100 translate-y-0"
-        )} style={{ maxHeight: 'calc(90vh - 280px)' }}>
+        <div 
+          ref={containerRef}
+          className={cn(
+            "p-4 sm:p-6 md:p-8 overflow-y-auto transition-all duration-300 flex-1",
+            showAnimation && "opacity-0 translate-y-4",
+            !showAnimation && "opacity-100 translate-y-0"
+          )}
+        >
           {renderStepContent()}
         </div>
 
         {/* Navigation */}
-        <div className="border-t border-gray-200 p-4 md:p-6 bg-gray-50 flex-shrink-0">
-          <div className="flex justify-between items-center">
+        <div className="border-t border-gray-200 p-3 sm:p-4 md:p-6 bg-gray-50 flex-shrink-0">
+          <div className="flex justify-between items-center gap-2">
             <Button
               variant="outline"
               onClick={handlePrevious}
               disabled={isFirstStep}
-              className="flex items-center gap-2"
+              className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base px-3 sm:px-4"
+              data-testid="button-previous-step"
             >
-              <ChevronLeft className="w-4 h-4" />
-              Previous
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Previous</span>
+              <span className="sm:hidden">Prev</span>
             </Button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               {lesson.steps.map((_, index) => (
                 <div
                   key={index}
                   className={cn(
-                    "w-2 h-2 rounded-full transition-colors",
+                    "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-colors",
                     index <= currentStep ? "bg-[#05BFDB]" : "bg-gray-300"
                   )}
                 />
@@ -720,35 +733,36 @@ const EnhancedLessonViewer: React.FC<EnhancedLessonViewerProps> = ({
             </div>
 
             {isLastStep ? (
-              <div className="flex gap-2">
+              <div className="flex gap-1 sm:gap-2">
                 <Button
                   variant="outline"
                   onClick={handleShareLesson}
                   disabled={shareLessonMutation.isPending}
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base px-2 sm:px-4"
                   data-testid="button-share-lesson"
                 >
-                  {shareLessonMutation.isPending ? "Sharing..." : "Share"}
-                  <Share2 className="w-4 h-4" />
+                  <span className="hidden sm:inline">{shareLessonMutation.isPending ? "Sharing..." : "Share"}</span>
+                  <Share2 className="w-3 h-3 sm:w-4 sm:h-4" />
                 </Button>
                 <Button
                   onClick={handleCompleteLesson}
                   disabled={completeLessonMutation.isPending}
-                  className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-2 disabled:opacity-50"
+                  className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-1 sm:gap-2 disabled:opacity-50 text-sm sm:text-base px-3 sm:px-4"
                   data-testid="button-complete-lesson"
                 >
                   {completeLessonMutation.isPending ? "Saving..." : "Complete"}
-                  <CheckCircle className="w-4 h-4" />
+                  <CheckCircle className="w-3 h-3 sm:w-4 sm:h-4" />
                 </Button>
               </div>
             ) : (
               <Button
                 onClick={handleNext}
                 disabled={currentStepData.type === 'quiz' && selectedAnswer === null}
-                className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-gradient-to-r from-[#05BFDB] to-[#088395] hover:from-[#088395] hover:to-[#0A4D68] text-white flex items-center gap-1 sm:gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base px-3 sm:px-4"
+                data-testid="button-next-step"
               >
                 Next
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
               </Button>
             )}
           </div>
