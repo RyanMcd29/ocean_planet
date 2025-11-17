@@ -17,7 +17,7 @@ const CommunityPage = () => {
               Ocean Planet Community
             </h1>
             <p className="text-xl mb-6 text-blue-100">
-              Connect with fellow divers, share discoveries, and join ocean events
+              Connect with fellow ocean lovers, share discoveries, and join ocean events
             </p>
             <div className="flex flex-wrap justify-center gap-6 text-blue-100">
               <div className="flex items-center">
