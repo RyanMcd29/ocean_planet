@@ -3103,7 +3103,7 @@ export const marineProtectionZonesLesson: EnhancedLesson = {
     {
       type: "text",
       title: "🌊 Challenges and Consequences",
-      content: "Despite good intentions, marine protection faces real-world challenges:\n\n**Confusing Terminology:**\nConfusing names can cause compliance issues — people don't know what's allowed where\n\n**Partial Protection Pitfalls:**\nSome zones look "protected" but still allow fishing, making them less effective for conservation\n\n**Enforcement Difficulties:**\nEnforcement is harder offshore than close to shore, requiring significant resources\n\n**Recovery Takes Time:**\nEven well-enforced sanctuary zones need years to show measurable benefits as ecosystems recover\n\n**Ongoing Debate:**\nShould underperforming sanctuary zones be removed, or given more time and resources? This remains contentious among stakeholders.",
+      content: "Despite good intentions, marine protection faces real-world challenges:\n\n**Confusing Terminology:**\nConfusing names can cause compliance issues — people don't know what's allowed where\n\n**Partial Protection Pitfalls:**\nSome zones look 'protected' but still allow fishing, making them less effective for conservation\n\n**Enforcement Difficulties:**\nEnforcement is harder offshore than close to shore, requiring significant resources\n\n**Recovery Takes Time:**\nEven well-enforced sanctuary zones need years to show measurable benefits as ecosystems recover\n\n**Ongoing Debate:**\nShould underperforming sanctuary zones be removed, or given more time and resources? This remains contentious among stakeholders.",
       highlight: "Marine protection is a long-term commitment requiring patience and consistent enforcement!"
     },
     {
