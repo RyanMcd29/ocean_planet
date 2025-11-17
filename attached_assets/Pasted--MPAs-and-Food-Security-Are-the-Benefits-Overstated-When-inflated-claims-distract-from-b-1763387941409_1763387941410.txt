@@ -1,0 +1,121 @@
+# **MPAs and Food Security – Are the Benefits Overstated?**
+
+*When inflated claims distract from biodiversity protection.*
+
+---
+
+### 👣 **Step 1 of 5 – Introduction**
+
+Some scientists once claimed that expanding Marine Protected Areas (MPAs) could increase global fish catches by **20%** (*Cabral et al. 2020*). It sounded like a breakthrough for food security — but later critiques found the estimate was **overstated** and based on **misapplied data** (*Cochrane et al. 2024*).
+
+The debate revealed something important:
+
+⚠️ **Bold conservation claims can mislead policy when the underlying science isn’t framed accurately.**
+
+---
+
+### 🧠 **Step 2 of 5 – Key Concept**
+
+- MPAs are created primarily to **protect biodiversity** — not to boost fishing yields.
+- Overstating fisheries benefits can distort policy, funding, and expectations.
+- Cabral’s study applied **inshore coastal data** to **open-ocean fisheries**, inflating the predicted benefits.
+- Good science requires **rigorous methods**, **clear framing**, and **transparent assumptions**.
+
+✅ **Quiz 1:**
+
+What is the *core purpose* of MPAs?
+
+A) Increasing storm protection
+
+B) Expanding shipping routes
+
+C) Boosting global trade
+
+D) Protecting biodiversity ✅
+
+---
+
+### 🐠 **Step 3 of 5 – Who or What’s Involved?**
+
+- **Scientists:** produce research that can shape global policy, but errors or bias can cause major ripple effects.
+- **Policymakers:** may quickly adopt exciting results without understanding limitations.
+- **Communities:** feel misled when promised outcomes don’t materialize, reducing trust in conservation efforts.
+
+The controversy highlights the need for **accurate communication** — not just compelling numbers.
+
+✅ **Quiz 2:**
+
+Why was Cabral et al.’s (2020) study criticized?
+
+A) It used case studies only from inshore areas, not open ocean fisheries ✅
+
+B) It didn’t mention coral reefs
+
+C) It ignored marine mammals
+
+D) It focused too much on biodiversity
+
+---
+
+### 🌊 **Step 4 of 5 – Challenges or Consequences**
+
+- Overstated fisheries benefits can **erode public trust** in MPAs and in science more broadly.
+- Policymakers may expect MPAs to solve food security — a responsibility they were never designed for.
+- When fisheries recovery *is* the goal, tools like **no-take zones**, **harvest rules**, and **catch limits** are far more reliable.
+- Clear communication prevents MPAs from being misrepresented as a universal fix.
+
+✅ **Quiz 3:**
+
+When fisheries recovery is the main goal, which tool is most effective?
+
+A) Trade agreements
+
+B) No-take zones ✅
+
+C) Marine tourism
+
+D) Artificial reefs
+
+---
+
+## 🧪 **Step 5 of 6 – Final Quiz**
+
+1. **What was a major issue with applying Cabral et al.’s 2020 results globally?**
+    - A) The study relied on inshore data but applied it to open-ocean fisheries ✅
+    - B) It used too many marine mammal datasets
+    - C) It focused solely on coral bleaching
+    - D) It had no economic information
+2. **Why can overstated MPA benefits be harmful for policy?**
+    - A) They make MPAs too popular
+    - B) They create unrealistic expectations and weaken trust when results don’t appear ✅
+    - C) They guarantee long-term funding
+    - D) They automatically increase seafood exports
+3. **Which statement best reflects current scientific consensus?**
+    - A) MPAs are primarily tools for increasing global fish production
+    - B) MPAs are biodiversity refuges, while fisheries recovery needs additional tools like no-take zones and harvest rules ✅
+    - C) MPAs automatically fix food security challenges
+    - D) MPAs work best when no scientific evaluation is conducted
+
+---
+
+## 🌱 **Step 6 – What You Can Do**
+
+- Share accurate information: **MPAs protect ecosystems first**, fisheries second.
+- Support **transparent and careful scientific communication**.
+- Ask whether bold claims are backed by solid, appropriately applied data.
+
+🎉 *Wrap-Up:*
+
+“You’ve completed *Lesson 1: MPAs and Food Security*. Remember: truth builds trust.”
+
+---
+
+# 🔗 **Sources & Further Reading**
+
+- Cabral, R. B., Bradley, D., Mayorga, J., Goodell, W., Friedlander, A. M., Sala, E., Costello, C., & Gaines, S. D. (2020). *A global network of marine protected areas for food.* PNAS.
+    
+    https://doi.org/10.1073/pnas.2000174117
+    
+- Cochrane, K. L., Butterworth, D. S., Hilborn, R., Parma, A. M., Plagányi, É. E., & Sissenwine, M. P. (2024). *Errors and bias in marine conservation and fisheries literature.* Marine Policy.
+    
+    https://doi.org/10.1016/j.marpol.2024.106329
