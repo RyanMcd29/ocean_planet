@@ -3048,7 +3048,147 @@ export const orcaMysteriesLesson: EnhancedLesson = {
   ]
 };
 
+export const marineProtectionZonesLesson: EnhancedLesson = {
+  id: "marine-protection-zones",
+  title: "Sanctuary, Reserve, or No-Fishing Zone? Why the Names Matter",
+  description: "What's in a name? A lot, when it comes to protecting our oceans",
+  category: "fisheries",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🌊 What's in a Name?",
+      content: "Ever noticed that some places are called *marine reserves*, others *sanctuary zones*, and some simply *no-fishing areas*? 🐟\n\nThese names aren't just labels — they shape how people use, respect, and enforce marine protections. Understanding them helps us see how ocean parks like Ningaloo and Marmion keep ecosystems safe.",
+      icon: "🌊"
+    },
+    {
+      type: "text",
+      title: "🧠 Key Concept: Understanding Marine Zones",
+      content: "Marine parks use zones to balance **protection vs human use**. Different zones have different rules:\n\n**No-take zones** (aka "sanctuary zones" or "marine reserves") ban all fishing and extractive activities.\n\n**Partial protection zones** may allow some activities like recreational line fishing but restrict commercial fishing.\n\n**Globally, terms vary:**\n- *Marine National Park* (Australia – Victoria)\n- *Marine Reserve* (New Zealand)\n- *No-Take MPA* (IUCN international standard)\n\nThe terminology matters because it affects how people understand and comply with the rules protecting these areas.",
+      highlight: "Clear naming helps people understand what's allowed and improves conservation outcomes!"
+    },
+    {
+      type: "quiz",
+      title: "Zone Types Quiz",
+      content: "Which term usually means **no fishing allowed**?",
+      options: [
+        "General Use Zone",
+        "Sanctuary Zone",
+        "Multiple Use Zone",
+        "Aquaculture Zone"
+      ],
+      correctAnswer: 1,
+      explanation: "Sanctuary Zones are no-take areas where all fishing and extractive activities are prohibited to allow marine ecosystems to recover and thrive without human interference."
+    },
+    {
+      type: "text",
+      title: "🐠 Who or What's Involved?",
+      content: "Marine protection involves multiple stakeholders and benefits diverse species:\n\n**Managers:**\n- Parks Australia manages Commonwealth Marine Parks\n- DBCA (WA) oversees Western Australian marine parks\n- Local fisheries agencies enforce regulations\n\n**Species Benefits:**\nFish, lobsters, corals, and whales all benefit from reduced pressure in protected zones\n\n**Key Examples:**\n\n**Marmion Marine Park** – WA's first marine park, includes sanctuary areas near Perth protecting temperate reefs\n\n**Ningaloo Marine Park** – Protects one of the world's longest fringing reefs, famous for whale sharks\n\n**Commonwealth Marine Parks** – Offshore protections around Australia covering vast ocean areas",
+      highlight: "WA's marine parks protect some of the world's most unique marine ecosystems!"
+    },
+    {
+      type: "quiz",
+      title: "Marine Parks Knowledge",
+      content: "Which marine park is famous for whale sharks and coral reefs?",
+      options: [
+        "Marmion Marine Park",
+        "Ningaloo Marine Park",
+        "Great Sandy Marine Park",
+        "Shark Bay Marine Park"
+      ],
+      correctAnswer: 1,
+      explanation: "Ningaloo Marine Park on WA's northwest coast is world-famous for its whale shark encounters and pristine fringing coral reef, making it a globally significant marine protected area."
+    },
+    {
+      type: "text",
+      title: "🌊 Challenges and Consequences",
+      content: "Despite good intentions, marine protection faces real-world challenges:\n\n**Confusing Terminology:**\nConfusing names can cause compliance issues — people don't know what's allowed where\n\n**Partial Protection Pitfalls:**\nSome zones look "protected" but still allow fishing, making them less effective for conservation\n\n**Enforcement Difficulties:**\nEnforcement is harder offshore than close to shore, requiring significant resources\n\n**Recovery Takes Time:**\nEven well-enforced sanctuary zones need years to show measurable benefits as ecosystems recover\n\n**Ongoing Debate:**\nShould underperforming sanctuary zones be removed, or given more time and resources? This remains contentious among stakeholders.",
+      highlight: "Marine protection is a long-term commitment requiring patience and consistent enforcement!"
+    },
+    {
+      type: "quiz",
+      title: "Understanding Recovery",
+      content: "Why might a sanctuary zone show little change at first?",
+      options: [
+        "Marine life is lazy",
+        "Enforcement takes time & recovery is slow",
+        "The water is too clear",
+        "Scientists don't measure it"
+      ],
+      correctAnswer: 1,
+      explanation: "Marine ecosystems need time to recover from past impacts. Enforcement systems take time to establish, fish populations need years to rebuild, and ecosystem balance restoration is a gradual process that can take 5-10 years or more to show significant results."
+    },
+    {
+      type: "finalQuiz",
+      title: "Final Quiz",
+      content: "Test your understanding of marine protection zones!",
+      questions: [
+        {
+          question: "What is another name for a **no-take zone** used globally?",
+          options: [
+            "Marine Reserve",
+            "Fish Farm",
+            "General Use Zone",
+            "Surfing Reserve"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "Which park is located close to Perth and was WA's first marine park?",
+          options: [
+            "Ningaloo Marine Park",
+            "Marmion Marine Park",
+            "Rowley Shoals Marine Park",
+            "Great Barrier Reef Marine Park"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "What's one major benefit of clear zoning rules in marine parks?",
+          options: [
+            "They make fishing more profitable",
+            "They improve compliance & conservation",
+            "They allow unlimited tourism",
+            "They reduce tourism completely"
+          ],
+          correctAnswer: 1
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🌱 What You Can Do",
+      content: "Great job! You've completed the lesson on marine protection zones. Now you understand why the names matter and how they help protect our oceans.\n\n**What You Can Do:**\n\n🌊 **Learn the zones** before you dive or fish — each color on a marine park map has a specific meaning\n\n🐠 **Support parks and sanctuaries** by choosing eco-friendly tourism operators who respect zone boundaries\n\n📣 **Share how naming matters** with friends — it builds respect and awareness for marine protection\n\n📚 **Stay informed** about your local marine parks and their management plans\n\n🎣 **Fish responsibly** by knowing which zones allow fishing and which are strictly protected\n\nRemember: Understanding and respecting marine protection zones is everyone's responsibility. These areas are essential for maintaining healthy ocean ecosystems for future generations!"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about marine protection zones.",
+      sources: [
+        {
+          title: "IUCN (2018) - Guidelines for Applying Protected Area Management Categories to Marine Protected Areas",
+          url: "https://www.iucn.org/resources/publication/guidelines-applying-iucn-protected-area-management-categories-marine-protected-areas"
+        },
+        {
+          title: "Lester, S. et al. (2009) - Biological effects within no-take marine reserves: a global synthesis",
+          url: "https://www.int-res.com/abstracts/meps/v384/p33-46/"
+        },
+        {
+          title: "DBCA (WA) - Western Australian Marine Parks – Zoning & Management",
+          url: "https://www.dbca.wa.gov.au/parks-and-wildlife-service/marine-parks"
+        },
+        {
+          title: "Edgar, G. et al. (2014) - Global conservation outcomes depend on marine protected area design",
+          url: "https://www.nature.com/articles/nature13022"
+        }
+      ]
+    }
+  ]
+};
+
 export const enhancedLessons = [
+  marineProtectionZonesLesson,
   bottomTrawlingLesson,
   leeuwincurrentLesson,
   westernRockLobsterLesson,

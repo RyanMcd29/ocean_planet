@@ -13,7 +13,7 @@ import { CircularProgress } from "@/components/lessons/CircularProgress";
 import { BadgeShowcase, type Badge as BadgeData } from "@/components/lessons/BadgeShowcase";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
-import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, whaleScience101Lesson, trackingTechLesson, ecosystemGuardiansLesson, camillaWreckLesson, longJettyLesson, swanRiverDolphinsLesson, bunburyDolphinsLesson, pygmyBlueWhalesLesson, humpbackHighwayLesson, australianSeaLionLesson, orcaMysteriesLesson, fishingDebrisLesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, whaleScience101Lesson, trackingTechLesson, ecosystemGuardiansLesson, camillaWreckLesson, longJettyLesson, swanRiverDolphinsLesson, bunburyDolphinsLesson, pygmyBlueWhalesLesson, humpbackHighwayLesson, australianSeaLionLesson, orcaMysteriesLesson, fishingDebrisLesson, marineProtectionZonesLesson, type EnhancedLesson } from "@/data/enhancedLessons";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
@@ -37,6 +37,7 @@ const categories = [
   { id: "marine-ecology", name: "Marine Ecology", icon: "🐠", emoji: true },
   { id: "marine-geology", name: "Marine Geology", icon: "🪨", emoji: true },
   { id: "ocean-energy", name: "Ocean Energy", icon: "⚡", emoji: true },
+  { id: "fisheries", name: "Fisheries", icon: <Fish className="h-5 w-5" /> },
 ];
 
 // Sample lessons data with integrated interactive lessons
@@ -418,6 +419,32 @@ const allLessons = [
     isEnhanced: true,
     specialBadge: "🎣",
     enhancedLessonData: fishingDebrisLesson
+  },
+  {
+    id: 30,
+    title: "Threats from Fishing Debris & Marine Conservation Efforts",
+    category: "human-ocean-interaction",
+    duration: 7,
+    thumbnail: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "How lost lines and nets tangle our oceans — and what we can do about it",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🎣",
+    enhancedLessonData: fishingDebrisLesson
+  },
+  {
+    id: 31,
+    title: "Sanctuary, Reserve, or No-Fishing Zone? Why the Names Matter",
+    category: "fisheries",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "What's in a name? A lot, when it comes to protecting our oceans",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🌊",
+    enhancedLessonData: marineProtectionZonesLesson
   }
 ];
 
@@ -506,11 +533,12 @@ export default function LearnPage() {
     'marine-ecology': { badgeName: 'Ecology Expert', badgeIcon: '🪸' },
     'marine-geology': { badgeName: 'Geology Master', badgeIcon: '🪨' },
     'ocean-energy': { badgeName: 'Energy Expert', badgeIcon: '⚡' },
+    'fisheries': { badgeName: 'Fisheries Expert', badgeIcon: '🎣' },
   };
 
   // Calculate completion stats from backend data
   const completedLessonIds = useMemo(() => new Set(progressData?.map(p => p.lessonId) || []), [progressData]);
-  
+
   // Category-specific progress calculation
   const categoryProgress = useMemo(() => {
     if (selectedCategory === "all") {
@@ -535,7 +563,7 @@ export default function LearnPage() {
   // Calculate badge status for each category
   const badges = useMemo(() => {
     const categoryLessonsMap: Record<string, string[]> = {};
-    
+
     // Group lessons by category
     allLessons.forEach(lesson => {
       if (lesson.enhancedLessonData?.id && lesson.category) {
@@ -558,7 +586,7 @@ export default function LearnPage() {
 
       const badgeInfo = categoryBadgeMap[category];
       const unlockedBadge = badgesData?.find(b => b.category === category);
-      
+
       badgesList.push({
         category,
         badgeName: badgeInfo.badgeName,
@@ -585,7 +613,7 @@ export default function LearnPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const lessonId = params.get('lesson');
-    
+
     if (lessonId) {
       const lesson = allLessons.find(l => l.enhancedLessonData?.id === lessonId);
       if (lesson) {
@@ -733,7 +761,7 @@ export default function LearnPage() {
                     const isCompleted = lesson.enhancedLessonData?.id 
                       ? completedLessonIds.has(lesson.enhancedLessonData.id) 
                       : lesson.completed;
-                    
+
                     return (
                     <Card key={lesson.id} className="cursor-pointer hover:shadow-lg transition-shadow">
                       <div className="relative">
