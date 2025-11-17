@@ -3065,7 +3065,7 @@ export const marineProtectionZonesLesson: EnhancedLesson = {
     {
       type: "text",
       title: "🧠 Key Concept: Understanding Marine Zones",
-      content: "Marine parks use zones to balance **protection vs human use**. Different zones have different rules:\n\n**No-take zones** (aka "sanctuary zones" or "marine reserves") ban all fishing and extractive activities.\n\n**Partial protection zones** may allow some activities like recreational line fishing but restrict commercial fishing.\n\n**Globally, terms vary:**\n- *Marine National Park* (Australia – Victoria)\n- *Marine Reserve* (New Zealand)\n- *No-Take MPA* (IUCN international standard)\n\nThe terminology matters because it affects how people understand and comply with the rules protecting these areas.",
+      content: "Marine parks use zones to balance **protection vs human use**. Different zones have different rules:\n\n**No-take zones** (aka \"sanctuary zones\" or \"marine reserves\") ban all fishing and extractive activities.\n\n**Partial protection zones** may allow some activities like recreational line fishing but restrict commercial fishing.\n\n**Globally, terms vary:**\n- *Marine National Park* (Australia – Victoria)\n- *Marine Reserve* (New Zealand)\n- *No-Take MPA* (IUCN international standard)\n\nThe terminology matters because it affects how people understand and comply with the rules protecting these areas.",
       highlight: "Clear naming helps people understand what's allowed and improves conservation outcomes!"
     },
     {
