@@ -3187,8 +3187,140 @@ export const marineProtectionZonesLesson: EnhancedLesson = {
   ]
 };
 
+export const mpasAndFoodSecurityLesson: EnhancedLesson = {
+  id: "mpas-food-security",
+  title: "MPAs and Food Security – Are the Benefits Overstated?",
+  description: "When inflated claims distract from biodiversity protection",
+  category: "fisheries",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "👣 Introduction",
+      content: "Some scientists once claimed that expanding Marine Protected Areas (MPAs) could increase global fish catches by **20%** (Cabral et al. 2020). It sounded like a breakthrough for food security — but later critiques found the estimate was **overstated** and based on **misapplied data** (Cochrane et al. 2024).\n\nThe debate revealed something important:\n\n⚠️ **Bold conservation claims can mislead policy when the underlying science isn't framed accurately.**"
+    },
+    {
+      type: "text",
+      title: "🧠 Key Concept",
+      content: "Understanding the real purpose and limitations of Marine Protected Areas:\n\n**Primary Purpose**: MPAs are created primarily to **protect biodiversity** — not to boost fishing yields.\n\n**The Problem with Overstating**: Overstating fisheries benefits can distort policy, funding, and expectations.\n\n**What Went Wrong**: Cabral's study applied **inshore coastal data** to **open-ocean fisheries**, inflating the predicted benefits.\n\n**Scientific Integrity**: Good science requires **rigorous methods**, **clear framing**, and **transparent assumptions**.\n\nWhen conservation claims are inflated or misapplied, it can undermine trust in both science and conservation efforts.",
+      highlight: "MPAs are primarily designed to protect biodiversity, not maximize fish catches!"
+    },
+    {
+      type: "quiz",
+      title: "Core Purpose Quiz",
+      content: "What is the *core purpose* of MPAs?",
+      options: [
+        "Increasing storm protection",
+        "Expanding shipping routes",
+        "Boosting global trade",
+        "Protecting biodiversity"
+      ],
+      correctAnswer: 3,
+      explanation: "Marine Protected Areas are primarily designed to protect biodiversity and marine ecosystems. While they may have secondary benefits for fisheries, their core purpose is conservation, not fish production."
+    },
+    {
+      type: "text",
+      title: "🐠 Who or What's Involved?",
+      content: "The controversy over MPA benefits involves multiple stakeholders:\n\n**Scientists**: Produce research that can shape global policy, but errors or bias can cause major ripple effects. The Cabral study showed how methodological issues can lead to overstated conclusions.\n\n**Policymakers**: May quickly adopt exciting results without understanding limitations. When claims sound too good to be true, proper scrutiny is essential.\n\n**Communities**: Feel misled when promised outcomes don't materialize, reducing trust in conservation efforts. Overpromising can damage long-term support for MPAs.\n\n**The Lesson**: The controversy highlights the need for **accurate communication** — not just compelling numbers. Science must be both rigorous and honestly presented.",
+      highlight: "Accurate scientific communication builds trust; overstated claims erode it"
+    },
+    {
+      type: "quiz",
+      title: "Understanding the Criticism",
+      content: "Why was Cabral et al.'s (2020) study criticized?",
+      options: [
+        "It used case studies only from inshore areas, not open ocean fisheries",
+        "It didn't mention coral reefs",
+        "It ignored marine mammals",
+        "It focused too much on biodiversity"
+      ],
+      correctAnswer: 0,
+      explanation: "The study was criticized for applying data from inshore coastal fisheries to open-ocean fisheries, where conditions and dynamics are very different. This methodological issue led to inflated estimates of global fisheries benefits."
+    },
+    {
+      type: "text",
+      title: "🌊 Challenges or Consequences",
+      content: "When scientific claims are overstated, real consequences follow:\n\n**Eroded Trust**: Overstated fisheries benefits can **erode public trust** in MPAs and in science more broadly. When promised benefits don't materialize, skepticism grows.\n\n**Misplaced Expectations**: Policymakers may expect MPAs to solve food security — a responsibility they were never designed for.\n\n**Better Tools Available**: When fisheries recovery *is* the goal, tools like **no-take zones**, **harvest rules**, and **catch limits** are far more reliable and effective.\n\n**The Need for Clarity**: Clear communication prevents MPAs from being misrepresented as a universal fix for all ocean problems.\n\nMPAs are powerful conservation tools, but they work best when their actual benefits are accurately communicated.",
+      highlight: "Clear, honest communication is essential for effective conservation policy"
+    },
+    {
+      type: "quiz",
+      title: "Effective Fisheries Management",
+      content: "When fisheries recovery is the main goal, which tool is most effective?",
+      options: [
+        "Trade agreements",
+        "No-take zones",
+        "Marine tourism",
+        "Artificial reefs"
+      ],
+      correctAnswer: 1,
+      explanation: "No-take zones, combined with harvest rules and catch limits, are the most effective tools for fisheries recovery. These targeted fisheries management approaches are more reliable than expecting MPAs alone to boost fish catches."
+    },
+    {
+      type: "finalQuiz",
+      title: "Final Quiz",
+      content: "Test your understanding of the MPA and food security debate!",
+      questions: [
+        {
+          question: "What was a major issue with applying Cabral et al.'s 2020 results globally?",
+          options: [
+            "The study relied on inshore data but applied it to open-ocean fisheries",
+            "It used too many marine mammal datasets",
+            "It focused solely on coral bleaching",
+            "It had no economic information"
+          ],
+          correctAnswer: 0
+        },
+        {
+          question: "Why can overstated MPA benefits be harmful for policy?",
+          options: [
+            "They make MPAs too popular",
+            "They create unrealistic expectations and weaken trust when results don't appear",
+            "They guarantee long-term funding",
+            "They automatically increase seafood exports"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "Which statement best reflects current scientific consensus?",
+          options: [
+            "MPAs are primarily tools for increasing global fish production",
+            "MPAs are biodiversity refuges, while fisheries recovery needs additional tools like no-take zones and harvest rules",
+            "MPAs automatically fix food security challenges",
+            "MPAs work best when no scientific evaluation is conducted"
+          ],
+          correctAnswer: 1
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🌱 What You Can Do",
+      content: "Great job! You've completed the lesson on MPAs and Food Security. You now understand the importance of accurate scientific communication in conservation.\n\n**What You Can Do:**\n\n📢 **Share accurate information** - MPAs protect ecosystems first, fisheries second\n\n🔬 **Support transparent science** - Encourage rigorous methods and honest communication of limitations\n\n❓ **Ask critical questions** - Are bold claims backed by solid, appropriately applied data?\n\n🌊 **Advocate for proper tools** - Support targeted fisheries management when fish recovery is the goal\n\n📚 **Stay informed** - Understand the difference between biodiversity protection and fisheries management\n\nRemember: **Truth builds trust.** Accurate science and honest communication are essential for effective ocean conservation!",
+      icon: "🌱"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these research papers that inform this debate.",
+      sources: [
+        {
+          title: "Cabral, R. B. et al. (2020) - A global network of marine protected areas for food",
+          url: "https://doi.org/10.1073/pnas.2000174117"
+        },
+        {
+          title: "Cochrane, K. L. et al. (2024) - Errors and bias in marine conservation and fisheries literature",
+          url: "https://doi.org/10.1016/j.marpol.2024.106329"
+        }
+      ]
+    }
+  ]
+};
+
 export const enhancedLessons = [
   marineProtectionZonesLesson,
+  mpasAndFoodSecurityLesson,
   bottomTrawlingLesson,
   leeuwincurrentLesson,
   westernRockLobsterLesson,
