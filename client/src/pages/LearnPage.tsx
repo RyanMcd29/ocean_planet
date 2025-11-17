@@ -457,7 +457,7 @@ const allLessons = [
     difficulty: "Beginner" as const,
     isEnhanced: true,
     specialBadge: "🌊",
-    enhancedLessonData: marineProtectionZonesLesson
+    enhancedLessonData: mpasAndFoodSecurityLesson
   }
 ];
 
