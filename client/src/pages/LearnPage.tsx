@@ -13,7 +13,7 @@ import { CircularProgress } from "@/components/lessons/CircularProgress";
 import { BadgeShowcase, type Badge as BadgeData } from "@/components/lessons/BadgeShowcase";
 import { lessons, getLessonById, type Lesson } from "@/data/lessons";
 import { westernRockLobsterLesson as originalWesternRockLobsterLesson } from "@/data/lessonContent";
-import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, whaleScience101Lesson, trackingTechLesson, ecosystemGuardiansLesson, camillaWreckLesson, longJettyLesson, swanRiverDolphinsLesson, bunburyDolphinsLesson, pygmyBlueWhalesLesson, humpbackHighwayLesson, australianSeaLionLesson, orcaMysteriesLesson, fishingDebrisLesson, marineProtectionZonesLesson, mpasAndFoodSecurityLesson, type EnhancedLesson } from "@/data/enhancedLessons";
+import { bottomTrawlingLesson, coralReefsLesson, oceanCurrentsLesson, leeuwincurrentLesson, westernRockLobsterLesson as enhancedWesternRockLobsterLesson, reefFishLesson, oceanLiteracyPrinciple1Lesson, oceanLiteracyPrinciple2Lesson, oceanLiteracyPrinciple3Lesson, oceanLiteracyPrinciple4Lesson, oceanLiteracyPrinciple5Lesson, oceanLiteracyPrinciple6Lesson, oceanLiteracyPrinciple7Lesson, jettyBiodiversityLesson, southernRightWhaleMigrationLesson, southernRightWhaleClimateLesson, highSeasTreatyLesson, whaleScience101Lesson, trackingTechLesson, ecosystemGuardiansLesson, camillaWreckLesson, longJettyLesson, swanRiverDolphinsLesson, bunburyDolphinsLesson, pygmyBlueWhalesLesson, humpbackHighwayLesson, australianSeaLionLesson, orcaMysteriesLesson, fishingDebrisLesson, marineProtectionZonesLesson, mpasAndFoodSecurityLesson, overfishingLesson, type EnhancedLesson } from "@/data/enhancedLessons";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 
@@ -458,6 +458,19 @@ const allLessons = [
     isEnhanced: true,
     specialBadge: "🌊",
     enhancedLessonData: mpasAndFoodSecurityLesson
+  },
+  {
+    id: 33,
+    title: "When Nemo Goes Missing: The Real Story Behind Overfishing",
+    category: "fisheries",
+    duration: 6,
+    thumbnail: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+    description: "Why too many nets in the water mean fewer fish in the sea",
+    completed: false,
+    difficulty: "Beginner" as const,
+    isEnhanced: true,
+    specialBadge: "🐠",
+    enhancedLessonData: overfishingLesson
   }
 ];
 

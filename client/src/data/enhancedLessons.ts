@@ -78,7 +78,7 @@ export const bottomTrawlingLesson: EnhancedLesson = {
       options: [
         "All cars on Earth combined",
         "The global aviation industry",
-        "All forest fires worldwide", 
+        "All forest fires worldwide",
         "The entire shipping industry"
       ],
       correctAnswer: 1,
@@ -452,7 +452,7 @@ export const coralReefsLesson: EnhancedLesson = {
     {
       type: "intro",
       title: "Welcome to the Ocean's Most Colorful Cities!",
-      content: "Did you know that coral reefs support 25% of all marine life while covering less than 1% of the ocean? You're about to discover why these underwater cities are among Earth's most important and beautiful ecosystems."
+      content: "Did you know that coral reefs support 25% of all marine life while covering less than 1% of the ocean floor? You're about to discover why these underwater cities are among Earth's most important and beautiful ecosystems."
     },
     {
       type: "text",
@@ -539,7 +539,7 @@ export const oceanLiteracyPrinciple1Lesson: EnhancedLesson = {
       options: [
         "Just 1 connected ocean",
         "3 distinct oceans",
-        "5 separate oceans", 
+        "5 separate oceans",
         "7 different oceans"
       ],
       correctAnswer: 0,
@@ -633,7 +633,7 @@ export const oceanLiteracyPrinciple2Lesson: EnhancedLesson = {
       content: "Which natural feature is directly shaped by ocean activity?",
       options: [
         "Mountain ranges",
-        "Desert sand dunes", 
+        "Desert sand dunes",
         "Ocean beaches",
         "Polar glaciers"
       ],
@@ -703,102 +703,9 @@ export const oceanLiteracyPrinciple2Lesson: EnhancedLesson = {
   ]
 };
 
-export const highSeasTreatyLesson: EnhancedLesson = {
-  id: "high-seas-treaty-enhanced",
-  title: "The Historic High Seas Treaty",
-  description: "Discover how the world finally agreed to protect the lawless waters beyond any country's borders",
-  category: "conservation",
-  duration: 7,
-  difficulty: "Beginner",
-  steps: [
-    {
-      type: "intro",
-      title: "Welcome to the High Seas Adventure!",
-      content: "You're about to explore one of the most important ocean conservation breakthroughs in history. Did you know that more than 60% of our ocean has been like the Wild West - with almost no rules for protection? In 2023, after nearly 20 years of negotiations, the world finally came together to change that. Let's dive into this historic achievement!"
-    },
-    {
-      type: "text",
-      title: "What Are the High Seas?",
-      content: "The high seas are the vast ocean areas that lie beyond any country's borders - that's more than 60% of our entire planet! These international waters have been like a legal no-man's land when it comes to conservation.\n\nImagine if more than half of all land on Earth had no environmental protection laws - that's what we've had in our ocean until now. These waters are home to incredible wildlife like whales, tuna, sharks, and countless species of plankton that are vital to Earth's climate and ecosystems.",
-      highlight: "The high seas cover about half the planet with very few conservation rules!"
-    },
-    {
-      type: "image",
-      title: "The Lawless Ocean",
-      content: "Vast areas of international waters have existed without comprehensive protection.",
-      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      caption: "The high seas - international waters beyond any country's jurisdiction"
-    },
-    {
-      type: "funFact",
-      title: "A Marine Wild West",
-      content: "Until 2023, there was no legal framework to create marine protected areas in international waters. Activities like deep-sea mining, industrial fishing, and shipping could happen with minimal oversight in these vast ocean spaces."
-    },
-    {
-      type: "text",
-      title: "The Game-Changing Treaty",
-      content: "In 2023, something historic happened: the world agreed on a High Seas Treaty to protect ocean biodiversity for the first time ever! This groundbreaking agreement will allow countries to:\n\n**Create Marine Protected Areas**: Establish no-take zones in international waters where marine life can thrive undisturbed.\n\n**Share Resources Fairly**: Ensure that benefits from marine genetic resources are distributed equitably among nations.\n\n**Assess Environmental Impact**: Require thorough environmental assessments for activities like deep-sea mining or major shipping operations.\n\n**Coordinate Global Action**: Work together on ocean conservation instead of operating in isolation."
-    },
-    {
-      type: "quiz",
-      title: "Treaty Knowledge Check",
-      content: "Which of the following is true about the High Seas Treaty?",
-      options: [
-        "It only applies to coastal reefs",
-        "It allows the creation of protected zones in international waters",
-        "It bans all fishing in the ocean",
-        "It only affects countries in the Pacific"
-      ],
-      correctAnswer: 1,
-      explanation: "The High Seas Treaty's main achievement is allowing the creation of marine protected areas in international waters - something that was impossible before this agreement."
-    },
-    {
-      type: "text",
-      title: "A Global Collaboration Success",
-      content: "Over 190 countries agreed to this treaty after nearly 20 years of complex negotiations. This represents one of the most significant international environmental agreements in decades!\n\nThe treaty is a crucial step toward achieving the ambitious 30x30 goal - protecting 30% of the world's land and ocean by 2030. Currently, less than 8% of our ocean is protected, so this treaty opens the door to much greater conservation coverage.\n\nHowever, signing the treaty is just the beginning. Each country must now ratify it through their national governments and implement the rules at home - a process that will take time and commitment."
-    },
-    {
-      type: "quiz",
-      title: "Conservation Goals",
-      content: "What does the '30x30 goal' aim to protect?",
-      options: [
-        "30% of national parks",
-        "30% of Earth's forests",
-        "30% of land and ocean by 2030",
-        "30 species each year"
-      ],
-      correctAnswer: 2,
-      explanation: "The 30x30 goal is an ambitious international target to protect 30% of Earth's land and ocean areas by 2030, helping preserve biodiversity and combat climate change."
-    },
-    {
-      type: "text",
-      title: "Why This Matters to Everyone",
-      content: "You might wonder: 'Why should I care about waters so far from shore?' The truth is, the high seas affect everyone's life:\n\n**Climate Regulation**: These waters help regulate global weather patterns and absorb massive amounts of carbon dioxide.\n\n**Food Security**: Many fish species we eat migrate through or live in international waters.\n\n**Ocean Health**: Healthy high seas support the entire marine ecosystem, including coastal areas where many people live.\n\n**Scientific Discovery**: These waters contain countless undiscovered species that could lead to medical breakthroughs or help us understand life on Earth."
-    },
-    {
-      type: "quiz",
-      title: "Global Impact Understanding",
-      content: "How do the high seas affect people living far from the ocean?",
-      options: [
-        "They don't affect inland areas at all",
-        "They help regulate global climate and weather patterns",
-        "They only matter for shipping companies",
-        "They're only important for marine biologists"
-      ],
-      correctAnswer: 1,
-      explanation: "The high seas play a crucial role in regulating Earth's climate and weather systems, affecting everyone regardless of where they live on the planet."
-    },
-    {
-      type: "conclusion",
-      title: "You're Now a High Seas Hero!",
-      content: "Congratulations! You've learned about one of the most significant ocean conservation achievements in history. The High Seas Treaty shows that global action for ocean protection is not just possible - it's happening!\n\nThis historic agreement proves that when the world works together, we can tackle even the biggest environmental challenges. While you might not live near the high seas, your voice and actions matter in supporting this global effort.\n\n**What You Can Do**\n\n**Stay informed and share** – Tell others about this historic ocean conservation win\n\n**Choose sustainable seafood** – Support fisheries that follow responsible practices\n\n**Support marine policies** – Back leaders and policies that protect ocean biodiversity\n\n**Advocate for ratification** – Encourage your country's leaders to ratify and implement the treaty\n\n**Join conservation efforts** – Follow and support organizations working on high seas protection\n\n**Be an ocean ambassador** – Share your knowledge and inspire others to care about our global ocean 🌊\n\n---\n\n🌊 The future of our high seas depends on global action - and that includes you!"
-    }
-  ]
-};
-
 export const oceanLiteracyPrinciple3Lesson: EnhancedLesson = {
   id: "ocean-literacy-principle-3",
-  title: "Ocean Literacy Principle 3: The Ocean is a Major Influence on Weather and Climate",
+  title: "Ocean Literacy Principle 3: The Ocean Is a Major Influence on Weather and Climate",
   description: "Discover how the ocean controls much of our planet's weather patterns and climate systems",
   category: "ocean-literacy",
   duration: 6,
@@ -821,7 +728,7 @@ export const oceanLiteracyPrinciple3Lesson: EnhancedLesson = {
       content: "Tropical cyclones (hurricanes and typhoons) get their power from one main source. What is it?",
       options: [
         "Cold ocean water",
-        "Ocean pollution", 
+        "Ocean pollution",
         "Warm ocean water",
         "Ocean tides"
       ],
@@ -835,7 +742,7 @@ export const oceanLiteracyPrinciple3Lesson: EnhancedLesson = {
       highlight: "The Leeuwin Current can make coastal temperatures 2-5°C warmer than inland areas"
     },
     {
-      type: "quiz", 
+      type: "quiz",
       title: "Ocean-Climate Connection",
       content: "Which of the following statements about ocean currents and climate is TRUE?",
       options: [
@@ -875,7 +782,7 @@ export const oceanLiteracyPrinciple3Lesson: EnhancedLesson = {
 };
 
 export const oceanLiteracyPrinciple4Lesson: EnhancedLesson = {
-  id: "ocean-literacy-principle-4", 
+  id: "ocean-literacy-principle-4",
   title: "Ocean Literacy Principle 4: The Ocean Makes Earth Habitable",
   description: "Explore how the ocean serves as Earth's life support system, making our planet livable",
   category: "ocean-literacy",
@@ -894,7 +801,7 @@ export const oceanLiteracyPrinciple4Lesson: EnhancedLesson = {
       highlight: "Phytoplankton are so small you need a microscope to see them, but they produce more oxygen than all the trees on land!"
     },
     {
-      type: "text", 
+      type: "text",
       title: "🌊 How the Ocean Keeps Earth Stable",
       content: "Think of the ocean as Earth's giant thermostat and air purifier:\n\n**🌬️ Weather Moderation** - Ocean currents like the Gulf Stream and Leeuwin Current transport heat and influence rainfall patterns worldwide\n\n**🫁 Ocean's Green Lungs** - Phytoplankton absorb sunlight and CO₂, releasing oxygen through photosynthesis, just like land plants but on a massive scale\n\n**🛡️ Climate Buffer** - The ocean acts like a shock absorber, soaking up about 90% of the excess heat from greenhouse gases\n\nFun fact: Without the ocean absorbing all this extra heat and carbon, climate change would already be far more extreme than it is today!",
       highlight: "The ocean has absorbed 93% of the excess heat from climate change - imagine how hot Earth would be without this service!"
@@ -905,7 +812,7 @@ export const oceanLiteracyPrinciple4Lesson: EnhancedLesson = {
       content: "What produces at least 50% of the world's oxygen that we breathe?",
       options: [
         "Tropical rainforests",
-        "Ocean waves and currents", 
+        "Ocean waves and currents",
         "Phytoplankton in the ocean",
         "Coral reefs"
       ],
@@ -919,7 +826,7 @@ export const oceanLiteracyPrinciple4Lesson: EnhancedLesson = {
       options: [
         "They only affect fish migration patterns",
         "They help distribute heat and regulate global climate",
-        "They mainly exist to clean up ocean pollution", 
+        "They mainly exist to clean up ocean pollution",
         "They stay in one place and don't move"
       ],
       correctAnswer: 1,
@@ -948,7 +855,7 @@ export const oceanLiteracyPrinciple4Lesson: EnhancedLesson = {
 
 export const oceanLiteracyPrinciple5Lesson: EnhancedLesson = {
   id: "ocean-literacy-principle-5",
-  title: "Ocean Literacy Principle 5: The Ocean Supports a Great Diversity of Life and Ecosystems", 
+  title: "Ocean Literacy Principle 5: The Ocean Supports a Great Diversity of Life and Ecosystems",
   description: "Discover the incredible biodiversity of marine life and the interconnected ecosystems of the ocean",
   category: "ocean-literacy",
   duration: 7,
@@ -967,7 +874,7 @@ export const oceanLiteracyPrinciple5Lesson: EnhancedLesson = {
     },
     {
       type: "text",
-      title: "🧬 How Ocean Life Works Together", 
+      title: "🧬 How Ocean Life Works Together",
       content: "Ocean life is beautifully interconnected in complex food webs:\n\n**🦐 Food Webs** - Tiny plankton feed small fish, which feed bigger fish, which feed sharks, marine mammals, and humans\n\n**🏠 Habitat Builders** - Coral reefs, mangroves, seagrass beds, and kelp forests provide food, shelter, and nursery areas for countless species\n\n**🦑 Amazing Adaptations** - Deep-sea creatures use bioluminescence (living light), while others migrate thousands of kilometers across ocean basins\n\n**♻️ Ecosystem Services** - Marine organisms filter water, cycle nutrients, and maintain the balance that keeps ocean ecosystems healthy\n\nThis diversity isn't just beautiful to observe - it's essential for healthy oceans and human wellbeing.",
       highlight: "A single coral reef can be home to over 4,000 species of fish plus thousands of other marine creatures!"
     },
@@ -977,7 +884,7 @@ export const oceanLiteracyPrinciple5Lesson: EnhancedLesson = {
       content: "What percentage of all marine life is supported by coral reefs?",
       options: [
         "About 1%",
-        "Around 10%", 
+        "Around 10%",
         "Approximately 25%",
         "Nearly 50%"
       ],
@@ -991,7 +898,7 @@ export const oceanLiteracyPrinciple5Lesson: EnhancedLesson = {
       options: [
         "We've already discovered most marine species",
         "Biodiversity is limited to warm tropical areas",
-        "There are likely millions of undiscovered marine species", 
+        "There are likely millions of undiscovered marine species",
         "All marine species live near the ocean surface"
       ],
       correctAnswer: 2,
@@ -1028,7 +935,7 @@ export const oceanLiteracyPrinciple6Lesson: EnhancedLesson = {
   id: "ocean-literacy-principle-6",
   title: "Ocean Literacy Principle 6: The Ocean and Humans Are Inextricably Interconnected",
   description: "Explore the deep connections between human society and ocean health, and our shared future",
-  category: "ocean-literacy", 
+  category: "ocean-literacy",
   duration: 7,
   difficulty: "Beginner",
   steps: [
@@ -1063,7 +970,7 @@ export const oceanLiteracyPrinciple6Lesson: EnhancedLesson = {
       explanation: "Humans depend on the ocean for many essential services including oxygen production, climate regulation, food, transportation, and economic opportunities. These connections exist regardless of where people live on Earth."
     },
     {
-      type: "quiz", 
+      type: "quiz",
       title: "Human Impacts on Ocean Health",
       content: "Which of the following is an example of how humans negatively impact the ocean?",
       options: [
@@ -1083,7 +990,7 @@ export const oceanLiteracyPrinciple6Lesson: EnhancedLesson = {
     },
     {
       type: "quiz",
-      title: "Understanding Our Shared Future", 
+      title: "Understanding Our Shared Future",
       content: "Why is it important to understand our connection with the ocean?",
       options: [
         "So we can learn to swim and surf better",
@@ -1108,7 +1015,7 @@ export const oceanLiteracyPrinciple7Lesson: EnhancedLesson = {
   description: "Discover why most of our ocean remains a mystery and what new discoveries await",
   category: "ocean-literacy",
   duration: 6,
-  difficulty: "Beginner", 
+  difficulty: "Beginner",
   steps: [
     {
       type: "intro",
@@ -1407,6 +1314,100 @@ export const southernRightWhaleClimateLesson: EnhancedLesson = {
     }
   ]
 };
+
+export const highSeasTreatyLesson: EnhancedLesson = {
+  id: "high-seas-treaty-enhanced",
+  title: "The Historic High Seas Treaty",
+  description: "Discover how the world finally agreed to protect the lawless waters beyond any country's borders",
+  category: "conservation",
+  duration: 7,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "Welcome to the High Seas Adventure!",
+      content: "You're about to explore one of the most important ocean conservation breakthroughs in history. Did you know that more than 60% of our ocean has been like the Wild West - with almost no rules for protection? In 2023, after nearly 20 years of negotiations, the world finally came together to change that. Let's dive into this historic achievement!"
+    },
+    {
+      type: "text",
+      title: "What Are the High Seas?",
+      content: "The high seas are the vast ocean areas that lie beyond any country's borders - that's more than 60% of our entire planet! These international waters have been like a legal no-man's land when it comes to conservation.\n\nImagine if more than half of all land on Earth had no environmental protection laws - that's what we've had in our ocean until now. These waters are home to incredible wildlife like whales, tuna, sharks, and countless species of plankton that are vital to Earth's climate and ecosystems.",
+      highlight: "The high seas cover about half the planet with very few conservation rules!"
+    },
+    {
+      type: "image",
+      title: "The Lawless Ocean",
+      content: "Vast areas of international waters have existed without comprehensive protection.",
+      image: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      caption: "The high seas - international waters beyond any country's jurisdiction"
+    },
+    {
+      type: "funFact",
+      title: "A Marine Wild West",
+      content: "Until 2023, there was no legal framework to create marine protected areas in international waters. Activities like deep-sea mining, industrial fishing, and shipping could happen with minimal oversight in these vast ocean spaces."
+    },
+    {
+      type: "text",
+      title: "The Game-Changing Treaty",
+      content: "In 2023, something historic happened: the world agreed on a High Seas Treaty to protect ocean biodiversity for the first time ever! This groundbreaking agreement will allow countries to:\n\n**Create Marine Protected Areas**: Establish no-take zones in international waters where marine life can thrive undisturbed.\n\n**Share Resources Fairly**: Ensure that benefits from marine genetic resources are distributed equitably among nations.\n\n**Assess Environmental Impact**: Require thorough environmental assessments for activities like deep-sea mining or major shipping operations.\n\n**Coordinate Global Action**: Work together on ocean conservation instead of operating in isolation."
+    },
+    {
+      type: "quiz",
+      title: "Treaty Knowledge Check",
+      content: "Which of the following is true about the High Seas Treaty?",
+      options: [
+        "It only applies to coastal reefs",
+        "It allows the creation of protected zones in international waters",
+        "It bans all fishing in the ocean",
+        "It only affects countries in the Pacific"
+      ],
+      correctAnswer: 1,
+      explanation: "The High Seas Treaty's main achievement is allowing the creation of marine protected areas in international waters - something that was impossible before this agreement."
+    },
+    {
+      type: "text",
+      title: "A Global Collaboration Success",
+      content: "Over 190 countries agreed to this treaty after nearly 20 years of complex negotiations. This represents one of the most significant international environmental agreements in decades!\n\nThe treaty is a crucial step toward achieving the ambitious 30x30 goal - protecting 30% of the world's land and ocean by 2030. Currently, less than 8% of our ocean is protected, so this treaty opens the door to much greater conservation coverage.\n\nHowever, signing the treaty is just the beginning. Each country must now ratify it through their national governments and implement the rules at home - a process that will take time and commitment."
+    },
+    {
+      type: "quiz",
+      title: "Conservation Goals",
+      content: "What does the '30x30 goal' aim to protect?",
+      options: [
+        "30% of national parks",
+        "30% of Earth's forests",
+        "30% of land and ocean by 2030",
+        "30 species each year"
+      ],
+      correctAnswer: 2,
+      explanation: "The 30x30 goal is an ambitious international target to protect 30% of Earth's land and ocean areas by 2030, helping preserve biodiversity and combat climate change."
+    },
+    {
+      type: "text",
+      title: "Why This Matters to Everyone",
+      content: "You might wonder: 'Why should I care about waters so far from shore?' The truth is, the high seas affect everyone's life:\n\n**Climate Regulation**: These waters help regulate global weather patterns and absorb massive amounts of carbon dioxide.\n\n**Food Security**: Many fish species we eat migrate through or live in international waters.\n\n**Ocean Health**: Healthy high seas support the entire marine ecosystem, including coastal areas where many people live.\n\n**Scientific Discovery**: These waters contain countless undiscovered species that could lead to medical breakthroughs or help us understand life on Earth."
+    },
+    {
+      type: "quiz",
+      title: "Global Impact Understanding",
+      content: "How do the high seas affect people living far from the ocean?",
+      options: [
+        "They don't affect inland areas at all",
+        "They help regulate global climate and weather patterns",
+        "They only matter for shipping companies",
+        "They're only important for marine biologists"
+      ],
+      correctAnswer: 1,
+      explanation: "The high seas play a crucial role in regulating Earth's climate and weather systems, affecting everyone regardless of where they live on the planet."
+    },
+    {
+      type: "conclusion",
+      title: "You're Now a High Seas Hero!",
+      content: "Congratulations! You've learned about one of the most significant ocean conservation achievements in history. The High Seas Treaty shows that global action for ocean protection is not just possible - it's happening!\n\nThis historic agreement proves that when the world works together, we can tackle even the biggest environmental challenges. While you might not live near the high seas, your voice and actions matter in supporting this global effort.\n\n**What You Can Do**\n\n**Stay informed and share** – Tell others about this historic ocean conservation win\n\n**Choose sustainable seafood** – Support fisheries that follow responsible practices\n\n**Support marine policies** – Back leaders and policies that protect ocean biodiversity\n\n**Advocate for ratification** – Encourage your country's leaders to ratify and implement the treaty\n\n**Join conservation efforts** – Follow and support organizations working on high seas protection\n\n**Be an ocean ambassador** – Share your knowledge and inspire others to care about our global ocean 🌊\n\n---\n\n🌊 The future of our high seas depends on global action - and that includes you!"
+    }
+  ]
+};
+
 
 export const whaleScience101Lesson: EnhancedLesson = {
   id: "whale-science-101",
@@ -1914,7 +1915,7 @@ export const camillaWreckLesson: EnhancedLesson = {
     {
       type: "conclusion",
       title: "What You Can Do",
-      content: "Awesome work! You've dived into the story of the *Camilla* — where maritime history meets marine life.\n\n**What You Can Do:**\n\n- Visit or dive the wreck with **licensed, eco-conscious dive operators**\n- Never touch or take artefacts — enjoy by **looking, not collecting**\n- Support **maritime museums and heritage programs** that record and share these stories\n- Learn basic **wreck-diving etiquette** to help protect underwater heritage\n\nThe Camilla reminds us that our maritime past is still with us, transformed into living ecosystems beneath the waves."
+      content: "Awesome work! You've dived into the story of the *Camilla* — where maritime history meets marine life.\n\n**What You Can Do:**\n\n- Visit or dive the wreck with **licensed, eco-conscious dive operators**\n- Never touch or take artefacts — enjoy by **looking, not collecting**\n- Support **maritime museums and heritage programs** that record and share these stories\n- Learn basic **wreck-diving etiquette** to help protect underwater heritage\n\nThe Camilla reminds us how maritime technology — and ocean stewardship — have evolved together."
     },
     {
       type: "sources",
@@ -2117,7 +2118,7 @@ export const swanRiverDolphinsLesson: EnhancedLesson = {
     {
       type: "text",
       title: "🐠 Who's Involved in Protecting Them?",
-      content: "Protecting Swan River dolphins requires collaboration between researchers, the community, and local authorities:\n\n**Species**: Indo-Pacific bottlenose dolphins living in an urban river system\n\n**Human Neighbors**: Ferry operators, fishers, local residents, kayakers, and tourists all share the river with dolphins\n\n**Research Leaders**: **Murdoch University's Cetacean Research Unit** leads scientific studies on dolphin survival, behavior, and health\n\n**Community Groups**: River Guardians and Dolphin Watch Perth involve volunteers in monitoring dolphin sightings and behavior\n\n**Conservation Advocates**: Local groups lobby to keep the river healthy for both dolphins and people\n\nThis collaborative approach helps ensure dolphins can continue living in the heart of Perth.",
+      content: "**Species**: Indo-Pacific bottlenose dolphins living in an urban river system\n\n**Human Neighbors**: Ferry operators, fishers, local residents, kayakers, and tourists all share the river with dolphins\n\n**Research Leaders**: **Murdoch University's Cetacean Research Unit** leads scientific studies on dolphin survival, behavior, and health\n\n**Community Groups**: River Guardians and Dolphin Watch Perth involve volunteers in monitoring dolphin sightings and behavior\n\n**Conservation Advocates**: Local groups lobby to keep the river healthy for both dolphins and people\n\nThis collaborative approach helps ensure dolphins can continue living in the heart of Perth.",
       highlight: "Murdoch University has been studying these dolphins for over a decade!"
     },
     {
@@ -2214,145 +2215,6 @@ export const swanRiverDolphinsLesson: EnhancedLesson = {
         {
           title: "Research Article - Cetacean Morbillivirus in Coastal Indo-Pacific Bottlenose Dolphins, Western Australia",
           url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3966363/"
-        }
-      ]
-    }
-  ]
-};
-
-export const pygmyBlueWhalesLesson: EnhancedLesson = {
-  id: "pygmy-blue-whales-marine-mammals",
-  title: "Pygmy Blues: The Smaller Giants of WA's Coast",
-  description: "They may be 'small' for a blue whale, but they're still ocean giants",
-  category: "marine-mammals",
-  duration: 6,
-  difficulty: "Beginner",
-  steps: [
-    {
-      type: "intro",
-      title: "🐋 Welcome to Pygmy Blue Whale Country!",
-      content: "Imagine standing on the cliffs near Perth Canyon and seeing a 24-metre whale glide past. 🐋\n\nThese are **pygmy blue whales** — slightly smaller cousins of the Antarctic blue whale — and Western Australia is one of the few places where you can see them on their migration. You're about to discover why WA's waters are so special for these ocean giants.",
-      icon: "🐋"
-    },
-    {
-      type: "text",
-      title: "🧠 Meet the Pygmy Blue Whale",
-      content: "**Pygmy blue whales** are a distinct subspecies of blue whale (Balaenoptera musculus brevicauda) that are slightly smaller than their Antarctic relatives — but 'small' is relative when you're talking about the largest animals on Earth!\n\n**Size**: Growing up to 24 meters long, weighing as much as 3,000 people combined\n\n**Critical Habitat**: WA's **Perth Canyon** is a crucial feeding ground, rich in krill concentrations\n\n**Conservation Status**: Listed as *Endangered*, with global populations still recovering from historic whaling\n\n**Migration Pattern**: These whales travel annually along WA's coast, following krill blooms\n\nDespite their massive size, these gentle giants are filter feeders, consuming tiny krill by the thousands.",
-      highlight: "Pygmy blue whales can weigh as much as 3,000 people combined!"
-    },
-    {
-      type: "quiz",
-      title: "WA's Whale Hotspot",
-      content: "Where is WA's famous feeding hotspot for pygmy blue whales?",
-      options: [
-        "Ningaloo Reef",
-        "Perth Canyon",
-        "Shark Bay",
-        "Swan River"
-      ],
-      correctAnswer: 1,
-      explanation: "Perth Canyon, a deep submarine canyon off the WA coast, is a critical feeding ground for pygmy blue whales. The canyon's unique oceanography concentrates krill, providing abundant food for these massive filter feeders."
-    },
-    {
-      type: "text",
-      title: "🐠 The Perth Canyon Ecosystem",
-      content: "Understanding pygmy blue whales means understanding their food source and the ecosystem that supports them:\n\n**Species**: Pygmy blue whales migrate annually along WA's coast, timing their journey with krill availability\n\n**Primary Food**: Massive swarms of krill that concentrate in submarine canyons like Perth Canyon\n\n**Research Teams**: Scientists use satellite tags, acoustic recorders, and aerial surveys to track whale movements and behavior\n\n**Community Involvement**: Eco-tourism operators and citizen scientists report sightings, contributing valuable data to conservation efforts\n\n**Ocean Conditions**: The canyon's unique currents and upwelling bring nutrient-rich water to the surface, supporting the entire food web\n\nThis rich marine environment makes Perth Canyon one of the most important whale habitats in the Southern Hemisphere.",
-      highlight: "Perth Canyon's unique oceanography creates perfect conditions for krill blooms!"
-    },
-    {
-      type: "quiz",
-      title: "Feeding Behavior",
-      content: "What do pygmy blue whales primarily feed on?",
-      options: [
-        "Krill",
-        "Small fish",
-        "Seaweed",
-        "Jellyfish"
-      ],
-      correctAnswer: 0,
-      explanation: "Pygmy blue whales are filter feeders that consume massive quantities of krill. They use their baleen plates to strain thousands of these tiny crustaceans from the water with each mouthful."
-    },
-    {
-      type: "text",
-      title: "🌊 Threats to Ocean Giants",
-      content: "Despite their enormous size, pygmy blue whales face significant threats in modern oceans:\n\n**🚢 Ship Strikes**: Busy shipping lanes near Fremantle pose collision risks, especially during migration periods\n\n**🔊 Noise Pollution**: Ship engines and industrial noise interfere with whale communication and navigation\n\n**🌡️ Climate Change**: Warming oceans affect krill distribution and abundance, potentially forcing whales to travel further for food\n\n**📉 Slow Recovery**: Blue whales reproduce very slowly — females have only one calf every 2-3 years, making population recovery challenging\n\n**🎣 Fishing Gear**: Entanglement in fishing equipment, though less common than for other species, remains a concern\n\nProtecting these magnificent creatures requires addressing all these interconnected threats.",
-      highlight: "Blue whales reproduce very slowly — only one calf every 2-3 years!"
-    },
-    {
-      type: "quiz",
-      title: "Climate Vulnerability",
-      content: "Why are pygmy blue whales vulnerable to climate change?",
-      options: [
-        "They depend on krill, which may decline with warming seas",
-        "They only live in rivers",
-        "They avoid deep water",
-        "They breathe less often"
-      ],
-      correctAnswer: 0,
-      explanation: "Pygmy blue whales depend heavily on krill for food. Climate change affects ocean temperatures and currents, which in turn affect krill distribution and abundance. If krill populations decline or shift location, whales may struggle to find enough food."
-    },
-    {
-      type: "finalQuiz",
-      title: "Test Your Pygmy Blue Whale Knowledge",
-      content: "Let's see what you've learned about these ocean giants!",
-      questions: [
-        {
-          question: "How large can pygmy blue whales grow?",
-          options: [
-            "10 m",
-            "24 m",
-            "50 m",
-            "5 m"
-          ],
-          correctAnswer: 1
-        },
-        {
-          question: "Which threat is linked to busy shipping routes off WA?",
-          options: [
-            "Plastic ingestion",
-            "Ship strikes",
-            "Coral bleaching",
-            "Overfishing"
-          ],
-          correctAnswer: 1
-        },
-        {
-          question: "Why is the pygmy blue whale population still low?",
-          options: [
-            "Natural predators",
-            "Too much diving tourism",
-            "Lack of food",
-            "Historic whaling and slow reproduction"
-          ],
-          correctAnswer: 3
-        }
-      ]
-    },
-    {
-      type: "conclusion",
-      title: "🌱 You're Now a Pygmy Blue Whale Guardian!",
-      content: "Great job! You've completed the lesson on Pygmy Blues: The Smaller Giants of WA's Coast. You now understand why these magnificent whales visit WA's waters and the challenges they face.\n\n**What You Can Do:**\n\n🐋 **Support whale-safe eco-tourism** - Choose operators who follow safe distance rules and contribute to research\n\n🌊 **Reduce ocean noise** - Back policies for quieter shipping lanes and responsible vessel operation\n\n📣 **Share whale sightings** - Report observations to citizen science platforms to help track populations\n\n♻️ **Tackle climate change** - Protecting krill populations means protecting whales' food source\n\n🚢 **Advocate for ship speed limits** - Support slower vessel speeds in whale migration corridors\n\n📚 **Stay informed** - Follow whale research organizations and their latest discoveries\n\nRemember: protecting these ocean giants means protecting the entire marine ecosystem they depend on!"
-    },
-    {
-      type: "sources",
-      title: "Sources & Further Reading",
-      content: "Want to learn more? Explore these trusted resources for additional information about pygmy blue whales.",
-      sources: [
-        {
-          title: "AIMS - Feeding on the go: research provides new insights into pygmy blue whale foraging behaviours",
-          url: "https://www.aims.gov.au/information-centre/news-and-stories/feeding-go-research-provides-new-insights-pygmy-blue-whale-foraging-behaviours"
-        },
-        {
-          title: "UWA Research - Physical properties and processes in the Perth Canyon, Western Australia",
-          url: "https://research-repository.uwa.edu.au/en/publications/physical-properties-and-processes-in-the-perth-canyon-western-aus/"
-        },
-        {
-          title: "Movement Ecology - Predicting suitable habitats for foraging and migration",
-          url: "https://movementecologyjournal.biomedcentral.com/articles/10.1186/s40462-024-00481-x"
-        },
-        {
-          title: "e-Atlas - Distribution and important areas for pygmy blue whales",
-          url: "https://eatlas.org.au/nwa/pygmy-blue-whales"
         }
       ]
     }
@@ -2496,109 +2358,109 @@ export const bunburyDolphinsLesson: EnhancedLesson = {
   ]
 };
 
-export const fishingDebrisLesson: EnhancedLesson = {
-  id: "fishing-debris-threats",
-  title: "Threats from Fishing Debris & Marine Conservation Efforts",
-  description: "How lost lines and nets tangle our oceans — and what we can do about it",
-  category: "human-ocean-interaction",
-  duration: 7,
+export const pygmyBlueWhalesLesson: EnhancedLesson = {
+  id: "pygmy-blue-whales-marine-mammals",
+  title: "Pygmy Blues: The Smaller Giants of WA's Coast",
+  description: "They may be 'small' for a blue whale, but they're still ocean giants",
+  category: "marine-mammals",
+  duration: 6,
   difficulty: "Beginner",
   steps: [
     {
       type: "intro",
-      title: "🎣 Introduction",
-      content: "You've probably seen it — a tangle of fishing line around a jetty pylon, or a snagged hook on the reef.\n\nDiscarded or lost fishing gear, known as **fishing debris or ghost gear**, poses one of the biggest hazards to marine life.\n\nBut through awareness, clean-ups, and better gear design, ocean users are turning the tide.",
-      icon: "🎣"
+      title: "🐋 Welcome to Pygmy Blue Whale Country!",
+      content: "Imagine standing on the cliffs near Perth Canyon and seeing a 24-metre whale glide past. 🐋\n\nThese are **pygmy blue whales** — slightly smaller cousins of the Antarctic blue whale — and Western Australia is one of the few places where you can see them on their migration. You're about to discover why WA's waters are so special for these ocean giants.",
+      icon: "🐋"
     },
     {
       type: "text",
-      title: "🧠 Key Concept",
-      content: "**Fishing debris** includes lost nets, lines, hooks, sinkers, and traps.\n\nWhen abandoned, this gear keeps catching animals — a process called **ghost fishing**.\n\nSpecies like **sea lions, seabirds, turtles, and reef fish** are most at risk from entanglement or ingestion.\n\nThe problem is global but visible locally around **Perth jetties, Rottnest reefs, and Cockburn Sound**.\n\nConservation programs now focus on **prevention, retrieval, and education** — for example, the **Reel It In** campaign installs fishing-line recycling bins at WA jetties and boat ramps to stop line entering the water.",
-      highlight: "Ghost fishing continues to catch and kill marine animals long after the gear is abandoned!"
+      title: "🧠 Meet the Pygmy Blue Whale",
+      content: "**Pygmy blue whales** are a distinct subspecies of blue whale (Balaenoptera musculus brevicauda) that are slightly smaller than their Antarctic relatives — but 'small' is relative when you're talking about the largest animals on Earth!\n\n**Size**: Growing up to 24 meters long, weighing as much as 3,000 people combined\n\n**Critical Habitat**: WA's **Perth Canyon** is a crucial feeding ground, rich in krill concentrations\n\n**Conservation Status**: Listed as *Endangered*, with global populations still recovering from historic whaling\n\n**Migration Pattern**: These whales travel annually along WA's coast, following krill blooms\n\nDespite their massive size, these gentle giants are filter feeders, consuming tiny krill by the thousands.",
+      highlight: "Pygmy blue whales can weigh as much as 3,000 people combined!"
     },
     {
       type: "quiz",
-      title: "Understanding Ghost Fishing",
-      content: "What is 'ghost fishing'?",
+      title: "WA's Whale Hotspot",
+      content: "Where is WA's famous feeding hotspot for pygmy blue whales?",
       options: [
-        "Fishing done at night",
-        "Ongoing capture of animals by lost gear",
-        "Fishing with sonar",
-        "A traditional fishing practice"
+        "Ningaloo Reef",
+        "Perth Canyon",
+        "Shark Bay",
+        "Swan River"
       ],
       correctAnswer: 1,
-      explanation: "Ghost fishing is the ongoing capture and killing of marine animals by abandoned or lost fishing gear. This gear continues to trap and kill wildlife for years after being discarded."
+      explanation: "Perth Canyon, a deep submarine canyon off the WA coast, is a critical feeding ground for pygmy blue whales. The canyon's unique oceanography concentrates krill, providing abundant food for these massive filter feeders."
     },
     {
       type: "text",
-      title: "🐡 Who or What's Involved?",
-      content: "**Common debris sources:** recreational line fishing from jetties, crayfish pots, trawl gear, and boat moorings.\n\n**Affected species near Perth:** sea lions at Shoalwater Islands, cormorants and pelicans around jetties, and rays and octopus at local dive sites.\n\n**Community heroes:**\n- **Tangaroa Blue Foundation** – runs the **Australian Marine Debris Initiative (AMDI)** data network\n- **Keep Australia Beautiful WA** and **local dive clubs** organise clean-ups at sites like Ammo Jetty and Woodman Point\n- **Ghost Nets Australia** retrieves derelict gear from northern WA and Indigenous Sea Country\n\nDivers, fishers, and citizen scientists now work together to remove debris and record what they find.",
-      highlight: "Community-led clean-ups have removed thousands of kilograms of fishing debris from WA waters!"
+      title: "🐠 The Perth Canyon Ecosystem",
+      content: "Understanding pygmy blue whales means understanding their food source and the ecosystem that supports them:\n\n**Species**: Pygmy blue whales migrate annually along WA's coast, timing their journey with krill availability\n\n**Primary Food**: Massive swarms of krill that concentrate in submarine canyons like Perth Canyon\n\n**Research Teams**: Scientists use satellite tags, acoustic recorders, and aerial surveys to track whale movements and behavior\n\n**Community Involvement**: Eco-tourism operators and citizen scientists report sightings, contributing valuable data to conservation efforts\n\n**Ocean Conditions**: The canyon's unique currents and upwelling bring nutrient-rich water to the surface, supporting the entire food web\n\nThis rich marine environment makes Perth Canyon one of the most important whale habitats in the Southern Hemisphere.",
+      highlight: "Perth Canyon's unique oceanography creates perfect conditions for krill blooms!"
     },
     {
       type: "quiz",
-      title: "Conservation Organizations",
-      content: "Which group manages the Australian Marine Debris Initiative?",
+      title: "Feeding Behavior",
+      content: "What do pygmy blue whales primarily feed on?",
       options: [
-        "Fisheries Research Institute",
-        "CSIRO",
-        "Surf Life Saving WA",
-        "Tangaroa Blue Foundation"
+        "Krill",
+        "Small fish",
+        "Seaweed",
+        "Jellyfish"
       ],
-      correctAnswer: 3,
-      explanation: "Tangaroa Blue Foundation manages the Australian Marine Debris Initiative (AMDI), a comprehensive database that tracks marine debris across Australia, helping inform conservation strategies."
+      correctAnswer: 0,
+      explanation: "Pygmy blue whales are filter feeders that consume massive quantities of krill. They use their baleen plates to strain thousands of these tiny crustaceans from the water with each mouthful."
     },
     {
       type: "text",
-      title: "🌊 Challenges or Consequences",
-      content: "**Wildlife entanglement** causes injury, drowning, or starvation.\n\n**Microplastics** form when lines and nets break down, entering food webs.\n\nHeavy debris can **smother seagrass** or break fragile corals.\n\nClean-ups help, but long-term change needs **responsible disposal, biodegradable gear, and policy reform**.",
-      highlight: "Fishing line can take up to 600 years to decompose in the ocean!"
+      title: "🌊 Threats to Ocean Giants",
+      content: "Despite their enormous size, pygmy blue whales face significant threats in modern oceans:\n\n**🚢 Ship Strikes**: Busy shipping lanes near Fremantle pose collision risks, especially during migration periods\n\n**🔊 Noise Pollution**: Ship engines and industrial noise interfere with whale communication and navigation\n\n**🌡️ Climate Change**: Warming oceans affect krill distribution and abundance, potentially forcing whales to travel further for food\n\n**📉 Slow Recovery**: Blue whales reproduce very slowly — females have only one calf every 2-3 years, making population recovery challenging\n\n**🎣 Fishing Gear**: Entanglement in fishing equipment, though less common than for other species, remains a concern\n\nProtecting these magnificent creatures requires addressing all these interconnected threats.",
+      highlight: "Blue whales reproduce very slowly — only one calf every 2-3 years!"
     },
     {
       type: "quiz",
-      title: "Long-term Impact",
-      content: "Why is discarded fishing line harmful even after years underwater?",
+      title: "Climate Vulnerability",
+      content: "Why are pygmy blue whales vulnerable to climate change?",
       options: [
-        "It dissolves into nutrients",
-        "It can still entangle marine animals",
-        "It becomes food for fish",
-        "It creates new habitat"
+        "They depend on krill, which may decline with warming seas",
+        "They only live in rivers",
+        "They avoid deep water",
+        "They breathe less often"
       ],
-      correctAnswer: 1,
-      explanation: "Discarded fishing line remains a threat for hundreds of years because it doesn't break down quickly and continues to entangle marine animals, causing injury and death throughout its slow decomposition."
+      correctAnswer: 0,
+      explanation: "Pygmy blue whales depend heavily on krill for food. Climate change affects ocean temperatures and currents, which in turn affect krill distribution and abundance. If krill populations decline or shift location, whales may struggle to find enough food."
     },
     {
       type: "finalQuiz",
-      title: "Final Quiz",
-      content: "Test your knowledge of fishing debris and marine conservation!",
+      title: "Test Your Pygmy Blue Whale Knowledge",
+      content: "Let's see what you've learned about these ocean giants!",
       questions: [
         {
-          question: "What term describes gear that continues catching animals after being lost?",
+          question: "How large can pygmy blue whales grow?",
           options: [
-            "Ghost gear",
-            "Recycled tackle",
-            "Float gear",
-            "Reef net"
+            "10 m",
+            "24 m",
+            "50 m",
+            "5 m"
           ],
-          correctAnswer: 0
+          correctAnswer: 1
         },
         {
-          question: "What local area near Perth reports frequent entanglements of sea lions?",
+          question: "Which threat is linked to busy shipping routes off WA?",
           options: [
-            "Marmion Marine Park",
-            "Geographe Bay",
-            "Shoalwater Islands Marine Park",
-            "Coral Bay"
+            "Plastic ingestion",
+            "Ship strikes",
+            "Coral bleaching",
+            "Overfishing"
           ],
-          correctAnswer: 2
+          correctAnswer: 1
         },
         {
-          question: "Which action most effectively reduces fishing debris long term?",
+          question: "Why is the pygmy blue whale population still low?",
           options: [
-            "Annual clean-ups only",
-            "Sinking more artificial reefs",
-            "Banning recreational diving",
-            "Designing and using biodegradable fishing gear"
+            "Natural predators",
+            "Too much diving tourism",
+            "Lack of food",
+            "Historic whaling and slow reproduction"
           ],
           correctAnswer: 3
         }
@@ -2606,29 +2468,164 @@ export const fishingDebrisLesson: EnhancedLesson = {
     },
     {
       type: "conclusion",
-      title: "🌱 You're Now a Marine Debris Guardian!",
-      content: "Great job! You've completed the lesson on fishing debris and marine conservation. You now understand how lost fishing gear threatens marine life and what's being done to address it.\n\n**What You Can Do:**\n\n🎣 **Dispose of fishing gear responsibly** - Use fishing line recycling bins at jetties and boat ramps\n\n🤿 **Join underwater clean-ups** - Participate in dive club debris removal programs\n\n📊 **Report debris** - Log findings with the Australian Marine Debris Initiative\n\n♻️ **Choose biodegradable options** - When available, select eco-friendly fishing gear\n\n📣 **Spread awareness** - Help others understand the impact of fishing debris\n\n🌊 **Support conservation programs** - Back organizations like Tangaroa Blue and Ghost Nets Australia\n\nRemember: every piece of debris removed saves marine lives!"
+      title: "🌱 You're Now a Pygmy Blue Whale Guardian!",
+      content: "Great job! You've completed the lesson on *Pygmy Blues: The Smaller Giants of WA's Coast.* You now understand why these magnificent whales visit WA's waters and the challenges they face.\n\n**What You Can Do:**\n\n🐋 **Support whale-safe eco-tourism** - Choose operators who follow safe distance rules and contribute to research\n\n🌊 **Reduce ocean noise** - Back policies for quieter shipping lanes and responsible vessel operation\n\n📣 **Share whale sightings** - Report observations to citizen science platforms to help track populations\n\n♻️ **Tackle climate change** - Protecting krill populations means protecting whales' food source\n\n🚢 **Advocate for ship speed limits** - Support slower vessel speeds in whale migration corridors\n\n📚 **Stay informed** - Follow whale research organizations and their latest discoveries\n\nRemember: protecting these ocean giants means protecting the entire marine ecosystem they depend on!"
     },
     {
       type: "sources",
       title: "Sources & Further Reading",
-      content: "Want to learn more? Explore these trusted resources for additional information about fishing debris and marine conservation.",
+      content: "Want to learn more? Explore these trusted resources for additional information about pygmy blue whales.",
       sources: [
         {
-          title: "Tangaroa Blue Foundation - Australian Marine Debris Initiative",
-          url: "https://www.tangaroablue.org/amdi"
+          title: "AIMS - Feeding on the go: research provides new insights into pygmy blue whale foraging behaviours",
+          url: "https://www.aims.gov.au/information-centre/news-and-stories/feeding-go-research-provides-new-insights-pygmy-blue-whale-foraging-behaviours"
         },
         {
-          title: "Keep Australia Beautiful WA - Reel It In Campaign",
-          url: "https://www.kabc.wa.gov.au/programs/reel-it-in"
+          title: "UWA Research - Physical properties and processes in the Perth Canyon, Western Australia",
+          url: "https://research-repository.uwa.edu.au/en/publications/physical-properties-and-processes-in-the-perth-canyon-western-aus/"
         },
         {
-          title: "Ghost Nets Australia - Derelict Fishing Gear Retrieval",
-          url: "https://ghostnets.com.au/"
+          title: "Movement Ecology - Predicting suitable habitats for foraging and migration",
+          url: "https://movementecologyjournal.biomedcentral.com/articles/10.1186/s40462-024-00481-x"
         },
         {
-          title: "CSIRO - Marine Debris Research",
-          url: "https://www.csiro.au/en/research/natural-environment/oceans/marine-debris"
+          title: "e-Atlas - Distribution and important areas for pygmy blue whales",
+          url: "https://eatlas.org.au/nwa/pygmy-blue-whales"
+        }
+      ]
+    }
+  ]
+};
+
+export const humpbackHighwayLesson: EnhancedLesson = {
+  id: "humpback-highway-marine-mammals",
+  title: "Humpback Highway: Following WA's Annual Whale Parade",
+  description: "One of the greatest migrations on Earth passes right by WA's coast",
+  category: "marine-mammals",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🐋 Welcome to the Humpback Highway!",
+      content: "Every winter, Western Australia's coastline becomes a highway for giants. 🐋✨\n\nHumpback whales travel thousands of kilometers between Antarctica and WA, putting on spectacular displays of breaching, tail-slapping, and singing along the way. You're about to discover one of the greatest migrations on Earth!",
+      icon: "🐋"
+    },
+    {
+      type: "text",
+      title: "🧠 The Great Migration",
+      content: "Humpback whales undertake one of the longest migrations in the animal kingdom:\n\n**📏 Epic Journey**: Traveling approximately **10,000 kilometers** between Antarctic feeding grounds and WA's breeding areas\n\n**🍽️ Antarctic Feeding**: Gorging on krill in the nutrient-rich Southern Ocean during summer months\n\n**🏖️ Warm Water Breeding**: Migrating north to WA's warm waters to breed and raise calves in protected bays\n\n**🌍 Population Recovery**: WA's coast hosts one of the **largest humpback populations in the world** - over 40,000 individuals!\n\n**👁️ World-Class Watching**: Albany, Exmouth, and Ningaloo offer some of the planet's best whale watching opportunities\n\nThis annual parade is one of nature's most spectacular shows, visible right from WA's shores.",
+      highlight: "Over 40,000 humpback whales migrate past WA's coast each year!"
+    },
+    {
+      type: "quiz",
+      title: "Migration Purpose",
+      content: "Why do humpback whales migrate to WA's warm waters?",
+      options: [
+        "To feed on krill",
+        "To breed and raise calves",
+        "To avoid predators",
+        "To find seaweed"
+      ],
+      correctAnswer: 1,
+      explanation: "Humpback whales migrate to WA's warm waters to breed and raise their calves in protected, temperate conditions. They feed on krill in Antarctica during summer, then travel north for breeding season."
+    },
+    {
+      type: "text",
+      title: "🐠 Meet the Stars of the Show",
+      content: "Understanding humpback whales means appreciating their behaviors and cultural connections:\n\n**Species**: Humpback whales (*Megaptera novaeangliae*) - distinctive long pectoral fins and knobby heads\n\n**Human Observers**: Whale watchers, marine researchers, Indigenous communities, and eco-tourism operators all share in this annual spectacle\n\n**Spectacular Behaviors**:\n- **Breaching** - Launching their massive bodies out of the water\n- **Spy-hopping** - Poking their heads up to look around\n- **Tail-slapping** - Smacking the water with their powerful flukes\n- **Singing** - Males produce complex, haunting songs that can last for hours\n\n**Cultural Significance**: Whales hold deep spiritual meaning in many Indigenous Dreaming stories along WA's coast, representing creation, navigation, and connection to Country\n\nThese gentle giants are truly woven into the fabric of WA's coastal culture.",
+      highlight: "Male humpback songs are among the most complex in the animal kingdom!"
+    },
+    {
+      type: "quiz",
+      title: "Whale Behavior",
+      content: "What behavior are humpbacks especially famous for?",
+      options: [
+        "Leaping out of the water (breaching)",
+        "Sleeping on the surface all day",
+        "Digging in the sand",
+        "Spinning like dolphins"
+      ],
+      correctAnswer: 0,
+      explanation: "Humpback whales are famous for breaching - launching their massive 30-40 tonne bodies completely out of the water. This spectacular behavior may serve multiple purposes including communication, parasite removal, or simply playful expression."
+    },
+    {
+      type: "text",
+      title: "🌊 Challenges on the Highway",
+      content: "Despite their impressive recovery from whaling, humpbacks still face modern threats:\n\n**🚢 Ship Strikes**: Busy shipping lanes along the migration route pose collision risks, especially for slower-moving mothers with calves\n\n**🎣 Entanglement**: Fishing gear and marine debris can trap whales, causing injury or death\n\n**🌡️ Climate Change**: Warming oceans affect krill populations in Antarctica, threatening their primary food source\n\n**🔊 Noise Pollution**: Ship engines, sonar, and industrial noise interfere with humpback songs and communication\n\n**🏗️ Coastal Development**: Increasing boat traffic and development in breeding areas can disturb critical nursery habitats\n\nProtecting the humpback highway requires addressing all these interconnected challenges.",
+      highlight: "Humpback songs can travel over 20 kilometers underwater!"
+    },
+    {
+      type: "quiz",
+      title: "Communication Importance",
+      content: "Why are humpback whale songs important?",
+      options: [
+        "They help whales sleep",
+        "They are used to communicate and attract mates",
+        "They scare away predators",
+        "They produce food"
+      ],
+      correctAnswer: 1,
+      explanation: "Humpback whale songs are used for communication and mate attraction. Only males sing, producing complex, evolving songs that can last up to 20 minutes. These songs play a crucial role in breeding behavior and social bonding."
+    },
+    {
+      type: "finalQuiz",
+      title: "Test Your Humpback Highway Knowledge",
+      content: "Let's see what you've learned about WA's annual whale parade!",
+      questions: [
+        {
+          question: "How far do humpbacks travel on their migration?",
+          options: [
+            "100 km",
+            "50 km",
+            "1,000 km",
+            "10,000 km"
+          ],
+          correctAnswer: 3
+        },
+        {
+          question: "What is a major threat to migrating humpbacks?",
+          options: [
+            "Coral bleaching",
+            "Ship strikes and entanglement",
+            "Predation by sharks",
+            "Too much tourism"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "Where do WA humpbacks go to feed?",
+          options: [
+            "Perth Canyon",
+            "Ningaloo Reef",
+            "Antarctica",
+            "Swan River"
+          ],
+          correctAnswer: 2
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🌱 You're Now a Humpback Guardian!",
+      content: "Great job! You've completed the lesson on *Humpback Highway: Following WA's Annual Whale Parade.* You now understand one of nature's greatest spectacles and how we can protect it.\n\n**What You Can Do:**\n\n🐋 **Choose responsible whale-watching operators** that respect safe distance rules and follow guidelines\n\n🌊 **Support conservation efforts** to reduce ship strikes and fishing gear entanglement\n\n📣 **Share knowledge** - WA's humpback highway is a global natural wonder worth protecting\n\n♻️ **Reduce carbon emissions** to safeguard Antarctic krill — the whales' food supply\n\n🚢 **Advocate for safer shipping lanes** that avoid peak migration periods\n\n📚 **Learn from Indigenous knowledge** - Respect cultural connections to whales along the coast\n\nRemember: protecting the humpback highway means protecting one of Earth's most incredible natural phenomena!"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about humpback whale migration.",
+      sources: [
+        {
+          title: "Western Australian Humpback Whale Migration Route (IMMA)",
+          url: "https://www.marinemammalhabitat.org/portfolio-item/western-australian-humpback-whale-migration-route/"
+        },
+        {
+          title: "New insights into prime Southern Ocean forage grounds for thriving Western Australian humpback whales",
+          url: "https://www.nature.com/articles/s41598-019-50497-2"
+        },
+        {
+          title: "WA DBCA - Watching Whales Information Guide",
+          url: "https://exploreparks.dbca.wa.gov.au/sites/default/files/2023-09/watching-whales-information-guide.pdf"
         }
       ]
     }
@@ -2768,141 +2765,6 @@ export const australianSeaLionLesson: EnhancedLesson = {
         {
           title: "Conservation Advice: Australian Sea Lion - Threat Analysis",
           url: "https://bio-prd-naturekit-public-data.s3.ap-southeast-2.amazonaws.com/species_assessments/Neophoca_cinerea_11539.pdf"
-        }
-      ]
-    }
-  ]
-};
-
-export const humpbackHighwayLesson: EnhancedLesson = {
-  id: "humpback-highway-marine-mammals",
-  title: "Humpback Highway: Following WA's Annual Whale Parade",
-  description: "One of the greatest migrations on Earth passes right by WA's coast",
-  category: "marine-mammals",
-  duration: 6,
-  difficulty: "Beginner",
-  steps: [
-    {
-      type: "intro",
-      title: "🐋 Welcome to the Humpback Highway!",
-      content: "Every winter, Western Australia's coastline becomes a highway for giants. 🐋✨\n\nHumpback whales travel thousands of kilometers between Antarctica and WA, putting on spectacular displays of breaching, tail-slapping, and singing along the way. You're about to discover one of the greatest migrations on Earth!",
-      icon: "🐋"
-    },
-    {
-      type: "text",
-      title: "🧠 The Great Migration",
-      content: "Humpback whales undertake one of the longest migrations in the animal kingdom:\n\n**📏 Epic Journey**: Traveling approximately **10,000 kilometers** between Antarctic feeding grounds and WA's breeding areas\n\n**🍽️ Antarctic Feeding**: Gorging on krill in the nutrient-rich Southern Ocean during summer months\n\n**🏖️ Warm Water Breeding**: Migrating north to WA's warm waters to breed and raise calves in protected bays\n\n**🌍 Population Recovery**: WA's coast hosts one of the **largest humpback populations in the world** - over 40,000 individuals!\n\n**👁️ World-Class Watching**: Albany, Exmouth, and Ningaloo offer some of the planet's best whale watching opportunities\n\nThis annual parade is one of nature's most spectacular shows, visible right from WA's shores.",
-      highlight: "Over 40,000 humpback whales migrate past WA's coast each year!"
-    },
-    {
-      type: "quiz",
-      title: "Migration Purpose",
-      content: "Why do humpback whales migrate to WA's warm waters?",
-      options: [
-        "To feed on krill",
-        "To breed and raise calves",
-        "To avoid predators",
-        "To find seaweed"
-      ],
-      correctAnswer: 1,
-      explanation: "Humpback whales migrate to WA's warm waters to breed and raise their calves in protected, temperate conditions. They feed on krill in Antarctica during summer, then travel north for breeding season."
-    },
-    {
-      type: "text",
-      title: "🐠 Meet the Stars of the Show",
-      content: "Understanding humpback whales means appreciating their behaviors and cultural connections:\n\n**Species**: Humpback whales (*Megaptera novaeangliae*) - distinctive long pectoral fins and knobby heads\n\n**Human Observers**: Whale watchers, marine researchers, Indigenous communities, and eco-tourism operators all share in this annual spectacle\n\n**Spectacular Behaviors**:\n- **Breaching** - Launching their massive bodies out of the water\n- **Spy-hopping** - Poking their heads up to look around\n- **Tail-slapping** - Smacking the water with their powerful flukes\n- **Singing** - Males produce complex, haunting songs that can last for hours\n\n**Cultural Significance**: Whales hold deep spiritual meaning in many Indigenous Dreaming stories along WA's coast, representing creation, navigation, and connection to Country\n\nThese gentle giants are truly woven into the fabric of WA's coastal culture.",
-      highlight: "Male humpback songs are among the most complex in the animal kingdom!"
-    },
-    {
-      type: "quiz",
-      title: "Whale Behavior",
-      content: "What behavior are humpbacks especially famous for?",
-      options: [
-        "Leaping out of the water (breaching)",
-        "Sleeping on the surface all day",
-        "Digging in the sand",
-        "Spinning like dolphins"
-      ],
-      correctAnswer: 0,
-      explanation: "Humpback whales are famous for breaching - launching their massive 30-40 tonne bodies completely out of the water. This spectacular behavior may serve multiple purposes including communication, parasite removal, or simply playful expression."
-    },
-    {
-      type: "text",
-      title: "🌊 Challenges on the Highway",
-      content: "Despite their impressive recovery from whaling, humpbacks still face modern threats:\n\n**🚢 Ship Strikes**: Busy shipping lanes along the migration route pose collision risks, especially for slower-moving mothers with calves\n\n**🎣 Entanglement**: Fishing gear and marine debris can trap whales, causing injury or death\n\n**🌡️ Climate Change**: Warming oceans affect krill populations in Antarctica, threatening their primary food source\n\n**🔊 Noise Pollution**: Ship engines, sonar, and industrial noise interfere with humpback songs and communication\n\n**🏗️ Coastal Development**: Increasing boat traffic and development in breeding areas can disturb critical nursery habitats\n\nProtecting the humpback highway requires addressing all these interconnected challenges.",
-      highlight: "Humpback songs can travel over 20 kilometers underwater!"
-    },
-    {
-      type: "quiz",
-      title: "Communication Importance",
-      content: "Why are humpback whale songs important?",
-      options: [
-        "They help whales sleep",
-        "They are used to communicate and attract mates",
-        "They scare away predators",
-        "They produce food"
-      ],
-      correctAnswer: 1,
-      explanation: "Humpback whale songs are used for communication and mate attraction. Only males sing, producing complex, evolving songs that can last up to 20 minutes. These songs play a crucial role in breeding behavior and social bonding."
-    },
-    {
-      type: "finalQuiz",
-      title: "Test Your Humpback Highway Knowledge",
-      content: "Let's see what you've learned about WA's annual whale parade!",
-      questions: [
-        {
-          question: "How far do humpbacks travel on their migration?",
-          options: [
-            "100 km",
-            "50 km",
-            "1,000 km",
-            "10,000 km"
-          ],
-          correctAnswer: 3
-        },
-        {
-          question: "What is a major threat to migrating humpbacks?",
-          options: [
-            "Coral bleaching",
-            "Ship strikes and entanglement",
-            "Predation by sharks",
-            "Too much tourism"
-          ],
-          correctAnswer: 1
-        },
-        {
-          question: "Where do WA humpbacks go to feed?",
-          options: [
-            "Perth Canyon",
-            "Ningaloo Reef",
-            "Antarctica",
-            "Swan River"
-          ],
-          correctAnswer: 2
-        }
-      ]
-    },
-    {
-      type: "conclusion",
-      title: "🌱 You're Now a Humpback Guardian!",
-      content: "Great job! You've completed the lesson on *Humpback Highway: Following WA's Annual Whale Parade.* You now understand one of nature's greatest spectacles and how we can protect it.\n\n**What You Can Do:**\n\n🐋 **Choose responsible whale-watching operators** that respect safe distances and follow guidelines\n\n🌊 **Support conservation efforts** to reduce ship strikes and fishing gear entanglement\n\n📣 **Share knowledge** - WA's humpback highway is a global natural wonder worth protecting\n\n♻️ **Reduce carbon emissions** to safeguard Antarctic krill — the whales' food supply\n\n🚢 **Advocate for safer shipping lanes** that avoid peak migration periods\n\n📚 **Learn from Indigenous knowledge** - Respect cultural connections to whales along the coast\n\nRemember: protecting the humpback highway means protecting one of Earth's most incredible natural phenomena!"
-    },
-    {
-      type: "sources",
-      title: "Sources & Further Reading",
-      content: "Want to learn more? Explore these trusted resources for additional information about humpback whale migration.",
-      sources: [
-        {
-          title: "Western Australian Humpback Whale Migration Route (IMMA)",
-          url: "https://www.marinemammalhabitat.org/portfolio-item/western-australian-humpback-whale-migration-route/"
-        },
-        {
-          title: "New insights into prime Southern Ocean forage grounds for thriving Western Australian humpback whales",
-          url: "https://www.nature.com/articles/s41598-019-50497-2"
-        },
-        {
-          title: "WA DBCA - Watching Whales Information Guide",
-          url: "https://exploreparks.dbca.wa.gov.au/sites/default/files/2023-09/watching-whales-information-guide.pdf"
         }
       ]
     }
@@ -3159,7 +3021,7 @@ export const marineProtectionZonesLesson: EnhancedLesson = {
     {
       type: "conclusion",
       title: "🌱 What You Can Do",
-      content: "Great job! You've completed the lesson on marine protection zones. Now you understand why the names matter and how they help protect our oceans.\n\n**What You Can Do:**\n\n🌊 **Learn the zones** before you dive or fish — each color on a marine park map has a specific meaning\n\n🐠 **Support parks and sanctuaries** by choosing eco-friendly tourism operators who respect zone boundaries\n\n📣 **Share how naming matters** with friends — it builds respect and awareness for marine protection\n\n📚 **Stay informed** about your local marine parks and their management plans\n\n🎣 **Fish responsibly** by knowing which zones allow fishing and which are strictly protected\n\nRemember: Understanding and respecting marine protection zones is everyone's responsibility. These areas are essential for maintaining healthy ocean ecosystems for future generations!"
+      content: "Great job! You've completed the lesson on marine protection zones. You now understand why the names matter and how they help protect our oceans.\n\n**What You Can Do:**\n\n🌊 **Learn the zones** before you dive or fish — each color on a marine park map has a specific meaning\n\n🐠 **Support parks and sanctuaries** by choosing eco-friendly tourism operators who respect zone boundaries\n\n📣 **Share how naming matters** with friends — it builds respect and awareness for marine protection\n\n📚 **Stay informed** about your local marine parks and their management plans\n\n🎣 **Fish responsibly** by knowing which zones allow fishing and which are strictly protected\n\nRemember: Understanding and respecting marine protection zones is everyone's responsibility. These areas are essential for maintaining healthy ocean ecosystems for future generations!"
     },
     {
       type: "sources",
@@ -3188,7 +3050,7 @@ export const marineProtectionZonesLesson: EnhancedLesson = {
 };
 
 export const mpasAndFoodSecurityLesson: EnhancedLesson = {
-  id: "mpas-food-security",
+  id: "mpas-and-food-security",
   title: "MPAs and Food Security – Are the Benefits Overstated?",
   description: "When inflated claims distract from biodiversity protection",
   category: "fisheries",
@@ -3297,7 +3159,7 @@ export const mpasAndFoodSecurityLesson: EnhancedLesson = {
     {
       type: "conclusion",
       title: "🌱 What You Can Do",
-      content: "Great job! You've completed the lesson on MPAs and Food Security. You now understand the importance of accurate scientific communication in conservation.\n\n**What You Can Do:**\n\n📢 **Share accurate information** - MPAs protect ecosystems first, fisheries second\n\n🔬 **Support transparent science** - Encourage rigorous methods and honest communication of limitations\n\n❓ **Ask critical questions** - Are bold claims backed by solid, appropriately applied data?\n\n🌊 **Advocate for proper tools** - Support targeted fisheries management when fish recovery is the goal\n\n📚 **Stay informed** - Understand the difference between biodiversity protection and fisheries management\n\nRemember: **Truth builds trust.** Accurate science and honest communication are essential for effective ocean conservation!",
+      content: "Great job! You've completed the lesson on MPAs and Food Security. You now understand the importance of accurate scientific communication in conservation.\n\n**What You Can Do:**\n\n📢 **Share accurate information** - MPAs protect ecosystems first, fisheries second\n\n🔬 **Support transparent science** - Encourage rigorous methods and honest communication of limitations\n\n❓ **Ask critical questions** - Are bold claims backed by solid, appropriately applied data?\n\n🌊 **Advocate for proper tools** - Support targeted fisheries management when fish recovery is the goal\n\n📚 **Stay informed** - Understand the difference between biodiversity protection and fisheries management\n\n**Remember: Truth builds trust.** Accurate science and honest communication are essential for effective ocean conservation!",
       icon: "🌱"
     },
     {
@@ -3312,6 +3174,145 @@ export const mpasAndFoodSecurityLesson: EnhancedLesson = {
         {
           title: "Cochrane, K. L. et al. (2024) - Errors and bias in marine conservation and fisheries literature",
           url: "https://doi.org/10.1016/j.marpol.2024.106329"
+        }
+      ]
+    }
+  ]
+};
+
+export const overfishingLesson: EnhancedLesson = {
+  id: "overfishing-nemo",
+  title: "When Nemo Goes Missing: The Real Story Behind Overfishing",
+  description: "Why too many nets in the water mean fewer fish in the sea",
+  category: "fisheries",
+  duration: 6,
+  difficulty: "Beginner",
+  steps: [
+    {
+      type: "intro",
+      title: "🐠 When Nemo Goes Missing",
+      content: "Imagine diving on a reef and noticing that the clownfish — Nemo — isn't there anymore. 🐠\n\nOverfishing is like taking too many slices of cake before the party even starts. If we remove fish faster than they can reproduce, populations shrink, ecosystems suffer, and iconic species can vanish from our reefs.",
+      icon: "🐠"
+    },
+    {
+      type: "text",
+      title: "🧠 Key Concept: Understanding Overfishing",
+      content: "**Overfishing** means catching fish at a rate faster than they can replace themselves through reproduction.\n\nThis leads to:\n\n**📉 Smaller fish** - Average size decreases as larger individuals are removed\n\n**🦈 Fewer big predators** - Top predators decline, weakening food webs\n\n**🪸 Reef damage** - Removing herbivores like parrotfish allows algae to smother coral reefs\n\n**📊 Population collapse** - Many reef fish species have declined by **30–60%** in heavily fished areas\n\nThe effects cascade through entire ecosystems, affecting species far beyond those directly targeted by fishing.",
+      highlight: "Many reef fish populations have declined by 30-60% in heavily fished areas!"
+    },
+    {
+      type: "quiz",
+      title: "Overfishing Definition",
+      content: "What does overfishing mean?",
+      options: [
+        "Catching fish with bigger boats",
+        "Catching fish faster than they can reproduce",
+        "Fishing only at night",
+        "Fishing in deeper waters"
+      ],
+      correctAnswer: 1,
+      explanation: "Overfishing occurs when fish are caught faster than they can reproduce and replace themselves. This leads to declining populations and can eventually cause ecosystem collapse."
+    },
+    {
+      type: "text",
+      title: "🐠 Who or What's Involved?",
+      content: "Overfishing affects entire marine ecosystems and human communities:\n\n**Species Affected:**\n- Clownfish and other reef species\n- Groupers and snappers\n- Tuna and sharks\n- Many commercially important fish\n\n**People Involved:**\n- Commercial fishing fleets\n- Recreational fishers\n- Seafood consumers worldwide\n- Coastal communities dependent on fishing\n\n**Management Systems:**\n- Fisheries management agencies\n- Marine protected areas and no-take reserves\n- Catch quotas and size limits\n- Seasonal closures\n\n**Success Stories:**\nIn the Philippines, no-take reserves helped restore reef fish populations by **over 400%** in just a decade, showing that recovery is possible with proper protection!",
+      highlight: "No-take reserves in the Philippines restored reef fish by over 400% in one decade!"
+    },
+    {
+      type: "quiz",
+      title: "Ecosystem Roles",
+      content: "Which species helps keep coral reefs healthy by grazing algae?",
+      options: [
+        "Parrotfish",
+        "Tuna",
+        "Sharks",
+        "Clownfish"
+      ],
+      correctAnswer: 0,
+      explanation: "Parrotfish are herbivores that graze on algae, preventing it from overgrowing and smothering coral reefs. When parrotfish are overfished, algae can take over and kill the coral."
+    },
+    {
+      type: "text",
+      title: "🌊 Challenges and Consequences",
+      content: "Overfishing creates cascading problems throughout ocean ecosystems and human society:\n\n**🔄 Ecosystem Collapse:**\nToo few predators → prey species explode → ecosystem imbalance → habitat degradation\n\n**🍽️ Food Security Risk:**\nOver **3 billion people** worldwide depend on seafood as their primary protein source. Overfishing threatens this vital food supply.\n\n**🐢 Bycatch Crisis:**\nNon-target species like sea turtles, dolphins, and seabirds die in fishing nets and gear, often discarded as waste.\n\n**💰 Economic Impacts:**\nOnce fish stocks crash, recovery takes decades or longer. Fishing communities lose their livelihoods, and entire regional economies can collapse.\n\n**🌍 Global Scale:**\nApproximately **34% of global fish stocks** are currently overfished, according to the UN Food and Agriculture Organization.",
+      highlight: "3 billion people worldwide depend on seafood as their primary protein source!"
+    },
+    {
+      type: "quiz",
+      title: "Global Impact",
+      content: "Why is overfishing a global concern?",
+      options: [
+        "It only affects fishers' income",
+        "It makes scuba diving more fun",
+        "It threatens ecosystems, food security, and economies",
+        "It reduces shipping traffic"
+      ],
+      correctAnswer: 2,
+      explanation: "Overfishing is a global concern because it threatens marine ecosystems, endangers food security for billions of people, and causes economic collapse in fishing-dependent communities."
+    },
+    {
+      type: "finalQuiz",
+      title: "Final Quiz",
+      content: "Test your knowledge of overfishing and its impacts!",
+      questions: [
+        {
+          question: "What happens when too many herbivorous fish are removed from reefs?",
+          options: [
+            "Corals grow faster",
+            "Algae overgrow and smother corals",
+            "Sharks increase",
+            "Clownfish multiply"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "Which human activity contributes directly to overfishing?",
+          options: [
+            "Swimming",
+            "Large-scale trawling",
+            "Coral gardening",
+            "Whale watching"
+          ],
+          correctAnswer: 1
+        },
+        {
+          question: "What management tool helps prevent overfishing?",
+          options: [
+            "Catch quotas and size limits",
+            "Extra fishing licenses",
+            "Using bigger nets",
+            "Fishing all year round"
+          ],
+          correctAnswer: 0
+        }
+      ]
+    },
+    {
+      type: "conclusion",
+      title: "🌱 What You Can Do",
+      content: "Great job! You've completed the lesson on *When Nemo Goes Missing: The Real Story Behind Overfishing.*\n\n**What You Can Do:**\n\n🌊 **Choose sustainable seafood** - Look for eco-labels like MSC (Marine Stewardship Council) certification\n\n🐟 **Respect size and catch limits** - Follow regulations when fishing to protect breeding populations\n\n📣 **Support marine protected areas** - Advocate for no-take zones that allow fish populations to recover\n\n🍽️ **Try a 'Fish-Free Friday'** - Reducing seafood demand helps take pressure off overfished populations\n\n📚 **Stay informed** - Learn which species are overfished in your area and make conscious choices\n\n**Remember:** Every seafood choice you make has an impact. By choosing sustainable options and supporting conservation measures, you're helping ensure that Nemo and his friends will be there for future generations to enjoy!"
+    },
+    {
+      type: "sources",
+      title: "Sources & Further Reading",
+      content: "Want to learn more? Explore these trusted resources for additional information about overfishing.",
+      sources: [
+        {
+          title: "FAO – State of World Fisheries and Aquaculture 2024",
+          url: "https://www.fao.org/3/cc9233en/cc9233en.pdf"
+        },
+        {
+          title: "UN Environment Programme – Overfishing Facts & Impacts",
+          url: "https://www.unep.org/explore-topics/oceans-seas/what-we-do/addressing-land-based-pollution/overfishing"
+        },
+        {
+          title: "NOAA Fisheries – Overfishing vs. Overfished Explained",
+          url: "https://www.fisheries.noaa.gov/national/population-assessments/overfishing-overfished"
+        },
+        {
+          title: "WWF – Threats: Overfishing",
+          url: "https://www.worldwildlife.org/threats/overfishing"
         }
       ]
     }
@@ -3346,5 +3347,6 @@ export const enhancedLessons = [
   humpbackHighwayLesson,
   australianSeaLionLesson,
   orcaMysteriesLesson,
-  fishingDebrisLesson
+  fishingDebrisLesson,
+  overfishingLesson
 ];
