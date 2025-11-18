@@ -962,7 +962,7 @@ export class DatabaseStorage implements IStorage {
       'orca-mysteries-bremer-bay': { category: 'marine-mammals', badgeName: 'Whale Expert', badgeIcon: '🐋' },
       
       // Human-Ocean Interaction
-      'fishing-debris-threats': { category: 'human-ocean-interaction', badgeName: 'Ocean Advocate', badgeIcon: '🤝' },
+      'ocean-literacy-principle-6': { category: 'human-ocean-interaction', badgeName: 'Ocean Advocate', badgeIcon: '🤝' },
     };
 
     const lessonInfo = lessonCategories[lessonId];

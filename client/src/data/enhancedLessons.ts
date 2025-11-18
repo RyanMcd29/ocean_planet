@@ -3347,6 +3347,5 @@ export const enhancedLessons = [
   humpbackHighwayLesson,
   australianSeaLionLesson,
   orcaMysteriesLesson,
-  fishingDebrisLesson,
   overfishingLesson
 ];
