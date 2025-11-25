@@ -1,9 +1,9 @@
-import { db } from './server/db';
-import { sql } from 'drizzle-orm';
+import { db } from "./server/db";
+import { sql } from "drizzle-orm";
 
 async function setupDatabase() {
-  console.log('Setting up database tables...');
-  
+  console.log("Setting up database tables...");
+
   try {
     // Create tables manually using SQL
     await db.execute(sql`
@@ -11,7 +11,7 @@ async function setupDatabase() {
         id SERIAL PRIMARY KEY,
         username VARCHAR(255) UNIQUE NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
-        password_hash VARCHAR(255) NOT NULL,
+        password VARCHAR(255) NOT NULL,
         profile_image_url VARCHAR(255),
         bio TEXT,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -155,17 +155,16 @@ async function setupDatabase() {
       );
     `);
 
-    console.log('Database tables created successfully!');
-    
+    console.log("Database tables created successfully!");
+
     // Now run the seeding
-    const { seedDatabase } = await import('./server/seed-database');
+    const { seedDatabase } = await import("./server/seed-database");
     await seedDatabase();
-    
-    console.log('Database setup complete!');
+
+    console.log("Database setup complete!");
     process.exit(0);
-    
   } catch (error) {
-    console.error('Database setup failed:', error);
+    console.error("Database setup failed:", error);
     process.exit(1);
   }
 }
