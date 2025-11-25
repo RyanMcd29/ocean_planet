@@ -141,7 +141,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         name: userData.name,
         lastname: userData.lastname,
         email: userData.email,
-        password: hashedPassword,
+        password_hash: hashedPassword,
         preferredActivity: userData.preferredActivity,
         profilePicture: userData.profilePicture || null,
         bio: userData.bio || null,
