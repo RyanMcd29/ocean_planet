@@ -4,7 +4,6 @@ hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
 channel = "stable-24_05"
-packages = ["sqlite-interactive", "run"]
 
 [deployment]
 deploymentTarget = "autoscale"
@@ -26,10 +25,6 @@ externalPort = 5000
 [[ports]]
 localPort = 42513
 externalPort = 3002
-
-[[ports]]
-localPort = 44053
-externalPort = 5173
 
 [[ports]]
 localPort = 46151

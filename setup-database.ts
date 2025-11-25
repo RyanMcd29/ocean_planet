@@ -9,10 +9,13 @@ async function setupDatabase() {
     await db.execute(sql`
       CREATE TABLE IF NOT EXISTS users (
         id SERIAL PRIMARY KEY,
-        username VARCHAR(255) UNIQUE NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        lastname VARCHAR(255) UNIQUE NOT NULL,
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL,
-        profile_image_url VARCHAR(255),
+        preferred_activity VARCHAR(255),
+        country_id INTEGER REFERENCES countries(id),
+        profile_picture VARCHAR(255),
         bio TEXT,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
       );
