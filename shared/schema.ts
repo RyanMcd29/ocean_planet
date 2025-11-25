@@ -1,4 +1,15 @@
-import { pgTable, text, serial, integer, boolean, jsonb, timestamp, real, date, unique } from "drizzle-orm/pg-core";
+import {
+  pgTable,
+  text,
+  serial,
+  integer,
+  boolean,
+  jsonb,
+  timestamp,
+  real,
+  date,
+  unique,
+} from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { relations } from "drizzle-orm";
@@ -19,7 +30,7 @@ export const users = pgTable("users", {
   name: text("name"),
   lastname: text("lastname"),
   email: text("email").notNull().unique(),
-  password: text("password_hash").notNull(), // Match actual DB column
+  password: text("password").notNull(), // Match actual DB column
   preferredActivity: text("preferred_activity"), // 'diving', 'freediving', 'snorkeling', 'other'
   profilePicture: text("profile_image_url"), // Match actual DB column
   bio: text("bio"),
@@ -47,40 +58,65 @@ export const insertUserSchema = createInsertSchema(users).omit({
 });
 
 // Registration schema with validation
-export const registrationSchema = insertUserSchema.extend({
-  confirmPassword: z.string().min(8),
-  countryId: z.number().optional(), // Optional, will default to Australia
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-}).refine((data) => {
-  // Password strength validation
-  const hasUpperCase = /[A-Z]/.test(data.password);
-  const hasLowerCase = /[a-z]/.test(data.password);
-  const hasNumbers = /\d/.test(data.password);
-  return hasUpperCase && hasLowerCase && hasNumbers;
-}, {
-  message: "Password must contain uppercase, lowercase, and number",
-  path: ["password"],
-}).refine((data) => {
-  // Name validation
-  return data.name && data.name.length >= 2 && data.name.length <= 50;
-}, {
-  message: "Name must be 2-50 characters",
-  path: ["name"],
-}).refine((data) => {
-  // Last name validation
-  return data.lastname && data.lastname.length >= 2 && data.lastname.length <= 50;
-}, {
-  message: "Last name must be 2-50 characters",
-  path: ["lastname"],
-}).refine((data) => {
-  // Preferred activity validation
-  return data.preferredActivity && ['diving', 'freediving', 'snorkeling', 'other'].includes(data.preferredActivity);
-}, {
-  message: "Invalid preferred activity",
-  path: ["preferredActivity"],
-});
+export const registrationSchema = insertUserSchema
+  .extend({
+    confirmPassword: z.string().min(8),
+    countryId: z.number().optional(), // Optional, will default to Australia
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  })
+  .refine(
+    (data) => {
+      // Password strength validation
+      const hasUpperCase = /[A-Z]/.test(data.password);
+      const hasLowerCase = /[a-z]/.test(data.password);
+      const hasNumbers = /\d/.test(data.password);
+      return hasUpperCase && hasLowerCase && hasNumbers;
+    },
+    {
+      message: "Password must contain uppercase, lowercase, and number",
+      path: ["password"],
+    },
+  )
+  .refine(
+    (data) => {
+      // Name validation
+      return data.name && data.name.length >= 2 && data.name.length <= 50;
+    },
+    {
+      message: "Name must be 2-50 characters",
+      path: ["name"],
+    },
+  )
+  .refine(
+    (data) => {
+      // Last name validation
+      return (
+        data.lastname && data.lastname.length >= 2 && data.lastname.length <= 50
+      );
+    },
+    {
+      message: "Last name must be 2-50 characters",
+      path: ["lastname"],
+    },
+  )
+  .refine(
+    (data) => {
+      // Preferred activity validation
+      return (
+        data.preferredActivity &&
+        ["diving", "freediving", "snorkeling", "other"].includes(
+          data.preferredActivity,
+        )
+      );
+    },
+    {
+      message: "Invalid preferred activity",
+      path: ["preferredActivity"],
+    },
+  );
 
 // Dive site information table
 export const diveSites = pgTable("dive_sites", {
@@ -132,7 +168,7 @@ export const species = pgTable("species", {
   category: text("category"), // Fish, Mammal, Reptile, Invertebrate, Coral, etc.
   habitats: text("habitats").array(),
   funFacts: text("fun_facts").array(),
-  
+
   // Taxonomic classification
   domain: text("domain"),
   kingdom: text("kingdom"),
@@ -141,13 +177,13 @@ export const species = pgTable("species", {
   order: text("order"),
   family: text("family"),
   genus: text("genus"),
-  
+
   // Geographic and ecological data
   regionFound: text("region_found"),
   tags: text("tags").array(),
   diveSiteAreas: text("dive_site_areas").array(),
   seasonalOccurrence: text("seasonal_occurrence"),
-  
+
   // Educational content
   keyFacts: jsonb("key_facts"), // {title: string, summary: string, details?: string, subPoints?: string[]}[]
   miniLessonRecommendations: text("mini_lesson_recommendations"),
@@ -161,11 +197,13 @@ export const keyFactSchema = z.object({
   subPoints: z.array(z.string()).optional(),
 });
 
-export const insertSpeciesSchema = createInsertSchema(species).omit({
-  id: true,
-}).extend({
-  keyFacts: z.array(keyFactSchema).optional(),
-});
+export const insertSpeciesSchema = createInsertSchema(species)
+  .omit({
+    id: true,
+  })
+  .extend({
+    keyFacts: z.array(keyFactSchema).optional(),
+  });
 
 // Dive site species relationship table
 export const diveSiteSpecies = pgTable("dive_site_species", {
@@ -175,7 +213,9 @@ export const diveSiteSpecies = pgTable("dive_site_species", {
   frequency: text("frequency"), // Common, Uncommon, Rare
 });
 
-export const insertDiveSiteSpeciesSchema = createInsertSchema(diveSiteSpecies).omit({
+export const insertDiveSiteSpeciesSchema = createInsertSchema(
+  diveSiteSpecies,
+).omit({
   id: true,
 });
 
@@ -218,7 +258,9 @@ export const nearbyDiveSites = pgTable("nearby_dive_sites", {
   distance: real("distance"), // in kilometers
 });
 
-export const insertNearbyDiveSiteSchema = createInsertSchema(nearbyDiveSites).omit({
+export const insertNearbyDiveSiteSchema = createInsertSchema(
+  nearbyDiveSites,
+).omit({
   id: true,
 });
 
@@ -261,7 +303,9 @@ export const userSpottedSpecies = pgTable("user_spotted_species", {
   notes: text("notes"),
 });
 
-export const insertUserSpottedSpeciesSchema = createInsertSchema(userSpottedSpecies).omit({
+export const insertUserSpottedSpeciesSchema = createInsertSchema(
+  userSpottedSpecies,
+).omit({
   id: true,
   dateSpotted: true,
 });
@@ -295,12 +339,16 @@ export type UserFavorite = typeof userFavorites.$inferSelect;
 export type InsertUserFavorite = z.infer<typeof insertUserFavoriteSchema>;
 
 export type UserSpottedSpecies = typeof userSpottedSpecies.$inferSelect;
-export type InsertUserSpottedSpecies = z.infer<typeof insertUserSpottedSpeciesSchema>;
+export type InsertUserSpottedSpecies = z.infer<
+  typeof insertUserSpottedSpeciesSchema
+>;
 
 // Water conditions tracking table
 export const waterConditions = pgTable("water_conditions", {
   id: serial("id").primaryKey(),
-  diveSiteId: integer("dive_site_id").notNull().references(() => diveSites.id),
+  diveSiteId: integer("dive_site_id")
+    .notNull()
+    .references(() => diveSites.id),
   timestamp: timestamp("timestamp").notNull().defaultNow(),
   waterTemp: real("water_temp"), // in celsius
   visibility: real("visibility"), // in meters
@@ -316,7 +364,9 @@ export const waterConditions = pgTable("water_conditions", {
   additionalNotes: text("additional_notes"),
 });
 
-export const insertWaterConditionsSchema = createInsertSchema(waterConditions).omit({
+export const insertWaterConditionsSchema = createInsertSchema(
+  waterConditions,
+).omit({
   id: true,
   timestamp: true,
 });
@@ -359,7 +409,9 @@ export const diveLogSpecies = pgTable("dive_log_species", {
   notes: text("notes"), // Additional notes about the sighting
 });
 
-export const insertDiveLogSpeciesSchema = createInsertSchema(diveLogSpecies).omit({
+export const insertDiveLogSpeciesSchema = createInsertSchema(
+  diveLogSpecies,
+).omit({
   id: true,
 });
 
@@ -390,7 +442,7 @@ export type InsertDiveLogSpecies = z.infer<typeof insertDiveLogSpeciesSchema>;
 // Login schema
 export const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string().min(1, "Password is required")
+  password: z.string().min(1, "Password is required"),
 });
 
 export type LoginData = z.infer<typeof loginSchema>;
@@ -413,41 +465,55 @@ export const certifications = pgTable("certifications", {
 });
 
 // User certifications table - tracks which certifications each user has
-export const userCertifications = pgTable("user_certifications", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
-  certificationId: integer("certification_id").notNull(),
-  dateObtained: date("date_obtained"), // nullable - user might not remember
-  certificationNumber: text("certification_number"), // nullable 
-  createdAt: timestamp("created_at").defaultNow(),
-}, (table) => ({
-  // Prevent duplicate certifications for the same user
-  userCertificationUnique: unique().on(table.userId, table.certificationId),
-}));
+export const userCertifications = pgTable(
+  "user_certifications",
+  {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").notNull(),
+    certificationId: integer("certification_id").notNull(),
+    dateObtained: date("date_obtained"), // nullable - user might not remember
+    certificationNumber: text("certification_number"), // nullable
+    createdAt: timestamp("created_at").defaultNow(),
+  },
+  (table) => ({
+    // Prevent duplicate certifications for the same user
+    userCertificationUnique: unique().on(table.userId, table.certificationId),
+  }),
+);
 
 // Define relations for certifications
-export const certificationsRelations = relations(certifications, ({ many }) => ({
-  userCertifications: many(userCertifications),
-}));
+export const certificationsRelations = relations(
+  certifications,
+  ({ many }) => ({
+    userCertifications: many(userCertifications),
+  }),
+);
 
-export const userCertificationsRelations = relations(userCertifications, ({ one }) => ({
-  user: one(users, {
-    fields: [userCertifications.userId],
-    references: [users.id],
+export const userCertificationsRelations = relations(
+  userCertifications,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [userCertifications.userId],
+      references: [users.id],
+    }),
+    certification: one(certifications, {
+      fields: [userCertifications.certificationId],
+      references: [certifications.id],
+    }),
   }),
-  certification: one(certifications, {
-    fields: [userCertifications.certificationId],
-    references: [certifications.id],
-  }),
-}));
+);
 
 // Certification schemas and types
-export const insertCertificationSchema = createInsertSchema(certifications).omit({
+export const insertCertificationSchema = createInsertSchema(
+  certifications,
+).omit({
   id: true,
   createdAt: true,
 });
 
-export const insertUserCertificationSchema = createInsertSchema(userCertifications).omit({
+export const insertUserCertificationSchema = createInsertSchema(
+  userCertifications,
+).omit({
   id: true,
   createdAt: true,
 });
@@ -456,14 +522,22 @@ export type Certification = typeof certifications.$inferSelect;
 export type InsertCertification = z.infer<typeof insertCertificationSchema>;
 
 export type UserCertification = typeof userCertifications.$inferSelect;
-export type InsertUserCertification = z.infer<typeof insertUserCertificationSchema>;
+export type InsertUserCertification = z.infer<
+  typeof insertUserCertificationSchema
+>;
 
 // Profile update schema - for editing user information
 export const updateProfileSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
-  lastname: z.string().min(2, "Last name must be at least 2 characters").max(50, "Last name must be less than 50 characters"),
+  name: z
+    .string()
+    .min(2, "Name must be at least 2 characters")
+    .max(50, "Name must be less than 50 characters"),
+  lastname: z
+    .string()
+    .min(2, "Last name must be at least 2 characters")
+    .max(50, "Last name must be less than 50 characters"),
   email: z.string().email("Invalid email address"),
-  preferredActivity: z.enum(['diving', 'freediving', 'snorkeling', 'other']),
+  preferredActivity: z.enum(["diving", "freediving", "snorkeling", "other"]),
   countryId: z.number().optional(),
   bio: z.string().max(500, "Bio must be less than 500 characters").optional(),
 });
@@ -471,28 +545,36 @@ export const updateProfileSchema = z.object({
 export type UpdateProfile = z.infer<typeof updateProfileSchema>;
 
 // Lesson progress table - tracks completed lessons for each user
-export const lessonProgress = pgTable("lesson_progress", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
-  lessonId: text("lesson_id").notNull(), // e.g., "bunbury-bottlenose-dolphins"
-  completedAt: timestamp("completed_at").defaultNow().notNull(),
-}, (table) => ({
-  // Prevent duplicate completion records for the same lesson
-  userLessonUnique: unique().on(table.userId, table.lessonId),
-}));
+export const lessonProgress = pgTable(
+  "lesson_progress",
+  {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").notNull(),
+    lessonId: text("lesson_id").notNull(), // e.g., "bunbury-bottlenose-dolphins"
+    completedAt: timestamp("completed_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    // Prevent duplicate completion records for the same lesson
+    userLessonUnique: unique().on(table.userId, table.lessonId),
+  }),
+);
 
 // Category badges table - tracks earned badges when users complete all lessons in a category
-export const categoryBadges = pgTable("category_badges", {
-  id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
-  category: text("category").notNull(), // e.g., "marine-mammals"
-  badgeName: text("badge_name").notNull(), // e.g., "Whale Expert"
-  badgeIcon: text("badge_icon").notNull(), // e.g., "🐋"
-  unlockedAt: timestamp("unlocked_at").defaultNow().notNull(),
-}, (table) => ({
-  // Prevent duplicate badges for the same category
-  userCategoryBadgeUnique: unique().on(table.userId, table.category),
-}));
+export const categoryBadges = pgTable(
+  "category_badges",
+  {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").notNull(),
+    category: text("category").notNull(), // e.g., "marine-mammals"
+    badgeName: text("badge_name").notNull(), // e.g., "Whale Expert"
+    badgeIcon: text("badge_icon").notNull(), // e.g., "🐋"
+    unlockedAt: timestamp("unlocked_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    // Prevent duplicate badges for the same category
+    userCategoryBadgeUnique: unique().on(table.userId, table.category),
+  }),
+);
 
 // Define relations for lesson progress
 export const lessonProgressRelations = relations(lessonProgress, ({ one }) => ({
@@ -511,12 +593,16 @@ export const categoryBadgesRelations = relations(categoryBadges, ({ one }) => ({
 }));
 
 // Lesson progress schemas and types
-export const insertLessonProgressSchema = createInsertSchema(lessonProgress).omit({
+export const insertLessonProgressSchema = createInsertSchema(
+  lessonProgress,
+).omit({
   id: true,
   completedAt: true,
 });
 
-export const insertCategoryBadgeSchema = createInsertSchema(categoryBadges).omit({
+export const insertCategoryBadgeSchema = createInsertSchema(
+  categoryBadges,
+).omit({
   id: true,
   unlockedAt: true,
 });
@@ -543,14 +629,18 @@ export const posts = pgTable("posts", {
 });
 
 // Post likes table
-export const postLikes = pgTable("post_likes", {
-  id: serial("id").primaryKey(),
-  postId: integer("post_id").notNull(),
-  userId: integer("user_id").notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-}, (table) => ({
-  userPostLikeUnique: unique().on(table.userId, table.postId),
-}));
+export const postLikes = pgTable(
+  "post_likes",
+  {
+    id: serial("id").primaryKey(),
+    postId: integer("post_id").notNull(),
+    userId: integer("user_id").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    userPostLikeUnique: unique().on(table.userId, table.postId),
+  }),
+);
 
 // Post comments table
 export const postComments = pgTable("post_comments", {
