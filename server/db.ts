@@ -1,5 +1,6 @@
-import { Pool, neonConfig } from '@neondatabase/serverless';
-import { drizzle } from 'drizzle-orm/neon-serverless';
+import "dotenv/config";
+import { Pool, neonConfig } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
 import ws from "ws";
 import * as schema from "@shared/schema";
 
@@ -11,9 +12,9 @@ neonConfig.pipelineConnect = false;
 neonConfig.fetchFunction = fetch;
 
 if (!process.env.DATABASE_URL) {
-  console.error('⚠️  WARNING: DATABASE_URL is not set!');
-  console.error('⚠️  The application will not work without a database.');
-  console.error('⚠️  Please provision a database in your Replit deployment.');
+  console.error("⚠️  WARNING: DATABASE_URL is not set!");
+  console.error("⚠️  The application will not work without a database.");
+  console.error("⚠️  Please provision a database in your Replit deployment.");
   throw new Error(
     "DATABASE_URL must be set. Did you forget to provision a database in the deployment configuration?",
   );
@@ -21,20 +22,29 @@ if (!process.env.DATABASE_URL) {
 
 // Parse and clean the connection string
 let connectionString = process.env.DATABASE_URL;
-console.log('Database connection string exists:', !!connectionString);
-console.log('Connection string starts with:', connectionString.substring(0, 30) + '...');
+console.log("Database connection string exists:", !!connectionString);
+console.log(
+  "Connection string starts with:",
+  connectionString.substring(0, 30) + "...",
+);
 
 // Clean up the connection string if it has extra formatting
-if (connectionString.includes("psql%20'") || connectionString.includes("psql '")) {
+if (
+  connectionString.includes("psql%20'") ||
+  connectionString.includes("psql '")
+) {
   // Extract the actual PostgreSQL URL from the formatted string
   const match = connectionString.match(/postgresql:\/\/[^']+/);
   if (match) {
     connectionString = decodeURIComponent(match[0]);
-    console.log('Cleaned connection string starts with:', connectionString.substring(0, 30) + '...');
+    console.log(
+      "Cleaned connection string starts with:",
+      connectionString.substring(0, 30) + "...",
+    );
   }
 }
 
-export const pool = new Pool({ 
+export const pool = new Pool({
   connectionString: connectionString,
   max: 1, // Limit connections for development
   ssl: true, // Explicitly enable SSL
@@ -42,8 +52,8 @@ export const pool = new Pool({
 });
 
 // Test the connection
-pool.on('error', (err) => {
-  console.error('Unexpected error on idle client', err);
+pool.on("error", (err) => {
+  console.error("Unexpected error on idle client", err);
 });
 
 export const db = drizzle({ client: pool, schema });

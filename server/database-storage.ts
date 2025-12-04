@@ -1,13 +1,13 @@
 // Import database and query builder tools
 import { db, pool } from './db';
-import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
+import { eq, and, or, sql, like, isNotNull, gte, lte, inArray } from 'drizzle-orm';
 
 // Import schema types and tables
 import {
   users, countries, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
   diveMaps, diveLogs, diveLogSpecies, certifications, userCertifications, lessonProgress, categoryBadges,
-  posts, postLikes, postComments, events,
+  posts, postLikes, postComments, events, images, speciesImages, postImages, postSpecies,
   type User, type InsertUser, type Country, type InsertCountry, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
@@ -19,13 +19,46 @@ import {
   type UpdateProfile, type LessonProgress, type InsertLessonProgress,
   type CategoryBadge, type InsertCategoryBadge,
   type Post, type InsertPost, type PostLike, type InsertPostLike,
-  type PostComment, type InsertPostComment, type Event, type InsertEvent
+  type PostComment, type InsertPostComment, type Event, type InsertEvent,
+  type Image, type InsertImage, type SpeciesImage, type InsertSpeciesImage,
+  type PostImage, type InsertPostImage, type PostSpecies, type InsertPostSpecies
 } from "@shared/schema";
 
 // Import the storage interface
 import { IStorage } from './storage';
 
 export class DatabaseStorage implements IStorage {
+  // Ensure species records always return a usable image URL from the central images table
+  private async attachImagesToSpeciesList(items: Species[]): Promise<Species[]> {
+    if (items.length === 0) return [];
+
+    const speciesIds = items.map((sp) => sp.id);
+    const imageRows = await db
+      .select({
+        speciesId: speciesImages.speciesId,
+        image: images,
+        isPrimary: speciesImages.isPrimary,
+      })
+      .from(speciesImages)
+      .leftJoin(images, eq(speciesImages.imageId, images.id))
+      .where(inArray(speciesImages.speciesId, speciesIds));
+
+    const grouped = new Map<number, { image: Image | null; isPrimary: boolean }[]>();
+    for (const row of imageRows) {
+      const list = grouped.get(row.speciesId) ?? [];
+      list.push({ image: row.image ?? null, isPrimary: !!row.isPrimary });
+      grouped.set(row.speciesId, list);
+    }
+
+    return items.map((sp) => {
+      const linked = grouped.get(sp.id) ?? [];
+      const primary = linked.find((row) => row.isPrimary && row.image) ?? linked.find((row) => row.image);
+      const imageUrl = sp.imageUrl || primary?.image?.url || null;
+      const primaryImageId = sp.primaryImageId ?? primary?.image?.id ?? null;
+      return { ...sp, imageUrl, primaryImageId } as Species;
+    });
+  }
+
   // Country Management
   async getAllCountries(): Promise<Country[]> {
     return await db.select().from(countries).orderBy(countries.name);
@@ -291,7 +324,7 @@ export class DatabaseStorage implements IStorage {
 
   // Species Management
   async createSpecies(speciesData: InsertSpecies): Promise<Species> {
-    const result = await db
+    const [created] = await db
       .insert(species)
       .values({
         commonName: speciesData.commonName,
@@ -300,19 +333,58 @@ export class DatabaseStorage implements IStorage {
         conservationStatus: speciesData.conservationStatus ?? null,
         habitats: speciesData.habitats ?? null,
         imageUrl: speciesData.imageUrl ?? null,
-        category: speciesData.category ?? null
+        category: speciesData.category ?? null,
+        primaryImageId: speciesData.primaryImageId ?? null
       })
       .returning();
-    return result[0];
+
+    let speciesRecord = created;
+
+    // If a new image URL was provided, mirror it into the central images table
+    if (!speciesData.primaryImageId && speciesData.imageUrl) {
+      const [image] = await db
+        .insert(images)
+        .values({
+          url: speciesData.imageUrl,
+          alt: speciesData.commonName,
+          source: 'seed',
+        })
+        .returning();
+
+      await db.insert(speciesImages).values({
+        speciesId: created.id,
+        imageId: image.id,
+        isPrimary: true,
+      });
+
+      const [updated] = await db
+        .update(species)
+        .set({ primaryImageId: image.id })
+        .where(eq(species.id, created.id))
+        .returning();
+
+      speciesRecord = updated;
+    } else if (speciesData.primaryImageId) {
+      await db.insert(speciesImages).values({
+        speciesId: created.id,
+        imageId: speciesData.primaryImageId,
+        isPrimary: true,
+      });
+    }
+
+    return speciesRecord;
   }
 
   async getSpecies(id: number): Promise<Species | undefined> {
     const result = await db.select().from(species).where(eq(species.id, id));
-    return result.length > 0 ? result[0] : undefined;
+    if (!result.length) return undefined;
+    const [withImage] = await this.attachImagesToSpeciesList([result[0]]);
+    return withImage;
   }
 
   async getAllSpecies(): Promise<Species[]> {
-    return await db.select().from(species);
+    const records = await db.select().from(species);
+    return this.attachImagesToSpeciesList(records);
   }
 
   async searchSpecies(query: string): Promise<Species[]> {
@@ -321,7 +393,7 @@ export class DatabaseStorage implements IStorage {
     }
     
     const lowerQuery = `%${query.toLowerCase()}%`;
-    return await db.select().from(species).where(
+    const results = await db.select().from(species).where(
       or(
         like(sql`lower(${species.commonName})`, lowerQuery),
         like(sql`lower(${species.scientificName})`, lowerQuery),
@@ -331,6 +403,59 @@ export class DatabaseStorage implements IStorage {
         )
       )
     );
+
+    return this.attachImagesToSpeciesList(results);
+  }
+
+  async getSpeciesImages(speciesId: number): Promise<Image[]> {
+    const rows = await db
+      .select({
+        image: images,
+      })
+      .from(speciesImages)
+      .leftJoin(images, eq(speciesImages.imageId, images.id))
+      .where(eq(speciesImages.speciesId, speciesId));
+
+    return rows
+      .map((row) => row.image)
+      .filter((img): img is Image => Boolean(img));
+  }
+
+  async addSpeciesImage(link: InsertSpeciesImage): Promise<SpeciesImage> {
+    const [record] = await db.insert(speciesImages).values(link).returning();
+
+    const [image] = await db.select().from(images).where(eq(images.id, link.imageId));
+    const [sp] = await db.select().from(species).where(eq(species.id, link.speciesId));
+
+    if (image && sp && (link.isPrimary || !sp.primaryImageId)) {
+      await db
+        .update(species)
+        .set({
+          primaryImageId: image.id,
+          imageUrl: sp.imageUrl || image.url,
+        })
+        .where(eq(species.id, link.speciesId));
+    }
+
+    return record;
+  }
+
+  async createImage(image: InsertImage): Promise<Image> {
+    const [record] = await db
+      .insert(images)
+      .values({
+        url: image.url,
+        alt: image.alt ?? null,
+        userId: image.userId ?? null,
+        source: image.source ?? 'seed',
+      })
+      .returning();
+    return record;
+  }
+
+  async getImage(id: number): Promise<Image | undefined> {
+    const [image] = await db.select().from(images).where(eq(images.id, id));
+    return image;
   }
 
   // Dive Site Species Relationships
@@ -366,19 +491,37 @@ export class DatabaseStorage implements IStorage {
       )
       .where(eq(diveSiteSpecies.diveSiteId, diveSiteId));
     
-    return results.map(result => ({
-      species: result.species,
+    const speciesWithImages = await this.attachImagesToSpeciesList(results.map((result) => result.species));
+    
+    return results.map((result, idx) => ({
+      species: speciesWithImages[idx],
       frequency: result.frequency || 'Unknown'
     }));
   }
 
   // Photo Uploads
   async createPhoto(photo: InsertPhoto): Promise<Photo> {
+    let imageId = photo.imageId ?? null;
+
+    if (!imageId && photo.imageUrl) {
+      const [image] = await db
+        .insert(images)
+        .values({
+          url: photo.imageUrl,
+          alt: photo.caption || 'Dive site photo',
+          userId: photo.userId,
+          source: 'user-upload',
+        })
+        .returning();
+      imageId = image.id;
+    }
+
     const result = await db
       .insert(photos)
       .values({
         userId: photo.userId,
         diveSiteId: photo.diveSiteId,
+        imageId,
         imageUrl: photo.imageUrl,
         caption: photo.caption ?? null,
         dateUploaded: new Date(),
@@ -1041,6 +1184,7 @@ export class DatabaseStorage implements IStorage {
         diveSiteId: posts.diveSiteId,
         speciesSpotted: posts.speciesSpotted,
         linkedLessonId: posts.linkedLessonId,
+        primaryImageId: posts.primaryImageId,
         createdAt: posts.createdAt,
         updatedAt: posts.updatedAt,
         user: users,
@@ -1072,7 +1216,73 @@ export class DatabaseStorage implements IStorage {
       results.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
 
-    return results as any;
+    const postIds = results.map((post: any) => post.id);
+
+    // Fetch attached images
+    const imagesByPost = new Map<number, Image[]>();
+    if (postIds.length > 0) {
+      const imageRows = await db
+        .select({
+          postId: postImages.postId,
+          image: images,
+        })
+        .from(postImages)
+        .leftJoin(images, eq(postImages.imageId, images.id))
+        .where(inArray(postImages.postId, postIds));
+
+      for (const row of imageRows) {
+        if (!row.image) continue;
+        const list = imagesByPost.get(row.postId) ?? [];
+        list.push(row.image as Image);
+        imagesByPost.set(row.postId, list);
+      }
+    }
+
+    // Fetch linked species for posts
+    const speciesByPost = new Map<number, Species[]>();
+    if (postIds.length > 0) {
+      const speciesRows = await db
+        .select({
+          postId: postSpecies.postId,
+          species: species,
+        })
+        .from(postSpecies)
+        .leftJoin(species, eq(postSpecies.speciesId, species.id))
+        .where(inArray(postSpecies.postId, postIds));
+
+      const uniqueSpecies = speciesRows
+        .map((row) => row.species)
+        .filter((sp): sp is Species => Boolean(sp));
+      const hydrated = uniqueSpecies.length
+        ? await this.attachImagesToSpeciesList(uniqueSpecies)
+        : [];
+      const speciesById = new Map<number, Species>();
+      hydrated.forEach((sp) => speciesById.set(sp.id, sp));
+
+      for (const row of speciesRows) {
+        if (!row.species) continue;
+        const linkedSpecies = speciesById.get(row.species.id);
+        if (!linkedSpecies) continue;
+        const list = speciesByPost.get(row.postId) ?? [];
+        list.push(linkedSpecies);
+        speciesByPost.set(row.postId, list);
+      }
+    }
+
+    return results.map((post: any) => {
+      const postImagesList = imagesByPost.get(post.id) ?? [];
+      const linkedSpecies = speciesByPost.get(post.id) ?? [];
+      const primaryImageUrl = post.photoUrl || postImagesList[0]?.url || null;
+      const primaryImageId = post.primaryImageId || postImagesList[0]?.id || null;
+
+      return {
+        ...post,
+        photoUrl: primaryImageUrl,
+        primaryImageId,
+        images: postImagesList,
+        linkedSpecies,
+      };
+    }) as any;
   }
 
   async createPost(insertPost: InsertPost): Promise<Post> {
@@ -1081,6 +1291,44 @@ export class DatabaseStorage implements IStorage {
       .values(insertPost)
       .returning();
     return post;
+  }
+
+  async addPostImages(postId: number, imageIds: number[]): Promise<PostImage[]> {
+    const created: PostImage[] = [];
+    for (const imageId of imageIds) {
+      const [record] = await db
+        .insert(postImages)
+        .values({ postId, imageId })
+        .returning();
+      created.push(record);
+    }
+
+    if (imageIds.length > 0) {
+      const [primaryImage] = await db.select().from(images).where(eq(images.id, imageIds[0]));
+      const updateData: Partial<typeof posts.$inferInsert> = {
+        primaryImageId: imageIds[0],
+      };
+
+      if (primaryImage?.url) {
+        updateData.photoUrl = primaryImage.url;
+      }
+
+      await db.update(posts).set(updateData).where(eq(posts.id, postId));
+    }
+
+    return created;
+  }
+
+  async addPostSpecies(postId: number, speciesIds: number[]): Promise<PostSpecies[]> {
+    const created: PostSpecies[] = [];
+    for (const speciesId of speciesIds) {
+      const [record] = await db
+        .insert(postSpecies)
+        .values({ postId, speciesId })
+        .returning();
+      created.push(record);
+    }
+    return created;
   }
 
   async togglePostLike(postId: number, userId: number): Promise<{ liked: boolean }> {

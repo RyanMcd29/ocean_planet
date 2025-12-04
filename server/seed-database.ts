@@ -1,6 +1,292 @@
+import fs from 'fs';
+import path from 'path';
+import { parse } from 'csv-parse/sync';
 import { db, pool } from './db';
-import { diveSites, species, diveSiteSpecies, nearbyDiveSites, diveCenters, waterConditions, countries, users, diveLogs, diveLogSpecies, certifications, userCertifications } from "@shared/schema";
+import {
+  diveSites,
+  species,
+  diveSiteSpecies,
+  countries,
+  certifications,
+  images,
+  speciesImages,
+  users,
+  diveLogs,
+  diveLogSpecies,
+  posts,
+  postImages,
+  postSpecies,
+  userCertifications,
+  type Species as SpeciesRecord,
+  type DiveSite as DiveSiteRecord,
+} from "@shared/schema";
 import { sql, eq, and } from "drizzle-orm";
+
+type SpeciesCsvRow = Record<string, string>;
+type DiveSiteCsvRow = Record<string, string>;
+
+const seedDataRoot = path.join(process.cwd(), 'server', 'seed-data');
+const speciesCsvPath = path.join(seedDataRoot, 'species', 'species.csv');
+const speciesImagesDir = path.join(seedDataRoot, 'species', 'images');
+const diveSitesCsvPath = path.join(seedDataRoot, 'dive-sites', 'dive-sites.csv');
+const uploadsSeedDir = path.join(process.cwd(), 'uploads', 'seed-species');
+
+const fallbackImagePool = [
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80',
+  'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80'
+];
+
+// Track CSV rows for image lookups
+const speciesRowLookup = new Map<string, SpeciesCsvRow>();
+
+const normalizeName = (value?: string | null) => cleanString(value)?.replace(/[✔]/g, '').trim() ?? null;
+
+function cleanString(value?: string | null): string | null {
+  if (!value) return null;
+  const normalized = value
+    .replace(/\uFEFF/g, '')
+    .replace(/[’‘]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/�/g, '°')
+    .trim();
+  return normalized.length ? normalized : null;
+}
+
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/['’]/g, '') // drop apostrophes so names like "Shaw's" match filenames without them
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function splitToArray(value?: string | null): string[] | null {
+  const cleaned = cleanString(value);
+  if (!cleaned) return null;
+  const normalized = cleaned.replace(/•/g, ',');
+  const parts = normalized
+    .split(/[,;|]/)
+    .flatMap((part) => part.split(/\n+/))
+    .map((part) => part.replace(/^[-•\s]+/, '').trim())
+    .filter(Boolean);
+  return parts.length ? parts : null;
+}
+
+function parseNumberRange(value?: string | null): { min: number | null; max: number | null } {
+  if (!value) return { min: null, max: null };
+  const numbers = (value.match(/-?\d+(?:\.\d+)?/g) || []).map((num) => Number(num)).filter((num) => !Number.isNaN(num));
+  if (numbers.length === 0) return { min: null, max: null };
+  if (numbers.length === 1) return { min: numbers[0], max: numbers[0] };
+  const [first, second] = numbers;
+  return {
+    min: Math.min(first, second),
+    max: Math.max(first, second),
+  };
+}
+
+function roundToInt(value: number | null | undefined): number | null {
+  if (value === null || value === undefined || Number.isNaN(value)) return null;
+  return Math.round(value);
+}
+
+function parseDms(part: string): number | null {
+  const cleaned = part.replace(/−/g, '-');
+  const parts = (cleaned.match(/-?\d+(?:\.\d+)?/g) || []).map(Number).filter((n) => !Number.isNaN(n));
+  if (parts.length === 0) return null;
+  const [deg, min = 0, sec = 0] = parts;
+  const sign = /[SW]/i.test(part) || deg < 0 ? -1 : 1;
+  const value = Math.abs(deg) + min / 60 + sec / 3600;
+  return value * sign;
+}
+
+function parseCoordinates(raw: string | null, fallbackIndex = 0): { lat: number; lng: number } {
+  const cleaned = cleanString(raw);
+  if (cleaned) {
+    const normalized = cleaned.replace(/[º�]/g, '°').replace(/\s+/g, ' ').trim();
+    const decimalMatch = normalized.match(/-?\d+(?:\.\d+)?/g);
+    if (decimalMatch && decimalMatch.length >= 2 && !normalized.includes('°') && !normalized.includes("'")) {
+      return { lat: Number(decimalMatch[0]), lng: Number(decimalMatch[1]) };
+    }
+
+    const dmsParts = normalized.split(/[ ,]+(?=[-]?\d)/).filter(Boolean);
+    if (dmsParts.length >= 2) {
+      const lat = parseDms(dmsParts[0]);
+      const lng = parseDms(dmsParts[1]);
+      if (lat !== null && lng !== null) {
+        return { lat, lng };
+      }
+    }
+
+    if (decimalMatch && decimalMatch.length >= 4) {
+      const [degLat, minLat, degLng, minLng] = decimalMatch.map(Number);
+      if (![degLat, minLat, degLng, minLng].some((num) => Number.isNaN(num))) {
+        return {
+          lat: degLat + minLat / 60,
+          lng: degLng + minLng / 60,
+        };
+      }
+    }
+  }
+
+  // Fallback near Perth metro area with slight offsets to avoid identical coordinates
+  return {
+    lat: -31.95 - fallbackIndex * 0.02,
+    lng: 115.86 + fallbackIndex * 0.02,
+  };
+}
+
+function simplifyDifficulty(raw: string | null): string {
+  const cleaned = cleanString(raw);
+  if (!cleaned) return 'Intermediate';
+  const lower = cleaned.toLowerCase();
+  if (lower.includes('advanced')) return 'Advanced';
+  if (lower.includes('beginner')) return 'Beginner';
+  if (lower.includes('intermediate')) return 'Intermediate';
+  if (lower.includes('expert')) return 'Expert';
+  return cleaned.split(/[,(]/)[0].trim() || 'Intermediate';
+}
+
+function buildDiveSiteDescription(row: DiveSiteCsvRow): string {
+  const parts = [
+    cleanString(row.Location_Description),
+    cleanString(row.Habitat_Type),
+    cleanString(row.Unique_Features),
+    cleanString(row.Marine_Species),
+    cleanString(row.Community_Notes),
+  ].filter(Boolean);
+
+  if (parts.length === 0 && row.Name) {
+    return `${row.Name} is a dive site recorded from CSV seed data.`;
+  }
+
+  return parts.join(' ');
+}
+
+function extractFunFacts(text: string): string[] {
+  if (!text) return [];
+  return text
+    .split('\n')
+    .map((line) => line.replace(/^[-•\s]+/, '').trim())
+    .filter((line) => line.length > 0 && /[A-Za-z]/.test(line))
+    .slice(0, 3);
+}
+
+function ensureUploadsDir() {
+  fs.mkdirSync(uploadsSeedDir, { recursive: true });
+}
+
+function buildSpeciesImageLookup(): Map<string, string[]> {
+  const lookup = new Map<string, string[]>();
+  if (!fs.existsSync(speciesImagesDir)) return lookup;
+
+  for (const file of fs.readdirSync(speciesImagesDir)) {
+    const fullPath = path.join(speciesImagesDir, file);
+    if (!fs.statSync(fullPath).isFile()) continue;
+
+    const baseSlug = slugify(path.parse(file).name.replace(/_/g, ' '));
+    const existing = lookup.get(baseSlug) ?? [];
+    existing.push(fullPath);
+    lookup.set(baseSlug, existing);
+  }
+
+  return lookup;
+}
+
+function copyLocalImageToUploads(sourcePath: string, slug: string, index: number): string {
+  ensureUploadsDir();
+  const ext = path.extname(sourcePath) || '.jpg';
+  const targetName = `${slug}-${index + 1}${ext.toLowerCase()}`;
+  const targetPath = path.join(uploadsSeedDir, targetName);
+  if (!fs.existsSync(targetPath)) {
+    fs.copyFileSync(sourcePath, targetPath);
+  }
+  return `/uploads/seed-species/${targetName}`;
+}
+
+async function ensureImageRecord(
+  url: string,
+  options?: {
+    alt?: string | null;
+    userId?: number | null;
+    source?: string | null;
+  },
+) {
+  const alt = options?.alt ?? null;
+  const userId = options?.userId ?? null;
+  const source = options?.source ?? 'seed';
+
+  const [existing] = await db.select().from(images).where(eq(images.url, url));
+  if (existing) {
+    // Backfill missing alt/userId if provided
+    if ((!existing.alt && alt) || (!existing.userId && userId)) {
+      const [updated] = await db
+        .update(images)
+        .set({
+          alt: existing.alt ?? alt ?? undefined,
+          userId: existing.userId ?? userId ?? undefined,
+        })
+        .where(eq(images.id, existing.id))
+        .returning();
+      return updated;
+    }
+    return existing;
+  }
+
+  const [created] = await db
+    .insert(images)
+    .values({
+      url,
+      alt: alt ?? undefined,
+      userId: userId ?? undefined,
+      source: source ?? undefined,
+    })
+    .returning();
+  return created;
+}
+
+function shuffle<T>(array: T[]): T[] {
+  const cloned = [...array];
+  for (let i = cloned.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+  }
+  return cloned;
+}
+
+function randomFrequency(): string {
+  const options = ['Abundant', 'Common', 'Occasional', 'Rare'];
+  return options[Math.floor(Math.random() * options.length)];
+}
+
+async function truncateTables(tables: string[]) {
+  const client = await pool.connect();
+  try {
+    for (const table of tables) {
+      try {
+        await client.query(`TRUNCATE TABLE ${table} RESTART IDENTITY CASCADE;`);
+        console.log(`Truncated ${table}`);
+      } catch (error: any) {
+        console.log(`Skipping truncate for ${table}: ${error.message}`);
+      }
+    }
+  } finally {
+    client.release();
+  }
+}
+
+function inferCountry(location: string | null): string {
+  if (!location) return 'Australia';
+  const lower = location.toLowerCase();
+  if (lower.includes('philippines')) return 'Philippines';
+  if (lower.includes('belize')) return 'Belize';
+  if (lower.includes('bahamas')) return 'Bahamas';
+  if (lower.includes('mexico')) return 'Mexico';
+  if (lower.includes('egypt')) return 'Egypt';
+  if (lower.includes('maldives')) return 'Maldives';
+  return 'Australia';
+}
 
 async function createTablesIfNotExists() {
   const client = await pool.connect();
@@ -123,6 +409,48 @@ async function createTablesIfNotExists() {
     await client.query(`
       ALTER TABLE posts ADD COLUMN IF NOT EXISTS linked_lesson_id TEXT;
     `);
+
+    // Core image tables for species and posts
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS images (
+        id SERIAL PRIMARY KEY,
+        url TEXT NOT NULL,
+        alt TEXT,
+        user_id INTEGER,
+        source TEXT DEFAULT 'seed',
+        created_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS species_images (
+        id SERIAL PRIMARY KEY,
+        species_id INTEGER NOT NULL REFERENCES species(id) ON DELETE CASCADE,
+        image_id INTEGER NOT NULL REFERENCES images(id) ON DELETE CASCADE,
+        is_primary BOOLEAN DEFAULT FALSE
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS post_images (
+        id SERIAL PRIMARY KEY,
+        post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+        image_id INTEGER NOT NULL REFERENCES images(id) ON DELETE CASCADE
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS post_species (
+        id SERIAL PRIMARY KEY,
+        post_id INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+        species_id INTEGER NOT NULL REFERENCES species(id) ON DELETE CASCADE
+      );
+    `);
+
+    // Backfill helper columns
+    await client.query(`ALTER TABLE IF EXISTS species ADD COLUMN IF NOT EXISTS primary_image_id INTEGER;`);
+    await client.query(`ALTER TABLE IF EXISTS posts ADD COLUMN IF NOT EXISTS primary_image_id INTEGER;`);
+    await client.query(`ALTER TABLE IF EXISTS photos ADD COLUMN IF NOT EXISTS image_id INTEGER;`);
 
     // Create post_likes table
     await client.query(`
@@ -317,6 +645,209 @@ async function seedCertifications() {
   console.log(`Successfully seeded ${allCertifications.length} certifications`);
 }
 
+async function seedSpeciesFromCsv(): Promise<SpeciesRecord[]> {
+  console.log('Seeding species from CSV...');
+
+  speciesRowLookup.clear();
+  let rows: SpeciesCsvRow[] = [];
+  try {
+    const fileContents = fs.readFileSync(speciesCsvPath, 'utf-8');
+    rows = parse(fileContents, {
+      columns: true,
+      skip_empty_lines: true,
+      bom: true,
+    }) as SpeciesCsvRow[];
+  } catch (error) {
+    console.error('Unable to read species CSV file:', error);
+    return [];
+  }
+
+  const seeded: SpeciesRecord[] = [];
+
+  for (const row of rows) {
+    const commonName = normalizeName(row['Common Name']);
+    if (!commonName) continue;
+
+    const slug = slugify(commonName);
+    speciesRowLookup.set(slug, row);
+
+    const scientificName = normalizeName(row['Scientific Name']) || commonName;
+    const keyFactsRaw = cleanString(row['Key Facts & Learning']);
+    const description = keyFactsRaw && keyFactsRaw.length > 0
+      ? keyFactsRaw.slice(0, 1500)
+      : `Details about ${commonName}.`;
+
+    const keyFacts = keyFactsRaw
+      ? [
+          {
+            title: `${commonName} overview`,
+            summary: keyFactsRaw.slice(0, 280),
+            details: keyFactsRaw,
+          },
+        ]
+      : undefined;
+
+    const funFacts = extractFunFacts(keyFactsRaw ?? '');
+
+    const payload: any = {
+      commonName,
+      scientificName,
+      description,
+      category: cleanString(row['Class']) || 'Marine Life',
+    };
+
+    const optionalFields: Record<string, any> = {
+      conservationStatus: cleanString(row['Conservation Status']),
+      imageUrl: cleanString(row['Photo']),
+      domain: cleanString(row['Domain']),
+      kingdom: cleanString(row['Kingdom']),
+      phylum: cleanString(row['Phylum']),
+      class: cleanString(row['Class']),
+      order: cleanString(row['Order']),
+      family: cleanString(row['Family']),
+      genus: cleanString(row['Genus']),
+      regionFound: cleanString(row['Region Found']),
+      tags: splitToArray(row['Tags']),
+      diveSiteAreas: splitToArray(row['Dive Site Areas']),
+      seasonalOccurrence: cleanString(row['Seasonal Occurrence ']) || cleanString((row as any)['Seasonal Occurrence']),
+      miniLessonRecommendations: cleanString(row['Mini Lesson Recommendations ']),
+    };
+
+    if (funFacts.length) optionalFields.funFacts = funFacts;
+    if (keyFacts) optionalFields.keyFacts = keyFacts;
+
+    Object.entries(optionalFields).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && !(Array.isArray(value) && value.length === 0)) {
+        payload[key] = value;
+      }
+    });
+
+    const [existing] = await db.select().from(species).where(eq(species.commonName, commonName));
+    if (existing) {
+      const [updated] = await db.update(species).set(payload).where(eq(species.id, existing.id)).returning();
+      seeded.push(updated);
+    } else {
+      const [created] = await db.insert(species).values(payload).returning();
+      seeded.push(created);
+    }
+  }
+
+  console.log(`Seeded or refreshed ${seeded.length} species records from CSV`);
+  return seeded;
+}
+
+async function seedDiveSitesFromCsv(): Promise<DiveSiteRecord[]> {
+  console.log('Seeding dive sites from CSV...');
+
+  let rows: DiveSiteCsvRow[] = [];
+  try {
+    const fileContents = fs.readFileSync(diveSitesCsvPath, 'utf-8');
+    rows = parse(fileContents, {
+      columns: true,
+      skip_empty_lines: true,
+      bom: true,
+    }) as DiveSiteCsvRow[];
+  } catch (error) {
+    console.error('Unable to read dive site CSV file:', error);
+    return [];
+  }
+
+  const seeded: DiveSiteRecord[] = [];
+  let index = 0;
+
+  for (const row of rows) {
+    const name = cleanString(row.Name);
+    if (!name) continue;
+
+    const coords = parseCoordinates(row.Coordinates ?? null, index);
+    const depthRange = parseNumberRange(row.Depth_Range);
+    const visibilityRange = parseNumberRange(row.Visibility);
+    const temperatureRange = parseNumberRange(row.Water_Temperature);
+    const location = cleanString(row.Region) || cleanString(row.Location_Description) || 'Perth, Western Australia';
+    const description = buildDiveSiteDescription(row);
+
+    const payload: any = {
+      name,
+      difficulty: simplifyDifficulty(row.Experience_Level),
+      description,
+      location,
+      country: inferCountry(location),
+      latitude: coords.lat,
+      longitude: coords.lng,
+    };
+
+    const optionalFields: Record<string, any> = {
+      minDepth: roundToInt(depthRange.min),
+      maxDepth: roundToInt(depthRange.max),
+      minVisibility: roundToInt(visibilityRange.min),
+      maxVisibility: roundToInt(visibilityRange.max),
+      minTemp: roundToInt(temperatureRange.min),
+      maxTemp: roundToInt(temperatureRange.max),
+      current: cleanString(row.Current_and_Surge),
+      bestSeason: cleanString(row.Best_Time_to_Dive),
+      conservationStatus: cleanString(row.Conservation_Info),
+      conservationInfo: cleanString(row.Community_Notes),
+      highlights: splitToArray(row.Unique_Features) || splitToArray(row.Marine_Species),
+      habitats: splitToArray(row.Habitat_Type),
+      accessType: cleanString(row.Access_Type),
+      entryConditions: cleanString(row.Entry_Conditions),
+      surgeConditions: cleanString(row.Current_and_Surge),
+      seasonalEvents: cleanString(row.Seasonal_Events),
+      uniqueFeatures: cleanString(row.Unique_Features),
+      userExperienceNotes: cleanString(row.User_Experience),
+      diveSiteLayout: cleanString(row.Dive_Site_Layout),
+      conservationPark: cleanString(row.Region)?.includes('Marine Park') ? cleanString(row.Region) : undefined,
+    };
+
+    Object.entries(optionalFields).forEach(([key, value]) => {
+      if (value !== null && value !== undefined && !(Array.isArray(value) && value.length === 0)) {
+        payload[key] = value;
+      }
+    });
+
+    const [existing] = await db.select().from(diveSites).where(eq(diveSites.name, name));
+    if (existing) {
+      const [updated] = await db.update(diveSites).set(payload).where(eq(diveSites.id, existing.id)).returning();
+      seeded.push(updated);
+    } else {
+      const [created] = await db.insert(diveSites).values(payload).returning();
+      seeded.push(created);
+    }
+
+    index += 1;
+  }
+
+  console.log(`Seeded or refreshed ${seeded.length} dive sites from CSV`);
+  return seeded;
+}
+
+async function clearSeedData() {
+  console.log('Removing existing seed data (truncate + reset identities)...');
+  const tablesToClear = [
+    'dive_log_species',
+    'dive_logs',
+    'post_species',
+    'post_images',
+    'posts',
+    'species_images',
+    'images',
+    'dive_site_species',
+    'nearby_dive_sites',
+    'water_conditions',
+    'dive_centers',
+    'photos',
+    'reviews',
+    'user_certifications',
+    'certifications',
+    'species',
+    'dive_sites',
+    'users',
+    'countries',
+  ];
+
+  await truncateTables(tablesToClear);
+}
+
 async function addBlackspottedTuskfish() {
   console.log('Checking for Blackspotted Tuskfish...');
   
@@ -437,630 +968,317 @@ async function linkBlackspottedTuskfishToDiveSites() {
   console.log('Blackspotted Tuskfish dive site linking complete!');
 }
 
+async function seedSpeciesImages() {
+  console.log('Backfilling species images (including uploads) into central images table...');
+  const allSpecies = await db.select().from(species);
+  const localImages = buildSpeciesImageLookup();
+  let createdLinks = 0;
+
+  for (const sp of allSpecies) {
+    const slug = slugify(sp.commonName);
+    const csvRow = speciesRowLookup.get(slug);
+    const photoFromCsv = csvRow ? cleanString(csvRow['Photo']) : null;
+
+    const existingLinks = await db.select().from(speciesImages).where(eq(speciesImages.speciesId, sp.id));
+    const existingImageIds = new Set(existingLinks.map((link) => link.imageId));
+    let hasPrimary = existingLinks.some((link) => link.isPrimary);
+
+    const mediaSources = new Set<string>();
+    const localMatches = localImages.get(slug) || [];
+
+    localMatches.forEach((file, idx) => {
+      mediaSources.add(copyLocalImageToUploads(file, slug, idx));
+    });
+
+    if (photoFromCsv) mediaSources.add(photoFromCsv);
+    if (sp.imageUrl) mediaSources.add(sp.imageUrl);
+
+    if (mediaSources.size === 0) {
+      mediaSources.add(fallbackImagePool[sp.id % fallbackImagePool.length]);
+    }
+
+    let index = 0;
+    for (const url of mediaSources) {
+      const image = await ensureImageRecord(url, { alt: sp.commonName });
+      if (existingImageIds.has(image.id)) {
+        index += 1;
+        continue;
+      }
+
+      const isPrimary = !hasPrimary && index === 0;
+
+      await db.insert(speciesImages).values({
+        speciesId: sp.id,
+        imageId: image.id,
+        isPrimary,
+      });
+
+      if (isPrimary) {
+        await db
+          .update(species)
+          .set({
+            primaryImageId: image.id,
+            imageUrl: url,
+          })
+          .where(eq(species.id, sp.id));
+        hasPrimary = true;
+      }
+
+      createdLinks += 1;
+      index += 1;
+    }
+  }
+
+  console.log(`Seeded ${createdLinks} species image links (with multi-image support)`);
+}
+
+async function seedRandomDiveSiteSpeciesLinks() {
+  console.log('Creating random dive site/species relationships for testing...');
+  const allDiveSites = await db.select().from(diveSites);
+  const allSpecies = await db.select().from(species);
+
+  if (!allDiveSites.length || !allSpecies.length) {
+    console.log('Not enough dive sites or species to create relationships.');
+    return;
+  }
+
+  let created = 0;
+
+  for (const site of allDiveSites) {
+    const existingLinks = await db
+      .select()
+      .from(diveSiteSpecies)
+      .where(eq(diveSiteSpecies.diveSiteId, site.id));
+
+    const shuffled = shuffle(allSpecies);
+    const targetCount = Math.min(Math.max(3, Math.floor(Math.random() * 4) + 3), shuffled.length);
+    let added = 0;
+
+    for (const sp of shuffled) {
+      if (added >= targetCount) break;
+      if (existingLinks.some((link) => link.speciesId === sp.id)) continue;
+
+      await db.insert(diveSiteSpecies).values({
+        diveSiteId: site.id,
+        speciesId: sp.id,
+        frequency: randomFrequency(),
+      });
+
+      created += 1;
+      added += 1;
+    }
+  }
+
+  console.log(`Created ${created} random dive site/species links`);
+}
+
+async function seedSampleTestData() {
+  console.log('Adding sample users, posts, and dive logs for testing...');
+
+  const allDiveSites = await db.select().from(diveSites);
+  const allSpecies = await db.select().from(species);
+  const [australia] = await db.select().from(countries).where(eq(countries.code, 'AU')).limit(1);
+
+  const existingUser = await db.select().from(users).limit(1);
+  if (existingUser.length > 0) {
+    console.log('Users already exist, skipping sample user seeding.');
+    return;
+  }
+
+  const [userA, userB] = await db
+    .insert(users)
+    .values([
+      {
+        username: 'ava_diver',
+        name: 'Ava',
+        lastname: 'Diver',
+        email: 'ava@example.com',
+        password: 'password',
+        preferredActivity: 'diving',
+        countryId: australia?.id ?? null,
+      },
+      {
+        username: 'niko_explorer',
+        name: 'Niko',
+        lastname: 'Explorer',
+        email: 'niko@example.com',
+        password: 'password',
+        preferredActivity: 'diving',
+        countryId: australia?.id ?? null,
+      },
+    ])
+    .returning();
+
+  const certs = await db.select().from(certifications).limit(2);
+  if (certs.length) {
+    await db.insert(userCertifications).values(
+      certs.map((cert, idx) => ({
+        userId: idx % 2 === 0 ? userA.id : userB.id,
+        certificationId: cert.id,
+        dateObtained: new Date('2024-01-01'),
+      })),
+    );
+  }
+
+  const siteA = allDiveSites[0];
+  const siteB = allDiveSites[1] ?? siteA;
+  const speciesA = allSpecies[0];
+  const speciesB = allSpecies[1] ?? speciesA;
+
+  const heroImage = await ensureImageRecord(
+    'https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1200&q=80',
+    { alt: 'Jetty life', userId: userA.id, source: 'seed' },
+  );
+  const reefImage = await ensureImageRecord(
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80',
+    { alt: 'Reef scene', userId: userB.id, source: 'seed' },
+  );
+
+  const [postOne] = await db
+    .insert(posts)
+    .values({
+      userId: userA.id,
+      content: 'Great morning dive - heaps of macro critters on the pylons.',
+      tags: ['trip-report', 'macro'],
+      location: siteA?.location ?? 'Perth, WA',
+      diveSiteId: siteA?.id ?? null,
+      speciesSpotted: speciesA ? [speciesA.commonName] : [],
+      photoUrl: heroImage.url,
+      primaryImageId: heroImage.id,
+    })
+    .returning();
+
+  await db.insert(postImages).values({
+    postId: postOne.id,
+    imageId: heroImage.id,
+  });
+
+  if (speciesA) {
+    await db.insert(postSpecies).values({
+      postId: postOne.id,
+      speciesId: speciesA.id,
+    });
+  }
+
+  const [postTwo] = await db
+    .insert(posts)
+    .values({
+      userId: userB.id,
+      content: 'Blue water and a couple of friendly rays at the outer wall.',
+      tags: ['conditions', 'viz'],
+      location: siteB?.location ?? 'WA Coast',
+      diveSiteId: siteB?.id ?? null,
+      speciesSpotted: [speciesA?.commonName, speciesB?.commonName].filter(Boolean) as string[],
+      photoUrl: reefImage.url,
+      primaryImageId: reefImage.id,
+    })
+    .returning();
+
+  await db.insert(postImages).values({
+    postId: postTwo.id,
+    imageId: reefImage.id,
+  });
+
+  if (speciesB) {
+    await db.insert(postSpecies).values({
+      postId: postTwo.id,
+      speciesId: speciesB.id,
+    });
+  }
+
+  if (siteA) {
+    const [logA] = await db
+      .insert(diveLogs)
+      .values({
+        userId: userA.id,
+        diveSiteId: siteA.id,
+        diveDate: new Date('2024-12-01T08:00:00Z'),
+        diveTime: '08:00',
+        duration: 42,
+        maxDepth: 18,
+        avgDepth: 12,
+        waterTemp: 20,
+        visibility: 8,
+        current: 'Light',
+        conditions: 'Good',
+        description: 'Training dive focused on buoyancy and photography.',
+        equipment: '7mm wetsuit, single tank',
+        certificationLevel: 'Open Water',
+        buddyName: 'Niko',
+      })
+      .returning();
+
+    if (speciesA) {
+      await db.insert(diveLogSpecies).values({
+        diveLogId: logA.id,
+        speciesId: speciesA.id,
+        quantity: 3,
+        notes: 'At the mid-span pylons',
+      });
+    }
+  }
+
+  if (siteB) {
+    const [logB] = await db
+      .insert(diveLogs)
+      .values({
+        userId: userB.id,
+        diveSiteId: siteB.id,
+        diveDate: new Date('2024-12-08T10:30:00Z'),
+        diveTime: '10:30',
+        duration: 55,
+        maxDepth: 22,
+        avgDepth: 14,
+        waterTemp: 21,
+        visibility: 10,
+        current: 'Moderate',
+        conditions: 'Excellent',
+        description: 'Great vis, followed a pair of rays along the wall.',
+        equipment: '5mm wetsuit, single tank',
+        certificationLevel: 'Advanced',
+        buddyName: 'Ava',
+      })
+      .returning();
+
+    if (speciesB) {
+      await db.insert(diveLogSpecies).values({
+        diveLogId: logB.id,
+        speciesId: speciesB.id,
+        quantity: 2,
+        notes: 'Spotted near the turn point',
+      });
+    }
+  }
+
+  console.log('Sample users, posts, and logs seeded');
+}
+
 async function seedDatabase() {
   console.log('Starting database seeding...');
 
   try {
-    // First, ensure tables exist
     await createTablesIfNotExists();
-
-    // Always seed countries first (they are needed for registration)
     await seedCountries();
-
-    // Always seed certifications (they are needed for profile management)
     await seedCertifications();
 
-    // Add new species with extended taxonomic data
+    await seedSpeciesFromCsv();
+    await seedDiveSitesFromCsv();
     await addBlackspottedTuskfish();
+    await seedSpeciesImages();
+    await seedRandomDiveSiteSpeciesLinks();
+    await seedSampleTestData();
 
-    // Link Blackspotted Tuskfish to specific dive sites
-    await linkBlackspottedTuskfishToDiveSites();
-
-    // Check if we already have data
-    const existingDiveSites = await db.select().from(diveSites);
-
-    if (existingDiveSites.length > 0) {
-      console.log('Database already contains dive sites, skipping dive site seeding.');
-      return;
-    }
-
-    // Seed sample dive sites
-    console.log('Adding sample dive sites...');
-    const [greatBarrierReef] = await db.insert(diveSites).values({
-      name: "Great Barrier Reef",
-      difficulty: "Intermediate",
-      description: "The Great Barrier Reef is the world's largest coral reef system, stretching over 2,300 kilometers along the coast of Queensland, Australia. It offers some of the most spectacular diving experiences with its vibrant coral formations and diverse marine life.",
-      location: "Queensland, Australia",
-      country: "Australia",
-      latitude: -16.7525,
-      longitude: 146.5361,
-      current: "Mild",
-      minDepth: 15,
-      maxDepth: 30,
-      minVisibility: 10,
-      maxVisibility: 30,
-      minTemp: 24,
-      maxTemp: 30,
-      bestSeason: "June - November",
-      peakVisibilityMonth: "September",
-      conservationStatus: "Protected Area",
-      conservationInfo: "The Great Barrier Reef is a UNESCO World Heritage site facing threats from climate change, water pollution, and coastal development. Visitors are required to follow strict guidelines to minimize impact.",
-      mainImage: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      highlights: ["Coral Gardens", "Reef Sharks", "Sea Turtles", "Manta Rays", "Wreck Diving", "Night Dives"],
-      habitats: ["Coral Gardens", "Drop-offs", "Sandy Flats", "Sea Grass Beds"]
-    }).returning();
-
-    const [bluehole] = await db.insert(diveSites).values({
-      name: "The Blue Hole",
-      difficulty: "Advanced",
-      description: "The Blue Hole in Belize is a world-renowned dive site that is part of the Lighthouse Reef System. This perfectly circular underwater sinkhole is over 300 meters across and 125 meters deep, offering divers a chance to see incredible marine life and geological formations.",
-      location: "Lighthouse Reef Atoll, Belize",
-      country: "Belize",
-      latitude: 17.3158,
-      longitude: -87.5358,
-      current: "Moderate",
-      minDepth: 5,
-      maxDepth: 40,
-      minVisibility: 15,
-      maxVisibility: 40,
-      minTemp: 26,
-      maxTemp: 29,
-      bestSeason: "April - June",
-      peakVisibilityMonth: "May",
-      conservationStatus: "Marine Reserve",
-      conservationInfo: "Part of the Belize Barrier Reef Reserve System, a UNESCO World Heritage site requiring careful conservation efforts to protect its unique ecosystem.",
-      mainImage: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      highlights: ["Deep Blue Waters", "Stalactites", "Sharks", "Coral Formations", "Clear Visibility"],
-      habitats: ["Sinkhole", "Reef Wall", "Open Ocean"]
-    }).returning();
-
-    const [tubbataha] = await db.insert(diveSites).values({
-      name: "Tubbataha Reefs",
-      difficulty: "Advanced",
-      description: "The Tubbataha Reefs Natural Park is a remote diving destination in the Sulu Sea, Philippines. This protected marine sanctuary features extraordinary biodiversity with pristine coral reefs and an abundance of marine life.",
-      location: "Sulu Sea, Philippines",
-      country: "Philippines",
-      latitude: 8.8011,
-      longitude: 119.8902,
-      current: "Strong",
-      minDepth: 10,
-      maxDepth: 40,
-      minVisibility: 20,
-      maxVisibility: 45,
-      minTemp: 26,
-      maxTemp: 30,
-      bestSeason: "March - June",
-      peakVisibilityMonth: "April",
-      conservationStatus: "UNESCO World Heritage Site",
-      conservationInfo: "Strictly protected marine sanctuary with limited visitor access to preserve its unique marine ecosystem.",
-      mainImage: "https://images.unsplash.com/photo-1533713692156-f70938dc0d54?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      highlights: ["Pristine Corals", "Sharks", "Manta Rays", "Sea Turtles", "Wall Diving"],
-      habitats: ["Coral Reef", "Reef Wall", "Atolls"]
-    }).returning();
-
-    const [crystalPalace] = await db.insert(diveSites).values({
-      name: "Crystal Palace",
-      difficulty: "Beginner to Intermediate",
-      description: "Known for its brilliant limestone reef systems and elaborate swim-throughs. Divers have noted the unique phenomenon where bubbles rise through holes in the reef, resembling crystals.",
-      location: "Western Australia",
-      country: "Australia",
-      latitude: -32.02668,
-      longitude: 115.54372,
-      current: "Minimal to Moderate",
-      minDepth: 8,
-      maxDepth: 18,
-      minVisibility: 15,
-      maxVisibility: 25,
-      minTemp: 18,
-      maxTemp: 24,
-      bestSeason: "October to April",
-      peakVisibilityMonth: "December",
-      conservationStatus: "Marine Protected Area",
-      conservationInfo: "Protected reef system requiring careful diving practices to preserve unique limestone formations.",
-      mainImage: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      highlights: ["Limestone Formations", "Swim-throughs", "Crystal Caverns", "Diverse Marine Life"],
-      habitats: ["Limestone Reef", "Swim-throughs", "Rocky Reef"]
-    }).returning();
-
-    const [roeReef] = await db.insert(diveSites).values({
-      name: "Roe Reef",
-      difficulty: "Intermediate",
-      description: "A renowned Western Australian dive site featuring diverse marine ecosystems and excellent underwater topography.",
-      location: "Perth",
-      country: "Australia",
-      latitude: -31.97917,
-      longitude: 115.54000,
-      current: "Light to Moderate",
-      minDepth: 10,
-      maxDepth: 25,
-      minVisibility: 12,
-      maxVisibility: 20,
-      minTemp: 18,
-      maxTemp: 22,
-      bestSeason: "November to March",
-      peakVisibilityMonth: "January",
-      conservationStatus: "Marine Protected Area",
-      conservationInfo: "Protected reef system supporting diverse marine ecosystems requiring sustainable diving practices.",
-      mainImage: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
-      highlights: ["Rocky Formations", "Kelp Forest", "Diverse Fish Species", "Underwater Topography"],
-      habitats: ["Rocky Reef", "Kelp Forest", "Sandy Bottom"]
-    }).returning();
-
-    // Seed sample species
-    console.log('Adding sample marine species...');
-    const [clownfish] = await db.insert(species).values({
-      commonName: "Clownfish",
-      scientificName: "Amphiprioninae",
-      description: "Small, brightly colored fish known for their symbiotic relationship with sea anemones.",
-      conservationStatus: "Least Concern",
-      habitats: ["Coral Reef", "Shallow Reef"],
-      imageUrl: "https://images.unsplash.com/photo-1576806021995-9f68eb39f10b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Fish"
-    }).returning();
-
-    const [greenSeaTurtle] = await db.insert(species).values({
-      commonName: "Green Sea Turtle",
-      scientificName: "Chelonia mydas",
-      description: "Large sea turtle with a heart-shaped shell and small head. Named for the green fat beneath its shell.",
-      conservationStatus: "Endangered",
-      habitats: ["Coral Reef", "Seagrass Beds", "Open Ocean"],
-      imageUrl: "https://images.unsplash.com/photo-1568660357733-823cbddb0f6a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Reptile"
-    }).returning();
-
-    const [reefShark] = await db.insert(species).values({
-      commonName: "Reef Shark",
-      scientificName: "Carcharhinus melanopterus",
-      description: "Medium-sized shark easily identified by the black tips on its fins. Common around coral reefs.",
-      conservationStatus: "Near Threatened",
-      habitats: ["Coral Reef", "Shallow Reef", "Reef Drop-offs"],
-      imageUrl: "https://images.unsplash.com/photo-1560275619-4662e36fa65c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Shark"
-    }).returning();
-
-    const [mantaRay] = await db.insert(species).values({
-      commonName: "Manta Ray",
-      scientificName: "Mobula birostris",
-      description: "One of the largest rays with a wingspan reaching up to 7 meters. Known for their intelligence and graceful swimming.",
-      conservationStatus: "Vulnerable",
-      habitats: ["Open Ocean", "Reef Drop-offs", "Cleaning Stations"],
-      imageUrl: "https://images.unsplash.com/photo-1547387657-e4e467c0870c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Ray"
-    }).returning();
-
-    // Crystal Palace specific species
-    const [blueGroper] = await db.insert(species).values({
-      commonName: "Blue Groper",
-      scientificName: "Achoerodus gouldii",
-      description: "Large blue fish commonly seen patrolling Western Australian reefs. Males develop a distinctive bright blue coloration.",
-      conservationStatus: "Least Concern",
-      habitats: ["Rocky Reef", "Limestone Reef", "Temperate Reef"],
-      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Fish"
-    }).returning();
-
-    const [westernBlueDevil] = await db.insert(species).values({
-      commonName: "Western Blue Devil",
-      scientificName: "Paraplesiops meleagris",
-      description: "Prefers caves and overhangs of reef systems. Has distinctive blue coloration with spotted patterns.",
-      conservationStatus: "Least Concern",
-      habitats: ["Rocky Reef", "Caves", "Overhangs"],
-      imageUrl: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Fish"
-    }).returning();
-
-    const [harlequinFish] = await db.insert(species).values({
-      commonName: "Harlequin Fish",
-      scientificName: "Othos dentex",
-      description: "Often spotted near reef edges. Known for their distinctive patterned appearance.",
-      conservationStatus: "Least Concern",
-      habitats: ["Reef Edges", "Rocky Reef", "Open Water"],
-      imageUrl: "https://images.unsplash.com/photo-1566551329999-ece81cad59fc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Fish"
-    }).returning();
-
-    const [dhufish] = await db.insert(species).values({
-      commonName: "Dhufish",
-      scientificName: "Glaucosoma hebraicum",
-      description: "Inhabits deeper sections of reefs and is naturally wary of divers. Prized by recreational fishers.",
-      conservationStatus: "Near Threatened",
-      habitats: ["Deep Reef", "Rocky Reef", "Continental Shelf"],
-      imageUrl: "https://images.unsplash.com/photo-1574781330855-d0db3eb7e905?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Fish"
-    }).returning();
-
-    const [buffaloBream] = await db.insert(species).values({
-      commonName: "Buffalo Bream",
-      scientificName: "Kyphosus cornelii",
-      description: "Seen grazing in groups across reef systems. Known for their schooling behavior.",
-      conservationStatus: "Least Concern",
-      habitats: ["Rocky Reef", "Seagrass Beds", "Open Water"],
-      imageUrl: "https://images.unsplash.com/photo-1571757767119-68b8dbed8c97?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Fish"
-    }).returning();
-
-    const [wobbegongShark] = await db.insert(species).values({
-      commonName: "Wobbegong Shark",
-      scientificName: "Orectolobus spp.",
-      description: "Lies motionless during the day and becomes active at night. Master of camouflage on reef floors.",
-      conservationStatus: "Least Concern",
-      habitats: ["Rocky Reef", "Sandy Bottom", "Caves"],
-      imageUrl: "https://images.unsplash.com/photo-1593730979057-f14b12c6e0d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Shark"
-    }).returning();
-
-    const [portJacksonShark] = await db.insert(species).values({
-      commonName: "Port Jackson Shark",
-      scientificName: "Heterodontus portusjacksoni",
-      description: "Commonly encountered resting in sandy areas during the day. Has distinctive harness-like markings.",
-      conservationStatus: "Least Concern",
-      habitats: ["Sandy Bottom", "Rocky Reef", "Temperate Waters"],
-      imageUrl: "https://images.unsplash.com/photo-1560275619-4662e36fa65c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Shark"
-    }).returning();
-
-    const [westernRockLobster] = await db.insert(species).values({
-      commonName: "Western Rock Lobster",
-      scientificName: "Panulirus cygnus",
-      description: "Found in abundance within reef crevices. Commercially important species in Western Australia.",
-      conservationStatus: "Least Concern",
-      habitats: ["Rocky Reef", "Crevices", "Limestone Reef"],
-      imageUrl: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Crustacean"
-    }).returning();
-
-    const [scalyfin] = await db.insert(species).values({
-      commonName: "Scalyfin",
-      scientificName: "Parma occidentalis",
-      description: "Defends its territory aggressively. Small but feisty fish common on Western Australian reefs.",
-      conservationStatus: "Least Concern",
-      habitats: ["Rocky Reef", "Territorial Areas", "Shallow Reef"],
-      imageUrl: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Fish"
-    }).returning();
-
-    const [moonWrasse] = await db.insert(species).values({
-      commonName: "Moon Wrasse",
-      scientificName: "Thalassoma lunare",
-      description: "Adds vibrant color to the reefscape with its brilliant blue and green patterns.",
-      conservationStatus: "Least Concern",
-      habitats: ["Coral Reef", "Rocky Reef", "Tropical Waters"],
-      imageUrl: "https://images.unsplash.com/photo-1570481947811-ef44b2e4b18a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      category: "Fish"
-    }).returning();
-
-    // Add Blackspotted Tuskfish with full taxonomic and educational data
-    const [blackspottedTuskfish] = await db.insert(species).values({
-      commonName: "Blackspotted Tuskfish",
-      scientificName: "Choerodon schoenleinii",
-      description: "Large tuskfish with black spot at base of dorsal fin. This impressive reef fish is known for its powerful jaws and distinctive markings, making it a favorite among divers exploring Western Australia's coral and rocky reefs.",
-      conservationStatus: "Least Concern",
-      category: "Fish",
-      habitats: ["Coral Reef", "Rocky Reef", "Tropical Waters"],
-      imageUrl: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
-      
-      // Taxonomic classification
-      domain: "Eukarya",
-      kingdom: "Animalia",
-      phylum: "Chordata",
-      class: "Actinopterygii",
-      order: "Labriformes",
-      family: "Labridae",
-      genus: "Choerodon",
-      
-      // Geographic and ecological data
-      regionFound: "Gascoyne Coast Bioregion",
-      tags: ["reef"],
-      diveSiteAreas: ["Ningaloo Reef", "Dampier"],
-      seasonalOccurrence: "Year-round",
-      
-      // Educational content with structured key facts
-      keyFacts: [
-        {
-          title: "Protogynous Hermaphrodite",
-          summary: "Is a protogynous sequential hermaphrodite - starts life as a female and later changes into a male, usually when it grows larger or when a dominant male is absent.",
-          details: "This sex change is common among wrasses and tuskfishes (family Labridae) and helps balance reproduction in their social groups. One large male defends a territory with several females, and when he disappears, the largest female transforms to take his place.",
-          subPoints: [
-            "Sequential hermaphrodite: An organism that changes sex during its lifetime - starting as one sex and later becoming the other.",
-            "Protandry: Starts as a male, later changes to female (e.g. clownfish).",
-            "Protogyny: Starts as a female, later changes to male (e.g. many wrasses and parrotfish).",
-            "This ability is usually triggered by social or environmental cues - like the absence of a dominant male or changes in population structure - and helps maximize reproductive success in different conditions."
-          ]
-        }
-      ],
-      miniLessonRecommendations: "Discuss hermaphroditism in wrasses and parrotfishes.",
-      
-      funFacts: [
-        "🐟 Blackspotted Tuskfish can change sex from female to male as they mature",
-        "💪 They have powerful crushing jaws that can crack open mollusks and crustaceans",
-        "🏠 Large males defend territories with multiple females in a harem-like social structure"
-      ]
-    }).returning();
-
-    // Associate species with dive sites
-    console.log('Associating species with dive sites...');
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: greatBarrierReef.id,
-      speciesId: clownfish.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: greatBarrierReef.id,
-      speciesId: greenSeaTurtle.id,
-      frequency: "Frequent"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: greatBarrierReef.id,
-      speciesId: reefShark.id,
-      frequency: "Occasional"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: bluehole.id,
-      speciesId: reefShark.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: bluehole.id,
-      speciesId: mantaRay.id,
-      frequency: "Rare"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: tubbataha.id,
-      speciesId: clownfish.id,
-      frequency: "Abundant"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: tubbataha.id,
-      speciesId: greenSeaTurtle.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: tubbataha.id,
-      speciesId: mantaRay.id,
-      frequency: "Occasional"
-    });
-
-    // Crystal Palace species associations
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: blueGroper.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: westernBlueDevil.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: harlequinFish.id,
-      frequency: "Frequent"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: dhufish.id,
-      frequency: "Occasional"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: buffaloBream.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: wobbegongShark.id,
-      frequency: "Frequent"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: portJacksonShark.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: westernRockLobster.id,
-      frequency: "Abundant"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: scalyfin.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: crystalPalace.id,
-      speciesId: moonWrasse.id,
-      frequency: "Frequent"
-    });
-
-    // Roe Reef species associations (sharing some species with Crystal Palace)
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: roeReef.id,
-      speciesId: blueGroper.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: roeReef.id,
-      speciesId: westernBlueDevil.id,
-      frequency: "Occasional"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: roeReef.id,
-      speciesId: portJacksonShark.id,
-      frequency: "Frequent"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: roeReef.id,
-      speciesId: westernRockLobster.id,
-      frequency: "Common"
-    });
-
-    await db.insert(diveSiteSpecies).values({
-      diveSiteId: roeReef.id,
-      speciesId: scalyfin.id,
-      frequency: "Abundant"
-    });
-
-    // Add nearby dive sites
-    console.log('Adding nearby dive site relationships...');
-    await db.insert(nearbyDiveSites).values({
-      diveSiteId: greatBarrierReef.id,
-      nearbyDiveSiteId: tubbataha.id,
-      distance: 4500
-    });
-
-    await db.insert(nearbyDiveSites).values({
-      diveSiteId: bluehole.id,
-      nearbyDiveSiteId: tubbataha.id,
-      distance: 3200
-    });
-
-    // Add dive centers
-    console.log('Adding dive centers...');
-    await db.insert(diveCenters).values({
-      name: "GBR Dive Adventures",
-      diveSiteId: greatBarrierReef.id,
-      description: "Premier dive operator for Great Barrier Reef expeditions.",
-      certification: "PADI 5-Star",
-      contactInfo: "info@gbrdive.com",
-      iconType: "padi"
-    });
-
-    await db.insert(diveCenters).values({
-      name: "Blue Hole Exploration",
-      diveSiteId: bluehole.id,
-      description: "Specialized in technical diving at the Great Blue Hole.",
-      certification: "NAUI & TDI",
-      contactInfo: "dive@bluehole-explore.com",
-      iconType: "naui"
-    });
-
-    await db.insert(diveCenters).values({
-      name: "Tubbataha Voyages",
-      diveSiteId: tubbataha.id,
-      description: "Liveaboard expeditions to Tubbataha Reefs Natural Park.",
-      certification: "PADI & SSI",
-      contactInfo: "booking@tubbatahavoyages.com",
-      iconType: "ssi"
-    });
-
-    // Seed water conditions
-    await seedWaterConditions(greatBarrierReef, bluehole, tubbataha, crystalPalace, roeReef);
-
-    // Add educational content for the Learn feature
     console.log('Database seeding complete!');
-
   } catch (error) {
     console.error('Error seeding database:', error);
   }
 }
 
-async function seedWaterConditions(greatBarrierReef: any, bluehole: any, tubbataha: any, crystalPalace: any, roeReef: any) {
-  console.log('Seeding water conditions...');
-
-  // Great Barrier Reef current conditions
-  await db.insert(waterConditions).values({
-    diveSiteId: greatBarrierReef.id,
-    waterTemp: 26,
-    visibility: 30,
-    currentStrength: 'Light',
-    currentDirection: 'Southeast',
-    waveHeight: 1.2,
-    windSpeed: 15,
-    windDirection: 'Northeast',
-    weatherConditions: 'Partly cloudy',
-    surfaceConditions: 'Calm',
-    divingConditions: 'Excellent',
-    reportedBy: 'Marine Weather Station',
-    additionalNotes: 'Perfect conditions for diving. High visibility and calm seas.'
-  });
-
-  // Blue Hole current conditions
-  await db.insert(waterConditions).values({
-    diveSiteId: bluehole.id,
-    waterTemp: 24,
-    visibility: 45,
-    currentStrength: 'Moderate',
-    currentDirection: 'East',
-    waveHeight: 0.8,
-    windSpeed: 12,
-    windDirection: 'East',
-    weatherConditions: 'Sunny',
-    surfaceConditions: 'Smooth',
-    divingConditions: 'Excellent',
-    reportedBy: 'Dive Center Belize',
-    additionalNotes: 'Crystal clear water with excellent visibility. Light current at depth.'
-  });
-
-  // Tubbataha Reefs current conditions
-  await db.insert(waterConditions).values({
-    diveSiteId: tubbataha.id,
-    waterTemp: 28,
-    visibility: 25,
-    currentStrength: 'Strong',
-    currentDirection: 'Southwest',
-    waveHeight: 2.1,
-    windSpeed: 22,
-    windDirection: 'Southwest',
-    weatherConditions: 'Partly cloudy',
-    surfaceConditions: 'Choppy',
-    divingConditions: 'Good',
-    reportedBy: 'Philippine Coast Guard',
-    additionalNotes: 'Strong currents present. Recommended for experienced divers only.'
-  });
-
-  // Crystal Palace current conditions
-  await db.insert(waterConditions).values({
-    diveSiteId: crystalPalace.id,
-    waterTemp: 18,
-    visibility: 20,
-    currentStrength: 'Light',
-    currentDirection: 'West',
-    waveHeight: 1.2,
-    windSpeed: 16,
-    windDirection: 'Southwest',
-    weatherConditions: 'Partly cloudy',
-    surfaceConditions: 'Calm',
-    divingConditions: 'Good',
-    reportedBy: 'WA Marine Parks',
-    additionalNotes: 'Excellent limestone formations with good visibility. Light current ideal for all skill levels.'
-  });
-
-  // Roe Reef current conditions
-  await db.insert(waterConditions).values({
-    diveSiteId: roeReef.id,
-    waterTemp: 19,
-    visibility: 15,
-    currentStrength: 'Light to Moderate',
-    currentDirection: 'Southwest',
-    waveHeight: 1.5,
-    windSpeed: 18,
-    windDirection: 'West',
-    weatherConditions: 'Clear',
-    surfaceConditions: 'Slight chop',
-    divingConditions: 'Good',
-    reportedBy: 'Perth Diving Academy',
-    additionalNotes: 'Diverse marine ecosystem with kelp forest. Good visibility with moderate current suitable for intermediate divers.'
-  });
+async function reseedDatabase() {
+  console.log('Reseeding database (full reset + seed)...');
+  await clearSeedData();
+  await seedDatabase();
 }
 
 // Export the seed function so it can be called from elsewhere
-export { seedDatabase };
+export { seedDatabase, reseedDatabase, clearSeedData };

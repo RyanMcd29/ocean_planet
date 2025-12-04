@@ -5,6 +5,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { seedDatabase } from "./seed-database";
 import { db } from "./db";
+import type { Server } from "http";
 
 const app = express();
 
@@ -92,6 +93,55 @@ app.use((req, res, next) => {
 
   next();
 });
+
+async function listenWithFallback(
+  server: Server,
+  startPort: number,
+  host: string,
+  reusePort?: boolean,
+  maxAttempts = 5,
+): Promise<number> {
+  let port = startPort;
+
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      await new Promise<void>((resolve, reject) => {
+        const onError = (err: NodeJS.ErrnoException) => {
+          cleanup();
+          reject(err);
+        };
+
+        const onListening = () => {
+          cleanup();
+          resolve();
+        };
+
+        function cleanup() {
+          server.removeListener("error", onError);
+          server.removeListener("listening", onListening);
+        }
+
+        server.once("error", onError);
+        server.listen({ port, host, reusePort }, onListening);
+      });
+
+      return port;
+    } catch (error: any) {
+      if (error?.code === "EADDRINUSE") {
+        const nextPort = port + 1;
+        log(`port ${port} is in use, trying ${nextPort}`, "express");
+        port = nextPort;
+        continue;
+      }
+
+      throw error;
+    }
+  }
+
+  throw new Error(
+    `Unable to bind to a port after ${maxAttempts} attempts starting from ${startPort}`,
+  );
+}
 
 (async () => {
   // Seed the database with initial data
@@ -187,15 +237,16 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
-  });
+  const preferredPort = Number(process.env.PORT) || 3000;
+  const host = "0.0.0.0";
+  const reusePort = process.env.REPLIT_DEPLOYMENT === "1";
+  const port = await listenWithFallback(
+    server,
+    preferredPort,
+    host,
+    reusePort,
+    10,
+  );
+
+  log(`serving on http://${host}:${port}`);
 })();

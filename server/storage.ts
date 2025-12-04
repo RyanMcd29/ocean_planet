@@ -7,6 +7,7 @@ import {
   users, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
   diveLogs, diveLogSpecies, diveMaps, countries, lessonProgress, categoryBadges,
+  images, speciesImages, postImages, postSpecies,
   type User, type InsertUser, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
@@ -15,7 +16,9 @@ import {
   type WaterConditions, type InsertWaterConditions, type DiveLog, type InsertDiveLog,
   type DiveLogSpecies, type InsertDiveLogSpecies, type DiveMap, type InsertDiveMap,
   type Country, type InsertCountry, type LessonProgress, type InsertLessonProgress,
-  type CategoryBadge, type InsertCategoryBadge
+  type CategoryBadge, type InsertCategoryBadge,
+  type Image, type InsertImage, type SpeciesImage, type InsertSpeciesImage,
+  type PostImage, type InsertPostImage, type PostSpecies, type InsertPostSpecies
 } from '@shared/schema';
 
 export interface IStorage {
@@ -41,12 +44,18 @@ export interface IStorage {
   getSpecies(id: number): Promise<Species | undefined>;
   getAllSpecies(): Promise<Species[]>;
   searchSpecies(query: string): Promise<Species[]>;
+  getSpeciesImages(speciesId: number): Promise<Image[]>;
+  addSpeciesImage(link: InsertSpeciesImage): Promise<SpeciesImage>;
   
   // Dive site species relationships
   addSpeciesToDiveSite(relation: InsertDiveSiteSpecies): Promise<DiveSiteSpecies>;
   getDiveSiteSpecies(diveSiteId: number): Promise<DiveSiteSpecies[]>;
   getSpeciesByDiveSite(diveSiteId: number): Promise<{species: Species, frequency: string}[]>;
   getDiveSitesBySpecies(speciesId: number): Promise<{diveSite: DiveSite, frequency: string}[]>;
+
+  // Image storage
+  createImage(image: InsertImage): Promise<Image>;
+  getImage(id: number): Promise<Image | undefined>;
   
   // Photo uploads
   createPhoto(photo: InsertPhoto): Promise<Photo>;
@@ -103,6 +112,10 @@ export interface IStorage {
   // Category badges
   getUserBadges(userId: number): Promise<CategoryBadge[]>;
   createBadge(badge: InsertCategoryBadge): Promise<CategoryBadge>;
+
+  // Post media/species linking
+  addPostImages(postId: number, imageIds: number[]): Promise<PostImage[]>;
+  addPostSpecies(postId: number, speciesIds: number[]): Promise<PostSpecies[]>;
 }
 
 // In-memory implementation of the storage interface
@@ -111,6 +124,10 @@ export class MemStorage implements IStorage {
   private diveSites: Map<number, DiveSite>;
   private species: Map<number, Species>;
   private diveSiteSpecies: Map<number, DiveSiteSpecies>;
+  private images: Map<number, Image>;
+  private speciesImages: Map<number, SpeciesImage>;
+  private postImages: Map<number, PostImage>;
+  private postSpecies: Map<number, PostSpecies>;
   private photos: Map<number, Photo>;
   private reviews: Map<number, Review>;
   private nearbyDiveSites: Map<number, NearbyDiveSite>;
@@ -126,6 +143,10 @@ export class MemStorage implements IStorage {
     diveSite: number;
     species: number;
     diveSiteSpecies: number;
+    image: number;
+    speciesImage: number;
+    postImage: number;
+    postSpecies: number;
     photo: number;
     review: number;
     nearbyDiveSite: number;
@@ -142,6 +163,10 @@ export class MemStorage implements IStorage {
     this.diveSites = new Map();
     this.species = new Map();
     this.diveSiteSpecies = new Map();
+    this.images = new Map();
+    this.speciesImages = new Map();
+    this.postImages = new Map();
+    this.postSpecies = new Map();
     this.photos = new Map();
     this.reviews = new Map();
     this.nearbyDiveSites = new Map();
@@ -157,6 +182,10 @@ export class MemStorage implements IStorage {
       diveSite: 1,
       species: 1,
       diveSiteSpecies: 1,
+      image: 1,
+      speciesImage: 1,
+      postImage: 1,
+      postSpecies: 1,
       photo: 1,
       review: 1,
       diveLog: 1,
@@ -452,7 +481,23 @@ export class MemStorage implements IStorage {
   // Species management
   async createSpecies(species: InsertSpecies): Promise<Species> {
     const id = this.currentIds.species++;
-    const newSpecies: Species = { ...species, id };
+    let primaryImageId = species.primaryImageId ?? null;
+
+    if (!primaryImageId && species.imageUrl) {
+      const image = await this.createImage({
+        url: species.imageUrl,
+        alt: species.commonName,
+        source: 'seed',
+      });
+      primaryImageId = image.id;
+      await this.addSpeciesImage({
+        speciesId: id,
+        imageId: image.id,
+        isPrimary: true,
+      });
+    }
+
+    const newSpecies: Species = { ...species, id, primaryImageId: primaryImageId ?? null };
     this.species.set(id, newSpecies);
     return newSpecies;
   }
@@ -472,6 +517,41 @@ export class MemStorage implements IStorage {
         species.commonName.toLowerCase().includes(lowerQuery) || 
         species.scientificName.toLowerCase().includes(lowerQuery)
     );
+  }
+
+  async getSpeciesImages(speciesId: number): Promise<Image[]> {
+    const links = Array.from(this.speciesImages.values()).filter(
+      link => link.speciesId === speciesId
+    );
+    return links
+      .map(link => this.images.get(link.imageId))
+      .filter((img): img is Image => Boolean(img));
+  }
+
+  async addSpeciesImage(link: InsertSpeciesImage): Promise<SpeciesImage> {
+    const id = this.currentIds.speciesImage++;
+    const record: SpeciesImage = { ...link, id };
+    this.speciesImages.set(id, record);
+
+    if (link.isPrimary) {
+      const existing = this.species.get(link.speciesId);
+      if (existing) {
+        this.species.set(link.speciesId, { ...existing, primaryImageId: link.imageId });
+      }
+    }
+
+    return record;
+  }
+
+  async createImage(image: InsertImage): Promise<Image> {
+    const id = this.currentIds.image++;
+    const record: Image = { ...image, id, createdAt: new Date() };
+    this.images.set(id, record);
+    return record;
+  }
+
+  async getImage(id: number): Promise<Image | undefined> {
+    return this.images.get(id);
   }
 
   // Dive site species relationships
@@ -735,6 +815,28 @@ export class MemStorage implements IStorage {
         };
       })
     );
+  }
+
+  async addPostImages(postId: number, imageIds: number[]): Promise<PostImage[]> {
+    const results: PostImage[] = [];
+    for (const imageId of imageIds) {
+      const id = this.currentIds.postImage++;
+      const record: PostImage = { id, postId, imageId };
+      this.postImages.set(id, record);
+      results.push(record);
+    }
+    return results;
+  }
+
+  async addPostSpecies(postId: number, speciesIds: number[]): Promise<PostSpecies[]> {
+    const results: PostSpecies[] = [];
+    for (const speciesId of speciesIds) {
+      const id = this.currentIds.postSpecies++;
+      const record: PostSpecies = { id, postId, speciesId };
+      this.postSpecies.set(id, record);
+      results.push(record);
+    }
+    return results;
   }
 }
 
