@@ -213,6 +213,7 @@ export const photos = pgTable("photos", {
   userId: integer("user_id").notNull(),
   diveSiteId: integer("dive_site_id").notNull(),
   imageId: integer("image_id"),
+  url: text("url"),
   imageUrl: text("image_url").notNull(),
   caption: text("caption"),
   dateUploaded: timestamp("date_uploaded").defaultNow(),

@@ -16,6 +16,7 @@ import {
   posts,
   postImages,
   postSpecies,
+  photos,
   userCertifications,
   type Species as SpeciesRecord,
   type DiveSite as DiveSiteRecord,
@@ -30,6 +31,7 @@ const speciesCsvPath = path.join(seedDataRoot, 'species', 'species.csv');
 const speciesImagesDir = path.join(seedDataRoot, 'species', 'images');
 const diveSitesCsvPath = path.join(seedDataRoot, 'dive-sites', 'dive-sites.csv');
 const uploadsSeedDir = path.join(process.cwd(), 'uploads', 'seed-species');
+const uploadsImagesDir = path.join(process.cwd(), 'uploads', 'images');
 
 const fallbackImagePool = [
   'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
@@ -52,6 +54,10 @@ function cleanString(value?: string | null): string | null {
     .replace(/�/g, '°')
     .trim();
   return normalized.length ? normalized : null;
+}
+
+function ensureDir(dir: string) {
+  fs.mkdirSync(dir, { recursive: true });
 }
 
 function slugify(value: string): string {
@@ -174,7 +180,7 @@ function extractFunFacts(text: string): string[] {
 }
 
 function ensureUploadsDir() {
-  fs.mkdirSync(uploadsSeedDir, { recursive: true });
+  ensureDir(uploadsSeedDir);
 }
 
 function buildSpeciesImageLookup(): Map<string, string[]> {
@@ -203,6 +209,17 @@ function copyLocalImageToUploads(sourcePath: string, slug: string, index: number
     fs.copyFileSync(sourcePath, targetPath);
   }
   return `/uploads/seed-species/${targetName}`;
+}
+
+function copyLocalImageToUploadsFolder(sourcePath: string, folderDir: string, folderSlug: string, slug: string, index: number): string {
+  ensureDir(folderDir);
+  const ext = path.extname(sourcePath) || '.jpg';
+  const targetName = `${slug}-${folderSlug}-${index + 1}${ext.toLowerCase()}`;
+  const targetPath = path.join(folderDir, targetName);
+  if (!fs.existsSync(targetPath)) {
+    fs.copyFileSync(sourcePath, targetPath);
+  }
+  return `/uploads/${folderSlug}/${targetName}`;
 }
 
 async function ensureImageRecord(
@@ -447,10 +464,30 @@ async function createTablesIfNotExists() {
       );
     `);
 
+    // Photo uploads table (aligns with /api/photos route)
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS photos (
+        id SERIAL PRIMARY KEY,
+        user_id INTEGER NOT NULL,
+        dive_site_id INTEGER NOT NULL,
+        image_id INTEGER,
+        image_url TEXT,
+        caption TEXT,
+        date_uploaded TIMESTAMP DEFAULT NOW(),
+        species_tags JSONB
+      );
+    `);
+
     // Backfill helper columns
     await client.query(`ALTER TABLE IF EXISTS species ADD COLUMN IF NOT EXISTS primary_image_id INTEGER;`);
     await client.query(`ALTER TABLE IF EXISTS posts ADD COLUMN IF NOT EXISTS primary_image_id INTEGER;`);
     await client.query(`ALTER TABLE IF EXISTS photos ADD COLUMN IF NOT EXISTS image_id INTEGER;`);
+    await client.query(`ALTER TABLE IF EXISTS photos ADD COLUMN IF NOT EXISTS image_url TEXT;`);
+    await client.query(`ALTER TABLE IF EXISTS photos ADD COLUMN IF NOT EXISTS url TEXT;`);
+    await client.query(`ALTER TABLE IF EXISTS photos ADD COLUMN IF NOT EXISTS species_tags JSONB;`);
+    await client.query(`ALTER TABLE IF EXISTS photos ADD COLUMN IF NOT EXISTS date_uploaded TIMESTAMP DEFAULT NOW();`);
+    await client.query(`ALTER TABLE IF EXISTS photos ALTER COLUMN url DROP NOT NULL;`);
+    await client.query(`UPDATE photos SET url = image_url WHERE url IS NULL AND image_url IS NOT NULL;`);
 
     // Create post_likes table
     await client.query(`
@@ -1248,6 +1285,40 @@ async function seedSampleTestData() {
         notes: 'Spotted near the turn point',
       });
     }
+  }
+
+  // Seed photo uploads similar to the posts image flow
+  const localImages = buildSpeciesImageLookup();
+  const photoInserts: any[] = [];
+  let photoIdx = 0;
+
+  for (const sp of allSpecies) {
+    const slug = slugify(sp.commonName);
+    const matches = localImages.get(slug) ?? [];
+    if (!matches.length) continue;
+    const owner = photoIdx % 2 === 0 ? userA : userB;
+    const site = allDiveSites[photoIdx % allDiveSites.length];
+    const filePath = matches[0];
+    const url = copyLocalImageToUploadsFolder(filePath, uploadsImagesDir, 'images', slug, photoIdx);
+    const image = await ensureImageRecord(url, { alt: sp.commonName, userId: owner.id, source: 'seed-photo' });
+
+    photoInserts.push({
+      userId: owner.id,
+      diveSiteId: site?.id ?? allDiveSites[0]?.id ?? 1,
+      imageId: image.id,
+      imageUrl: url,
+      url,
+      caption: `${sp.commonName} at ${site?.name ?? 'local site'}`,
+      speciesTags: [sp.id],
+    });
+
+    photoIdx += 1;
+    if (photoIdx >= 12) break; // keep seed concise
+  }
+
+  if (photoInserts.length) {
+    await db.insert(photos).values(photoInserts);
+    console.log(`Seeded ${photoInserts.length} photo uploads with image records`);
   }
 
   console.log('Sample users, posts, and logs seeded');
