@@ -1,6 +1,6 @@
 // Import database and query builder tools
 import { db } from './db';
-import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
+import { eq, and, or, sql, like, isNotNull, gte, lte, inArray } from 'drizzle-orm';
 
 // Import schema types and tables
 import {
@@ -20,6 +20,8 @@ import {
   type Image, type InsertImage, type SpeciesImage, type InsertSpeciesImage,
   type PostImage, type InsertPostImage, type PostSpecies, type InsertPostSpecies
 } from '@shared/schema';
+
+export type SpeciesImageWithFlag = Image & { isPrimary: boolean };
 
 export interface IStorage {
   // Country management
@@ -44,7 +46,7 @@ export interface IStorage {
   getSpecies(id: number): Promise<Species | undefined>;
   getAllSpecies(): Promise<Species[]>;
   searchSpecies(query: string): Promise<Species[]>;
-  getSpeciesImages(speciesId: number): Promise<Image[]>;
+  getSpeciesImages(speciesId: number): Promise<SpeciesImageWithFlag[]>;
   addSpeciesImage(link: InsertSpeciesImage): Promise<SpeciesImage>;
   
   // Dive site species relationships
@@ -284,7 +286,6 @@ export class MemStorage implements IStorage {
       commonName: "Clownfish",
       scientificName: "Amphiprioninae",
       description: "Clownfish are small, brightly colored fish known for their symbiotic relationship with sea anemones. They are popular in marine aquariums due to their striking orange coloration with white stripes.",
-      imageUrl: "https://images.unsplash.com/photo-1544552866-d3ed42536cfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
       conservationStatus: "Least Concern",
       category: "Fish",
       habitats: ["Coral Reefs", "Sea Anemones"],
@@ -294,7 +295,6 @@ export class MemStorage implements IStorage {
       commonName: "Green Sea Turtle",
       scientificName: "Chelonia mydas",
       description: "The green sea turtle is a large sea turtle belonging to the family Cheloniidae. It is the only species in the genus Chelonia. Its range extends throughout tropical and subtropical seas around the world.",
-      imageUrl: "https://images.unsplash.com/photo-1591025207163-942350e47db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
       conservationStatus: "Endangered",
       category: "Reptile",
       habitats: ["Coral Reefs", "Seagrass Beds", "Open Ocean"],
@@ -304,7 +304,6 @@ export class MemStorage implements IStorage {
       commonName: "Reef Shark",
       scientificName: "Carcharhinus melanopterus",
       description: "The blacktip reef shark is a species of requiem shark, characterized by the prominent black tips on its fins. It is a relatively small shark inhabiting shallow, tropical waters around coral reefs.",
-      imageUrl: "https://images.unsplash.com/photo-1560275619-4cc5fa59d3ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
       conservationStatus: "Near Threatened",
       category: "Fish",
       habitats: ["Coral Reefs", "Lagoons", "Shallow Waters"],
@@ -314,16 +313,42 @@ export class MemStorage implements IStorage {
       commonName: "Manta Ray",
       scientificName: "Mobula birostris",
       description: "The giant manta ray is the largest ray in the world, with a wingspan that can reach up to 7 meters. These gentle giants are filter feeders, consuming large quantities of zooplankton.",
-      imageUrl: "https://pixabay.com/get/gaf02b3a3125289a2986417e690c3eb8ece64052d5e2e8369c391846000ac8c971abbb185b9062479775d5e0bb1c5a028c8f6b8483fe384a475adf460a79b4321_1280.jpg",
       conservationStatus: "Vulnerable",
       category: "Fish",
       habitats: ["Open Ocean", "Coastal Areas", "Cleaning Stations"],
     };
     
     const clownfishId = (await this.createSpecies(clownfish)).id;
+    const clownfishImg = await this.createImage({
+      url: "https://images.unsplash.com/photo-1544552866-d3ed42536cfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
+      alt: clownfish.commonName,
+      source: "seed",
+    });
+    await this.addSpeciesImage({ speciesId: clownfishId, imageId: clownfishImg.id, isPrimary: true });
+
     const turtleId = (await this.createSpecies(greenSeaTurtle)).id;
+    const turtleImg = await this.createImage({
+      url: "https://images.unsplash.com/photo-1591025207163-942350e47db2?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
+      alt: greenSeaTurtle.commonName,
+      source: "seed",
+    });
+    await this.addSpeciesImage({ speciesId: turtleId, imageId: turtleImg.id, isPrimary: true });
+
     const sharkId = (await this.createSpecies(reefShark)).id;
+    const sharkImg = await this.createImage({
+      url: "https://images.unsplash.com/photo-1560275619-4cc5fa59d3ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&h=200",
+      alt: reefShark.commonName,
+      source: "seed",
+    });
+    await this.addSpeciesImage({ speciesId: sharkId, imageId: sharkImg.id, isPrimary: true });
+
     const mantaId = (await this.createSpecies(mantaRay)).id;
+    const mantaImg = await this.createImage({
+      url: "https://pixabay.com/get/gaf02b3a3125289a2986417e690c3eb8ece64052d5e2e8369c391846000ac8c971abbb185b9062479775d5e0bb1c5a028c8f6b8483fe384a475adf460a79b4321_1280.jpg",
+      alt: mantaRay.commonName,
+      source: "seed",
+    });
+    await this.addSpeciesImage({ speciesId: mantaId, imageId: mantaImg.id, isPrimary: true });
     
     // Link species to dive sites
     await this.addSpeciesToDiveSite({
@@ -481,23 +506,8 @@ export class MemStorage implements IStorage {
   // Species management
   async createSpecies(species: InsertSpecies): Promise<Species> {
     const id = this.currentIds.species++;
-    let primaryImageId = species.primaryImageId ?? null;
-
-    if (!primaryImageId && species.imageUrl) {
-      const image = await this.createImage({
-        url: species.imageUrl,
-        alt: species.commonName,
-        source: 'seed',
-      });
-      primaryImageId = image.id;
-      await this.addSpeciesImage({
-        speciesId: id,
-        imageId: image.id,
-        isPrimary: true,
-      });
-    }
-
-    const newSpecies: Species = { ...species, id, primaryImageId: primaryImageId ?? null };
+    const primaryImageId = species.primaryImageId ?? null;
+    const newSpecies: Species = { ...species, id, primaryImageId, imageUrl: null };
     this.species.set(id, newSpecies);
     return newSpecies;
   }
@@ -519,25 +529,37 @@ export class MemStorage implements IStorage {
     );
   }
 
-  async getSpeciesImages(speciesId: number): Promise<Image[]> {
+  async getSpeciesImages(speciesId: number): Promise<SpeciesImageWithFlag[]> {
     const links = Array.from(this.speciesImages.values()).filter(
       link => link.speciesId === speciesId
     );
     return links
-      .map(link => this.images.get(link.imageId))
-      .filter((img): img is Image => Boolean(img));
+      .map(link => {
+        const img = this.images.get(link.imageId);
+        if (!img) return null;
+        return { ...img, isPrimary: !!link.isPrimary };
+      })
+      .filter((img): img is SpeciesImageWithFlag => Boolean(img));
   }
 
   async addSpeciesImage(link: InsertSpeciesImage): Promise<SpeciesImage> {
+    const existingSpecies = this.species.get(link.speciesId);
+    const promoteToPrimary = !!link.isPrimary || (existingSpecies ? !existingSpecies.primaryImageId : false);
+    const image = this.images.get(link.imageId);
+    if (promoteToPrimary) {
+      for (const [key, existing] of this.speciesImages.entries()) {
+        if (existing.speciesId === link.speciesId && existing.isPrimary) {
+          this.speciesImages.set(key, { ...existing, isPrimary: false });
+        }
+      }
+    }
+
     const id = this.currentIds.speciesImage++;
-    const record: SpeciesImage = { ...link, id };
+    const record: SpeciesImage = { ...link, id, isPrimary: promoteToPrimary };
     this.speciesImages.set(id, record);
 
-    if (link.isPrimary) {
-      const existing = this.species.get(link.speciesId);
-      if (existing) {
-        this.species.set(link.speciesId, { ...existing, primaryImageId: link.imageId });
-      }
+    if (existingSpecies && promoteToPrimary) {
+      this.species.set(link.speciesId, { ...existingSpecies, primaryImageId: link.imageId, imageUrl: image?.url ?? existingSpecies.imageUrl });
     }
 
     return record;
@@ -841,6 +863,37 @@ export class MemStorage implements IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
+  // Ensure species records include an image URL derived from linked images
+  private async attachImagesToSpeciesList(items: (typeof species.$inferSelect)[]): Promise<Species[]> {
+    if (items.length === 0) return [];
+
+    const speciesIds = items.map((sp) => sp.id);
+    const imageRows = await db
+      .select({
+        speciesId: speciesImages.speciesId,
+        image: images,
+        isPrimary: speciesImages.isPrimary,
+      })
+      .from(speciesImages)
+      .leftJoin(images, eq(speciesImages.imageId, images.id))
+      .where(inArray(speciesImages.speciesId, speciesIds));
+
+    const grouped = new Map<number, { image: Image | null; isPrimary: boolean }[]>();
+    for (const row of imageRows) {
+      const list = grouped.get(row.speciesId) ?? [];
+      list.push({ image: row.image ?? null, isPrimary: !!row.isPrimary });
+      grouped.set(row.speciesId, list);
+    }
+
+    return items.map((sp) => {
+      const linked = grouped.get(sp.id) ?? [];
+      const primary = linked.find((row) => row.isPrimary && row.image) ?? linked.find((row) => row.image);
+      const primaryUrl = primary?.image?.url ?? null;
+      const primaryImageId = primary?.image?.id ?? sp.primaryImageId ?? null;
+      return { ...sp, imageUrl: primaryUrl, primaryImageId } as Species;
+    });
+  }
+
   // User Management
   async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
@@ -971,20 +1024,22 @@ export class DatabaseStorage implements IStorage {
         description: speciesData.description || null,
         conservationStatus: speciesData.conservationStatus || null,
         habitats: speciesData.habitats || null,
-        imageUrl: speciesData.imageUrl || null,
-        category: speciesData.category || null
+        category: speciesData.category || null,
       })
       .returning();
-    return newSpecies;
+    const [withImage] = await this.attachImagesToSpeciesList([newSpecies]);
+    return withImage ?? { ...newSpecies, imageUrl: null };
   }
 
   async getSpecies(id: number): Promise<Species | undefined> {
-    const [speciesItem] = await db.select().from(species).where(eq(species.id, id));
-    return speciesItem;
+    const result = await db.select().from(species).where(eq(species.id, id));
+    const [withImage] = await this.attachImagesToSpeciesList(result);
+    return withImage;
   }
 
   async getAllSpecies(): Promise<Species[]> {
-    return await db.select().from(species);
+    const rows = await db.select().from(species);
+    return this.attachImagesToSpeciesList(rows);
   }
 
   async searchSpecies(query: string): Promise<Species[]> {
@@ -993,7 +1048,7 @@ export class DatabaseStorage implements IStorage {
     }
     
     const lowerQuery = `%${query.toLowerCase()}%`;
-    return await db.select().from(species).where(
+    const rows = await db.select().from(species).where(
       or(
         like(sql`lower(${species.commonName})`, lowerQuery),
         like(sql`lower(${species.scientificName})`, lowerQuery),
@@ -1003,6 +1058,7 @@ export class DatabaseStorage implements IStorage {
         )
       )
     );
+    return this.attachImagesToSpeciesList(rows);
   }
 
   // Dive Site Species Relationships
@@ -1037,9 +1093,12 @@ export class DatabaseStorage implements IStorage {
         eq(diveSiteSpecies.speciesId, species.id)
       )
       .where(eq(diveSiteSpecies.diveSiteId, diveSiteId));
-    
+
+    const speciesWithImages = await this.attachImagesToSpeciesList(results.map((result) => result.species));
+    const imageMap = new Map(speciesWithImages.map((sp) => [sp.id, sp]));
+
     return results.map(result => ({
-      species: result.species,
+      species: imageMap.get(result.species.id) ?? { ...result.species, imageUrl: null },
       frequency: result.frequency || 'Unknown'
     }));
   }

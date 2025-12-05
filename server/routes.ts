@@ -1,4 +1,4 @@
-import type { Express, Request, Response } from "express";
+import type { Express, Request, Response, NextFunction } from "express";
 import { createServer, type Server } from "http";
 import { storage, db } from "./database-storage";
 import { sql } from "drizzle-orm";
@@ -31,9 +31,46 @@ import {
 import bcrypt from "bcryptjs";
 import { OceanDataService } from "./services/oceanData";
 import { EmailService } from "./services/emailService";
+import { optimizeImage } from "./services/imageProcessor";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
+
+type UploadCategory = "images" | "species" | "dive-sites";
+const allowedUploadCategories: UploadCategory[] = ["images", "species", "dive-sites"];
+
+const sanitizeUploadCategory = (raw?: string | null): UploadCategory => {
+  if (!raw) return "images";
+  return allowedUploadCategories.includes(raw as UploadCategory)
+    ? (raw as UploadCategory)
+    : "images";
+};
+
+const resolveUploadCategory = (req: Request): UploadCategory =>
+  sanitizeUploadCategory(
+    (req as any).uploadCategory ||
+      (req.query?.category as string | undefined) ||
+      (req.query?.folder as string | undefined),
+  );
+
+const setUploadCategory =
+  (category?: UploadCategory) =>
+  (req: Request, _res: Response, next: NextFunction) => {
+    if (category) {
+      (req as any).uploadCategory = category;
+    } else if (req.query?.category || req.query?.folder) {
+      (req as any).uploadCategory = sanitizeUploadCategory(
+        (req.query?.category as string) || (req.query?.folder as string),
+      );
+    }
+    next();
+  };
+
+const buildUploadPrefix = (category: UploadCategory) => {
+  if (category === "species") return "species";
+  if (category === "dive-sites") return "dive-site";
+  return "user-image";
+};
 
 // Configure multer for file uploads
 const imageFileFilter: multer.Options["fileFilter"] = (req, file, cb) => {
@@ -68,15 +105,20 @@ const upload = multer({
 
 const imageStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadDir = path.join(process.cwd(), "uploads", "images");
+    const category = resolveUploadCategory(req);
+    const uploadDir = path.join(process.cwd(), "uploads", category);
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
+    const category = resolveUploadCategory(req);
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, `user-image-${uniqueSuffix}${path.extname(file.originalname)}`);
+    cb(
+      null,
+      `${buildUploadPrefix(category)}-${uniqueSuffix}${path.extname(file.originalname)}`,
+    );
   },
 });
 
@@ -518,7 +560,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ error: "Species not found" });
       }
 
-      res.json(species);
+      const images = await storage.getSpeciesImages(speciesId);
+      const primaryImage = images.find((img) => img.isPrimary) ?? images[0] ?? null;
+
+      res.json({
+        ...species,
+        images,
+        primaryImage,
+      });
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch species details" });
     }
@@ -540,7 +589,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const speciesId = parseInt(req.params.id);
       const images = await storage.getSpeciesImages(speciesId);
-      res.json({ success: true, images });
+      const primaryImage = images.find((img) => img.isPrimary) ?? images[0] ?? null;
+
+      res.json({
+        success: true,
+        images,
+        primaryImage,
+        primaryImageId: primaryImage?.id ?? null,
+        count: images.length,
+      });
     } catch (error) {
       console.error("Error fetching species images:", error);
       res.status(500).json({ error: "Failed to fetch species images" });
@@ -585,7 +642,87 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/images", imageUpload.single("image"), async (req: Request, res: Response) => {
+  app.post(
+    "/api/species/:id/images/upload",
+    setUploadCategory("species"),
+    imageUpload.single("image"),
+    async (req: Request, res: Response) => {
+      try {
+        if (!req.session?.userId) {
+          return res.status(401).json({ error: "Not authenticated" });
+        }
+
+        const speciesId = parseInt(req.params.id);
+        if (isNaN(speciesId)) {
+          return res.status(400).json({ error: "Invalid species id" });
+        }
+
+        const speciesRecord = await storage.getSpecies(speciesId);
+        if (!speciesRecord) {
+          return res.status(404).json({ error: "Species not found" });
+        }
+
+        if (!req.file) {
+          return res.status(400).json({ error: "No image uploaded" });
+        }
+
+        let processedFilename = req.file.filename;
+
+        try {
+          const optimized = await optimizeImage(req.file.path);
+          processedFilename = path.basename(optimized.outputPath);
+        } catch (optimizationError) {
+          console.error(
+            "Image optimization failed, using original file:",
+            optimizationError,
+          );
+        }
+
+        const category = resolveUploadCategory(req);
+        const rawIsPrimary = req.body?.isPrimary;
+        const isPrimary =
+          rawIsPrimary === true ||
+          rawIsPrimary === "true" ||
+          rawIsPrimary === "1";
+        const alt =
+          (req.body && req.body.alt) ||
+          speciesRecord.commonName ||
+          req.file.originalname;
+        const imageUrl = `/uploads/${category}/${processedFilename}`;
+
+        const image = await storage.createImage({
+          url: imageUrl,
+          alt,
+          userId: req.session.userId,
+          source: "user-upload",
+        });
+
+        const link = await storage.addSpeciesImage({
+          speciesId,
+          imageId: image.id,
+          isPrimary,
+        });
+
+        const images = await storage.getSpeciesImages(speciesId);
+        const primaryImage = images.find((img) => img.isPrimary) ?? images[0] ?? null;
+        const updatedSpecies = await storage.getSpecies(speciesId);
+
+        res.status(201).json({
+          success: true,
+          image,
+          link,
+          species: updatedSpecies,
+          images,
+          primaryImage,
+        });
+      } catch (error) {
+        console.error("Error uploading species image:", error);
+        res.status(500).json({ error: "Failed to upload species image" });
+      }
+    },
+  );
+
+  app.post("/api/images", setUploadCategory(), imageUpload.single("image"), async (req: Request, res: Response) => {
     try {
       if (!req.session?.userId) {
         return res.status(401).json({ error: "Not authenticated" });
@@ -595,7 +732,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ error: "No image uploaded" });
       }
 
-      const imageUrl = `/uploads/images/${req.file.filename}`;
+      let processedFilename = req.file.filename;
+
+      try {
+        const optimized = await optimizeImage(req.file.path);
+        processedFilename = path.basename(optimized.outputPath);
+      } catch (optimizationError) {
+        console.error("Image optimization failed, using original file:", optimizationError);
+      }
+
+      const category = resolveUploadCategory(req);
+      const imageUrl = `/uploads/${category}/${processedFilename}`;
       const alt = (req.body && req.body.alt) || req.file.originalname;
 
       const image = await storage.createImage({

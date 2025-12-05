@@ -142,7 +142,6 @@ export const species = pgTable("species", {
   commonName: text("common_name").notNull(),
   scientificName: text("scientific_name").notNull(),
   description: text("description"),
-  imageUrl: text("image_url"),
   conservationStatus: text("conservation_status"),
   category: text("category"), // Fish, Mammal, Reptile, Invertebrate, Coral, etc.
   habitats: text("habitats").array(),
@@ -306,7 +305,8 @@ export type InsertDiveSite = z.infer<typeof insertDiveSiteSchema>;
 export type Image = typeof images.$inferSelect;
 export type InsertImage = z.infer<typeof insertImageSchema>;
 
-export type Species = typeof species.$inferSelect;
+// Species records do not store an image_url column anymore; imageUrl is derived from linked images.
+export type Species = typeof species.$inferSelect & { imageUrl: string | null };
 export type InsertSpecies = z.infer<typeof insertSpeciesSchema>;
 
 export type DiveSiteSpecies = typeof diveSiteSpecies.$inferSelect;

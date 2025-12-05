@@ -9,3 +9,4 @@ sessions
 .env
 .env.*
 .env
+/uploads

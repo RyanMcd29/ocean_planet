@@ -25,7 +25,7 @@ import {
 } from "@shared/schema";
 
 // Import the storage interface
-import { IStorage } from './storage';
+import { IStorage, SpeciesImageWithFlag } from './storage';
 
 export class DatabaseStorage implements IStorage {
   // Ensure species records always return a usable image URL from the central images table
@@ -53,9 +53,9 @@ export class DatabaseStorage implements IStorage {
     return items.map((sp) => {
       const linked = grouped.get(sp.id) ?? [];
       const primary = linked.find((row) => row.isPrimary && row.image) ?? linked.find((row) => row.image);
-      const imageUrl = sp.imageUrl || primary?.image?.url || null;
-      const primaryImageId = sp.primaryImageId ?? primary?.image?.id ?? null;
-      return { ...sp, imageUrl, primaryImageId } as Species;
+      const primaryUrl = primary?.image?.url ?? null;
+      const primaryImageId = primary?.image?.id ?? sp.primaryImageId ?? null;
+      return { ...sp, imageUrl: primaryUrl, primaryImageId } as Species;
     });
   }
 
@@ -332,7 +332,6 @@ export class DatabaseStorage implements IStorage {
         description: speciesData.description ?? null,
         conservationStatus: speciesData.conservationStatus ?? null,
         habitats: speciesData.habitats ?? null,
-        imageUrl: speciesData.imageUrl ?? null,
         category: speciesData.category ?? null,
         primaryImageId: speciesData.primaryImageId ?? null
       })
@@ -340,31 +339,7 @@ export class DatabaseStorage implements IStorage {
 
     let speciesRecord = created;
 
-    // If a new image URL was provided, mirror it into the central images table
-    if (!speciesData.primaryImageId && speciesData.imageUrl) {
-      const [image] = await db
-        .insert(images)
-        .values({
-          url: speciesData.imageUrl,
-          alt: speciesData.commonName,
-          source: 'seed',
-        })
-        .returning();
-
-      await db.insert(speciesImages).values({
-        speciesId: created.id,
-        imageId: image.id,
-        isPrimary: true,
-      });
-
-      const [updated] = await db
-        .update(species)
-        .set({ primaryImageId: image.id })
-        .where(eq(species.id, created.id))
-        .returning();
-
-      speciesRecord = updated;
-    } else if (speciesData.primaryImageId) {
+    if (speciesData.primaryImageId) {
       await db.insert(speciesImages).values({
         speciesId: created.id,
         imageId: speciesData.primaryImageId,
@@ -372,7 +347,9 @@ export class DatabaseStorage implements IStorage {
       });
     }
 
-    return speciesRecord;
+    // Return with attached primary image data if available
+    const withImages = await this.getSpecies(speciesRecord.id);
+    return withImages ?? { ...speciesRecord, imageUrl: null };
   }
 
   async getSpecies(id: number): Promise<Species | undefined> {
@@ -407,32 +384,50 @@ export class DatabaseStorage implements IStorage {
     return this.attachImagesToSpeciesList(results);
   }
 
-  async getSpeciesImages(speciesId: number): Promise<Image[]> {
+  async getSpeciesImages(speciesId: number): Promise<SpeciesImageWithFlag[]> {
     const rows = await db
       .select({
         image: images,
+        isPrimary: speciesImages.isPrimary,
       })
       .from(speciesImages)
       .leftJoin(images, eq(speciesImages.imageId, images.id))
       .where(eq(speciesImages.speciesId, speciesId));
 
     return rows
-      .map((row) => row.image)
-      .filter((img): img is Image => Boolean(img));
+      .map((row) => {
+        if (!row.image) return null;
+        return { ...row.image, isPrimary: !!row.isPrimary };
+      })
+      .filter((img): img is SpeciesImageWithFlag => Boolean(img));
   }
 
   async addSpeciesImage(link: InsertSpeciesImage): Promise<SpeciesImage> {
-    const [record] = await db.insert(speciesImages).values(link).returning();
-
-    const [image] = await db.select().from(images).where(eq(images.id, link.imageId));
     const [sp] = await db.select().from(species).where(eq(species.id, link.speciesId));
+    const [image] = await db.select().from(images).where(eq(images.id, link.imageId));
+    const promoteToPrimary =
+      !!link.isPrimary || (sp ? !sp.primaryImageId : false);
 
-    if (image && sp && (link.isPrimary || !sp.primaryImageId)) {
+    if (promoteToPrimary) {
+      await db
+        .update(speciesImages)
+        .set({ isPrimary: false })
+        .where(eq(speciesImages.speciesId, link.speciesId));
+    }
+
+    const [record] = await db
+      .insert(speciesImages)
+      .values({
+        ...link,
+        isPrimary: promoteToPrimary,
+      })
+      .returning();
+
+    if (image && sp && promoteToPrimary) {
       await db
         .update(species)
         .set({
           primaryImageId: image.id,
-          imageUrl: sp.imageUrl || image.url,
         })
         .where(eq(species.id, link.speciesId));
     }

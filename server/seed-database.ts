@@ -30,8 +30,8 @@ const seedDataRoot = path.join(process.cwd(), 'server', 'seed-data');
 const speciesCsvPath = path.join(seedDataRoot, 'species', 'species.csv');
 const speciesImagesDir = path.join(seedDataRoot, 'species', 'images');
 const diveSitesCsvPath = path.join(seedDataRoot, 'dive-sites', 'dive-sites.csv');
-const uploadsSeedDir = path.join(process.cwd(), 'uploads', 'seed-species');
 const uploadsImagesDir = path.join(process.cwd(), 'uploads', 'images');
+const uploadsSpeciesDir = path.join(process.cwd(), 'uploads', 'species');
 
 const fallbackImagePool = [
   'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80',
@@ -180,7 +180,7 @@ function extractFunFacts(text: string): string[] {
 }
 
 function ensureUploadsDir() {
-  ensureDir(uploadsSeedDir);
+  ensureDir(uploadsSpeciesDir);
 }
 
 function buildSpeciesImageLookup(): Map<string, string[]> {
@@ -204,11 +204,11 @@ function copyLocalImageToUploads(sourcePath: string, slug: string, index: number
   ensureUploadsDir();
   const ext = path.extname(sourcePath) || '.jpg';
   const targetName = `${slug}-${index + 1}${ext.toLowerCase()}`;
-  const targetPath = path.join(uploadsSeedDir, targetName);
+  const targetPath = path.join(uploadsSpeciesDir, targetName);
   if (!fs.existsSync(targetPath)) {
     fs.copyFileSync(sourcePath, targetPath);
   }
-  return `/uploads/seed-species/${targetName}`;
+  return `/uploads/species/${targetName}`;
 }
 
 function copyLocalImageToUploadsFolder(sourcePath: string, folderDir: string, folderSlug: string, slug: string, index: number): string {
@@ -220,6 +220,36 @@ function copyLocalImageToUploadsFolder(sourcePath: string, folderDir: string, fo
     fs.copyFileSync(sourcePath, targetPath);
   }
   return `/uploads/${folderSlug}/${targetName}`;
+}
+
+async function downloadImageToUploads(
+  url: string,
+  slug: string,
+  index: number,
+  folderSlug: string = 'species',
+): Promise<string | null> {
+  try {
+    const dir = path.join(process.cwd(), 'uploads', folderSlug);
+    ensureDir(dir);
+
+    const parsed = new URL(url);
+    const ext = path.extname(parsed.pathname) || '.jpg';
+    const targetName = `${slug}-${folderSlug}-${index + 1}${ext.toLowerCase()}`;
+    const targetPath = path.join(dir, targetName);
+    if (!fs.existsSync(targetPath)) {
+      const res = await fetch(url);
+      if (!res.ok) {
+        console.warn(`Failed to fetch image ${url}: ${res.status} ${res.statusText}`);
+        return null;
+      }
+      const arrayBuffer = await res.arrayBuffer();
+      await fs.promises.writeFile(targetPath, Buffer.from(arrayBuffer));
+    }
+    return `/uploads/${folderSlug}/${targetName}`;
+  } catch (err) {
+    console.warn(`Failed to download image ${url}:`, err);
+    return null;
+  }
 }
 
 async function ensureImageRecord(
@@ -480,6 +510,7 @@ async function createTablesIfNotExists() {
 
     // Backfill helper columns
     await client.query(`ALTER TABLE IF EXISTS species ADD COLUMN IF NOT EXISTS primary_image_id INTEGER;`);
+    await client.query(`ALTER TABLE IF EXISTS species DROP COLUMN IF EXISTS image_url;`);
     await client.query(`ALTER TABLE IF EXISTS posts ADD COLUMN IF NOT EXISTS primary_image_id INTEGER;`);
     await client.query(`ALTER TABLE IF EXISTS photos ADD COLUMN IF NOT EXISTS image_id INTEGER;`);
     await client.query(`ALTER TABLE IF EXISTS photos ADD COLUMN IF NOT EXISTS image_url TEXT;`);
@@ -735,7 +766,6 @@ async function seedSpeciesFromCsv(): Promise<SpeciesRecord[]> {
 
     const optionalFields: Record<string, any> = {
       conservationStatus: cleanString(row['Conservation Status']),
-      imageUrl: cleanString(row['Photo']),
       domain: cleanString(row['Domain']),
       kingdom: cleanString(row['Kingdom']),
       phylum: cleanString(row['Phylum']),
@@ -762,10 +792,10 @@ async function seedSpeciesFromCsv(): Promise<SpeciesRecord[]> {
     const [existing] = await db.select().from(species).where(eq(species.commonName, commonName));
     if (existing) {
       const [updated] = await db.update(species).set(payload).where(eq(species.id, existing.id)).returning();
-      seeded.push(updated);
+      seeded.push({ ...updated, imageUrl: null });
     } else {
       const [created] = await db.insert(species).values(payload).returning();
-      seeded.push(created);
+      seeded.push({ ...created, imageUrl: null });
     }
   }
 
@@ -897,15 +927,16 @@ async function addBlackspottedTuskfish() {
   }
   
   console.log('Adding Blackspotted Tuskfish with full taxonomic data...');
-  
-  await db.insert(species).values({
+
+  const tuskImageUrl = "https://images.unsplash.com/photo-1535591273668-578e31182c4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80";
+
+  const [tuskfish] = await db.insert(species).values({
     commonName: "Blackspotted Tuskfish",
     scientificName: "Choerodon schoenleinii",
     description: "Large tuskfish with black spot at base of dorsal fin. This impressive reef fish is known for its powerful jaws and distinctive markings, making it a favorite among divers exploring Western Australia's coral and rocky reefs.",
     conservationStatus: "Least Concern",
     category: "Fish",
     habitats: ["Coral Reef", "Rocky Reef", "Tropical Waters"],
-    imageUrl: "https://images.unsplash.com/photo-1535591273668-578e31182c4f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     
     // Taxonomic classification
     domain: "Eukarya",
@@ -943,7 +974,19 @@ async function addBlackspottedTuskfish() {
       "💪 They have powerful crushing jaws that can crack open mollusks and crustaceans",
       "🏠 Large males defend territories with multiple females in a harem-like social structure"
     ]
+  }).returning();
+
+  const stagedTuskImage = await downloadImageToUploads(tuskImageUrl, slugify(tuskfish.commonName), 0, 'species');
+  const tuskImage = await ensureImageRecord(stagedTuskImage || tuskImageUrl, { alt: tuskfish.commonName, source: "seed" });
+  await db.insert(speciesImages).values({
+    speciesId: tuskfish.id,
+    imageId: tuskImage.id,
+    isPrimary: true,
   });
+  await db
+    .update(species)
+    .set({ primaryImageId: tuskImage.id })
+    .where(eq(species.id, tuskfish.id));
   
   console.log('Successfully added Blackspotted Tuskfish!');
 }
@@ -1020,22 +1063,38 @@ async function seedSpeciesImages() {
     const existingImageIds = new Set(existingLinks.map((link) => link.imageId));
     let hasPrimary = existingLinks.some((link) => link.isPrimary);
 
-    const mediaSources = new Set<string>();
     const localMatches = localImages.get(slug) || [];
 
+    // Prefer a locally-seeded image as the primary (and reset any old primary)
+    const preferLocalPrimary = localMatches.length > 0;
+    if (preferLocalPrimary && hasPrimary) {
+      await db.update(speciesImages).set({ isPrimary: false }).where(eq(speciesImages.speciesId, sp.id));
+      hasPrimary = false;
+    }
+
+    const stagedSources: string[] = [];
+
     localMatches.forEach((file, idx) => {
-      mediaSources.add(copyLocalImageToUploads(file, slug, idx));
+      stagedSources.push(copyLocalImageToUploads(file, slug, idx));
     });
 
-    if (photoFromCsv) mediaSources.add(photoFromCsv);
-    if (sp.imageUrl) mediaSources.add(sp.imageUrl);
+    if (photoFromCsv) {
+      const staged = await downloadImageToUploads(photoFromCsv, slug, stagedSources.length, 'species');
+      if (staged) stagedSources.push(staged);
+    }
 
-    if (mediaSources.size === 0) {
-      mediaSources.add(fallbackImagePool[sp.id % fallbackImagePool.length]);
+    if (stagedSources.length === 0) {
+      const fallback = await downloadImageToUploads(
+        fallbackImagePool[sp.id % fallbackImagePool.length],
+        slug,
+        stagedSources.length,
+        'species',
+      );
+      if (fallback) stagedSources.push(fallback);
     }
 
     let index = 0;
-    for (const url of mediaSources) {
+    for (const url of stagedSources) {
       const image = await ensureImageRecord(url, { alt: sp.commonName });
       if (existingImageIds.has(image.id)) {
         index += 1;
@@ -1055,7 +1114,6 @@ async function seedSpeciesImages() {
           .update(species)
           .set({
             primaryImageId: image.id,
-            imageUrl: url,
           })
           .where(eq(species.id, sp.id));
         hasPrimary = true;
