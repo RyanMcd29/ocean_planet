@@ -36,11 +36,34 @@ export async function optimizeImage(
   options: ImageProcessOptions = {},
 ): Promise<ImageProcessResult> {
   const resolvedInput = path.resolve(inputPath);
-  const outputPath = options.outputPath
+  const desiredOutput = options.outputPath
     ? path.resolve(options.outputPath)
     : resolvedInput;
 
-  const metadata = await sharp(resolvedInput, { failOnError: false }).metadata();
+  // Sharp cannot read and write to the same file path; use a temp file when needed
+  const ext = path.extname(desiredOutput) || ".jpg";
+  const tempOutput =
+    desiredOutput === resolvedInput
+      ? path.join(
+          path.dirname(resolvedInput),
+          `${path.basename(resolvedInput, ext)}-optimized${ext}`,
+        )
+      : desiredOutput;
+
+  let metadata;
+  try {
+    metadata = await sharp(resolvedInput, { failOnError: false }).metadata();
+  } catch (err) {
+    const stats = await fs.stat(resolvedInput);
+    return {
+      outputPath: desiredOutput,
+      width: 0,
+      height: 0,
+      size: stats.size,
+      format: "unknown",
+      wasResized: false,
+    };
+  }
 
   const resizeOptions: sharp.ResizeOptions = {
     width: options.maxWidth ?? DEFAULT_MAX_DIMENSION,
@@ -74,15 +97,20 @@ export async function optimizeImage(
     pipeline = pipeline.jpeg({ quality, mozjpeg: true });
   }
 
-  await pipeline.toFile(outputPath);
+  await pipeline.toFile(tempOutput);
 
-  const optimizedMetadata = await sharp(outputPath, {
+  // If we wrote to a temp file, replace the original
+  if (tempOutput !== desiredOutput) {
+    await fs.rename(tempOutput, desiredOutput);
+  }
+
+  const optimizedMetadata = await sharp(desiredOutput, {
     failOnError: false,
   }).metadata();
-  const stats = await fs.stat(outputPath);
+  const stats = await fs.stat(desiredOutput);
 
   return {
-    outputPath,
+    outputPath: desiredOutput,
     width: optimizedMetadata.width ?? metadata.width ?? 0,
     height: optimizedMetadata.height ?? metadata.height ?? 0,
     size: stats.size,
@@ -91,6 +119,23 @@ export async function optimizeImage(
       Boolean(metadata.width && metadata.width > targetWidth) ||
       Boolean(metadata.height && metadata.height > targetHeight),
   };
+}
+
+/**
+ * Convenience helper to downscale an image in-place to a web-friendly size (1600px max)
+ * while keeping reasonable quality. Returns the same result shape as optimizeImage.
+ */
+export async function downscaleForWeb(
+  inputPath: string,
+  overrides: Partial<ImageProcessOptions> = {},
+): Promise<ImageProcessResult> {
+  return optimizeImage(inputPath, {
+    maxWidth: DEFAULT_MAX_DIMENSION,
+    maxHeight: DEFAULT_MAX_DIMENSION,
+    quality: DEFAULT_QUALITY,
+    ...overrides,
+    outputPath: overrides.outputPath ?? inputPath,
+  });
 }
 
 const normalizeFormat = (format?: string): SupportedFormat | "jpeg" => {
@@ -105,3 +150,19 @@ const normalizeFormat = (format?: string): SupportedFormat | "jpeg" => {
   // Default to jpeg for anything else (bmp, tiff, gif, unknown, etc.)
   return "jpeg";
 };
+
+/**
+ * Gracefully optimize an image, tolerating unsupported/invalid inputs.
+ * Returns undefined if the file could not be processed at all.
+ */
+export async function safeOptimizeImage(
+  inputPath: string,
+  options: ImageProcessOptions = {},
+): Promise<ImageProcessResult | undefined> {
+  try {
+    return await optimizeImage(inputPath, options);
+  } catch (err) {
+    console.warn(`safeOptimizeImage: skipping file ${inputPath}`, err);
+    return undefined;
+  }
+}

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import crypto from 'crypto';
 import { parse } from 'csv-parse/sync';
 import { db, pool } from './db';
 import {
@@ -22,6 +23,7 @@ import {
   type DiveSite as DiveSiteRecord,
 } from "@shared/schema";
 import { sql, eq, and } from "drizzle-orm";
+import { safeOptimizeImage } from "./services/imageProcessor";
 
 type SpeciesCsvRow = Record<string, string>;
 type DiveSiteCsvRow = Record<string, string>;
@@ -58,6 +60,10 @@ function cleanString(value?: string | null): string | null {
 
 function ensureDir(dir: string) {
   fs.mkdirSync(dir, { recursive: true });
+}
+
+function ensureUploadsDir() {
+  ensureDir(uploadsSpeciesDir);
 }
 
 function slugify(value: string): string {
@@ -179,10 +185,6 @@ function extractFunFacts(text: string): string[] {
     .slice(0, 3);
 }
 
-function ensureUploadsDir() {
-  ensureDir(uploadsSpeciesDir);
-}
-
 function buildSpeciesImageLookup(): Map<string, string[]> {
   const lookup = new Map<string, string[]>();
   if (!fs.existsSync(speciesImagesDir)) return lookup;
@@ -200,15 +202,37 @@ function buildSpeciesImageLookup(): Map<string, string[]> {
   return lookup;
 }
 
-function copyLocalImageToUploads(sourcePath: string, slug: string, index: number): string {
+type StagedImage = { url: string; filePath: string };
+
+async function optimizeLocalImage(filePath: string): Promise<boolean> {
+  const result = await safeOptimizeImage(filePath, {
+    maxWidth: 1600,
+    maxHeight: 1600,
+    quality: 72,
+    outputPath: filePath,
+  });
+  return Boolean(result);
+}
+
+function hashForUrl(value: string): string {
+  return crypto.createHash("md5").update(value).digest("hex").slice(0, 10);
+}
+
+async function copyLocalImageToUploads(sourcePath: string, slug: string, index: number): Promise<StagedImage> {
   ensureUploadsDir();
   const ext = path.extname(sourcePath) || '.jpg';
-  const targetName = `${slug}-${index + 1}${ext.toLowerCase()}`;
+  const fileBuffer = await fs.promises.readFile(sourcePath);
+  const contentHash = crypto.createHash("md5").update(fileBuffer).digest("hex").slice(0, 12);
+  const targetName = `${slug}-${contentHash}-${index + 1}${ext.toLowerCase()}`;
   const targetPath = path.join(uploadsSpeciesDir, targetName);
   if (!fs.existsSync(targetPath)) {
-    fs.copyFileSync(sourcePath, targetPath);
+    await fs.promises.writeFile(targetPath, fileBuffer);
   }
-  return `/uploads/species/${targetName}`;
+  const optimized = await optimizeLocalImage(targetPath);
+  if (!optimized) {
+    return ensurePlaceholderImage();
+  }
+  return { url: `/uploads/species/${targetName}`, filePath: targetPath };
 }
 
 function copyLocalImageToUploadsFolder(sourcePath: string, folderDir: string, folderSlug: string, slug: string, index: number): string {
@@ -219,22 +243,24 @@ function copyLocalImageToUploadsFolder(sourcePath: string, folderDir: string, fo
   if (!fs.existsSync(targetPath)) {
     fs.copyFileSync(sourcePath, targetPath);
   }
+  optimizeLocalImage(targetPath).catch(() => {});
   return `/uploads/${folderSlug}/${targetName}`;
 }
 
 async function downloadImageToUploads(
   url: string,
   slug: string,
-  index: number,
+  _index: number,
   folderSlug: string = 'species',
-): Promise<string | null> {
+): Promise<StagedImage | null> {
   try {
     const dir = path.join(process.cwd(), 'uploads', folderSlug);
     ensureDir(dir);
 
     const parsed = new URL(url);
     const ext = path.extname(parsed.pathname) || '.jpg';
-    const targetName = `${slug}-${folderSlug}-${index + 1}${ext.toLowerCase()}`;
+    const hash = hashForUrl(url);
+    const targetName = `${hash}${ext.toLowerCase()}`;
     const targetPath = path.join(dir, targetName);
     if (!fs.existsSync(targetPath)) {
       const res = await fetch(url);
@@ -245,11 +271,29 @@ async function downloadImageToUploads(
       const arrayBuffer = await res.arrayBuffer();
       await fs.promises.writeFile(targetPath, Buffer.from(arrayBuffer));
     }
-    return `/uploads/${folderSlug}/${targetName}`;
+    const optimized = await optimizeLocalImage(targetPath);
+    if (!optimized) {
+      return null;
+    }
+    return { url: `/uploads/${folderSlug}/${targetName}`, filePath: targetPath };
   } catch (err) {
     console.warn(`Failed to download image ${url}:`, err);
     return null;
   }
+}
+
+async function ensurePlaceholderImage(): Promise<StagedImage> {
+  const dir = uploadsSpeciesDir;
+  ensureDir(dir);
+  const targetName = "placeholder-species.png";
+  const targetPath = path.join(dir, targetName);
+  if (!fs.existsSync(targetPath)) {
+    const pngBase64 =
+      "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAIElEQVQoU2NkYGD4z0AEYBxVSFUBCjAIjBqoAaNGwAgAAGayA20JQz6yAAAAAElFTkSuQmCC";
+    const buffer = Buffer.from(pngBase64, "base64");
+    await fs.promises.writeFile(targetPath, buffer);
+  }
+  return { url: `/uploads/species/${targetName}`, filePath: targetPath };
 }
 
 async function ensureImageRecord(
@@ -976,8 +1020,10 @@ async function addBlackspottedTuskfish() {
     ]
   }).returning();
 
-  const stagedTuskImage = await downloadImageToUploads(tuskImageUrl, slugify(tuskfish.commonName), 0, 'species');
-  const tuskImage = await ensureImageRecord(stagedTuskImage || tuskImageUrl, { alt: tuskfish.commonName, source: "seed" });
+  const stagedTuskImage =
+    (await downloadImageToUploads(tuskImageUrl, slugify(tuskfish.commonName), 0, 'species')) ||
+    (await ensurePlaceholderImage());
+  const tuskImage = await ensureImageRecord(stagedTuskImage.url, { alt: tuskfish.commonName, source: "seed" });
   await db.insert(speciesImages).values({
     speciesId: tuskfish.id,
     imageId: tuskImage.id,
@@ -1050,6 +1096,7 @@ async function linkBlackspottedTuskfishToDiveSites() {
 
 async function seedSpeciesImages() {
   console.log('Backfilling species images (including uploads) into central images table...');
+  ensureUploadsDir();
   const allSpecies = await db.select().from(species);
   const localImages = buildSpeciesImageLookup();
   let createdLinks = 0;
@@ -1072,11 +1119,14 @@ async function seedSpeciesImages() {
       hasPrimary = false;
     }
 
-    const stagedSources: string[] = [];
+    const stagedSources: StagedImage[] = [];
 
-    localMatches.forEach((file, idx) => {
-      stagedSources.push(copyLocalImageToUploads(file, slug, idx));
-    });
+    let localIdx = 0;
+    for (const file of localMatches) {
+      const staged = await copyLocalImageToUploads(file, slug, localIdx);
+      stagedSources.push(staged);
+      localIdx += 1;
+    }
 
     if (photoFromCsv) {
       const staged = await downloadImageToUploads(photoFromCsv, slug, stagedSources.length, 'species');
@@ -1090,12 +1140,16 @@ async function seedSpeciesImages() {
         stagedSources.length,
         'species',
       );
-      if (fallback) stagedSources.push(fallback);
+      if (fallback) {
+        stagedSources.push(fallback);
+      } else {
+        stagedSources.push(await ensurePlaceholderImage());
+      }
     }
 
     let index = 0;
-    for (const url of stagedSources) {
-      const image = await ensureImageRecord(url, { alt: sp.commonName });
+    for (const staged of stagedSources) {
+      const image = await ensureImageRecord(staged.url, { alt: sp.commonName });
       if (existingImageIds.has(image.id)) {
         index += 1;
         continue;
@@ -1108,6 +1162,8 @@ async function seedSpeciesImages() {
         imageId: image.id,
         isPrimary,
       });
+
+      existingImageIds.add(image.id);
 
       if (isPrimary) {
         await db
