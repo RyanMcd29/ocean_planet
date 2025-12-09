@@ -159,3 +159,24 @@ export async function fetchLiveConditions(diveSiteId: number) {
   if (!res.ok) throw new Error(`Failed to fetch live conditions: ${res.statusText}`);
   return await res.json();
 }
+
+export async function fetchCourses() {
+  const res = await fetch('/api/courses', { credentials: 'include' });
+  if (!res.ok) throw new Error(`Failed to fetch courses: ${res.statusText}`);
+  const data = await res.json();
+  return data.courses || [];
+}
+
+export async function fetchSpeciesLessons(speciesId: number) {
+  const res = await fetch(`/api/species/${speciesId}/lessons`, { credentials: 'include' });
+  if (!res.ok) throw new Error(`Failed to fetch lessons for species: ${res.statusText}`);
+  const data = await res.json();
+  return data.lessons || [];
+}
+
+export async function fetchDiveSiteLessons(diveSiteId: number) {
+  const res = await fetch(`/api/dive-sites/${diveSiteId}/lessons`, { credentials: 'include' });
+  if (!res.ok) throw new Error(`Failed to fetch lessons for dive site: ${res.statusText}`);
+  const data = await res.json();
+  return data.lessons || [];
+}

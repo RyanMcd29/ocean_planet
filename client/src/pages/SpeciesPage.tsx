@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams, Link } from "wouter";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { fetchSpeciesById, fetchDiveSites } from "@/lib/api";
+import { fetchSpeciesById, fetchDiveSites, fetchSpeciesLessons } from "@/lib/api";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -24,6 +24,12 @@ const SpeciesPage: React.FC = () => {
   const { data: species, isLoading, error } = useQuery({
     queryKey: [`/api/species/${speciesId}`],
     queryFn: () => fetchSpeciesById(speciesId),
+    enabled: !isNaN(speciesId),
+  });
+
+  const { data: speciesLessons = [], isLoading: lessonsLoading } = useQuery({
+    queryKey: [`/api/species/${speciesId}/lessons`],
+    queryFn: () => fetchSpeciesLessons(speciesId),
     enabled: !isNaN(speciesId),
   });
   
@@ -247,9 +253,44 @@ const SpeciesPage: React.FC = () => {
                       </AccordionItem>
                     ))}
                   </Accordion>
-                </CardContent>
-              </Card>
-            )}
+              </CardContent>
+            </Card>
+          )}
+
+          <Card>
+            <CardContent className="p-6">
+              <div className="flex items-center mb-4">
+                <BookOpen className="h-5 w-5 text-[#0A4D68] mr-2" />
+                <h3 className="text-lg font-montserrat font-semibold text-[#0A4D68]">Related Lessons</h3>
+              </div>
+              {lessonsLoading ? (
+                <div className="space-y-2">
+                  <Skeleton className="h-10 w-full" />
+                  <Skeleton className="h-10 w-full" />
+                </div>
+              ) : speciesLessons && speciesLessons.length > 0 ? (
+                <div className="space-y-3">
+                  {speciesLessons.map((lesson: any) => (
+                    <div key={lesson.id} className="flex items-center justify-between bg-[#E0F7FA] p-3 rounded-lg">
+                      <div>
+                        <p className="font-semibold text-[#0A4D68]">{lesson.title}</p>
+                        <p className="text-xs text-[#088395]">
+                          {lesson.courseTitle || lesson.category}
+                        </p>
+                      </div>
+                      <Link href={`/learn?lesson=${lesson.id}`}>
+                        <Button size="sm" variant="outline" className="text-[#088395] border-[#05BFDB]">
+                          Start
+                        </Button>
+                      </Link>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-[#757575]">No lessons linked to this species yet.</p>
+              )}
+            </CardContent>
+          </Card>
             
             <Card>
               <CardContent className="p-6">

@@ -423,6 +423,160 @@ export type InsertDiveMap = z.infer<typeof insertDiveMapSchema>;
 export type DiveLogSpecies = typeof diveLogSpecies.$inferSelect;
 export type InsertDiveLogSpecies = z.infer<typeof insertDiveLogSpeciesSchema>;
 
+// Lesson and course content
+export interface LessonSource {
+  title: string;
+  url: string;
+}
+
+export interface LessonQuizQuestion {
+  question: string;
+  options: string[];
+  correctAnswer: number;
+}
+
+export interface LessonStep {
+  type: 'intro' | 'text' | 'image' | 'funFact' | 'quiz' | 'finalQuiz' | 'conclusion' | 'sources';
+  title: string;
+  content: string;
+  image?: string;
+  caption?: string;
+  options?: string[];
+  correctAnswer?: number;
+  explanation?: string;
+  highlight?: string;
+  icon?: string;
+  sources?: LessonSource[];
+  questions?: LessonQuizQuestion[];
+}
+
+export const lessons = pgTable("lessons", {
+  id: text("id").primaryKey(), // reuse stable lesson slugs from enhanced lessons
+  title: text("title").notNull(),
+  description: text("description"),
+  category: text("category").notNull(),
+  duration: integer("duration"),
+  difficulty: text("difficulty").notNull(),
+  steps: jsonb("steps").$type<LessonStep[]>().notNull(),
+  thumbnail: text("thumbnail"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const courses = pgTable("courses", {
+  id: serial("id").primaryKey(),
+  slug: text("slug").notNull().unique(),
+  title: text("title").notNull(),
+  description: text("description"),
+  difficulty: text("difficulty"),
+  category: text("category"),
+  estimatedDuration: integer("estimated_duration"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const courseLessons = pgTable("course_lessons", {
+  id: serial("id").primaryKey(),
+  courseId: integer("course_id").notNull().references(() => courses.id),
+  lessonId: text("lesson_id").notNull().references(() => lessons.id),
+  order: integer("order").default(0),
+}, (table) => ({
+  courseLessonUnique: unique().on(table.courseId, table.lessonId),
+}));
+
+export const speciesLessons = pgTable("species_lessons", {
+  id: serial("id").primaryKey(),
+  speciesId: integer("species_id").notNull().references(() => species.id),
+  lessonId: text("lesson_id").notNull().references(() => lessons.id),
+}, (table) => ({
+  speciesLessonUnique: unique().on(table.speciesId, table.lessonId),
+}));
+
+export const diveSiteLessons = pgTable("dive_site_lessons", {
+  id: serial("id").primaryKey(),
+  diveSiteId: integer("dive_site_id").notNull().references(() => diveSites.id),
+  lessonId: text("lesson_id").notNull().references(() => lessons.id),
+}, (table) => ({
+  diveSiteLessonUnique: unique().on(table.diveSiteId, table.lessonId),
+}));
+
+export const insertLessonSchema = createInsertSchema(lessons).omit({
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCourseSchema = createInsertSchema(courses).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertCourseLessonSchema = createInsertSchema(courseLessons).omit({
+  id: true,
+});
+
+export const insertSpeciesLessonSchema = createInsertSchema(speciesLessons).omit({
+  id: true,
+});
+
+export const insertDiveSiteLessonSchema = createInsertSchema(diveSiteLessons).omit({
+  id: true,
+});
+
+export type Lesson = typeof lessons.$inferSelect;
+export type InsertLesson = z.infer<typeof insertLessonSchema>;
+export type Course = typeof courses.$inferSelect;
+export type InsertCourse = z.infer<typeof insertCourseSchema>;
+export type CourseLesson = typeof courseLessons.$inferSelect;
+export type InsertCourseLesson = z.infer<typeof insertCourseLessonSchema>;
+export type SpeciesLesson = typeof speciesLessons.$inferSelect;
+export type InsertSpeciesLesson = z.infer<typeof insertSpeciesLessonSchema>;
+export type DiveSiteLesson = typeof diveSiteLessons.$inferSelect;
+export type InsertDiveSiteLesson = z.infer<typeof insertDiveSiteLessonSchema>;
+
+export const lessonsRelations = relations(lessons, ({ many }) => ({
+  courseLinks: many(courseLessons),
+  speciesLinks: many(speciesLessons),
+  diveSiteLinks: many(diveSiteLessons),
+}));
+
+export const coursesRelations = relations(courses, ({ many }) => ({
+  lessons: many(courseLessons),
+}));
+
+export const courseLessonsRelations = relations(courseLessons, ({ one }) => ({
+  course: one(courses, {
+    fields: [courseLessons.courseId],
+    references: [courses.id],
+  }),
+  lesson: one(lessons, {
+    fields: [courseLessons.lessonId],
+    references: [lessons.id],
+  }),
+}));
+
+export const speciesLessonsRelations = relations(speciesLessons, ({ one }) => ({
+  species: one(species, {
+    fields: [speciesLessons.speciesId],
+    references: [species.id],
+  }),
+  lesson: one(lessons, {
+    fields: [speciesLessons.lessonId],
+    references: [lessons.id],
+  }),
+}));
+
+export const diveSiteLessonsRelations = relations(diveSiteLessons, ({ one }) => ({
+  diveSite: one(diveSites, {
+    fields: [diveSiteLessons.diveSiteId],
+    references: [diveSites.id],
+  }),
+  lesson: one(lessons, {
+    fields: [diveSiteLessons.lessonId],
+    references: [lessons.id],
+  }),
+}));
+
 // Login schema
 export const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -510,7 +664,7 @@ export type UpdateProfile = z.infer<typeof updateProfileSchema>;
 export const lessonProgress = pgTable("lesson_progress", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),
-  lessonId: text("lesson_id").notNull(), // e.g., "bunbury-bottlenose-dolphins"
+  lessonId: text("lesson_id").notNull().references(() => lessons.id), // e.g., "bunbury-bottlenose-dolphins"
   completedAt: timestamp("completed_at").defaultNow().notNull(),
 }, (table) => ({
   // Prevent duplicate completion records for the same lesson
@@ -535,6 +689,10 @@ export const lessonProgressRelations = relations(lessonProgress, ({ one }) => ({
   user: one(users, {
     fields: [lessonProgress.userId],
     references: [users.id],
+  }),
+  lesson: one(lessons, {
+    fields: [lessonProgress.lessonId],
+    references: [lessons.id],
   }),
 }));
 

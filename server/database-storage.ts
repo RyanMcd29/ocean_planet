@@ -8,6 +8,7 @@ import {
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
   diveMaps, diveLogs, diveLogSpecies, certifications, userCertifications, lessonProgress, categoryBadges,
   posts, postLikes, postComments, events, images, speciesImages, postImages, postSpecies,
+  lessons, courses, courseLessons, speciesLessons, diveSiteLessons,
   type User, type InsertUser, type Country, type InsertCountry, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
@@ -21,7 +22,8 @@ import {
   type Post, type InsertPost, type PostLike, type InsertPostLike,
   type PostComment, type InsertPostComment, type Event, type InsertEvent,
   type Image, type InsertImage, type SpeciesImage, type InsertSpeciesImage,
-  type PostImage, type InsertPostImage, type PostSpecies, type InsertPostSpecies
+  type PostImage, type InsertPostImage, type PostSpecies, type InsertPostSpecies,
+  type Lesson, type Course, type CourseLesson, type SpeciesLesson, type DiveSiteLesson
 } from "@shared/schema";
 
 // Import the storage interface
@@ -57,6 +59,12 @@ export class DatabaseStorage implements IStorage {
       const primaryImageId = primary?.image?.id ?? sp.primaryImageId ?? null;
       return { ...sp, imageUrl: primaryUrl, primaryImageId } as Species;
     });
+  }
+
+  private async getCompletedLessonIds(userId?: number): Promise<Set<string>> {
+    if (!userId) return new Set();
+    const progress = await this.getUserLessonProgress(userId);
+    return new Set(progress.map((item) => item.lessonId));
   }
 
   // Country Management
@@ -491,6 +499,22 @@ export class DatabaseStorage implements IStorage {
     return results.map((result, idx) => ({
       species: speciesWithImages[idx],
       frequency: result.frequency || 'Unknown'
+    }));
+  }
+
+  async getDiveSitesBySpecies(speciesId: number): Promise<{ diveSite: DiveSite, frequency: string }[]> {
+    const results = await db
+      .select({
+        diveSite: diveSites,
+        frequency: diveSiteSpecies.frequency,
+      })
+      .from(diveSiteSpecies)
+      .innerJoin(diveSites, eq(diveSiteSpecies.diveSiteId, diveSites.id))
+      .where(eq(diveSiteSpecies.speciesId, speciesId));
+
+    return results.map((result) => ({
+      diveSite: result.diveSite,
+      frequency: result.frequency || 'Unknown',
     }));
   }
 
@@ -1030,6 +1054,224 @@ export class DatabaseStorage implements IStorage {
       .orderBy(sql`${waterConditions.timestamp} DESC`);
   }
 
+  // Courses and lessons
+  async getCoursesWithLessons(userId?: number): Promise<(Course & {
+    lessons: (Lesson & {
+      completed: boolean;
+      courseId?: number | null;
+      courseSlug?: string;
+      courseTitle?: string;
+    })[];
+    progress: {
+      completedLessons: number;
+      totalLessons: number;
+      completionPercentage: number;
+    };
+  })[]> {
+    const [courseList, lessonRows, completedSet] = await Promise.all([
+      db.select().from(courses).orderBy(courses.id),
+      db
+        .select({
+          courseId: courseLessons.courseId,
+          order: courseLessons.order,
+          lesson: lessons,
+        })
+        .from(courseLessons)
+        .leftJoin(lessons, eq(courseLessons.lessonId, lessons.id))
+        .orderBy(courseLessons.courseId, courseLessons.order, lessons.title),
+      this.getCompletedLessonIds(userId),
+    ]);
+
+    const courseMap = new Map<number, Course & {
+      lessons: (Lesson & { completed: boolean; courseId: number; courseSlug?: string; courseTitle?: string })[];
+      progress: { completedLessons: number; totalLessons: number; completionPercentage: number };
+    }>();
+
+    for (const course of courseList) {
+      courseMap.set(course.id, {
+        ...course,
+        lessons: [],
+        progress: { completedLessons: 0, totalLessons: 0, completionPercentage: 0 },
+      });
+    }
+
+    for (const row of lessonRows) {
+      const lesson = row.lesson as Lesson | null;
+      if (!lesson) continue;
+      const course = courseMap.get(row.courseId);
+      if (!course) continue;
+
+      course.lessons.push({
+        ...lesson,
+        completed: completedSet.has(lesson.id),
+        courseId: row.courseId,
+        courseSlug: course.slug,
+        courseTitle: course.title,
+      });
+    }
+
+    const results: (Course & {
+      lessons: (Lesson & { completed: boolean; courseId?: number | null; courseSlug?: string; courseTitle?: string })[];
+      progress: { completedLessons: number; totalLessons: number; completionPercentage: number };
+    })[] = [];
+
+    for (const course of courseMap.values()) {
+      const totalLessons = course.lessons.length;
+      const completedLessons = course.lessons.filter((lesson) => lesson.completed).length;
+      const completionPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
+      results.push({
+        ...course,
+        progress: {
+          completedLessons,
+          totalLessons,
+          completionPercentage,
+        },
+      });
+    }
+
+    return results;
+  }
+
+  async getLessonsForSpecies(speciesId: number, userId?: number): Promise<(Lesson & {
+    completed: boolean;
+    courseId?: number | null;
+    courseSlug?: string;
+    courseTitle?: string;
+  })[]> {
+    const completedSet = await this.getCompletedLessonIds(userId);
+
+    const rows = await db
+      .select({
+        lesson: lessons,
+        courseId: courseLessons.courseId,
+      })
+      .from(speciesLessons)
+      .leftJoin(lessons, eq(speciesLessons.lessonId, lessons.id))
+      .leftJoin(courseLessons, eq(courseLessons.lessonId, speciesLessons.lessonId))
+      .where(eq(speciesLessons.speciesId, speciesId))
+      .orderBy(courseLessons.order, lessons.title);
+
+    const courseIds = Array.from(
+      new Set(
+        rows
+          .map((row) => row.courseId)
+          .filter((id): id is number => typeof id === 'number'),
+      ),
+    );
+
+    const courseLookup = new Map<number, Course>();
+    if (courseIds.length > 0) {
+      const courseRows = await db.select().from(courses).where(inArray(courses.id, courseIds));
+      courseRows.forEach((course) => courseLookup.set(course.id, course));
+    }
+
+    const uniqueLessons = new Map<string, Lesson & {
+      completed: boolean;
+      courseId?: number | null;
+      courseSlug?: string;
+      courseTitle?: string;
+    }>();
+
+    for (const row of rows) {
+      const lesson = row.lesson as Lesson | null;
+      if (!lesson || uniqueLessons.has(lesson.id)) continue;
+      const course = row.courseId ? courseLookup.get(row.courseId) : undefined;
+
+      uniqueLessons.set(lesson.id, {
+        ...lesson,
+        completed: completedSet.has(lesson.id),
+        courseId: row.courseId ?? null,
+        courseSlug: course?.slug,
+        courseTitle: course?.title,
+      });
+    }
+
+    return Array.from(uniqueLessons.values());
+  }
+
+  async getLessonsForDiveSite(diveSiteId: number, userId?: number, limit: number = 3): Promise<(Lesson & {
+    completed: boolean;
+    courseId?: number | null;
+    courseSlug?: string;
+    courseTitle?: string;
+  })[]> {
+    const completedSet = await this.getCompletedLessonIds(userId);
+
+    const [speciesRows, directLessonRows] = await Promise.all([
+      db
+        .select({ speciesId: diveSiteSpecies.speciesId })
+        .from(diveSiteSpecies)
+        .where(eq(diveSiteSpecies.diveSiteId, diveSiteId)),
+      db
+        .select({
+          lesson: lessons,
+          courseId: courseLessons.courseId,
+        })
+        .from(diveSiteLessons)
+        .leftJoin(lessons, eq(diveSiteLessons.lessonId, lessons.id))
+        .leftJoin(courseLessons, eq(courseLessons.lessonId, diveSiteLessons.lessonId))
+        .where(eq(diveSiteLessons.diveSiteId, diveSiteId)),
+    ]);
+
+    const speciesIds = speciesRows.map((row) => row.speciesId);
+
+    let speciesLessonRows: { lesson: Lesson | null; courseId: number | null }[] = [];
+    if (speciesIds.length > 0) {
+      speciesLessonRows = await db
+        .select({
+          lesson: lessons,
+          courseId: courseLessons.courseId,
+        })
+        .from(speciesLessons)
+        .leftJoin(lessons, eq(speciesLessons.lessonId, lessons.id))
+        .leftJoin(courseLessons, eq(courseLessons.lessonId, speciesLessons.lessonId))
+        .where(inArray(speciesLessons.speciesId, speciesIds));
+    }
+
+    const courseIds = Array.from(
+      new Set(
+        [...speciesLessonRows, ...directLessonRows]
+          .map((row) => row.courseId)
+          .filter((id): id is number => typeof id === 'number'),
+      ),
+    );
+
+    const courseLookup = new Map<number, Course>();
+    if (courseIds.length > 0) {
+      const courseRows = await db.select().from(courses).where(inArray(courses.id, courseIds));
+      courseRows.forEach((course) => courseLookup.set(course.id, course));
+    }
+
+    const combined = [...speciesLessonRows, ...directLessonRows];
+    const uniqueLessons = new Map<string, Lesson & {
+      completed: boolean;
+      courseId?: number | null;
+      courseSlug?: string;
+      courseTitle?: string;
+    }>();
+
+    for (const row of combined) {
+      const lesson = row.lesson as Lesson | null;
+      if (!lesson || uniqueLessons.has(lesson.id)) continue;
+      const course = row.courseId ? courseLookup.get(row.courseId) : undefined;
+
+      uniqueLessons.set(lesson.id, {
+        ...lesson,
+        completed: completedSet.has(lesson.id),
+        courseId: row.courseId ?? null,
+        courseSlug: course?.slug,
+        courseTitle: course?.title,
+      });
+
+      if (uniqueLessons.size >= limit) {
+        break;
+      }
+    }
+
+    return Array.from(uniqueLessons.values()).slice(0, limit);
+  }
+
   // Lesson Progress Management
   async getUserLessonProgress(userId: number): Promise<LessonProgress[]> {
     return await db
@@ -1040,6 +1282,16 @@ export class DatabaseStorage implements IStorage {
   }
 
   async markLessonComplete(userId: number, lessonId: string): Promise<LessonProgress> {
+    const [existingLesson] = await db
+      .select({ id: lessons.id })
+      .from(lessons)
+      .where(eq(lessons.id, lessonId))
+      .limit(1);
+
+    if (!existingLesson) {
+      throw new Error("Lesson not found");
+    }
+
     const [progress] = await db
       .insert(lessonProgress)
       .values({
@@ -1057,6 +1309,11 @@ export class DatabaseStorage implements IStorage {
       'bottom-trawling-enhanced': { category: 'conservation', badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
       'high-seas-treaty-enhanced': { category: 'conservation', badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
       'southern-right-whale-climate': { category: 'conservation', badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
+      
+      // Fisheries & Protected Areas
+      'marine-protection-zones': { category: 'fisheries', badgeName: 'Fisheries Expert', badgeIcon: '🎣' },
+      'mpas-and-food-security': { category: 'fisheries', badgeName: 'Fisheries Expert', badgeIcon: '🎣' },
+      'overfishing-nemo': { category: 'fisheries', badgeName: 'Fisheries Expert', badgeIcon: '🎣' },
       
       // Oceanic Physics
       'ocean-currents-enhanced': { category: 'oceanic-physics', badgeName: 'Physics Master', badgeIcon: '⚛️' },

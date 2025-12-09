@@ -14,6 +14,11 @@ import {
   users,
   diveLogs,
   diveLogSpecies,
+  lessons,
+  courses,
+  courseLessons,
+  speciesLessons,
+  diveSiteLessons,
   posts,
   postImages,
   postSpecies,
@@ -24,6 +29,13 @@ import {
 } from "@shared/schema";
 import { sql, eq, and } from "drizzle-orm";
 import { safeOptimizeImage } from "./services/imageProcessor";
+import {
+  enhancedLessons as enhancedLessonList,
+  oceanCurrentsLesson,
+  coralReefsLesson,
+  reefFishLesson,
+  type EnhancedLesson,
+} from "@/data/enhancedLessons";
 
 type SpeciesCsvRow = Record<string, string>;
 type DiveSiteCsvRow = Record<string, string>;
@@ -351,6 +363,16 @@ function randomFrequency(): string {
   return options[Math.floor(Math.random() * options.length)];
 }
 
+const defaultLessonThumbnail = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80';
+
+function pickLessonThumbnail(lesson: EnhancedLesson): string {
+  const imageStep = lesson.steps.find((step) => step.type === 'image' && (step as any).image);
+  if (imageStep && (imageStep as any).image) {
+    return (imageStep as any).image as string;
+  }
+  return defaultLessonThumbnail;
+}
+
 async function truncateTables(tables: string[]) {
   const client = await pool.connect();
   try {
@@ -453,6 +475,64 @@ async function createTablesIfNotExists() {
         certification_number TEXT,
         created_at TIMESTAMP DEFAULT NOW(),
         UNIQUE(user_id, certification_id)
+      );
+    `);
+
+    // Lessons and courses for learning content
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS lessons (
+        id TEXT PRIMARY KEY,
+        title TEXT NOT NULL,
+        description TEXT,
+        category TEXT NOT NULL,
+        duration INTEGER,
+        difficulty TEXT NOT NULL,
+        steps JSONB NOT NULL,
+        thumbnail TEXT,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS courses (
+        id SERIAL PRIMARY KEY,
+        slug TEXT UNIQUE NOT NULL,
+        title TEXT NOT NULL,
+        description TEXT,
+        difficulty TEXT,
+        category TEXT,
+        estimated_duration INTEGER,
+        created_at TIMESTAMP DEFAULT NOW(),
+        updated_at TIMESTAMP DEFAULT NOW()
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS course_lessons (
+        id SERIAL PRIMARY KEY,
+        course_id INTEGER NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
+        lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+        "order" INTEGER DEFAULT 0,
+        UNIQUE(course_id, lesson_id)
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS species_lessons (
+        id SERIAL PRIMARY KEY,
+        species_id INTEGER NOT NULL REFERENCES species(id) ON DELETE CASCADE,
+        lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+        UNIQUE(species_id, lesson_id)
+      );
+    `);
+
+    await client.query(`
+      CREATE TABLE IF NOT EXISTS dive_site_lessons (
+        id SERIAL PRIMARY KEY,
+        dive_site_id INTEGER NOT NULL REFERENCES dive_sites(id) ON DELETE CASCADE,
+        lesson_id TEXT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+        UNIQUE(dive_site_id, lesson_id)
       );
     `);
 
@@ -935,8 +1015,13 @@ async function seedDiveSitesFromCsv(): Promise<DiveSiteRecord[]> {
 async function clearSeedData() {
   console.log('Removing existing seed data (truncate + reset identities)...');
   const tablesToClear = [
+    'course_lessons',
+    'species_lessons',
+    'dive_site_lessons',
     'dive_log_species',
     'dive_logs',
+    'lesson_progress',
+    'category_badges',
     'post_species',
     'post_images',
     'posts',
@@ -950,6 +1035,8 @@ async function clearSeedData() {
     'reviews',
     'user_certifications',
     'certifications',
+    'lessons',
+    'courses',
     'species',
     'dive_sites',
     'users',
@@ -1223,6 +1310,340 @@ async function seedRandomDiveSiteSpeciesLinks() {
   console.log(`Created ${created} random dive site/species links`);
 }
 
+async function ensureSpeciesForLesson(commonName: string, scientificName: string, description: string, category: string): Promise<number> {
+  const existing = await db
+    .select()
+    .from(species)
+    .where(eq(species.commonName, commonName))
+    .limit(1);
+
+  if (existing.length > 0) {
+    return existing[0].id;
+  }
+
+  const [created] = await db
+    .insert(species)
+    .values({
+      commonName,
+      scientificName,
+      description,
+      category,
+      conservationStatus: 'Data Deficient',
+      habitats: [],
+      tags: [],
+    })
+    .returning();
+
+  return created.id;
+}
+
+async function seedSpeciesLessonMappings(lessonMap: Map<string, EnhancedLesson>) {
+  console.log('Linking species to enhanced lessons...');
+  const mappings: Array<{
+    commonName: string;
+    scientificName: string;
+    description: string;
+    category: string;
+    lessonIds: string[];
+  }> = [
+    {
+      commonName: 'Western Rock Lobster',
+      scientificName: 'Panulirus cygnus',
+      description: 'Iconic WA crustacean and a cornerstone fishery species.',
+      category: 'Invertebrate',
+      lessonIds: ['western-rock-lobster-enhanced'],
+    },
+    {
+      commonName: 'Bottlenose Dolphin',
+      scientificName: 'Tursiops aduncus',
+      description: 'Coastal dolphins that thrive near harbours and estuaries.',
+      category: 'Marine Mammal',
+      lessonIds: ['swan-river-dolphins-marine-mammals', 'bunbury-dolphins-marine-mammals'],
+    },
+    {
+      commonName: 'Southern Right Whale',
+      scientificName: 'Eubalaena australis',
+      description: 'Long-distance migrator returning to sheltered Australian bays.',
+      category: 'Marine Mammal',
+      lessonIds: ['southern-right-whale-migration', 'southern-right-whale-climate'],
+    },
+    {
+      commonName: 'Pygmy Blue Whale',
+      scientificName: 'Balaenoptera musculus brevicauda',
+      description: 'A smaller blue whale sub-species that frequents WA waters.',
+      category: 'Marine Mammal',
+      lessonIds: ['pygmy-blue-whales-marine-mammals'],
+    },
+    {
+      commonName: 'Humpback Whale',
+      scientificName: 'Megaptera novaeangliae',
+      description: 'Breaching giants migrating along the Humpback Highway each year.',
+      category: 'Marine Mammal',
+      lessonIds: ['humpback-highway-marine-mammals'],
+    },
+    {
+      commonName: 'Australian Sea Lion',
+      scientificName: 'Neophoca cinerea',
+      description: 'Playful and curious endemic pinniped of southern Australia.',
+      category: 'Marine Mammal',
+      lessonIds: ['australian-sea-lion-marine-mammals'],
+    },
+    {
+      commonName: 'Orca',
+      scientificName: 'Orcinus orca',
+      description: 'Apex predators known for coordinated hunts off Bremer Bay.',
+      category: 'Marine Mammal',
+      lessonIds: ['orca-mysteries-bremer-bay'],
+    },
+    {
+      commonName: 'Reef Fish',
+      scientificName: 'Perciformes spp.',
+      description: 'Colorful reef fish that diversify reef ecology lessons.',
+      category: 'Fish',
+      lessonIds: ['reef-fish-enhanced'],
+    },
+  ];
+
+  for (const mapping of mappings) {
+    const speciesId = await ensureSpeciesForLesson(
+      mapping.commonName,
+      mapping.scientificName,
+      mapping.description,
+      mapping.category,
+    );
+
+    for (const lessonId of mapping.lessonIds) {
+      if (!lessonMap.has(lessonId)) continue;
+
+      const existingLink = await db
+        .select()
+        .from(speciesLessons)
+        .where(
+          and(
+            eq(speciesLessons.speciesId, speciesId),
+            eq(speciesLessons.lessonId, lessonId),
+          ),
+        );
+
+      if (existingLink.length === 0) {
+        await db.insert(speciesLessons).values({
+          speciesId,
+          lessonId,
+        });
+      }
+    }
+  }
+}
+
+async function seedDiveSiteLessonLinks(lessonMap: Map<string, EnhancedLesson>) {
+  console.log('Linking dive sites to lessons when a site already has a linked lesson id...');
+  const sitesWithLessons = await db
+    .select()
+    .from(diveSites)
+    .where(sql`linked_lesson_id IS NOT NULL`);
+
+  for (const site of sitesWithLessons) {
+    if (!site.linkedLessonId || !lessonMap.has(site.linkedLessonId)) continue;
+
+    const existing = await db
+      .select()
+      .from(diveSiteLessons)
+      .where(
+        and(
+          eq(diveSiteLessons.diveSiteId, site.id),
+          eq(diveSiteLessons.lessonId, site.linkedLessonId),
+        ),
+      );
+
+    if (existing.length === 0) {
+      await db.insert(diveSiteLessons).values({
+        diveSiteId: site.id,
+        lessonId: site.linkedLessonId,
+      });
+    }
+  }
+}
+
+async function seedLessonsAndCourses() {
+  console.log('Seeding enhanced lessons and courses...');
+
+  const lessonMap = new Map<string, EnhancedLesson>();
+  const lessonSources = [
+    ...enhancedLessonList,
+    oceanCurrentsLesson,
+    coralReefsLesson,
+    reefFishLesson,
+  ];
+
+  for (const lesson of lessonSources) {
+    lessonMap.set(lesson.id, lesson);
+  }
+
+  for (const lesson of lessonMap.values()) {
+    const thumbnail = pickLessonThumbnail(lesson);
+    const payload = {
+      id: lesson.id,
+      title: lesson.title,
+      description: lesson.description,
+      category: lesson.category,
+      duration: lesson.duration,
+      difficulty: lesson.difficulty,
+      steps: lesson.steps,
+      thumbnail,
+    };
+
+    const existing = await db.select().from(lessons).where(eq(lessons.id, lesson.id)).limit(1);
+    if (existing.length > 0) {
+      await db.update(lessons).set(payload).where(eq(lessons.id, lesson.id));
+    } else {
+      await db.insert(lessons).values(payload);
+    }
+  }
+
+  const courseSeeds: Array<{
+    slug: string;
+    title: string;
+    description: string;
+    difficulty: string;
+    category: string;
+    lessonIds: string[];
+  }> = [
+    {
+      slug: 'ocean-literacy',
+      title: 'Ocean Literacy Pathway',
+      description: 'Master the seven ocean literacy principles with immersive, step-by-step lessons.',
+      difficulty: 'Beginner',
+      category: 'ocean-literacy',
+      lessonIds: [
+        'ocean-literacy-principle-1',
+        'ocean-literacy-principle-2',
+        'ocean-literacy-principle-3',
+        'ocean-literacy-principle-4',
+        'ocean-literacy-principle-5',
+        'ocean-literacy-principle-6',
+        'ocean-literacy-principle-7',
+      ],
+    },
+    {
+      slug: 'conservation-and-fisheries',
+      title: 'Ocean Conservation & Sustainable Fisheries',
+      description: 'Understand how policy, protected areas, and smarter fishing keep oceans thriving.',
+      difficulty: 'Intermediate',
+      category: 'conservation',
+      lessonIds: [
+        'marine-protection-zones',
+        'mpas-and-food-security',
+        'bottom-trawling-enhanced',
+        'overfishing-nemo',
+        'high-seas-treaty-enhanced',
+        'southern-right-whale-climate',
+      ],
+    },
+    {
+      slug: 'ocean-physics',
+      title: 'Ocean Physics',
+      description: 'Explore the currents that power marine life and shape Western Australia’s coastline.',
+      difficulty: 'Beginner',
+      category: 'oceanic-physics',
+      lessonIds: ['ocean-currents-enhanced', 'leeuwin-current-enhanced'],
+    },
+    {
+      slug: 'reef-ecology',
+      title: 'Reef Ecology',
+      description: 'Dive into reef structure, jetty ecosystems, and the fish communities that live there.',
+      difficulty: 'Beginner',
+      category: 'reef-ecology',
+      lessonIds: ['coral-reefs-enhanced', 'reef-fish-enhanced', 'jetty-biodiversity-lesson'],
+    },
+    {
+      slug: 'marine-mammals',
+      title: 'Marine Mammals of WA',
+      description: 'Meet the whales, dolphins, sea lions, and orcas that define Western Australia’s waters.',
+      difficulty: 'Intermediate',
+      category: 'marine-mammals',
+      lessonIds: [
+        'swan-river-dolphins-marine-mammals',
+        'bunbury-dolphins-marine-mammals',
+        'pygmy-blue-whales-marine-mammals',
+        'humpback-highway-marine-mammals',
+        'australian-sea-lion-marine-mammals',
+        'orca-mysteries-bremer-bay',
+      ],
+    },
+    {
+      slug: 'marine-research',
+      title: 'Marine Research & Technology',
+      description: 'See how tagging, tech, and ecosystem science power smarter conservation.',
+      difficulty: 'Intermediate',
+      category: 'marine-research',
+      lessonIds: ['whale-science-101', 'tracking-tech-innovation', 'ecosystem-guardians'],
+    },
+    {
+      slug: 'maritime-history',
+      title: 'Maritime History',
+      description: 'Explore Western Australia’s maritime stories from historic jetties to shipwrecks.',
+      difficulty: 'Beginner',
+      category: 'maritime-history',
+      lessonIds: ['camilla-wreck-maritime-history', 'long-jetty-maritime-history'],
+    },
+    {
+      slug: 'species-spotlight',
+      title: 'Species Spotlights',
+      description: 'Short, species-first lessons for quick identification and context.',
+      difficulty: 'Beginner',
+      category: 'species',
+      lessonIds: ['western-rock-lobster-enhanced', 'southern-right-whale-migration'],
+    },
+  ];
+
+  for (const courseSeed of courseSeeds) {
+    const estimatedDuration = courseSeed.lessonIds.reduce((total, id) => {
+      const lesson = lessonMap.get(id);
+      return total + (lesson?.duration ?? 5);
+    }, 0);
+
+    const [course] = await db
+      .insert(courses)
+      .values({
+        slug: courseSeed.slug,
+        title: courseSeed.title,
+        description: courseSeed.description,
+        difficulty: courseSeed.difficulty,
+        category: courseSeed.category,
+        estimatedDuration,
+      })
+      .onConflictDoUpdate({
+        target: courses.slug,
+        set: {
+          title: courseSeed.title,
+          description: courseSeed.description,
+          difficulty: courseSeed.difficulty,
+          category: courseSeed.category,
+          estimatedDuration,
+          updatedAt: new Date(),
+        },
+      })
+      .returning();
+
+    await db.delete(courseLessons).where(eq(courseLessons.courseId, course.id));
+
+    const links = courseSeed.lessonIds
+      .filter((id) => lessonMap.has(id))
+      .map((lessonId, index) => ({
+        courseId: course.id,
+        lessonId,
+        order: index,
+      }));
+
+    if (links.length > 0) {
+      await db.insert(courseLessons).values(links);
+    }
+  }
+
+  await seedSpeciesLessonMappings(lessonMap);
+  await seedDiveSiteLessonLinks(lessonMap);
+}
+
 async function seedSampleTestData() {
   console.log('Adding sample users, posts, and dive logs for testing...');
 
@@ -1450,6 +1871,7 @@ async function seedDatabase() {
     await seedDiveSitesFromCsv();
     await addBlackspottedTuskfish();
     await seedSpeciesImages();
+    await seedLessonsAndCourses();
     await seedRandomDiveSiteSpeciesLinks();
     await seedSampleTestData();
 

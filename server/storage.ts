@@ -18,7 +18,8 @@ import {
   type Country, type InsertCountry, type LessonProgress, type InsertLessonProgress,
   type CategoryBadge, type InsertCategoryBadge,
   type Image, type InsertImage, type SpeciesImage, type InsertSpeciesImage,
-  type PostImage, type InsertPostImage, type PostSpecies, type InsertPostSpecies
+  type PostImage, type InsertPostImage, type PostSpecies, type InsertPostSpecies,
+  type Lesson, type Course
 } from '@shared/schema';
 
 export type SpeciesImageWithFlag = Image & { isPrimary: boolean };
@@ -77,6 +78,33 @@ export interface IStorage {
   // Dive centers
   createDiveCenter(diveCenter: InsertDiveCenter): Promise<DiveCenter>;
   getDiveCentersByDiveSite(diveSiteId: number): Promise<DiveCenter[]>;
+
+  // Courses and lessons
+  getCoursesWithLessons(userId?: number): Promise<(Course & {
+    lessons: (Lesson & {
+      completed: boolean;
+      courseId?: number | null;
+      courseSlug?: string;
+      courseTitle?: string;
+    })[];
+    progress: {
+      completedLessons: number;
+      totalLessons: number;
+      completionPercentage: number;
+    };
+  })[]>;
+  getLessonsForSpecies(speciesId: number, userId?: number): Promise<(Lesson & {
+    completed: boolean;
+    courseId?: number | null;
+    courseSlug?: string;
+    courseTitle?: string;
+  })[]>;
+  getLessonsForDiveSite(diveSiteId: number, userId?: number, limit?: number): Promise<(Lesson & {
+    completed: boolean;
+    courseId?: number | null;
+    courseSlug?: string;
+    courseTitle?: string;
+  })[]>;
   
   // User favorites
   addFavoriteDiveSite(favorite: InsertUserFavorite): Promise<UserFavorite>;
@@ -765,6 +793,19 @@ export class MemStorage implements IStorage {
     );
   }
 
+  // Courses and lessons (in-memory stubs)
+  async getCoursesWithLessons(): Promise<(Course & { lessons: (Lesson & { completed: boolean; courseId?: number | null; courseSlug?: string; courseTitle?: string; })[]; progress: { completedLessons: number; totalLessons: number; completionPercentage: number; }; })[]> {
+    return [];
+  }
+
+  async getLessonsForSpecies(): Promise<(Lesson & { completed: boolean; courseId?: number | null; courseSlug?: string; courseTitle?: string; })[]> {
+    return [];
+  }
+
+  async getLessonsForDiveSite(): Promise<(Lesson & { completed: boolean; courseId?: number | null; courseSlug?: string; courseTitle?: string; })[]> {
+    return [];
+  }
+
   // Water conditions methods
   async createWaterConditions(conditions: InsertWaterConditions): Promise<WaterConditions> {
     const id = this.currentIds.waterConditions++;
@@ -892,6 +933,19 @@ export class DatabaseStorage implements IStorage {
       const primaryImageId = primary?.image?.id ?? sp.primaryImageId ?? null;
       return { ...sp, imageUrl: primaryUrl, primaryImageId } as Species;
     });
+  }
+
+  // Courses and lessons (database stubs for legacy class)
+  async getCoursesWithLessons(): Promise<(Course & { lessons: (Lesson & { completed: boolean; courseId?: number | null; courseSlug?: string; courseTitle?: string; })[]; progress: { completedLessons: number; totalLessons: number; completionPercentage: number; }; })[]> {
+    return [];
+  }
+
+  async getLessonsForSpecies(): Promise<(Lesson & { completed: boolean; courseId?: number | null; courseSlug?: string; courseTitle?: string; })[]> {
+    return [];
+  }
+
+  async getLessonsForDiveSite(): Promise<(Lesson & { completed: boolean; courseId?: number | null; courseSlug?: string; courseTitle?: string; })[]> {
+    return [];
   }
 
   // User Management

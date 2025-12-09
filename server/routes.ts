@@ -533,6 +533,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     },
   );
 
+  app.get(
+    "/api/dive-sites/:id/lessons",
+    async (req: Request, res: Response) => {
+      try {
+        const diveSiteId = parseInt(req.params.id);
+        const lessons = await storage.getLessonsForDiveSite(
+          diveSiteId,
+          req.session?.userId,
+          3,
+        );
+
+        res.json({ success: true, lessons });
+      } catch (error) {
+        console.error("Error fetching lessons for dive site:", error);
+        res.status(500).json({ success: false, message: "Failed to fetch lessons" });
+      }
+    },
+  );
+
   // Species
   app.get("/api/species", async (req, res) => {
     try {
@@ -582,6 +601,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(diveSites);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch dive sites for species" });
+    }
+  });
+
+  app.get("/api/species/:id/lessons", async (req: Request, res: Response) => {
+    try {
+      const speciesId = parseInt(req.params.id);
+      const lessons = await storage.getLessonsForSpecies(
+        speciesId,
+        req.session?.userId,
+      );
+      res.json({ success: true, lessons });
+    } catch (error) {
+      console.error("Error fetching lessons for species:", error);
+      res.status(500).json({ success: false, message: "Failed to fetch lessons" });
     }
   });
 
@@ -1693,6 +1726,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     },
   );
 
+  // Courses & lessons
+  app.get("/api/courses", async (req: Request, res: Response) => {
+    try {
+      const courses = await storage.getCoursesWithLessons(req.session?.userId);
+      res.json({ success: true, courses });
+    } catch (error) {
+      console.error("Error fetching courses:", error);
+      res
+        .status(500)
+        .json({ success: false, message: "Failed to fetch courses" });
+    }
+  });
+
   // Lesson Progress endpoints
 
   // GET /api/progress - Get user's lesson progress
@@ -1743,6 +1789,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
         badgeUnlocked: badge || null,
       });
     } catch (error: any) {
+      if (error?.message === "Lesson not found") {
+        return res
+          .status(404)
+          .json({ success: false, message: "Lesson not found" });
+      }
       if (error.code === "23505") {
         // Unique constraint violation
         return res
