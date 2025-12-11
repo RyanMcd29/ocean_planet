@@ -144,10 +144,24 @@ async function listenWithFallback(
 }
 
 (async () => {
-  // Seed the database with initial data
-  try {
-    await seedDatabase();
-    // Add missing columns to users table if they don't exist
+  const shouldSeedDatabase =
+    process.env.SKIP_DB_SEED !== "true" &&
+    process.env.SKIP_DB_SEED !== "1";
+
+  if (shouldSeedDatabase) {
+    try {
+      await seedDatabase();
+    } catch (error) {
+      console.error("Error initializing database:", error);
+    }
+  } else {
+    log(
+      "Skipping database seed on startup because SKIP_DB_SEED is set (run `npm run db:reseed` to refresh).",
+      "express",
+    );
+  }
+
+  // Add missing columns to users table if they don't exist
   try {
     await db.execute(`
       ALTER TABLE users 
@@ -214,9 +228,6 @@ async function listenWithFallback(
   }
 
   console.log('Database initialization complete');
-  } catch (error) {
-    console.error('Error initializing database:', error);
-  }
   
   const server = await registerRoutes(app);
 

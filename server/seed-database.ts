@@ -36,6 +36,7 @@ import {
   reefFishLesson,
   type EnhancedLesson,
 } from "@/data/enhancedLessons";
+import { globalDiveSiteSeeds } from "./seed-data/dive-sites/global-sample";
 
 type SpeciesCsvRow = Record<string, string>;
 type DiveSiteCsvRow = Record<string, string>;
@@ -1012,6 +1013,49 @@ async function seedDiveSitesFromCsv(): Promise<DiveSiteRecord[]> {
   return seeded;
 }
 
+async function seedGlobalSampleDiveSites(): Promise<DiveSiteRecord[]> {
+  console.log('Seeding global sample dive sites for map testing...');
+
+  const seeded: DiveSiteRecord[] = [];
+  let index = 0;
+
+  for (const seed of globalDiveSiteSeeds) {
+    const payload: Partial<DiveSiteRecord> = {
+      name: seed.name,
+      difficulty: seed.difficulty,
+      description: `${seed.name} is part of the global sample map data set near ${seed.location}.`,
+      location: seed.location,
+      country: seed.country,
+      latitude: seed.latitude,
+      longitude: seed.longitude,
+      minDepth: seed.minDepth,
+      maxDepth: seed.maxDepth,
+      minVisibility: seed.minVisibility,
+      maxVisibility: seed.maxVisibility,
+      minTemp: seed.minTemp,
+      maxTemp: seed.maxTemp,
+      current: seed.current,
+      mainImage: seed.mainImage || fallbackImagePool[index % fallbackImagePool.length],
+      highlights: seed.highlights,
+      habitats: seed.habitats,
+    };
+
+    const [existing] = await db.select().from(diveSites).where(eq(diveSites.name, seed.name));
+    if (existing) {
+      const [updated] = await db.update(diveSites).set(payload).where(eq(diveSites.id, existing.id)).returning();
+      seeded.push(updated);
+    } else {
+      const [created] = await db.insert(diveSites).values(payload).returning();
+      seeded.push(created);
+    }
+
+    index += 1;
+  }
+
+  console.log(`Seeded or refreshed ${seeded.length} global sample dive sites`);
+  return seeded;
+}
+
 async function clearSeedData() {
   console.log('Removing existing seed data (truncate + reset identities)...');
   const tablesToClear = [
@@ -1869,6 +1913,7 @@ async function seedDatabase() {
 
     await seedSpeciesFromCsv();
     await seedDiveSitesFromCsv();
+    await seedGlobalSampleDiveSites();
     await addBlackspottedTuskfish();
     await seedSpeciesImages();
     await seedLessonsAndCourses();
