@@ -1,13 +1,14 @@
 // Import database and query builder tools
 import { db, pool } from './db';
-import { eq, and, or, sql, like, isNotNull, gte, lte } from 'drizzle-orm';
+import { eq, and, or, sql, like, isNotNull, gte, lte, inArray } from 'drizzle-orm';
 
 // Import schema types and tables
 import {
   users, countries, diveSites, species, diveSiteSpecies, photos, reviews,
   nearbyDiveSites, diveCenters, userFavorites, userSpottedSpecies, waterConditions,
   diveMaps, diveLogs, diveLogSpecies, certifications, userCertifications, lessonProgress, categoryBadges,
-  posts, postLikes, postComments, events,
+  posts, postLikes, postComments, events, images, speciesImages, postImages, postSpecies,
+  lessons, courses, courseLessons, speciesLessons, diveSiteLessons,
   type User, type InsertUser, type Country, type InsertCountry, type DiveSite, type InsertDiveSite,
   type Species, type InsertSpecies, type DiveSiteSpecies, type InsertDiveSiteSpecies,
   type Photo, type InsertPhoto, type Review, type InsertReview,
@@ -19,13 +20,53 @@ import {
   type UpdateProfile, type LessonProgress, type InsertLessonProgress,
   type CategoryBadge, type InsertCategoryBadge,
   type Post, type InsertPost, type PostLike, type InsertPostLike,
-  type PostComment, type InsertPostComment, type Event, type InsertEvent
+  type PostComment, type InsertPostComment, type Event, type InsertEvent,
+  type Image, type InsertImage, type SpeciesImage, type InsertSpeciesImage,
+  type PostImage, type InsertPostImage, type PostSpecies, type InsertPostSpecies,
+  type Lesson, type Course, type CourseLesson, type SpeciesLesson, type DiveSiteLesson
 } from "@shared/schema";
 
 // Import the storage interface
-import { IStorage } from './storage';
+import { IStorage, SpeciesImageWithFlag } from './storage';
 
 export class DatabaseStorage implements IStorage {
+  // Ensure species records always return a usable image URL from the central images table
+  private async attachImagesToSpeciesList(items: Species[]): Promise<Species[]> {
+    if (items.length === 0) return [];
+
+    const speciesIds = items.map((sp) => sp.id);
+    const imageRows = await db
+      .select({
+        speciesId: speciesImages.speciesId,
+        image: images,
+        isPrimary: speciesImages.isPrimary,
+      })
+      .from(speciesImages)
+      .leftJoin(images, eq(speciesImages.imageId, images.id))
+      .where(inArray(speciesImages.speciesId, speciesIds));
+
+    const grouped = new Map<number, { image: Image | null; isPrimary: boolean }[]>();
+    for (const row of imageRows) {
+      const list = grouped.get(row.speciesId) ?? [];
+      list.push({ image: row.image ?? null, isPrimary: !!row.isPrimary });
+      grouped.set(row.speciesId, list);
+    }
+
+    return items.map((sp) => {
+      const linked = grouped.get(sp.id) ?? [];
+      const primary = linked.find((row) => row.isPrimary && row.image) ?? linked.find((row) => row.image);
+      const primaryUrl = primary?.image?.url ?? null;
+      const primaryImageId = primary?.image?.id ?? sp.primaryImageId ?? null;
+      return { ...sp, imageUrl: primaryUrl, primaryImageId } as Species;
+    });
+  }
+
+  private async getCompletedLessonIds(userId?: number): Promise<Set<string>> {
+    if (!userId) return new Set();
+    const progress = await this.getUserLessonProgress(userId);
+    return new Set(progress.map((item) => item.lessonId));
+  }
+
   // Country Management
   async getAllCountries(): Promise<Country[]> {
     return await db.select().from(countries).orderBy(countries.name);
@@ -291,7 +332,7 @@ export class DatabaseStorage implements IStorage {
 
   // Species Management
   async createSpecies(speciesData: InsertSpecies): Promise<Species> {
-    const result = await db
+    const [created] = await db
       .insert(species)
       .values({
         commonName: speciesData.commonName,
@@ -299,20 +340,36 @@ export class DatabaseStorage implements IStorage {
         description: speciesData.description ?? null,
         conservationStatus: speciesData.conservationStatus ?? null,
         habitats: speciesData.habitats ?? null,
-        imageUrl: speciesData.imageUrl ?? null,
-        category: speciesData.category ?? null
+        category: speciesData.category ?? null,
+        primaryImageId: speciesData.primaryImageId ?? null
       })
       .returning();
-    return result[0];
+
+    let speciesRecord = created;
+
+    if (speciesData.primaryImageId) {
+      await db.insert(speciesImages).values({
+        speciesId: created.id,
+        imageId: speciesData.primaryImageId,
+        isPrimary: true,
+      });
+    }
+
+    // Return with attached primary image data if available
+    const withImages = await this.getSpecies(speciesRecord.id);
+    return withImages ?? { ...speciesRecord, imageUrl: null };
   }
 
   async getSpecies(id: number): Promise<Species | undefined> {
     const result = await db.select().from(species).where(eq(species.id, id));
-    return result.length > 0 ? result[0] : undefined;
+    if (!result.length) return undefined;
+    const [withImage] = await this.attachImagesToSpeciesList([result[0]]);
+    return withImage;
   }
 
   async getAllSpecies(): Promise<Species[]> {
-    return await db.select().from(species);
+    const records = await db.select().from(species);
+    return this.attachImagesToSpeciesList(records);
   }
 
   async searchSpecies(query: string): Promise<Species[]> {
@@ -321,7 +378,7 @@ export class DatabaseStorage implements IStorage {
     }
     
     const lowerQuery = `%${query.toLowerCase()}%`;
-    return await db.select().from(species).where(
+    const results = await db.select().from(species).where(
       or(
         like(sql`lower(${species.commonName})`, lowerQuery),
         like(sql`lower(${species.scientificName})`, lowerQuery),
@@ -331,6 +388,77 @@ export class DatabaseStorage implements IStorage {
         )
       )
     );
+
+    return this.attachImagesToSpeciesList(results);
+  }
+
+  async getSpeciesImages(speciesId: number): Promise<SpeciesImageWithFlag[]> {
+    const rows = await db
+      .select({
+        image: images,
+        isPrimary: speciesImages.isPrimary,
+      })
+      .from(speciesImages)
+      .leftJoin(images, eq(speciesImages.imageId, images.id))
+      .where(eq(speciesImages.speciesId, speciesId));
+
+    return rows
+      .map((row) => {
+        if (!row.image) return null;
+        return { ...row.image, isPrimary: !!row.isPrimary };
+      })
+      .filter((img): img is SpeciesImageWithFlag => Boolean(img));
+  }
+
+  async addSpeciesImage(link: InsertSpeciesImage): Promise<SpeciesImage> {
+    const [sp] = await db.select().from(species).where(eq(species.id, link.speciesId));
+    const [image] = await db.select().from(images).where(eq(images.id, link.imageId));
+    const promoteToPrimary =
+      !!link.isPrimary || (sp ? !sp.primaryImageId : false);
+
+    if (promoteToPrimary) {
+      await db
+        .update(speciesImages)
+        .set({ isPrimary: false })
+        .where(eq(speciesImages.speciesId, link.speciesId));
+    }
+
+    const [record] = await db
+      .insert(speciesImages)
+      .values({
+        ...link,
+        isPrimary: promoteToPrimary,
+      })
+      .returning();
+
+    if (image && sp && promoteToPrimary) {
+      await db
+        .update(species)
+        .set({
+          primaryImageId: image.id,
+        })
+        .where(eq(species.id, link.speciesId));
+    }
+
+    return record;
+  }
+
+  async createImage(image: InsertImage): Promise<Image> {
+    const [record] = await db
+      .insert(images)
+      .values({
+        url: image.url,
+        alt: image.alt ?? null,
+        userId: image.userId ?? null,
+        source: image.source ?? 'seed',
+      })
+      .returning();
+    return record;
+  }
+
+  async getImage(id: number): Promise<Image | undefined> {
+    const [image] = await db.select().from(images).where(eq(images.id, id));
+    return image;
   }
 
   // Dive Site Species Relationships
@@ -366,19 +494,53 @@ export class DatabaseStorage implements IStorage {
       )
       .where(eq(diveSiteSpecies.diveSiteId, diveSiteId));
     
-    return results.map(result => ({
-      species: result.species,
+    const speciesWithImages = await this.attachImagesToSpeciesList(results.map((result) => result.species));
+    
+    return results.map((result, idx) => ({
+      species: speciesWithImages[idx],
       frequency: result.frequency || 'Unknown'
+    }));
+  }
+
+  async getDiveSitesBySpecies(speciesId: number): Promise<{ diveSite: DiveSite, frequency: string }[]> {
+    const results = await db
+      .select({
+        diveSite: diveSites,
+        frequency: diveSiteSpecies.frequency,
+      })
+      .from(diveSiteSpecies)
+      .innerJoin(diveSites, eq(diveSiteSpecies.diveSiteId, diveSites.id))
+      .where(eq(diveSiteSpecies.speciesId, speciesId));
+
+    return results.map((result) => ({
+      diveSite: result.diveSite,
+      frequency: result.frequency || 'Unknown',
     }));
   }
 
   // Photo Uploads
   async createPhoto(photo: InsertPhoto): Promise<Photo> {
+    let imageId = photo.imageId ?? null;
+
+    if (!imageId && photo.imageUrl) {
+      const [image] = await db
+        .insert(images)
+        .values({
+          url: photo.imageUrl,
+          alt: photo.caption || 'Dive site photo',
+          userId: photo.userId,
+          source: 'user-upload',
+        })
+        .returning();
+      imageId = image.id;
+    }
+
     const result = await db
       .insert(photos)
       .values({
         userId: photo.userId,
         diveSiteId: photo.diveSiteId,
+        imageId,
         imageUrl: photo.imageUrl,
         caption: photo.caption ?? null,
         dateUploaded: new Date(),
@@ -892,6 +1054,224 @@ export class DatabaseStorage implements IStorage {
       .orderBy(sql`${waterConditions.timestamp} DESC`);
   }
 
+  // Courses and lessons
+  async getCoursesWithLessons(userId?: number): Promise<(Course & {
+    lessons: (Lesson & {
+      completed: boolean;
+      courseId?: number | null;
+      courseSlug?: string;
+      courseTitle?: string;
+    })[];
+    progress: {
+      completedLessons: number;
+      totalLessons: number;
+      completionPercentage: number;
+    };
+  })[]> {
+    const [courseList, lessonRows, completedSet] = await Promise.all([
+      db.select().from(courses).orderBy(courses.id),
+      db
+        .select({
+          courseId: courseLessons.courseId,
+          order: courseLessons.order,
+          lesson: lessons,
+        })
+        .from(courseLessons)
+        .leftJoin(lessons, eq(courseLessons.lessonId, lessons.id))
+        .orderBy(courseLessons.courseId, courseLessons.order, lessons.title),
+      this.getCompletedLessonIds(userId),
+    ]);
+
+    const courseMap = new Map<number, Course & {
+      lessons: (Lesson & { completed: boolean; courseId: number; courseSlug?: string; courseTitle?: string })[];
+      progress: { completedLessons: number; totalLessons: number; completionPercentage: number };
+    }>();
+
+    for (const course of courseList) {
+      courseMap.set(course.id, {
+        ...course,
+        lessons: [],
+        progress: { completedLessons: 0, totalLessons: 0, completionPercentage: 0 },
+      });
+    }
+
+    for (const row of lessonRows) {
+      const lesson = row.lesson as Lesson | null;
+      if (!lesson) continue;
+      const course = courseMap.get(row.courseId);
+      if (!course) continue;
+
+      course.lessons.push({
+        ...lesson,
+        completed: completedSet.has(lesson.id),
+        courseId: row.courseId,
+        courseSlug: course.slug,
+        courseTitle: course.title,
+      });
+    }
+
+    const results: (Course & {
+      lessons: (Lesson & { completed: boolean; courseId?: number | null; courseSlug?: string; courseTitle?: string })[];
+      progress: { completedLessons: number; totalLessons: number; completionPercentage: number };
+    })[] = [];
+
+    for (const course of courseMap.values()) {
+      const totalLessons = course.lessons.length;
+      const completedLessons = course.lessons.filter((lesson) => lesson.completed).length;
+      const completionPercentage = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+
+      results.push({
+        ...course,
+        progress: {
+          completedLessons,
+          totalLessons,
+          completionPercentage,
+        },
+      });
+    }
+
+    return results;
+  }
+
+  async getLessonsForSpecies(speciesId: number, userId?: number): Promise<(Lesson & {
+    completed: boolean;
+    courseId?: number | null;
+    courseSlug?: string;
+    courseTitle?: string;
+  })[]> {
+    const completedSet = await this.getCompletedLessonIds(userId);
+
+    const rows = await db
+      .select({
+        lesson: lessons,
+        courseId: courseLessons.courseId,
+      })
+      .from(speciesLessons)
+      .leftJoin(lessons, eq(speciesLessons.lessonId, lessons.id))
+      .leftJoin(courseLessons, eq(courseLessons.lessonId, speciesLessons.lessonId))
+      .where(eq(speciesLessons.speciesId, speciesId))
+      .orderBy(courseLessons.order, lessons.title);
+
+    const courseIds = Array.from(
+      new Set(
+        rows
+          .map((row) => row.courseId)
+          .filter((id): id is number => typeof id === 'number'),
+      ),
+    );
+
+    const courseLookup = new Map<number, Course>();
+    if (courseIds.length > 0) {
+      const courseRows = await db.select().from(courses).where(inArray(courses.id, courseIds));
+      courseRows.forEach((course) => courseLookup.set(course.id, course));
+    }
+
+    const uniqueLessons = new Map<string, Lesson & {
+      completed: boolean;
+      courseId?: number | null;
+      courseSlug?: string;
+      courseTitle?: string;
+    }>();
+
+    for (const row of rows) {
+      const lesson = row.lesson as Lesson | null;
+      if (!lesson || uniqueLessons.has(lesson.id)) continue;
+      const course = row.courseId ? courseLookup.get(row.courseId) : undefined;
+
+      uniqueLessons.set(lesson.id, {
+        ...lesson,
+        completed: completedSet.has(lesson.id),
+        courseId: row.courseId ?? null,
+        courseSlug: course?.slug,
+        courseTitle: course?.title,
+      });
+    }
+
+    return Array.from(uniqueLessons.values());
+  }
+
+  async getLessonsForDiveSite(diveSiteId: number, userId?: number, limit: number = 3): Promise<(Lesson & {
+    completed: boolean;
+    courseId?: number | null;
+    courseSlug?: string;
+    courseTitle?: string;
+  })[]> {
+    const completedSet = await this.getCompletedLessonIds(userId);
+
+    const [speciesRows, directLessonRows] = await Promise.all([
+      db
+        .select({ speciesId: diveSiteSpecies.speciesId })
+        .from(diveSiteSpecies)
+        .where(eq(diveSiteSpecies.diveSiteId, diveSiteId)),
+      db
+        .select({
+          lesson: lessons,
+          courseId: courseLessons.courseId,
+        })
+        .from(diveSiteLessons)
+        .leftJoin(lessons, eq(diveSiteLessons.lessonId, lessons.id))
+        .leftJoin(courseLessons, eq(courseLessons.lessonId, diveSiteLessons.lessonId))
+        .where(eq(diveSiteLessons.diveSiteId, diveSiteId)),
+    ]);
+
+    const speciesIds = speciesRows.map((row) => row.speciesId);
+
+    let speciesLessonRows: { lesson: Lesson | null; courseId: number | null }[] = [];
+    if (speciesIds.length > 0) {
+      speciesLessonRows = await db
+        .select({
+          lesson: lessons,
+          courseId: courseLessons.courseId,
+        })
+        .from(speciesLessons)
+        .leftJoin(lessons, eq(speciesLessons.lessonId, lessons.id))
+        .leftJoin(courseLessons, eq(courseLessons.lessonId, speciesLessons.lessonId))
+        .where(inArray(speciesLessons.speciesId, speciesIds));
+    }
+
+    const courseIds = Array.from(
+      new Set(
+        [...speciesLessonRows, ...directLessonRows]
+          .map((row) => row.courseId)
+          .filter((id): id is number => typeof id === 'number'),
+      ),
+    );
+
+    const courseLookup = new Map<number, Course>();
+    if (courseIds.length > 0) {
+      const courseRows = await db.select().from(courses).where(inArray(courses.id, courseIds));
+      courseRows.forEach((course) => courseLookup.set(course.id, course));
+    }
+
+    const combined = [...speciesLessonRows, ...directLessonRows];
+    const uniqueLessons = new Map<string, Lesson & {
+      completed: boolean;
+      courseId?: number | null;
+      courseSlug?: string;
+      courseTitle?: string;
+    }>();
+
+    for (const row of combined) {
+      const lesson = row.lesson as Lesson | null;
+      if (!lesson || uniqueLessons.has(lesson.id)) continue;
+      const course = row.courseId ? courseLookup.get(row.courseId) : undefined;
+
+      uniqueLessons.set(lesson.id, {
+        ...lesson,
+        completed: completedSet.has(lesson.id),
+        courseId: row.courseId ?? null,
+        courseSlug: course?.slug,
+        courseTitle: course?.title,
+      });
+
+      if (uniqueLessons.size >= limit) {
+        break;
+      }
+    }
+
+    return Array.from(uniqueLessons.values()).slice(0, limit);
+  }
+
   // Lesson Progress Management
   async getUserLessonProgress(userId: number): Promise<LessonProgress[]> {
     return await db
@@ -902,6 +1282,16 @@ export class DatabaseStorage implements IStorage {
   }
 
   async markLessonComplete(userId: number, lessonId: string): Promise<LessonProgress> {
+    const [existingLesson] = await db
+      .select({ id: lessons.id })
+      .from(lessons)
+      .where(eq(lessons.id, lessonId))
+      .limit(1);
+
+    if (!existingLesson) {
+      throw new Error("Lesson not found");
+    }
+
     const [progress] = await db
       .insert(lessonProgress)
       .values({
@@ -919,6 +1309,11 @@ export class DatabaseStorage implements IStorage {
       'bottom-trawling-enhanced': { category: 'conservation', badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
       'high-seas-treaty-enhanced': { category: 'conservation', badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
       'southern-right-whale-climate': { category: 'conservation', badgeName: 'Ocean Guardian', badgeIcon: '🌱' },
+      
+      // Fisheries & Protected Areas
+      'marine-protection-zones': { category: 'fisheries', badgeName: 'Fisheries Expert', badgeIcon: '🎣' },
+      'mpas-and-food-security': { category: 'fisheries', badgeName: 'Fisheries Expert', badgeIcon: '🎣' },
+      'overfishing-nemo': { category: 'fisheries', badgeName: 'Fisheries Expert', badgeIcon: '🎣' },
       
       // Oceanic Physics
       'ocean-currents-enhanced': { category: 'oceanic-physics', badgeName: 'Physics Master', badgeIcon: '⚛️' },
@@ -1041,6 +1436,7 @@ export class DatabaseStorage implements IStorage {
         diveSiteId: posts.diveSiteId,
         speciesSpotted: posts.speciesSpotted,
         linkedLessonId: posts.linkedLessonId,
+        primaryImageId: posts.primaryImageId,
         createdAt: posts.createdAt,
         updatedAt: posts.updatedAt,
         user: users,
@@ -1072,7 +1468,73 @@ export class DatabaseStorage implements IStorage {
       results.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     }
 
-    return results as any;
+    const postIds = results.map((post: any) => post.id);
+
+    // Fetch attached images
+    const imagesByPost = new Map<number, Image[]>();
+    if (postIds.length > 0) {
+      const imageRows = await db
+        .select({
+          postId: postImages.postId,
+          image: images,
+        })
+        .from(postImages)
+        .leftJoin(images, eq(postImages.imageId, images.id))
+        .where(inArray(postImages.postId, postIds));
+
+      for (const row of imageRows) {
+        if (!row.image) continue;
+        const list = imagesByPost.get(row.postId) ?? [];
+        list.push(row.image as Image);
+        imagesByPost.set(row.postId, list);
+      }
+    }
+
+    // Fetch linked species for posts
+    const speciesByPost = new Map<number, Species[]>();
+    if (postIds.length > 0) {
+      const speciesRows = await db
+        .select({
+          postId: postSpecies.postId,
+          species: species,
+        })
+        .from(postSpecies)
+        .leftJoin(species, eq(postSpecies.speciesId, species.id))
+        .where(inArray(postSpecies.postId, postIds));
+
+      const uniqueSpecies = speciesRows
+        .map((row) => row.species)
+        .filter((sp): sp is Species => Boolean(sp));
+      const hydrated = uniqueSpecies.length
+        ? await this.attachImagesToSpeciesList(uniqueSpecies)
+        : [];
+      const speciesById = new Map<number, Species>();
+      hydrated.forEach((sp) => speciesById.set(sp.id, sp));
+
+      for (const row of speciesRows) {
+        if (!row.species) continue;
+        const linkedSpecies = speciesById.get(row.species.id);
+        if (!linkedSpecies) continue;
+        const list = speciesByPost.get(row.postId) ?? [];
+        list.push(linkedSpecies);
+        speciesByPost.set(row.postId, list);
+      }
+    }
+
+    return results.map((post: any) => {
+      const postImagesList = imagesByPost.get(post.id) ?? [];
+      const linkedSpecies = speciesByPost.get(post.id) ?? [];
+      const primaryImageUrl = post.photoUrl || postImagesList[0]?.url || null;
+      const primaryImageId = post.primaryImageId || postImagesList[0]?.id || null;
+
+      return {
+        ...post,
+        photoUrl: primaryImageUrl,
+        primaryImageId,
+        images: postImagesList,
+        linkedSpecies,
+      };
+    }) as any;
   }
 
   async createPost(insertPost: InsertPost): Promise<Post> {
@@ -1081,6 +1543,44 @@ export class DatabaseStorage implements IStorage {
       .values(insertPost)
       .returning();
     return post;
+  }
+
+  async addPostImages(postId: number, imageIds: number[]): Promise<PostImage[]> {
+    const created: PostImage[] = [];
+    for (const imageId of imageIds) {
+      const [record] = await db
+        .insert(postImages)
+        .values({ postId, imageId })
+        .returning();
+      created.push(record);
+    }
+
+    if (imageIds.length > 0) {
+      const [primaryImage] = await db.select().from(images).where(eq(images.id, imageIds[0]));
+      const updateData: Partial<typeof posts.$inferInsert> = {
+        primaryImageId: imageIds[0],
+      };
+
+      if (primaryImage?.url) {
+        updateData.photoUrl = primaryImage.url;
+      }
+
+      await db.update(posts).set(updateData).where(eq(posts.id, postId));
+    }
+
+    return created;
+  }
+
+  async addPostSpecies(postId: number, speciesIds: number[]): Promise<PostSpecies[]> {
+    const created: PostSpecies[] = [];
+    for (const speciesId of speciesIds) {
+      const [record] = await db
+        .insert(postSpecies)
+        .values({ postId, speciesId })
+        .returning();
+      created.push(record);
+    }
+    return created;
   }
 
   async togglePostLike(postId: number, userId: number): Promise<{ liked: boolean }> {

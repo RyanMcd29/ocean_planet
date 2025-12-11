@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { MapContainer, TileLayer, useMap, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { DiveSite } from "@shared/schema";
 import MapMarker from "./MapMarker";
 import RegionalCluster from "./RegionalCluster";
-import MapFilters from "./MapFilters";
 import { useQuery } from "@tanstack/react-query";
 import { fetchDiveSites } from "@/lib/api";
 import { Skeleton } from "@/components/ui/skeleton";
 import { clusterDiveSites, getRegionBounds } from "@/utils/mapClustering";
 import { useAuth } from "@/contexts/AuthContext";
+import { LatLngBounds } from "leaflet";
 
 interface DiveMapProps {
   onSelectDiveSite: (diveSite: DiveSite) => void;
   selectedDiveSiteId?: number;
+  searchQuery: string;
+  filters: Record<string, any>;
+  onVisibleSitesChange?: (diveSites: DiveSite[]) => void;
 }
 
 // Component to handle initial map setup only (no auto-relocate)
@@ -43,14 +46,33 @@ const ZoomHandler: React.FC<{ onZoomChange: (zoom: number) => void }> = ({ onZoo
   return null;
 };
 
-const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId }) => {
+const BoundsHandler: React.FC<{ onBoundsChange: (bounds: LatLngBounds) => void }> = ({ onBoundsChange }) => {
+  const map = useMapEvents({
+    moveend: () => onBoundsChange(map.getBounds()),
+    zoomend: () => onBoundsChange(map.getBounds()),
+  });
+
+  useEffect(() => {
+    onBoundsChange(map.getBounds());
+  }, [map, onBoundsChange]);
+
+  return null;
+};
+
+const DiveMap: React.FC<DiveMapProps> = ({
+  onSelectDiveSite,
+  selectedDiveSiteId,
+  searchQuery,
+  filters,
+  onVisibleSitesChange
+}) => {
   const { user, isAuthenticated } = useAuth();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState<Record<string, any>>({});
   const [mapCenter, setMapCenter] = useState<[number, number]>([0, 20]); // Default to global view
   const [currentZoom, setCurrentZoom] = useState(3);
   const [shouldCenter, setShouldCenter] = useState(true); // Only center on initial load or user action
   const [hasInitialized, setHasInitialized] = useState(false);
+  const [lastBounds, setLastBounds] = useState<LatLngBounds | null>(null);
+  const [visibleSites, setVisibleSites] = useState<DiveSite[]>([]);
   
   const { data: diveSites, isLoading, error } = useQuery({
     queryKey: ['/api/dive-sites', searchQuery, filters],
@@ -104,6 +126,27 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
     }
   }, [selectedDiveSiteId, diveSites]);
 
+  useEffect(() => {
+    if (lastBounds && diveSites) {
+      const filtered = diveSites.filter((site) =>
+        lastBounds.contains([site.latitude, site.longitude])
+      );
+      setVisibleSites(filtered);
+    } else if (diveSites) {
+      setVisibleSites(diveSites);
+    }
+  }, [lastBounds, diveSites]);
+
+  useEffect(() => {
+    if (onVisibleSitesChange) {
+      onVisibleSitesChange(visibleSites);
+    }
+  }, [visibleSites, onVisibleSitesChange]);
+
+  const handleBoundsChange = useCallback((bounds: LatLngBounds) => {
+    setLastBounds(bounds);
+  }, []);
+
   const handleClusterClick = (clusterSites: DiveSite[]) => {
     const bounds = getRegionBounds(clusterSites);
     const centerLat = (bounds.minLat + bounds.maxLat) / 2;
@@ -112,14 +155,6 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
     setMapCenter([centerLat, centerLng]);
     setCurrentZoom(6); // Zoom in to show individual sites
     setShouldCenter(true); // Allow centering for cluster click
-  };
-  
-  const handleSearchChange = (query: string) => {
-    setSearchQuery(query);
-  };
-  
-  const handleFilterChange = (newFilters: Record<string, any>) => {
-    setFilters(newFilters);
   };
   
   if (isLoading) {
@@ -161,6 +196,7 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
           setCurrentZoom(zoom);
           setShouldCenter(false); // Disable auto-centering after user zoom
         }} />
+        <BoundsHandler onBoundsChange={handleBoundsChange} />
         
         {/* Render regional clusters */}
         {clusters.map(cluster => (
@@ -184,13 +220,6 @@ const DiveMap: React.FC<DiveMapProps> = ({ onSelectDiveSite, selectedDiveSiteId 
           />
         ))}
       </MapContainer>
-      
-      <div className="absolute top-4 left-4 right-4 z-[400]">
-        <MapFilters 
-          onSearchChange={handleSearchChange} 
-          onFilterChange={handleFilterChange}
-        />
-      </div>
     </div>
   );
 };

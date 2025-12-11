@@ -11,11 +11,11 @@ import {
   fetchDiveSiteReviews, 
   type NearbyDiveSiteWithDistance,
   type SpeciesWithFrequency,
-  fetchLiveConditions
+  fetchLiveConditions,
+  fetchDiveSiteLessons
 } from "@/lib/api";
 import { Heart, Share2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import { enhancedLessons } from "@/data/enhancedLessons";
 import SpeciesTab from "./SpeciesTab";
 import GalleryTab from "./GalleryTab";
 import ReviewsTab from "./ReviewsTab";
@@ -37,11 +37,6 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
   const [showLiveData, setShowLiveData] = useState(false);
   const [isLoadingLive, setIsLoadingLive] = useState(false);
   const [, setLocation] = useLocation();
-
-  // Find the linked lesson if it exists
-  const linkedLesson = diveSite.linkedLessonId 
-    ? enhancedLessons.find(lesson => lesson.id === diveSite.linkedLessonId)
-    : null;
 
   const { data: species, isLoading: isLoadingSpecies } = useQuery({
     queryKey: [`/api/dive-sites/${diveSite.id}/species`],
@@ -66,6 +61,11 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
   const { data: reviews } = useQuery({
     queryKey: [`/api/dive-sites/${diveSite.id}/reviews`],
     queryFn: () => fetchDiveSiteReviews(diveSite.id),
+  });
+
+  const { data: lessonsForSite = [], isLoading: isLoadingLessons } = useQuery({
+    queryKey: [`/api/dive-sites/${diveSite.id}/lessons`],
+    queryFn: () => fetchDiveSiteLessons(diveSite.id),
   });
 
   // Fetch water conditions
@@ -100,6 +100,52 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
       setIsLoadingLive(false);
     }
   };
+
+  const lessonCallout = (
+    <div className="space-y-2">
+      {isLoadingLessons ? (
+        <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200 text-sm text-gray-600">
+          Loading lessons...
+        </div>
+      ) : lessonsForSite.length > 0 ? (
+        lessonsForSite.slice(0, 3).map((lesson: any) => (
+          <div key={lesson.id} className="flex items-center justify-between bg-white p-2 rounded border">
+            <div className="flex items-center">
+              <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">
+                📚
+              </div>
+              <div>
+                <p className="text-sm text-gray-800 font-medium">{lesson.title}</p>
+                {lesson.courseTitle && (
+                  <p className="text-xs text-gray-500">{lesson.courseTitle}</p>
+                )}
+              </div>
+            </div>
+            <button 
+              onClick={() => setLocation(`/learn?lesson=${lesson.id}`)}
+              data-lesson-id={lesson.id}
+              className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
+            >
+              Start →
+            </button>
+          </div>
+        ))
+      ) : (
+        <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
+          <div className="flex items-center">
+            <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
+            <span className="text-sm text-gray-500">Lessons coming soon</span>
+          </div>
+          <button 
+            disabled
+            className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
+          >
+            Not Available
+          </button>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="bg-white shadow-md lg:overflow-y-auto lg:max-h-[calc(100vh-64px)]">
@@ -629,34 +675,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                   </div>
                   <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    {linkedLesson ? (
-                      <div className="flex items-center justify-between bg-white p-2 rounded border">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
-                        </div>
-                        <button 
-                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
-                          data-lesson-id={linkedLesson.id}
-                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
-                        >
-                          Start Learning →
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
-                        </div>
-                        <button 
-                          disabled
-                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
-                        >
-                          Not Available
-                        </button>
-                      </div>
-                    )}
+                    {lessonCallout}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
                     <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
@@ -838,34 +857,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                   </div>
                   <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    {linkedLesson ? (
-                      <div className="flex items-center justify-between bg-white p-2 rounded border">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
-                        </div>
-                        <button 
-                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
-                          data-lesson-id={linkedLesson.id}
-                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
-                        >
-                          Start Learning →
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
-                        </div>
-                        <button 
-                          disabled
-                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
-                        >
-                          Not Available
-                        </button>
-                      </div>
-                    )}
+                    {lessonCallout}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
                     <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
@@ -1041,34 +1033,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                   </div>
                   <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    {linkedLesson ? (
-                      <div className="flex items-center justify-between bg-white p-2 rounded border">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
-                        </div>
-                        <button 
-                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
-                          data-lesson-id={linkedLesson.id}
-                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
-                        >
-                          Start Learning →
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
-                        </div>
-                        <button 
-                          disabled
-                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
-                        >
-                          Not Available
-                        </button>
-                      </div>
-                    )}
+                    {lessonCallout}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
                     <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
@@ -1251,34 +1216,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                   </div>
                   <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    {linkedLesson ? (
-                      <div className="flex items-center justify-between bg-white p-2 rounded border">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
-                        </div>
-                        <button 
-                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
-                          data-lesson-id={linkedLesson.id}
-                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
-                        >
-                          Start Learning →
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
-                        </div>
-                        <button 
-                          disabled
-                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
-                        >
-                          Not Available
-                        </button>
-                      </div>
-                    )}
+                    {lessonCallout}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
                     <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
@@ -1455,34 +1393,7 @@ const DiveSiteDetails: React.FC<DiveSiteDetailsProps> = ({ diveSite }) => {
                   </div>
                   <p className="text-sm text-gray-700 mb-3">Explore maritime history and ecosystems</p>
                   <div className="space-y-2">
-                    {linkedLesson ? (
-                      <div className="flex items-center justify-between bg-white p-2 rounded border">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-700">"{linkedLesson.title}"</span>
-                        </div>
-                        <button 
-                          onClick={() => setLocation(`/learn?lesson=${linkedLesson.id}`)}
-                          data-lesson-id={linkedLesson.id}
-                          className="text-purple-600 text-xs px-2 py-1 border border-purple-300 rounded hover:bg-purple-50"
-                        >
-                          Start Learning →
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded border border-gray-200">
-                        <div className="flex items-center">
-                          <div className="w-6 h-6 bg-gray-400 rounded-full flex items-center justify-center text-white text-xs font-bold mr-2">📚</div>
-                          <span className="text-sm text-gray-500">Lesson Coming Soon</span>
-                        </div>
-                        <button 
-                          disabled
-                          className="text-gray-400 text-xs px-2 py-1 border border-gray-200 rounded cursor-not-allowed"
-                        >
-                          Not Available
-                        </button>
-                      </div>
-                    )}
+                    {lessonCallout}
                   </div>
                   <div className="mt-3 text-xs text-gray-500">
                     <strong>Learn more:</strong> Dive deeper into the history, ecology, and conservation of this site.
