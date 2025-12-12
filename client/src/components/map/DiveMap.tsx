@@ -73,6 +73,24 @@ const DiveMap: React.FC<DiveMapProps> = ({
   const [hasInitialized, setHasInitialized] = useState(false);
   const [lastBounds, setLastBounds] = useState<LatLngBounds | null>(null);
   const [visibleSites, setVisibleSites] = useState<DiveSite[]>([]);
+  const oceanMaxNativeZoom = 13;
+  const bathymetryOpacity = (() => {
+    // Keep the map flat when fully zoomed out, then ramp up depth shading.
+    const start = 3;
+    const end = 8;
+    const progress = Math.min(1, Math.max(0, (currentZoom - start) / (end - start)));
+    return 0.85 * progress;
+  })();
+  const detailOpacity = (() => {
+    // Bring in high-detail contours after mid-zoom, then ease off past native zoom.
+    const start = 4;
+    const end = 11;
+    const progress = Math.min(1, Math.max(0, (currentZoom - start) / (end - start)));
+    const fadeIn = 0.95 * progress;
+    if (currentZoom <= oceanMaxNativeZoom) return fadeIn;
+    // Fade the overlay back out past its native resolution to avoid blur
+    return Math.max(0, fadeIn - (currentZoom - oceanMaxNativeZoom) * 0.3);
+  })();
   
   const { data: diveSites, isLoading, error } = useQuery({
     queryKey: ['/api/dive-sites', searchQuery, filters],
@@ -182,13 +200,38 @@ const DiveMap: React.FC<DiveMapProps> = ({
       <MapContainer
         center={mapCenter}
         zoom={3}
-        style={{ height: "100%", width: "100%" }}
+        maxZoom={18}
+        style={{ 
+          height: "100%", 
+          width: "100%", 
+          filter: "brightness(1.06) saturate(1.08) hue-rotate(-4deg)", 
+          backgroundColor: "#cfeeff" 
+        }}
         zoomControl={false}
         scrollWheelZoom={true}
       >
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}"
+          attribution='Tiles &copy; Esri — Esri, DeLorme, NAVTEQ, USGS, NOAA and other contributors'
+          maxZoom={19}
+          maxNativeZoom={18}
+          detectRetina={true}
+        />
+        <TileLayer
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}"
+          attribution='Tiles &copy; Esri — Source: GEBCO, NOAA, National Geographic, DeLorme, HERE, Geonames.org, and other contributors'
+          maxZoom={18}
+          maxNativeZoom={oceanMaxNativeZoom}
+          detectRetina={true}
+          opacity={bathymetryOpacity}
+        />
+        <TileLayer
+          url="https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Reference/MapServer/tile/{z}/{y}/{x}"
+          attribution='Reference &copy; Esri — maritime data and contributors'
+          maxZoom={18}
+          maxNativeZoom={oceanMaxNativeZoom}
+          detectRetina={true}
+          opacity={detailOpacity}
         />
         
         <MapCenterControl center={mapCenter} zoom={currentZoom} shouldCenter={shouldCenter} />

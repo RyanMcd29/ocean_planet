@@ -62,6 +62,7 @@ const RegionalCluster: React.FC<RegionalClusterProps> = ({
               color: white;
               font-size: ${fontSize}px;
               font-weight: bold;
+              font-family: 'Montserrat', 'Open Sans', 'Raleway', system-ui, -apple-system, sans-serif;
               text-align: center;
               line-height: 1;
             ">
